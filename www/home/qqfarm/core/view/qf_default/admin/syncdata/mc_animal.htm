@@ -1,0 +1,176 @@
+<!--{tpl admin/inc_header}-->
+
+<style>
+.cspan{cursor:hand;color:#0000FF}
+</style>
+
+<div class="list">
+<!--{if $sid}-->
+<table>
+<form id="mc" name="mc" onsubmit="return checkForm.submits({:$value['sid']});" method="post">
+<th colspan="3">自动获取的牧场内容如下</th>
+<tr>
+<td style="width:18%">幼仔名称:</td>
+<td width="50%"><input name="cname" value="{:$value['cname']}" onBlur="checkForm.cname()"> <span id="uid0"></span></td>
+<td rowspan="11" valign="top">
+<h5>注意事项:</h5>
+1:在提交过程中由于需要远程自动下载文件,不要关闭页面稍等片刻<br>
+2:<span style="color:red">表单所填数据</span>是远程<span style="color:red">默认</span>的数据,也可以自行设置<br>
+3:<span style="color:red">表单没有数据</span>,表示远程没出数据,可以自行设置,之后再更新<br>
+4:如果是缺失物种文件,点击单一文件下载<br>
+5:如果是纠正以往的数据,则不需要下载物种文件,提高更新速度<br>
+6:提交之后商店没有原因请查找,<span style="color:red">缓存/SWF缓存/历史记录/是否被隐藏</span><br>
+</td>
+</tr>
+<tr>
+<td>领养价格:</td>
+<td><input name="price" value="{:$value['price']?$value['price']:$animaltype[$sid]['price']}" onBlur="checkForm.checkprice()"> 金币<span id="uid1"></span></td>
+</tr>
+<tr>
+<td>预计产量:</td>
+<td><input name="output" value="{:$value['output']?$value['output']:$animaltype[$sid]['output']}" onBlur="checkForm.output()"> 只 <span id="uid2"></span></td>
+</tr>
+<tr>
+<td>产物价值:</td>
+<td><input name="byproductprice" value="{:$value['byproductprice']?$value['byproductprice']:$animaltype[$sid]['procreation']}" onBlur="checkForm.outp()"> 金币 <span id="uid3"></span></td>
+</tr>
+<tr>
+<td>动物价值:</td>
+<td><input name="productprice" value="{:$value['productprice']?$value['productprice']:$animaltype[$sid]['output']}" onBlur="checkForm.sal()"> 金币 <span id="uid4"></span></td>
+</tr>
+<tr>
+<td>领养等级:</td>
+<td><input name="cLevel" value="{:$value['cLevel']?$value['cLevel']:$animaltype[$sid]['output']}" onBlur="checkForm.cLeve()"> 级 <span id="uid5"></span></td>
+</tr>
+<tr>
+<td>居住地:</td>
+<td>{:$value['house']}</td>
+</tr>
+<tr>
+<td>小贴士:</td>
+<td>{:$value['tip']}</td>
+</tr>
+<tr>
+<td>物语:</td>
+<td><div style="height:50px;overflow-y:scroll">{:$info}</div></td>
+</tr>
+<tr>
+<td>需要下载的物种文件:</td>
+<td>
+<!--{foreach $value['file'] as $filetype}-->
+<!--{if remote_file_exists($filetype)}-->
+<span onClick="submits('mc_animal','{:$filetype}','{:preg_replace($replace_mcword,'',$filetype)}')" title="获取单一文件" class="cspan">
+{:preg_replace($replace_mcword,'',$filetype)}
+</span><br>
+<!--{/if}-->
+<!--{/foreach}-->
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<input name="only" type="checkbox" value="1" checked>不下载文件,只同步参数 
+<input type="submit" value="点击获取" />&nbsp;&nbsp;<span id="stat"></span>
+</td>
+</tr>
+</form>
+</table>
+<!--{/if}-->
+</div><br><br><br>
+<script type="text/javascript">
+var checkForm={
+	cname : function (){
+		this.ccname = true;
+		var price = document.mc.cname.value;
+		if(price == ""){
+			message = "输入幼仔名称";
+			$('#uid0').innerHTML = message;
+			$('#uid0').style.color='red';
+			this.ccname = false;
+		}
+	},
+	checkprice : function (){
+		this.price = true;
+		var price = document.mc.price.value;
+		if(price == ""){
+			message = "输入领养价格";
+			$('#uid1').innerHTML = message;
+			$('#uid1').style.color='red';
+			this.price = false;
+		}
+	},
+	output : function (){
+		this.maturingT = true;
+		var maturingTime = document.mc.output.value;
+		if(maturingTime == ""){
+			message = "输入预计产量";
+			$('#uid2').innerHTML = message;
+			$('#uid2').style.color='red';
+			this.maturingT = false;
+		}
+	},
+	outp : function (){
+		this.outpT = true;
+		var output = document.mc.byproductprice.value;
+		if(output == ""){
+			message = "输入产物价值";
+			$('#uid3').innerHTML = message;
+			$('#uid3').style.color='red';
+			this.outpT = false;
+		}
+	},
+	sal : function (){
+		this.salT = true;
+		var sale = document.mc.productprice.value;
+		if(sale == ""){
+			message = "输入动物价值";
+			$('#uid4').innerHTML = message;
+			$('#uid4').style.color='red';
+			this.outpT = false;
+		}
+	},
+	cLeve : function (){
+		this.cLeveT = true;
+		var cLevel = document.mc.cLevel.value;
+		if(cLevel == ""){
+			message = "输入领养等级";
+			$('#uid5').innerHTML = message;
+			$('#uid5').style.color='red';
+			this.cLeveT = false;
+		}
+	},
+	submits: function(inputId){
+		this.cname();
+		if(!this.ccname){
+			return false;
+		}
+		this.checkprice();
+		if(!this.price){
+			return false;
+		}
+		this.output();
+		if(!this.maturingT){
+			return false;
+		}
+		this.outp();
+		if(!this.outpT){
+			return false;
+		}
+		this.sal();
+		if(!this.salT){
+			return false;
+		}
+		this.cLeve();
+		if(!this.cLeveT){
+			return false;
+		}
+		request('admin.php?mod=syncdata&sync=mc_animal&see=1&sid='+inputId, 'stat', $.getForm('#mc', 1));
+		return false;
+	}
+}
+	function submits(type,updown,path) {
+		request('admin.php?mod=syncdata&sync='+type+'&updown='+updown+'&path='+path,'stat');
+		return false;
+	}
+</script>
+<!--{tpl admin/inc_footer}-->

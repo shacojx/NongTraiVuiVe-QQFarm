@@ -1,0 +1,234 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+	
+		<div class="tabs_header">
+			<ul class="tabs">
+				<li$actives[1]><a href="admincp.php?ac=$ac&perpage=20&status=1&searchsubmit=1"><span>Pending Report</span></a></li>
+				<li$actives[0]><a href="admincp.php?ac=$ac&perpage=20&status=0&searchsubmit=1"><span>Report has been banned</span></a></li>
+			</ul>
+		</div>
+
+		<form method="get" action="admincp.php">
+			<div class="block style4">
+				
+				<table cellspacing="3" cellpadding="3">
+				
+				<tr>
+					<th>Report Type</th><td>
+					<select name="idtype">
+					<option value="">Open</option>
+					<option value="picid"<!--{if $_GET[idtype] == 'picid'}--> selected<!--{/if}-->>Picture</option>
+					<option value="albumid"<!--{if $_GET[idtype] == 'albumid'}--> selected<!--{/if}-->>Album</option>
+					<option value="blogid"<!--{if $_GET[idtype] == 'blogid'}--> selected<!--{/if}-->>Blog</option>
+					<option value="tagid"<!--{if $_GET[idtype] == 'tagid'}--> selected<!--{/if}-->>Groups</option>
+					<option value="tid"<!--{if $_GET[idtype] == 'tid'}--> selected<!--{/if}-->>Topics</option>
+					<option value="uid"<!--{if $_GET[idtype] == 'uid'}--> selected<!--{/if}-->>Space</option>
+					<option value="sid"<!--{if $_GET[idtype] == 'sid'}--> selected<!--{/if}-->>Share</option>
+					<option value="pid"<!--{if $_GET[idtype] == 'pid'}--> selected<!--{/if}-->>Vote</option>
+					<option value="eventid"<!--{if $_GET[idtype] == 'eventid'}--> selected<!--{/if}-->>Activities</option>
+					<option value="comment"<!--{if $_GET[idtype] == 'comment'}--> selected<!--{/if}-->>Comments</option>
+					<option value="post"<!--{if $_GET[idtype] == 'post'}--> selected<!--{/if}-->>Topic Reply</option>
+					</select>
+					</td>
+					<th>Report Status</th><td>
+					<select name="status">
+					<option value="2">Open</option>
+					<option value="0"<!--{if $_GET[status] == '0'}--> selected<!--{/if}-->>Have been ignored</option>
+					<option value="1"<!--{if $_GET[status] == '1'}--> selected<!--{/if}-->>Pending</option>
+					</select></td>
+				</tr>
+				
+				<tr><th>Report the number of</th><td colspan="3">
+					<input type="text" name="num1" value="$_GET[num1]" size="10"> ~
+					<input type="text" name="num2" value="$_GET[num2]" size="10">
+				</td></tr>
+				
+		
+				<tr><th>Sorting</th>
+				<td colspan="3">
+				<select name="orderby">
+				<option value="">Default Sort</option>
+				<option value="dateline"$orderby[dateline]>Report Time</option>
+				<option value="num"$orderby[viewnum]>Report Number</option>
+				</select>
+				<select name="ordersc">
+				<option value="desc"$ordersc[desc]>Decreasing</option>
+				<option value="asc"$ordersc[asc]>Incremental</option>
+				</select>
+				<select name="perpage">
+				<option value="20"$perpages[20]>20 per page</option>
+				<option value="50"$perpages[50]>50 per page</option>
+				<option value="100"$perpages[100]>100 per page</option>
+				<option value="1000"$perpages[1000]>One dealing with 1000</option>
+				</select>
+				<input type="hidden" name="ac" value="report">
+				<input type="submit" name="searchsubmit" value="Search" class="submit">
+				</td>
+				</tr>
+				</table>
+		
+			</div>
+		</form>
+	
+	<!--{if $list}-->
+	
+		<form method="post" action="admincp.php?ac=report">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<div class="bdrcontent">
+
+		<!--{if $perpage>100}-->
+			<p>A total of data to meet the conditions<strong>$count</strong> </p>
+			<!--{loop $list $value}-->
+			<input type="hidden" name="ids[]" value="$value[rid]">
+			<!--{/loop}-->
+		
+		<!--{else}-->
+			<table cellspacing="0" cellpadding="0" class="formtable" border="0">
+			<tr>
+				<td width="25">&nbsp;</td>
+				<th>Content</th>
+				<th width="50"><a href="admincp.php?ac=$ac&perpage=20&orderby=num&ordersc=$scstr&status=$_GET[status]&searchsubmit=1">Views</a></th>
+				<th width="120"><a href="admincp.php?ac=$ac&perpage=20&orderby=dateline&ordersc=$scstr&status=$_GET[status]&searchsubmit=1">Time</a></th>
+				<th width="140">Operation</th>
+			</tr>
+			
+			<!--{loop $list $key $report}-->
+				<!--{loop $report $value}-->
+				<tr <!--{if $value[new]}-->bgcolor="#F2F9FD"<!--{/if}-->>
+					<td>
+						<input type="checkbox" name="ids[]" value="$value[rid]">
+					</td>
+					<td>
+						<!--{if empty($value[info])}-->
+							Information has been removed<br>
+						<!--{else}-->
+						<!--{if $key=='blog'}-->
+						<a href="space.php?uid=$value[info][uid]&do=blog&id=$value[info][blogid]" target="_blank">$value[info][subject]</a><br>
+						<!--{elseif $key=='pic'}-->
+						<a href="space.php?uid=$value[info][uid]&do=album&picid=$value[info][picid]" target="_blank"><img src="$value[info][pic]" width="90" alt="$value[info][filename]"></a><br>
+						$value[info][title]<br>
+						<!--{elseif $key=='album'}-->
+						<a href="space.php?uid=$value[info][uid]&do=album&id=$value[info][albumid]" target="_blank"><img src="$value[info][pic]" alt="$value[info][albumname]" width="100" height="90"></a><br>
+						$value[info][albumname]<br>
+						<!--{elseif $key=='thread'}-->
+						<a href="space.php?do=thread&id=$value[info][tid]" target="_blank">$value[info][subject]</a><br>
+						<!--{elseif $key=='mtag'}-->
+						<a href="space.php?do=mtag&tagid=$value[info][tagid]" target="_blank">$value[info][tagname]</a><br>
+						<!--{elseif $key=='share'}-->
+						<p><a href="admincp.php?ac=share&uid=$value[info][uid]">$value[info][username]</a> <a href="space.php?uid=$value[info][uid]&do=share&id=$value[info][sid]">$value[info][title_template]</a> &nbsp;<!--{date('Y-m-d H:i', $value[info][dateline])}--></p>
+							$value[info][body_template]<br>
+						<!--{elseif $key=='space'}-->
+						<a href="space.php?uid=$value[info][uid]" target="_blank"><!--{avatar($value[info][uid],middle)}--></a><br>
+						User Name: <a href="space.php?uid=$value[info][uid]">$value[info][username]</a><br>
+						<!--{elseif $key=='poll'}-->
+						<a href="space.php?uid=$value[info][uid]&do=poll&pid=$value[info][pid]" target="_blank">$value[info][subject]</a><br>
+						<!--{elseif $key=='event'}-->
+						<a href="space.php?uid=$value[info][uid]&do=event&id=$value[info][eventid]" target="_blank">$value[info][title]</a><br>
+						<!--{elseif $key=='comment'}-->
+						<a href="$value[info][url]" target="_blank">$value[info][message](View Details)</a><br>
+						<!--{elseif $key=='post'}-->
+						<a href="space.php?do=thread&id=$value[info][tid]&pid=$value[info][pid]" target="_blank">$value[info][message](View Details)</a><br>
+						<!--{/if}-->
+						<!--{/if}-->
+						<strong>Report Reason:</strong><br>
+						<ul>$value[reason]</ul>
+					</td>
+					<td>$value[num]</td>
+					<td>
+						Type:
+						<!--{if $key=='blog'}-->
+						Blog
+						<!--{elseif $key=='pic'}-->
+						Picture
+						<!--{elseif $key=='album'}-->
+						Album
+						<!--{elseif $key=='thread'}-->
+						Topics
+						<!--{elseif $key=='mtag'}-->
+						Groups
+						<!--{elseif $key=='share'}-->
+						Share
+						<!--{elseif $key=='space'}-->
+						Space
+						<!--{elseif $key=='poll'}-->
+						Vote
+						<!--{elseif $key=='event'}-->
+						Activities
+						<!--{elseif $key=='comment'}-->
+						Comments
+						<!--{elseif $key=='post'}-->
+						Topic Reply
+						<!--{/if}-->
+						<br>
+						Search Status:<!--{if $value[new]}-->Unread<!--{else}-->Read<!--{/if}--><br>
+						<!--{date('Y-m-d',$value[dateline])}-->
+					</td>
+					<td>
+						<a href="admincp.php?ac=report&rid=$value[rid]&op=ignore">Prohibit reporting</a><br>
+						<a href="admincp.php?ac=report&rid=$value[rid]&op=delete" onclick="return confirm('This action can not be restored, to confirm to continue?');">Delete Report</a><br>
+						<a href="admincp.php?ac=report&rid=$value[rid]&op=delete&subop=delinfo" onclick="return confirm('This action can not be restored, to confirm to continue?');">Remove the reporting and<!--{if $key=='blog'}-->
+							Blog information
+							<!--{elseif $key=='pic'}-->
+							Picture messaging
+							<!--{elseif $key=='album'}-->
+							Album information
+							<!--{elseif $key=='thread'}-->
+							Topic Information
+							<!--{elseif $key=='mtag'}-->
+							Groups
+							<!--{elseif $key=='share'}-->
+							Sharing of information
+							<!--{elseif $key=='space'}-->
+							Space
+							<!--{elseif $key=='poll'}-->
+							Vote Information
+							<!--{elseif $key=='event'}-->
+							Event Information
+							<!--{elseif $key=='comment'}-->
+							Comment Information
+							<!--{elseif $key=='post'}-->
+							Topic Reply Information
+							<!--{/if}-->
+						</a>
+					</td>
+				</tr>
+				<!--{/loop}-->
+			<!--{/loop}-->
+			</table>
+		<!--{/if}-->
+		</div>
+		
+		<div class="footactions">
+			<!--{if $perpage<=100}--><input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select<!--{/if}-->
+			<input type="hidden" name="mpurl" value="$mpurl">
+			Operation Type:
+			<input type="radio" name="optype" value="1" checked>Prohibit reporting
+			<input type="radio" name="optype" value="2">Delete Report
+			<input type="radio" name="optype" value="3">Delete reports and information, or space
+			<input type="submit" name="listsubmit" value="Batch operations" class="submit" onclick="return confirm('This action can not be restored, to confirm to continue?');">
+		
+			<div class="pages">$multi</div>
+		</div>
+		</form>
+	<!--{else}-->
+		<div class="bdrcontent">
+			<div class="title" id="base">
+				<h3>
+					<a href="admincp.php?ac=$ac&perpage=20&status=1&searchsubmit=1">Pending Report</a> | 
+					<a href="admincp.php?ac=$ac&perpage=20&status=0&searchsubmit=1">Reports have been ignored</a>
+				</h3>
+			</div>
+			<p>No data under specified conditions</p>
+		</div>
+	<!--{/if}-->
+	</div>
+</div>
+
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

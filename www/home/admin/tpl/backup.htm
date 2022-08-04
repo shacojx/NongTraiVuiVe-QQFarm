@@ -1,0 +1,318 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+<!--{if $showform == 0}-->
+
+	<form method="post" action="admincp.php?ac=backup&op=export" enctype="multipart/form-data">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+		<div class="title">
+			<h3>Backup</h3>
+		</div>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th colspan="2"><input type="radio" name="type" value="uchomes" checked onclick="$('showtables').style.display='none'">All the data UCenter Home</th>
+			</tr>
+			<tr>
+				<th><input type="radio" name="type" value="custom" onclick="$('showtables').style.display=''">Custom Backup</th>
+				<td>According to their needs, need to backup data sheet</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="right"><input type="checkbox"  onclick="$('advanceoption').style.display=$('advanceoption').style.display == 'none' ? '' : 'none'; this.value = this.value == 1 ? 0 : 1; this.checked = this.value == 1 ? false : true" value="1">More options</td>
+			</tr>
+		</table>
+		
+		<div id="showtables" style="display:none">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><td><input type="checkbox" name="chkall" onclick="checkAll(this.form, 'customtables')" checked>Select<strong>UCenter Home Table</strong></td>
+		</table>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+		<!--{loop $uchome_tablelist $key $value}-->
+		<!--{if $key%4 == 0}--></tr><tr><!--{/if}-->
+		<td><input type="checkbox" name="customtables[]" value="$value[Name]" checked>$value[Name]</td>
+		<!--{/loop}-->
+		</tr>
+		</table>
+		</div>
+		
+		<div id="advanceoption" style="display:none">
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+		<th>Backup</th>
+		</tr>
+		<tr>
+		<td><input type="radio" name="method" value="shell" $shelldisabled onclick="if($dbversion < '4.1'){if(this.form.sqlcompat[2].checked==true) this.form.sqlcompat[0].checked=true; this.form.sqlcompat[2].disabled=true; this.form.sizelimit.disabled=true;} else {this.form.sqlcharset[0].checked=true; for(var i=1; i<=5; i++) {if(this.form.sqlcharset[i]) this.form.sqlcharset[i].disabled=true;}}">System, MySQL Dump (Shell) Backup</td>
+		</tr>
+		<tr>
+		<td><input type="radio" name="method" value="multivol" checked onclick="this.form.sqlcompat[2].disabled=false; this.form.sizelimit.disabled=false; for(var i=1; i<=5; i++) {if(this.form.sqlcharset[i]) this.form.sqlcharset[i].disabled=false;}">UCenter Home sub-volume backup: File length<input type="text" size="5" value="2048" name="sizelimit"> kb</td>
+		</tr>
+		</table>
+	
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+		<th colspan="2">Backup Options</th>
+		</tr>
+			<tr>
+				<th>Extend the use of insertion</th>
+				<td><input type="radio" value="1" name="extendins" checked>Yes <input type="radio" value="0" name="extendins" checked>No</td>
+			</tr>
+			<tr>
+				<th>CREATE TABLE statement format</th>
+				<td><input type="radio" value="" name="sqlcompat" checked>Default(MySQL$dbversion) <input type="radio" value="MYSQL40" name="sqlcompat">MySQL 3.23/4.0.x  <input type="radio" value="MYSQL41" name="sqlcompat">MySQL 4.1.x/5.x </td>
+			</tr>
+			<tr>
+				<th>Mandatory Character Set</th>
+				<td>
+				<input class="radio" type="radio" name="sqlcharset" value="" checked>Default($_SC['dbcharset'])&nbsp;
+				<!--{if $_SC['dbcharset']}-->
+				<input class="radio" type="radio" name="sqlcharset" value="$_SC[dbcharset]">$_SC['dbcharset']&nbsp;
+				<!--{/if}-->
+				<!--{if $dbversion > '4.1' && $_SC['dbcharset'] != 'utf8'}-->
+				<input class="radio" type="radio" name="sqlcharset" value="utf8">utf-8</option>
+				<!--{/if}-->
+				</td>
+			</tr>
+			<tr>
+				<th>Hexadecimal mode</th>
+				<td><input type="radio" value="1" name="usehex" checked>Yes <input type="radio" value="0" name="usehex" checked>No</td>
+			</tr>
+			<tr $zipdisplay>
+				<th>Compressed backup files</th>
+				<td><input type="radio" value="1" name="usezip">Multiple sub-volume compressed into a file <input type="radio" value="2" name="usezip">Each sub-volume compressed into a single file<input type="radio" value="0" name="usezip" checked>Uncompressed</td>
+			</tr>
+			<tr>
+				<th>The backup file name</th>
+				<td><input type="text" size="40" value="$filename" name="filename">.sql</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="setup" value="1">
+		<input type="submit" value="Submit" class="submit">
+	</div>
+	
+	</form>
+	
+	<br />
+
+	<form method="post" action="admincp.php?ac=backup" name="thevalueform">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+		<div class="title">
+			<h3>Recovery</h3>
+		</div>
+			
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr><td>Server Backup File Name: ./data/<input type="text" name="datafile" value="$backupdir/" size="50"></td></tr>
+		</table>
+	</div>
+	<div class="footactions">
+		<input type="submit" name="importsubmit" value="Submit" class="submit">
+	</div>
+	
+	</form>
+		
+	<br />
+
+	<form method="post" action="admincp.php?ac=backup" name="thevalueform">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+		<div class="title">
+			<h3>Backup Record</h3>
+		</div>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+		<th width="4%">&nbsp;</th>
+		<th>Filename</th>
+		<th width="15%">Version</th>
+		<th width="15%">Type</th>
+		<th width="10%">Operation</th>
+		</tr>
+		<!--{loop $exportlog $key $value}-->
+		<tr>
+		<td>
+		<input type="checkbox" name="delexport[]" value="$value['filename']">
+		</td>
+		<td>
+		<a href="./data/$value['filename']"><!--{eval echo basename($value['filename'])}--></a> ($value[size])<br />$value[dateline] 
+		<!--{if $value['method'] == 'multivol' && $value['type'] != 'zip'}-->
+		Multi-volume
+		<!--{elseif $value['method'] == 'multivol'}-->
+		SHELL
+		<!--{else}-->
+		Compression
+		<!--{/if}-->
+		<!--{if !empty($value['volume'])}-->
+		($value['volume'])
+		<!--{/if}-->
+		</td>
+		<td>$x_ver</td>
+		<td><!--{if $value['type'] == 'custom'}-->Custom Backup<!--{else}-->Full Backup<!--{/if}--></td>
+		<td>
+		<!--{if $value['type'] == 'zip'}-->
+		<a href="admincp.php?ac=backup&op=import&do=zip&datafile=$value[filename]">[Decompression]
+		<!--{else}-->
+			<!--{if $value['version'] != $x_ver}-->
+			<a href="admincp.php?ac=backup&op=import&do=import&datafile=$value[filename]"  onclick="return confirm('OK to import?');">[Import]</a>
+			<!--{else}-->
+			<a href="admincp.php?ac=backup&op=import&do=import&datafile=$value[filename]">[Import]</a>
+			<!--{/if}-->
+		<!--{/if}-->
+		</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="checkbox" name="chkall" onclick="checkAll(this.form, 'delexport')">Select
+		<input type="submit" name="delexportsubmit" value="Bulk Delete" class="submit">
+	</div>
+
+	</form>
+	
+<!--{elseif $showform == 1}-->
+
+	<form method="get" action="admincp.php" name="thevalueform">
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Import confirmed</h3>
+		</div>
+		
+		<p>
+		<!--{eval echo basename($datafile)}--><br />
+		Import version of the:$identify[1]<br />
+		Import types:<!--{if $identify[2] == 'custom'}-->Custom Backup<!--{else}-->Full Backup<!--{/if}--><br />
+		By:<!--{if $identify[3] == 'multivol'}-->Multi-volume<!--{else}-->Shell<!--{/if}--><br />
+		<br />To determine the import?
+		</p>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="ac"  value="backup">
+		<input type="hidden" name="op" value="import">
+		<input type="hidden" name="do" value="zip">
+		<input type="hidden" name="datafile" value="$datafile">
+		<input type="hidden" name="confirm" value="yes">
+		<input type="submit" name="confirmed" value="Continue" class="submit">
+		<input type="button" value="Back" onClick="location.href='admincp.php?ac=backup'">
+	</div>
+	</form>
+
+<!--{elseif $showform == 2}-->
+
+	<form method="get" action="admincp.php" name="thevalueform">
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Automatically import confirmation</h3>
+		</div>
+		
+		<p>Extract all sub-volumes of documents is completed, you will need to automatically import the backup do? After importing the extracted files will be deleted.</p>
+
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="ac"  value="backup">
+		<input type="hidden" name="op" value="import">
+		<input type="hidden" name="do" value="import">
+		<input type="hidden" name="datafile" value="$datafile_vol1">
+		<input type="hidden" name="delunzip" value="yes">
+		<input type="submit" name="confirmed" value="Continue" class="submit">
+		<input type="button" value="Back" onClick="location.href='admincp.php?ac=backup'">
+	</div>
+	</form>
+
+<!--{elseif $showform == 3}-->
+
+	<form method="get" action="admincp.php" name="thevalueform">
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>To continue to extract recognition</h3>
+		</div>
+		
+		<p>$info<br />Extract the backup file is completed, you need to automatically extract the other sub-volumes file?</p>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="ac"  value="backup">
+		<input type="hidden" name="op" value="import">
+		<input type="hidden" name="do" value="zip">
+		<input type="hidden" name="multivol" value="1">
+		<input type="hidden" name="datafile_vol1" value="$datafile">
+		<input type="hidden" name="confirm" value="yes">
+		<input type="submit" name="confirmed" value="Continue" class="submit">
+		<input type="button" value="Back" onClick="location.href='admincp.php?ac=backup'" class="submit">
+	</div>
+	</form>
+
+<!--{elseif $showform == 4}-->
+
+	<form method="get" action="admincp.php" name="thevalueform">
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Automatically import the backup confirmation</h3>
+		</div>
+		
+		<p>
+		<!--{eval echo basename($datafile)}--><br />
+		Import version of the:$identify[1]<br />
+		Import types:<!--{if $identify[2] == 'custom'}-->Custom Backup<!--{else}-->Full Backup<!--{/if}--><br />
+		Way:<!--{if $identify[3] == 'multivol'}-->Multi-volume<!--{else}-->Shell<!--{/if}--><br />
+		<br />Extract the backup file is completed, you will need to automatically import the backup do? After importing the extracted files will be deleted
+		</p>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="ac"  value="backup">
+		<input type="hidden" name="op" value="import">
+		<input type="hidden" name="do" value="import">
+		<input type="hidden" name="datafile" value="$backupdir/$importfile">
+		<input type="hidden" name="delunzip" value="yes">
+		<input type="submit" name="confirmed" value="Continue" class="submit">
+		<input type="button" value="Back" onClick="location.href='admincp.php?ac=backup'" class="submit">
+	</div>
+	</form>
+<!--{elseif $showform == 5}-->
+
+	<form method="get" action="admincp.php" name="thevalueform">
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Automatically import the backup confirmation</h3>
+		</div>
+		
+		<p>The success of sub-volumes of data into a database, you need to automatically import this backup of the other do?</p>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="ac"  value="backup">
+		<input type="hidden" name="op" value="import">
+		<input type="hidden" name="do" value="import">
+		<input type="hidden" name="datafile" value="$datafile_next">
+		<input type="hidden" name="autoimport" value="yes">
+		<!--{if isset($_GET['unzip'])}-->
+		<input type="hidden" name="delunzip" value="yes">
+		<!--{/if}-->
+		<input type="submit" name="confirmed" value="Continue" class="submit">
+		<input type="button" value="Back" onClick="location.href='admincp.php?ac=backup'" class="submit">
+	</div>
+	</form>
+
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

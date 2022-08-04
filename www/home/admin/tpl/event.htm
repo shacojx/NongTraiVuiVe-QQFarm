@@ -1,0 +1,203 @@
+﻿<!--{Translated by Alex A. Zalevski (zalexstudios)www.buryad-arad.ru}-->
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[all]><a href="admincp.php?ac=$ac"><span>View Full List</span></a></li>
+		<li$actives[grade0]><a href="admincp.php?ac=$ac&perpage=20&grade=0&searchsubmit=1"><span>Pending Activities</span></a></li>
+		<li$actives[grade_1]><a href="admincp.php?ac=$ac&perpage=20&grade=-1&searchsubmit=1"><span>Did not pass audit activities</span></a></li>
+		<li$actives[grade1]><a href="admincp.php?ac=$ac&perpage=20&grade=1&searchsubmit=1"><span>Has passed the audit activities</span></a></li>
+		<li$actives[grade_2]><a href="admincp.php?ac=$ac&perpage=20&grade=-2&searchsubmit=1"><span>Closed Activities</span></a></li>
+		<li$actives[grade2]><a href="admincp.php?ac=$ac&perpage=20&grade=2&searchsubmit=1"><span>Recommended Activities</span></a></li>
+	</ul>
+</div>
+
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+			<th>Event ID</th><td><input type="text" name="eventid" value="$_GET[eventid]"></td>
+			<th>Creator UID</th><td><input type="text" name="uid" value="$_GET[uid]"></td>
+		</tr>
+		<tr>
+			<th>Title *</th><td><input type="text" name="title" value="$_GET[title]"></td>
+			<th>Type of activity</th>
+			<td>
+				<select name="classid">
+					<option value="">
+						Please select the event category
+					</option>
+					<!--{loop $_SGLOBAL[eventclass] $key $value}-->
+					<option value="$key" <!--{if $_GET[classid] == $key}--> selected<!--{/if}-->>$value[classname]</option>
+					<!--{/loop}-->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Please activities in urban</th>
+			<td id="citybox">
+				<script type="text/javascript" src="source/script_city.js" charset="$_SC[charset]"></script>
+                <script type="text/javascript" charset="$_SC[charset]">
+					showprovince('province', 'city', '$_GET[province]', 'citybox');
+                    showcity('city', '$_GET[city]', 'province', 'citybox');
+                </script>
+			</td>
+			<th>Open to the public</th>
+			<td>
+				<select name="public">
+					<option value="">Open</option>
+					<option value="0"<!--{if $_GET[public] === '0'}--> selected<!--{/if}-->>Private</option>
+					<option value="1"<!--{if $_GET[public] === '1'}--> selected<!--{/if}-->>Semi-public</option>
+					<option value="2"<!--{if $_GET[public] === '2'}--> selected<!--{/if}-->>Full disclosure</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Time</th>
+			<td>
+				<script type="text/javascript" src="source/script_calendar.js"></script>
+				<input type="text" name="starttime" value="$_GET[starttime]" onclick="showcalendar(event,this,1)"/> ~
+				<input type="text" name="endtime" value="$_GET[endtime]"  onclick="showcalendar(event,this,1)" />
+			</td>
+			<th>Whether to close the</th>
+			<td>
+				<select name="over">
+					<option value="">Open</option>
+					<option value="0"<!--{if $_GET[over] === '0'}--> selected<!--{/if}-->>Is not the end of</option>
+					<option value="1"<!--{if $_GET[over] === '1'}--> selected<!--{/if}-->>Closed</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Active</th>
+			<td colspan="3">
+				<select name="grade">
+					<option value="">Open</option>
+					<option value="-2"<!--{if $_GET[grade] === '-2'}--> selected<!--{/if}-->>Closed</option>
+					<option value="-1"<!--{if $_GET[grade] === '-1'}--> selected<!--{/if}-->>Did not pass muster</option>
+					<option value="0"<!--{if $_GET[grade] === '0'}--> selected<!--{/if}-->>Pending</option>
+					<option value="1"<!--{if $_GET[grade] === '1'}--> selected<!--{/if}-->>Once approved,</option>
+					<option value="2"<!--{if $_GET[grade] === '2'}--> selected<!--{/if}-->>Recommended</option>
+				</select>
+			</td>
+		</tr>
+		<tr><th>Hot</th><td colspan="3">
+			<input type="text" name="hot1" value="$_GET[hot1]" size="10"> ~
+			<input type="text" name="hot2" value="$_GET[hot2]" size="10">
+		</td></tr>
+		<tr>
+			<th>Sorting</th>
+			<td colspan="3">
+				<select name="orderby">
+					<option value="">Default Sort</option>
+					<option value="dateline"$orderby[dateline]>Published</option>
+					<option value="starttime"$orderby[starttime]>Start Time</option>
+					<option value="membernum"$orderby[membernum]>The number of participants</option>
+					<option value="hot"$orderby[hot]>Hot</option>
+				</select>
+				<select name="ordersc">
+					<option value="desc"$ordersc[desc]>Decreasing</option>
+					<option value="asc"$ordersc[asc]>Incremental</option>
+				</select>
+				<select name="perpage">
+					<option value="20"$perpages[20]>20 per page</option>
+					<option value="50"$perpages[50]>50 per page</option>
+					<option value="100"$perpages[100]>100 per page</option>
+					<option value="1000"$perpages[1000]>One dealing with 1000</option>
+				</select>
+				<input type="hidden" name="ac" value="event">
+				<input type="submit" name="searchsubmit" value="Search" class="submit">
+			</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+	<form method="post" action="admincp.php?ac=event">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+
+	<!--{if $perpage>100}-->
+		<p>A total of data to meet the conditions <strong>$count</strong> </p>
+		<!--{loop $list $value}-->
+		<input type="hidden" name="ids[]" value="$value[eventid]">
+		<!--{/loop}-->
+
+	<!--{else}-->
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<td width="25">&nbsp;</td>
+			<th>Event Title</th>
+			<th width="80">Activities Cities</th>
+			<th width="120">Time</th>
+			<th width="80">Participation / concerns</th>
+			<th width="80">Sponsor</th>
+			<th width="40">Operation</th>
+		</tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td>
+				<input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[eventid]">
+			</td>
+			<td>
+				<a href="space.php?do=event&id=$value[eventid]" target="_blank">$value[title]</a>
+				<a class="gray" href="admincp.php?ac=event&grade=$value[grade]">
+					<!--{if $value[grade] == 0}-->Pending
+					<!--{elseif $value[grade]==-1}-->Did not pass muster
+					<!--{elseif $value[grade]==2}-->Recommended
+					<!--{elseif $value[grade]==-2}-->Closed
+					<!--{/if}-->				
+				</a>
+				<!--{if $value[hot]}--><span style="color:red;">Hot($value[hot])</span><!--{/if}-->
+			</td>
+			<td>
+				<a href="admincp.php?ac=event&province=$value[province]">$value[province]</a> - 
+				<a href="admincp.php?ac=event&province=$value[province]&city=$value[city]">$value[city]</a>
+			</td>
+			<td><!--{eval echo sgmdate('m-d',$value[starttime])}--> ~ <!--{eval echo sgmdate('m-d',$value[endtime])}--></td>
+			<td>$value[membernum] / $value[follownum]</td>
+			<td>
+				<a href="space.php?uid=$value[uid]">$value[username]</a>
+			</td>
+			<td>
+				<a href="cp.php?ac=event&op=edit&id=$value[eventid]" target="_blank">Edit</a>
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	<!--{/if}-->
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<!--{if $allowbatch && $perpage<=100}-->
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select
+		<!--{/if}-->
+		<input id="ckdelete" type="radio" name="optype" value="delete"><label for="ckdelete">Remove</label>
+		<input id="ckverify" type="radio" name="optype" value="verify"><label for="ckverify">Once approved,</label>
+		<input id="ckdelayverify" type="radio" name="optype" value="delayverify"><label for="ckdelayverify">Do not pass muster</label>
+		<input id="ckrecommend" type="radio" name="optype" value="recommend"><label for="ckrecommend">Recommended</label>
+		<input id="ckunrecommend" type="radio" name="optype" value="unrecommend"><label for="ckunrecommend">Cancellation Recommended</label>
+		<input type="submit" name="opsubmit" value="Implementation of the action" onclick="if($('ckdelete').checked){return confirm('This action can not be restored, to confirm to continue?')};" class="submit">
+
+		<div class="pages">$multi</div>
+	</div>
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

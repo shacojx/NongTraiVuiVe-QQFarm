@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="iso-8859-2"?>
+<changelog lang="pl">
+<wersja id="2.21">
+      <data>9 lipca 2008</data> 	
+	  <zmiana id="1">Aktualizacja NSIS do wersji 2.37</zmiana>
+	  <zmiana id="2">Aktualizacja SQLite do wersji 3.5.9</zmiana>
+	  <zmiana id="3">Aktualuzacja PHP do wersji 5.2.6</zmiana>
+	  <zmiana id="4">Aktualizacja phpMyAdmin do wersji 2.11.7</zmiana>
+	  <zmiana id="5">Aktualizacja Smarty do wersji 2.6.19</zmiana>
+	  <zmiana id="6">Aktualizacja MySQL do wersji 5.0.51b</zmiana>
+	  <zmiana id="7">Aktualizacja Zend Optimizer do wersji 3.3.3</zmiana>
+</wersja>
+<wersja id="2.20">
+      <data>8 lutego 2008</data> 	
+	  <zmiana id="1">Aktualizacja NSIS do wersji 2.34</zmiana>
+	  <zmiana id="2">Aktualizacja SQLite do wersji 3.5.6</zmiana>
+	  <zmiana id="3">Aktualizacja Apache do wersji 2.0.63</zmiana>
+	  <zmiana id="4">Aktualizacja MySQL do wersji 5.0.51</zmiana>
+	  <zmiana id="5">Aktualizacja phpMyAdmin do wersji 2.11.4</zmiana>
+	  <zmiana id="6">Dodano Smarty 2.6.18</zmiana>
+</wersja>
+<wersja id="2.19">
+      <data>2 grudnia 2007</data> 	
+	  <zmiana id="1">Aktualizacja NSIS do wersji 2.33</zmiana>
+	  <zmiana id="2">Aktualizacja PHP do wersji 5.2.5</zmiana>
+	  <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.11.2.2</zmiana>
+	  <zmiana id="4">Aktualizacja MySQL do wersji 5.0.45</zmiana>
+	  <zmiana id="5">Aktualizacja SQLite do wersji 3.5.3</zmiana>
+	  <zmiana id="6">Aktualizacja Zend Optimizer do wersji 3.3.0</zmiana>
+	  <zmiana id="7">Aktualizacja Apache do wersji 2.0.61</zmiana>
+</wersja>
+<wersja id="2.18">
+      <data>5 lipca 2007</data> 	
+	  <zmiana id="1">Aktualizacja NSIS do wersji 2.28</zmiana>
+	  <zmiana id="2">Aktualizacja PHP do wersji 5.2.3</zmiana>	  
+	  <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.10.2</zmiana>	
+	  <zmiana id="4">Aktualizacja SQLite do wersji 3.4.0</zmiana>		  
+</wersja>
+<wersja id="2.17">
+      <data>10 maja 2007</data> 	
+	  <zmiana id="1">Aktualizacja NSIS do wersji 2.27</zmiana>
+	  <zmiana id="2">Aktualizacja SQLite do wersji 3.3.17</zmiana>	  
+	  <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.10.1</zmiana>	  
+	  <zmiana id="4">Aktualizacja MySQL do wersji 5.0.41</zmiana> 
+	  <zmiana id="5">Aktualizacja PHP do wersji 5.2.2</zmiana> 
+	  <zmiana id="6">Aktualizacja Zend Optimizer do wersji 3.2.8</zmiana> 
+</wersja>
+<wersja id="2.16">
+      <data>11 marca 2007</data> 	
+	  <zmiana id="1">Aktualizacja NSIS do wersji 2.24</zmiana>
+	  <zmiana id="2">Aktualizacja SQLite do wersji 3.3.13</zmiana>	  
+	  <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.10.0.2</zmiana>	  
+	  <zmiana id="4">Aktualizacja MySQL do wersji 5.0.37</zmiana> 
+</wersja>
+<wersja id="2.15">
+      <data>8 luty 2007</data> 	
+	  <zmiana id="1">Poprawka rozszerzenia php_sqlite.dll</zmiana>
+	  <zmiana id="2">Aktualizacja SQLite do wersji 3.3.12</zmiana> 
+	  <zmiana id="3">Aktualizacja Zend Optimizer do wersji 3.2.2</zmiana> 
+	  <zmiana id="4">Aktualizacja phpMyAdmin do wersji 2.9.2</zmiana> 	
+	  <zmiana id="5">Aktualizacja NSIS do wersji 2.23</zmiana>  
+	  <zmiana id="6">Aktualizacja PHP do wersji 5.2.1</zmiana>
+</wersja>
+<wersja id="2.14">
+      <data>1 grudnia 2006</data> 	
+	  <zmiana id="1">Aktualizacja PHP do wersji 5.2.0</zmiana> 
+	  <zmiana id="2">Aktualizacja phpMyAdmin do wersji 2.9.1.1</zmiana> 
+	  <zmiana id="3">Aktualizacja MySQL do wersji 5.0.27</zmiana> 
+	  <zmiana id="4">Aktualizacja Zend Optimizer do wersji 3.2.0</zmiana> 
+	  <zmiana id="5">Aktualizacja NSIS do wersji 2.22</zmiana> 	  
+</wersja>
+<wersja id="2.13">
+      <data>13 padziernika 2006</data> 	
+	  <zmiana id="1">Aktualizacja SQLite do wersji 3.3.8</zmiana> 
+	  <zmiana id="2">Aktualizacja phpMyAdmin do wersji 2.9.0.2</zmiana> 
+	  <zmiana id="3">Aktualizacja MySQL do wersji 5.0.26</zmiana> 
+</wersja>
+<wersja id="2.12">
+      <data>18 wrzenia 2006</data> 	
+	  <zmiana id="1">Poprawki w programie głównym (ust. rozszerzeń, aliasów, poprawki)</zmiana> 	 
+	  <zmiana id="2">Uzupełenienie rozszerzeń PHP (cURL) oraz Apache</zmiana> 
+	  <zmiana id="3">Aktualizacja PHP do wersji 5.1.6</zmiana> 	
+      <zmiana id="4">Aktualizacja phpMyAdmin do wersji 2.8.2.4</zmiana>
+      <zmiana id="5">Aktualizacja NSIS do wersji 2.20</zmiana>   	
+      <zmiana id="6">Aktualizacja MySQL do wersji 5.0.24a</zmiana>   	  
+</wersja>
+<wersja id="2.11">
+      <data>20 sierpnia 2006</data> 
+	  <zmiana id="1">Aktualizacja NSIS do wersji 2.19</zmiana>  
+	  <zmiana id="2">Aktualizacja SQLite do wersji 3.3.7</zmiana>
+	  <zmiana id="3">Poprawki w programie głównym (usługi, mapowanie, nowe opcje)</zmiana>	 
+      <zmiana id="4">Aktualizacja PHP do wersji 5.1.5</zmiana>	
+      <zmiana id="5">Aktualizacja phpMyAdmin do wersji 2.8.2.2</zmiana>
+      <zmiana id="6">Zmiana lokalizacji plików konfiguracyjnych</zmiana>	  
+</wersja>
+<wersja id="2.10">
+      <data>5 sierpnia 2006</data>
+      <zmiana id="1">Aktualizacja Apache do wersji 2.0.59</zmiana>  
+	  <zmiana id="2">Aktualizacja MySQL do wersji 5.0.24</zmiana>
+      <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.8.2.1</zmiana>	
+      <zmiana id="4">Poprawki w programie głównym (usługi, alokacja pamięci)</zmiana>	  
+</wersja>
+<wersja id="2.09">
+      <data>11 lipca 2006</data>
+      <zmiana id="1">Aktualizacja NSIS do wersji 2.18</zmiana> 
+      <zmiana id="2">Aktualizacja SQLite do wersji 3.3.6</zmiana>	
+      <zmiana id="3">Aktualizacja MySQL do wersji 5.0.23</zmiana>		
+      <zmiana id="4">Aktualizacja phpMyAdmin do wersji 2.8.2</zmiana>		
+      <zmiana id="5">Zmiany w programie głównym (większa funkcjonalnoć, mnóstwo poprawek)</zmiana>	
+      <zmiana id="6">Aktualizacja PrcView do wersji 5.2.2.1</zmiana>		  
+</wersja>
+<wersja id="2.08">
+      <data>5 czerwca 2006</data>
+      <zmiana id="1">Aktualizacja NSIS do wersji 2.17</zmiana>  	    
+      <zmiana id="2">Aktualizacja Zend Optimizer do wersji 3.0.1</zmiana> 
+      <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.8.1</zmiana> 
+      <zmiana id="4">Aktualizacja MySQL do wersji 5.0.22</zmiana> 
+      <zmiana id="5">Zmiany w programie głównym - dodano okno z pomocš</zmiana> 
+</wersja>
+<wersja id="2.07">
+      <data>12 maja 2006</data>
+      <zmiana id="1">Poprawka w ustawieniach programu głównego</zmiana>  	 
+      <zmiana id="2">Aktualizacja phpMyAdmin do wersji 2.8.0.4</zmiana>  
+	  <zmiana id="3">Aktualizacja PHP do wersji 5.1.4</zmiana>    
+</wersja>
+<wersja id="2.06">
+      <data>1 maja 2006</data>
+      <zmiana id="1">mod_rewrite domylnie aktywowany</zmiana>  
+      <zmiana id="2">Aktualizacja phpMyAdmin do wersji 2.8.0.3</zmiana>  
+      <zmiana id="3">Zmiana strony głównej VertrigoServ</zmiana> 
+      <zmiana id="4">Aktualizacja SQLite do wersji 3.3.5</zmiana> 	
+      <zmiana id="5">Aktualizacja NSIS do wersji 2.16</zmiana> 	
+	  <zmiana id="6">Aktualizacja MySQL do wersji 5.0.21</zmiana>	
+	  <zmiana id="7">Aktualizacja Zend Optimizer do wersji 3.0.0</zmiana>	
+      <zmiana id="8">Aktualizacja SQLiteManager do wersji 1.2.0</zmiana>	
+      <zmiana id="9">Aktualizacja Apache do wersji 2.0.58</zmiana>		
+      <zmiana id="10">Aktualizacja PHP do wersji 5.1.3</zmiana>			  
+</wersja>
+<wersja id="2.05">
+      <data>9 marca 2006</data>
+      <zmiana id="1">Stworzenie aliasów dla phpmyadmin oraz sqlitemanager</zmiana>
+	  <zmiana id="2">Aktualizacja SQLite do wersji 3.3.4</zmiana>
+	  <zmiana id="3">Poprawki zwišzane z obsługš usług przez program główny Vertrigo</zmiana>	
+	  <zmiana id="4">Dodanie rozszerzenia pdo_mysql</zmiana>
+	  <zmiana id="5">Aktualizacja NSIS do wersji 2.15</zmiana>	  
+	  <zmiana id="6">Zmiana katalogu htdocs z _htdocs na www</zmiana>
+	  <zmiana id="7">Aktualizacja phpMyAdmin do wersji 2.8.0.1</zmiana>
+	  <zmiana id="8">Aktualizacja MySQL do wersji 5.0.19</zmiana>	  
+</wersja>
+<wersja id="2.04">
+      <data>26 stycznia 2006</data>
+      <zmiana id="1">Aktualizacja NSIS do wersji 2.14</zmiana>
+      <zmiana id="2">Dodanie polskiej wersji językowej</zmiana>	  
+	  <zmiana id="3">Rozbudowa programu głównego o nowe funkcje</zmiana>	 
+	  <zmiana id="4">Uaktualnienie php.ini</zmiana>	 
+	  <zmiana id="5">Aktualizacja PHP do wersji 5.1.2</zmiana>	 
+	  <zmiana id="6">Aktualizacja Zend Optimizer do wersji 2.6.2</zmiana>	 	  
+</wersja>
+<wersja id="2.03">
+      <data>9 stycznia 2006</data>
+      <zmiana id="1">Aktualizacja MySQL do wersji 5.0.18</zmiana>
+	  <zmiana id="2">Dodanie kilku opcji oraz seria poprawek w programie głównym</zmiana>
+	  <zmiana id="3">Dodanie SQLite w wersji 3.2.8</zmiana>
+	  <zmiana id="4">Aktualizacja phpMyAdmin do wersji 2.7.0-pl2</zmiana>
+</wersja>
+<wersja id="2.02">
+      <data>21 grudnia 2005</data>
+      <zmiana id="1">Aktualizacja MySQL do wersji 5.0.17</zmiana>
+	  <zmiana id="2">Usunięcie WinMySQLadmina</zmiana>
+	  <zmiana id="3">Uaktualnienie PrcView do wersji 3.11.1.1</zmiana>
+	  <zmiana id="4">Aktualizacja NSIS do wersji 2.12</zmiana>
+	  <zmiana id="5">Nowe ikony programu oraz instalacyjne</zmiana>	 
+	  <zmiana id="6">Dodana większa iloć języków do instalatora</zmiana>	
+	  </wersja>
+<wersja id="2.01">
+      <data>10 grudnia 2005</data>
+      <zmiana id="1">Poprawka zwiazana z php5ts.dll</zmiana>
+      <zmiana id="2">Aktualizacja PHP do wersji 5.1.1</zmiana>
+      <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.7.0-pl1</zmiana>
+      <zmiana id="4">Aktualizacja Zend Optimizer do wersji 2.6.0</zmiana>
+</wersja>
+<wersja id="2.00">
+      <data>24 listopada 2005</data>
+      <zmiana id="1">Zmiana ikony w trayu oraz kolorów menu</zmiana>
+      <zmiana id="2">Aktualizacja NSIS do wersji 2.11</zmiana>
+	  <zmiana id="3">Poprawki zwišzane z MySQL i kompatybilnociš z Windows 98</zmiana>
+	  <zmiana id="4">Aktualizacja phpMyAdmin do wersji 2.6.4-pl4</zmiana>	
+	  <zmiana id="5">Aktualizacja Apache do wersji 2.0.55</zmiana>	
+</wersja>
+<wersja id="1.20">
+      <data>31 padziernika 2005</data>
+      <zmiana id="1">Aktualizacja NSIS do wersji 2.10</zmiana>
+      <zmiana id="2">Aktualizacja SQLiteManager do wersji 1.1.2</zmiana>
+      <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.6.4-pl3</zmiana>
+      <zmiana id="4">Aktualizacja MySQL do wersji 4.1.15</zmiana>
+</wersja>
+<wersja id="1.19">
+      <data>7 wrzenia 2005</data>
+      <zmiana id="1">Uzupełnienie dokumentacji i poprawki w instalatorze</zmiana>
+      <zmiana id="2">Aktualizacja NSIS do wersji 2.09</zmiana>
+      <zmiana id="3">Aktualizacja PHP do wersji 5.0.5</zmiana>
+      <zmiana id="4">Aktualizacja MySQL do wersji 4.1.14</zmiana>
+</wersja>
+<wersja id="1.18">
+      <data>25 lipca 2005</data>
+      <zmiana id="1">Aktualizacja NSIS do wersji 2.08</zmiana>
+      <zmiana id="2">Aktualizacja SQLiteManager do wersji 1.1.1</zmiana>
+      <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.6.3-pl1</zmiana>
+      <zmiana id="4">Aktualizacja MySQL do wersji 4.1.13</zmiana>
+</wersja>
+<wersja id="1.17">
+      <data>25 maja 2005</data>
+      <zmiana id="1">Aktualizacja phpMyAdmin do wersji 2.6.2-pl1</zmiana>
+      <zmiana id="2">Dodano informacje o licencji w instalatorze</zmiana>
+      <zmiana id="3">Dodano SQLiteManager 1.0.6</zmiana>
+      <zmiana id="4">Aktualizacja MySQL do wersji 4.1.12</zmiana>
+      <zmiana id="5">Aktualizacja Zend Optimizer do wersji 2.5.10</zmiana>
+</wersja>
+<wersja id="1.16">
+      <data>2 maja 2005</data>
+      <zmiana id="1">Aktualizacja MySQL do wersji 4.1.11</zmiana>
+      <zmiana id="2">Aktualizacja phpMyAdmin do wersji 2.6.2</zmiana>
+      <zmiana id="3">Zmiany na stronie startowej VertrigoServ (m.in. informacje o rozszerzeniach)</zmiana>
+</wersja>
+<wersja id="1.15">
+      <data>2 kwietnia 2005</data>
+      <zmiana id="1">Aktualizacja NSIS do wersji 2.06</zmiana>
+      <zmiana id="2">Aktualizacja MySQL do wersji 4.1.10a</zmiana>
+      <zmiana id="3">Aktualizacja phpMyAdmin do wersji 2.6.1-pl3</zmiana>
+      <zmiana id="4">Aktualizacja PHP do wersji 5.0.4</zmiana>
+</wersja>
+<wersja id="1.14">
+      <data>16 stycznia 2005</data>
+      <zmiana id="1">Aktualizacja NSIS do wersji 2.04</zmiana>
+      <zmiana id="2">Aktualizacja MySQL do wersji 4.1.9</zmiana>
+      <zmiana id="3">Poprawki i rozbudowa interface'u</zmiana>
+      <zmiana id="4">Dodano możliwoć zmiany katalogu instalacyjnego</zmiana>
+      <zmiana id="5">Aktualizacja phpMyAdmin do wersji 2.6.1</zmiana>
+      <zmiana id="6">Dodano rozszerzenia PHP: mbstring i gd2</zmiana>
+</wersja>
+<wersja id="1.13">
+      <data>1 stycznia 2005</data>
+      <zmiana id="1">Poprawki w instalatorze (błędne usuwanie Apacha)</zmiana>
+      <zmiana id="2">Uaktualnienie MySQL do wersji 4.1.8</zmiana>
+      <zmiana id="3">Nowy interface (poprawione zamykanie składników, nowe menu, poprawiony kod etc.)</zmiana>
+</wersja>
+<wersja id="1.12">
+      <data>16 grudnia 2004</data>
+      <zmiana id="1">Aktualizacja Zend Optimizer do wersji 2.5.7</zmiana>
+      <zmiana id="2">Aktualizacja PhpMyAdmina do wersji 2.6.0-pl3</zmiana>
+      <zmiana id="3">Aktualizacja NSIS do wersji 2.03</zmiana>
+      <zmiana id="4">Aktualizacja PHP do wersji 5.0.3</zmiana>
+</wersja>
+<wersja id="1.11">
+      <data>27 padziernika 2004</data>
+      <zmiana id="1">Usunięcie zbędnych plików</zmiana>
+      <zmiana id="2">Aktualizacja PhpMyAdmina do wersji 2.6.0-pl2</zmiana>
+      <zmiana id="3">Nowa ikona VS</zmiana>
+      <zmiana id="4">Poprawki w interfacie</zmiana>
+      <zmiana id="5">Instalator NSIS w wersji 2.02</zmiana>
+      <zmiana id="6">Uaktualnienie MySQL do wersji 4.1.7</zmiana>
+      <zmiana id="7">Uaktualnienie Apache do wersji 1.3.33</zmiana>
+</wersja>
+<wersja id="1.10">
+      <data>2 padziernika 2004</data>
+      <zmiana id="1">Nowy instalator (NSIS 2.01)</zmiana>
+      <zmiana id="2">Usunięcie rozszerzenia OpenSSL (powodowało problemy na niektórych platformach)</zmiana>
+      <zmiana id="3">Poprawki zwišzane ze cieżkami</zmiana>
+      <zmiana id="4">Nowa wersja phpMyAdmina (2.6.0-pl1)</zmiana>
+      <zmiana id="5">Zmiana domylnej wartoci register_globals na On</zmiana>
+</wersja>
+<wersja id="1.09">
+      <data>24 wrzenia 2004</data>
+      <zmiana id="1">Uaktualniono PHP do wersji 5.0.2</zmiana>
+      <zmiana id="2">Uaktualniono ZendOptimizer do wersji 2.5.5</zmiana>
+</wersja>
+<wersja id="1.08">
+      <data>12 wrzenia 2004</data>
+      <zmiana id="1">Uaktualniono MySQL do wersji 4.0.21</zmiana>
+</wersja>
+<wersja id="1.07">
+      <data>13 sierpnia 2004</data>
+      <zmiana id="1">Nowa ikona programu</zmiana>
+      <zmiana id="2">Dodano obsługę backupu baz MySQL</zmiana>
+      <zmiana id="3">Zmieniono sposób logowania w PhpMyAdminie na HTTP</zmiana> 
+      <zmiana id="4">Uaktualniono PHP do wersji 5.0.1</zmiana>
+</wersja>
+<wersja id="1.06">
+      <data>5 sierpnia 2004</data>
+      <zmiana id="1">Poprawki w instalatorze (thx Mateusz Płatos)</zmiana>
+      <zmiana id="2">Dodano nowe rozszerzenia do PHP: openssl, bz2</zmiana>
+      <zmiana id="3">Poprawiono zamykanie serwera MySQL</zmiana>
+      <zmiana id="4">Wprowadzono dodawanie programu do listy Dodaj/Usuń</zmiana>
+      <zmiana id="5">Dodano obsługę kopii zapasowej dla htdocs</zmiana>
+      <zmiana id="6">Dodano możliwoć tworzenia skrótu na Pulpicie</zmiana>
+      <zmiana id="7">Poprawiono błšd ładowania biblioteki libmysql.dll (thx Mateusz Płatos)</zmiana>
+</wersja>
+<wersja id="1.05">
+      <data>23 lipca 2004</data>
+      <zmiana id="1">Poprawki w interfejsie użytkownika</zmiana>
+      <zmiana id="2">WinMySQLAdmin automatycznie się uruchamia przy startcie serwera</zmiana>
+</wersja>
+<wersja id="1.04">
+      <data>21 lipca 2004</data>
+      <zmiana id="1">Dodano nowy IDE</zmiana>
+</wersja>
+<wersja id="1.03">
+      <data>21 lipca 2004</data>
+      <zmiana id="1">Dodano Zend Optimizer 2.5.3</zmiana>
+</wersja>
+<wersja id="1.02">
+      <data>19 lipca 2004</data>
+      <zmiana id="1">Dodano Mysqld 4.0.20d</zmiana>
+      <zmiana id="2">Dodano PhpMyAdmin 2.5.7-pl1</zmiana>
+      <zmiana id="3">Poprawki w plikach konfiguracyjnych</zmiana>
+</wersja>
+<wersja id="1.01">
+      <data>19 lipca 2004</data>
+      <zmiana id="1">Apache 1.3.31</zmiana>
+      <zmiana id="2">PHP 5.0.0</zmiana>
+      <zmiana id="3">Poprawki w instalatorze</zmiana>
+</wersja>
+<wersja id="1.00">
+      <data>19 lipca 2004</data>
+      <opis>Podstawowa wersja VertrigoServ</opis>
+</wersja>
+</changelog>

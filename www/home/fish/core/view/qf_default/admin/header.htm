@@ -1,0 +1,18 @@
+<!--{tpl header}-->
+
+<div id="main">
+
+	<div class="menu">
+		<!--{php $actives[$mod_name] = ' class="actives"';}-->
+		<a{:$actives[home]} href="admin.php?mod=home">管理首页</a>
+		<a{:$actives[quick]} href="admin.php?mod=quick">快捷操作</a>
+		<a{:$actives[system]} href="admin.php?mod=system">系统配置</a>
+		<a{:$actives[notice]} href="admin.php?mod=notice">公告管理</a>
+		<a{:$actives[user_list]} href="admin.php?mod=user_list">用户列表</a>
+		<!--{if $id > 0}-->
+		<a{:$actives[user_edit]} href="admin.php?mod=user_edit&id={:$id}">用户信息</a>
+		<!--{/if}-->
+		<a href="http://www.phpye.com" target="_blank">在线文档</a>
+	</div>
+
+	<div id="main_admin">

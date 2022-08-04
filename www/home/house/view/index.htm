@@ -1,0 +1,145 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 25px;">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			 <tbody>
+				<tr>
+					<td width="75%" valign="top">
+					<!--{if $my_house}-->
+						<table width="100%" cellspacing="0" cellpadding="0">
+							<tbody>
+								<tr>
+									<td align="center">
+										<div id="house_me"><ul>
+											<li><a target='_blank' href="space.php?uid={$now_uid}"><span class="light">{$_SN[$now_uid]}</span> <img src="house/view/img/home.gif" /></a></li>
+											<li><div class="avatar48" style="text-align:left;"><a title="{$_SN[$user['uid']]}" href="house.php?ac=index&uid={$now_uid}"><img src="<!--{avatar($now_uid,small)}--></a></div></li>
+											<li>Hiện nay sống ở đây, tên：&lt;{$my_house['name']}&gt;，Loại：{$house_kind[$my_house['cid']]}，Chủ nhà là <a href="house.php?ac=index&uid={$my_house['uid']}">{$_SN[$my_house['uid']]}</a>
+												<p style="margin-top: 10px;"><img border="0" src="house/view/house/{$my_house['cid']}.jpg" align='left' /></p>
+											</li>
+										</ul></div>
+										<div style="clear:both;"></div>
+									</td>
+								</tr>
+								<tr>
+									<td align="center" style="padding-top: 10px;">
+										<!--{if $status['user_status']}-->
+											<p><a href="space.php?uid={$status['uid']}" target="_blank">{$_SN[$status['uid']]} <img src="house/view/img/home.gif" title="Để trang chủ của bạn để xem"/></a>  và là <a href="space.php?uid={$status['live_with_uid']}" target="_blank">{$_SN[$status['live_with_uid']]} <img src="house/view/img/home.gif" title="Để trang chủ của bạn để xem"/></a>Cư trú </p>
+											<div style="padding-left: 186px;"><div id="gift_buy"><ul>
+												<li><div class="avatar48" style="text-align:left;"><a title="{$_SN[$status['uid']]}" href="house.php?ac=index&uid={$status['uid']}"><img src="<!--{avatar($status['uid'],small)}--></a></div></li>
+												<li  style="margin-top: 8px;"><img src="house/view/img/and.jpg" /></li>
+												<li><div class="avatar48" style="text-align:left;"><a title="{$_SN[$status['live_with_uid']]}" href="house.php?ac=index&uid={$status['live_with_uid']}"><img src="<!--{avatar($status['live_with_uid'],small)}--></a></div></li>
+											</ul></div></div>
+											<div style="clear:both;"></div>
+											<p>{$select_action}<input type="button" class='submit' value="Gửi" onclick="return house.love_action();"></p>
+											<p style="padding-top: 10px;">
+												<a href="#" onclick="return house.push_out();"><img src="house/view/img/my_love_push.jpg"/></a>
+												<a href="house.php?ac=gift&touid={$status['live_with_uid']}"><img src="house/view/img/send_gift.jpg"/></a>
+												<!--{if $status['focus'] == $uid}--><a href="#" onclick="return house.getSave();"><img src="house/view/img/my_love_save.jpg"/></a><!--{/if}-->
+											</p>
+										<!--{else}-->
+											<a href="#" onclick="return house.moveOut({$status['live_id']});"><img border="0" src="house/view/img/move_out.jpg"/></a>
+											<a href="#" onclick="return house.renting();"><img border="0" src="house/view/img/join_love.jpg"/></a> 
+										<!--{/if}-->
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					<!--{else}-->
+						<table width="100%" cellspacing="0" cellpadding="0">
+							<tbody>
+								<tr>
+									<td align="center">
+										<img border="0" src="house/view/img/out.jpg"/>
+									</td>
+								</tr>
+								<tr>
+									<td align="center"  style="padding-top: 10px;">
+										<div style="line-height: 150%; width: 400px;">Hiện nay sống trên đường phố, tai nạn có thể xảy ra Oh, hãy tìm một nơi để định cư càng sớm càng tốt<br />Click Bạn bè Tên Xem bạn bè điều kiện sống hiện tại, nhấp chuột vào phòng "" để xem những người bạn của tình hình bất động sản.</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<!--{/if}-->
+						<div style="margin-top: 10px; text-align: center;"><a href="house.php?ac=mylives" style="margin-right:10px;"><img src="house/view/img/my_love_his.jpg"/></a></div>
+					</td>
+					<td width="25%" valign="top">
+						<!--{template house/view/load}-->
+					</td>
+				</tr>
+			 <tbody>
+			</table>
+		</div>
+		<div style="clear:both"></div>
+		<div style="border: 5px solid rgb(229, 235, 243); border-top:none;width:auto;padding: 25px;">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			 <tbody>
+				<tr>
+					<td width="100%" valign="top" colspan=2>
+						<div class="tabs_header">
+							<ul class="tabs">
+								<li class="active" id="gift_my_1"><a href="#" onclick="return house.get_my_gift({$now_uid}, 1);"><span>Tôi nhận được một món quà</span></a></li>
+								<li id="gift_my_0"><a href="#" onclick="return house.get_my_gift({$now_uid}, 0);"><span>một món quà là ai</span></a></li>
+							</ul>
+						</div>
+						<div style="clear:both"></div>
+						<div  id="gift_my" class="gift_my">
+							<p class='loading'></p>
+						</div>
+						<div style="clear:both"></div>
+					</td>
+				</tr>
+				<tr><td width="100%" valign="top" colspan=2 height=10></td></tr>
+				<!--{if $status['hid']}-->
+				<tr>
+					<td width="100%" valign="top" colspan=2>
+						<div class="tabs_header">
+							<ul class="tabs">
+								<li class="active"><a href="#" style="cursor:default;" onclick="return false;"><span>Sống chung sự kiện</span></a></li>
+								<div style="clear:both"></div>
+							</ul>
+						</div>
+						<div style="clear:both"></div>
+						<div  id="history_my" class="gift_my">
+							<p class='loading'></p>
+						</div>
+					</td>
+				</tr>
+				<tr><td width="100%" valign="top" colspan=2 height=10></td></tr>
+				<tr>
+					<td width="100%" valign="top" colspan=2>
+						<div class="tabs_header">
+							<ul class="tabs">
+								<li class="active"><a href="#" style="cursor:default;" onclick="return false;"><span>nói chuyện</span></a></li>
+							</ul>
+						</div>
+						<div style="clear:both"></div>
+						<div  id="miyu_my" class="gift_my">
+							<p class='loading'></p>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td width=50%><input type="text" style="width:99%;height:16px;" id="miyu_my_message" onkeyup="return base.doSubmit(event, 'miyu_add_submit');" maxlength=40 /></td>
+					<td width=50% style="padding-left: 30px;"><input type="button" value="Ngôn ngữ xuất bản" class="submit" id='miyu_add_submit' onclick="house.miyu_add({$status['hid']});"/></td>
+				</tr>
+				<!--{/if}-->
+			</tbody>
+			</table>
+		</div>
+		<div style="clear:both"></div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+house.get_my_gift($now_uid, 1);
+house.history_my($status['hid']);
+house.miyu_my($status['hid']);
+</script>
+<!--{template footer}-->

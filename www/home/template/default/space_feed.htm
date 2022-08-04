@@ -1,0 +1,383 @@
+<!--{if empty($_TPL['getmore'])}-->	
+<!--{eval $_TPL['titles'] = array('Home');}-->
+<!--{template header}-->
+
+<div id="content">
+
+<!--{if $space['uid'] && $space[self]}-->
+	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<td valign="top" width="150">
+				<div class="ar_r_t"><div class="ar_l_t"><div class="ar_r_b"><div class="ar_l_b"><!--{avatar($_SGLOBAL[supe_uid],middle)}--></div></div></div></div>
+
+				<ul class="u_setting">
+					<li class="dropmenu" id="usettingli" onclick="showMenu(this.id)"><a href="javascript:;">My Setting <img src="image/more.gif" align="absmiddle"></a></li>
+				</ul>
+				<ul id="usettingli_menu" class="dropmenu_drop" style="display:none;">
+					<li><a href="cp.php?ac=avatar">Change Avatar</a></li>
+		<li><a href="cp.php?ac=profile">Edit Profile</a></li>
+		<li><a href="cp.php?ac=theme">Change Theme</a></li>
+		<li><a href="cp.php?ac=credit">My Points</a></li>
+					<!--{if $_SCONFIG[sendmailday]}-->
+	<li><a href="cp.php?ac=sendmail">Email Remind</a></li>
+					<!--{/if}-->
+		<li><a href="cp.php?ac=privacy">Set Privacy</a></li>
+					<!--{if checkperm('admin')}-->
+			<li><a href="admincp.php">CP</a></li>
+					<!--{/if}-->
+					<!--{if checkperm('allowstat')}-->
+					<li><a href="do.php?ac=stat">Statistics</a></li>
+					<!--{/if}-->
+				</ul>
+			</td>
+			<td valign="top">
+				<h3 class="index_name">
+					<div class="r_option">
+						<!--{if $_SGLOBAL[session][magichidden]}-->Invisible<!--{else}-->Now Online<!--{/if}-->
+
+						<!--{if $_SGLOBAL[magic][invisible]}-->
+							<!--{if $_SGLOBAL[session][magichidden]}-->
+							<img src="image/magic/invisible.small.gif" class="magicicon"><a id="a_magic_appear" href="cp.php?ac=magic&op=appear" onclick="ajaxmenu(event,this.id)" class="gray">Show me online</a>
+							<!--{else}-->
+							<img src="image/magic/invisible.small.gif" alt="{$_SGLOBAL[magic][invisible]}" class="magicicon"><a id="a_magic_invisible" href="magic.php?mid=invisible" onclick="ajaxmenu(event,this.id,1)" class="gray">Take me Offline</a>
+							<!--{/if}-->
+						<!--{/if}-->
+					</div>
+
+					<a href="space.php?uid=$space[uid]"<!--{eval g_color($space[groupid]);}-->>{$_SN[$space[uid]]}</a>
+					<!--{eval g_icon($space[groupid]);}-->
+					<a href="cp.php?ac=credit">$space[star]</a>
+				</h3>
+				
+				<div class="index_note">
+					Hits $space[viewnum], Points $space[credit],Level $space[experience]
+				</div>
+
+				<!--{template space_status}-->
+			</td>
+		</tr>
+	</table>
+
+	<!--{if $space[allnum]}-->
+	<div class="mgs_list">
+		<!--{if $space[notenum]}--><div><img src="image/icon/notice.gif"><a href="space.php?do=notice"><strong>$space[notenum]</strong> New notice</a></div><!--{/if}-->
+		<!--{if $space[addfriendnum]}--><div><img src="image/icon/friend.gif" alt="" /><a href="cp.php?ac=friend&op=request"><strong>$space[addfriendnum]</strong> friend request</a></div><!--{/if}-->
+		<!--{if $space[mtaginvitenum]}--><div><img src="image/icon/mtag.gif" alt="" /><a href="cp.php?ac=mtag&op=mtaginvite"><strong>$space[mtaginvitenum]</strong> group invitation</a></div><!--{/if}-->
+		<!--{if $space[eventinvitenum]}--><div><img src="image/icon/event.gif" alt="" /><a href="cp.php?ac=event&op=eventinvite"><strong>$space[eventinvitenum]</strong> event invitation</a></div><!--{/if}-->
+		<!--{if $space[myinvitenum]}--><div><img src="image/icon/userapp.gif" alt="" /><a href="space.php?do=notice&view=userapp"><strong>$space[myinvitenum]</strong> Apps info</a></div><!--{/if}-->
+		<!--{if $space[pmnum]}--><div><img src="image/icon/pm.gif" alt="" /><a href="space.php?do=pm"><strong>$space[pmnum]</strong> new PM</a></div><!--{/if}-->
+		<!--{if $space[pokenum]}--><div><img src="image/icon/poke.gif" alt="" /><a href="cp.php?ac=poke"><strong> $space[pokenum]</strong> new poke</a></div><!--{/if}-->
+		<!--{if $space[reportnum]}--><div><img src="image/icon/report.gif" alt="" /><a href="admincp.php?ac=report"><strong>$space[reportnum]</strong> Abuse</a></div><!--{/if}-->
+		<!--{if $space[namestatusnum]}--><div><img src="image/icon/profile.gif" alt="" /><a href="admincp.php?ac=space&perpage=20&namestatus=0&searchsubmit=1"><strong>$space[namestatusnum]</strong> Verify User</a></div><!--{/if}-->
+		<!--{if $space[eventverifynum]}--><div><img src="image/icon/event.gif" alt="" /><a href="admincp.php?ac=event&perpage=20&grade=0&searchsubmit=1"><strong>$space[eventverifynum]</strong> Verfy Event</a></div><!--{/if}-->
+	</div>
+	<!--{/if}-->
+
+	<!--{if $isnewer && $task}-->
+	<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<div class="task_notice">
+			<div class="task_notice_body">
+				<div class="notice">Hello {$_SN[$space[uid]]}, Welcome, There are new tasks waiting for you，quite simple.</div>
+				<img src="$task[image]" alt="" class="icon" />
+				<h3><a href="cp.php?ac=task&op=do&taskid=$task[taskid]">$task[name]</a></h3>
+				<p>Available <span class="num">$task[credit]</span> points</p>
+			</div>
+		</div>
+	</div></div></div></div><br>
+	<!--{/if}-->
+
+	<!--{if empty($_SCOOKIE['closefeedbox']) && $_SGLOBAL['ad']['feedbox']}-->
+	<div id="feed_box" class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<div class="task_notice">
+			<a title="ignore" class="float_cancel" href="javascript:;" onclick="close_feedbox();">ignore</a>
+			<div class="task_notice_body">
+			<!--{ad/feedbox}-->
+			</div>
+		</div>
+	</div></div></div></div>
+	<!--{/if}-->
+
+	<div class="tabs_header" style="padding-top:10px;">
+
+		<!--{if $_SGLOBAL[magic][thunder]}-->
+		<a id="a_magic_thunder" href="magic.php?mid=thunder" onclick="ajaxmenu(event,this.id, 1)" class="r_option gray"><img src="image/magic/thunder.small.gif" alt="{$_SGLOBAL[magic][thunder]}" class="magicicon">{$_SGLOBAL[magic][thunder]}</a>
+		<!--{/if}-->
+
+		<ul class="tabs">
+			<!--{if $space[friendnum]}--><li$actives[we]><a href="space.php?do=home&view=we"><span>Friend's Feed</span></a></li><!--{/if}-->
+			<li$actives[hot]><a href="space.php?do=home&view=hot"><span>Top Recommended</span></a></li>
+			<li$actives[me]><a href="space.php?do=home&view=me"><span>My Feed</span></a></li>
+			<li$actives[all]><a href="space.php?do=home&view=all"><span>All Feed</span></a></li>
+		</ul>
+	</div>
+<!--{elseif $space[uid]}-->
+
+<!--{eval
+	$_TPL['spacetitle'] = "RSS Feed";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=feed&view=me\">All Friend's RSS Feed</a>";
+}-->
+	<!--{template space_menu}-->
+<!--{/if}-->
+
+	<div class="feed">
+	<div id="feed_div" class="enter-content">
+	
+	<!--{if $hotlist}-->
+		<a href="space.php?do=home&view=hot" class="r_option">&raquo; view more Top</a>
+		<h4 class="feedtime" style="margin-top:5px;">Recent Top recommended</h4>
+		<ul>
+		<!--{loop $hotlist $value}-->
+		<!--{eval $value = mkfeed($value);}-->
+		<!--{template space_feed_li}-->
+		<!--{/loop}-->
+		</ul>
+	<!--{/if}-->
+		
+<!--{/if}-->	
+
+	<!--{if $list}-->
+	<!--{loop $list $day $values}-->
+		<!--{if $_GET['view']!='hot'}-->
+		<h4 class="feedtime">
+			<!--{if $day=='yesterday'}-->Yesterday
+			<!--{elseif $day=='today'}-->Today
+			<!--{elseif $day=='app'}-->What other playing
+			<!--{else}-->$day
+			<!--{/if}-->
+		</h4>
+		<!--{/if}-->
+		<ul>
+		<!--{loop $values $value}-->
+			<!--{template space_feed_li}-->
+		<!--{/loop}-->
+		</ul>
+	<!--{/loop}-->
+	
+	<!--{else}-->
+		<ul>
+			<li>No RSS Feed</li>
+		</ul>
+	<!--{/if}-->
+	
+	<!--{if $filtercount}-->
+	<div class="notice" id="feed_filter_notice_{$start}">
+		As per your <a href="cp.php?ac=privacy&op=view">setting</a>，$filtercount RSS Feeds ignored  (<a href="javascript:;" onclick="filter_more($start);" id="a_feed_privacy_more"> Click to view</a>)
+	</div>
+	<div id="feed_filter_div_{$start}" class="enter-content" style="display:none;">
+		<h4 class="feedtime">The following are ignored Feed</h4>
+		<ul>
+		<!--{loop $filter_list $value}-->
+		<!--{eval $value = mkfeed($value);}-->
+		<!--{template space_feed_li}-->
+		<!--{/loop}-->
+		<li><a href="javascript:;" onclick="filter_more($start);">&laquo; Grasp</a></li>
+		</ul>
+	</div>
+	<!--{/if}-->
+	
+<!--{if empty($_TPL['getmore'])}-->	
+	</div>
+
+	<!--{if $count==$perpage}-->
+	<div class="page" style="padding-top:20px;">
+		<a href="javascript:;" onclick="feed_more();" id="a_feed_more">View More Feed</a>
+	</div>
+	<!--{/if}-->
+
+	<div id="ajax_wait"></div>
+
+	</div>
+</div>
+<!--/content-->
+
+<div id="sidebar">
+	<!--{if !$isnewer && $task}-->
+	<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<div class="task_notice" style="width:230px;">
+			<a title="ignore" class="float_cancel" href="cp.php?ac=task&taskid=$task[taskid]&op=ignore">ignore</a>
+			<div class="task_notice_body">
+				<img src="$task[image]" alt="" class="icon" />
+				<h3><a href="cp.php?ac=task&op=do&taskid=$task[taskid]">$task[name]</a></h3>
+				<p>Available <span class="num">$task[credit]</span> Points</p>
+			</div>
+		</div>
+	</div></div></div></div>
+	<!--{/if}-->
+	
+	<!--{if $topiclist}-->
+	<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<div class="task_notice" style="width:230px;">
+			<!--{loop $topiclist $key $value}-->
+			<div class="task_notice_body">
+				<!--{if $value[pic]}-->
+				<a href="space.php?do=topic&topicid=$value[topicid]"><img src="$value[pic]" alt="" class="icon" /></a>
+				<!--{/if}-->
+				<h3>
+					<img src="image/app/topic.gif" align="absmiddle">
+					<a href="space.php?do=topic&topicid=$value[topicid]">$value[subject]</a>
+				</h3>
+				<div class="gray">Participating <span class="num">$value[joinnum]</span></div>
+			</div>
+			<!--{/loop}-->
+		</div>
+	</div></div></div></div>
+	<!--{/if}-->
+
+	<!--{if $newspacelist}-->
+	<div class="sidebox">
+		<h2 class="title">
+			<p class="r_option">
+				<a href="space.php?do=top">Popular</a>
+			</p>
+			Your Warm Welcome!
+		</h2>
+		<ul class="avatar_list">
+			<!--{loop $newspacelist $key $value}-->
+			<li>
+				<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<p<!--{if $ols[$value[uid]]}--> class="online_icon_p" title="Online"<!--{/if}-->><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><!--{date('n月j日',$value[dateline],1)}--></p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{/if}-->
+	
+	<!--{if $visitorlist}-->
+	<div class="sidebox">
+		<h2 class="title">
+			<p class="r_option">
+				<a href="space.php?uid=$space[uid]&do=friend&view=visitor">All</a>
+			</p>
+			Recent Visitor
+			<!--{if $_SGLOBAL[magic][detector]}-->
+			<span class="gray"><img src="image/magic/detector.small.gif" title="{$_SGLOBAL[magic][detector]}" /><a id="a_magic_detector" href="magic.php?mid=detector" onclick="ajaxmenu(event,this.id,1)">{$_SGLOBAL[magic][detector]}</a></span>
+			<!--{/if}-->
+		</h2>
+		<ul class="avatar_list">
+			<!--{loop $visitorlist $key $value}-->
+			<li>
+				<!--{if $value[vusername] == ''}-->
+				<div class="avatar48"><img src="image/magic/hidden.gif" alt="Anonymous" /></a></div>
+				<p>Hidden</p>
+				<p class="gray"><!--{date('n月j日',$value[dateline],1)}--></p>
+				<!--{else}-->
+				<div class="avatar48"><a href="space.php?uid=$value[vuid]"><!--{avatar($value[vuid],small)}--></a></div>
+				<p<!--{if $ols[$value[vuid]]}--> class="online_icon_p" title="Online"<!--{/if}-->><a href="space.php?uid=$value[vuid]" title="{$_SN[$value[vuid]]}">{$_SN[$value[vuid]]}</a></p>
+				<p class="gray"><!--{date('n月j日',$value[dateline],1)}--></p>
+				<!--{/if}-->
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{/if}-->
+
+	<!--{if $olfriendlist}-->
+	<div class="sidebox">
+		<h2 class="title">
+			<p class="r_option">
+				<a href="space.php?uid=$space[uid]&do=friend">All</a>
+			</p>
+			My Friends
+			<!--{if $_SGLOBAL[magic][visit]}-->
+			<span class="gray"><img src="image/magic/visit.small.gif" title="{$_SGLOBAL[magic][visit]}" /><a id="a_magic_visit" href="magic.php?mid=visit" onclick="ajaxmenu(event,this.id,1)">{$_SGLOBAL[magic][visit]}</a></span>
+			<!--{/if}-->
+		</h2>
+		<ul class="avatar_list">
+			<!--{loop $olfriendlist $key $value}-->
+			<li>
+				<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<p<!--{if $ols[$value[uid]]}--> class="online_icon_p" title="Online"<!--{/if}-->><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><!--{if $value[lastactivity]}--><!--{date('H:i',$value[lastactivity],1)}--><!--{else}-->Poplar($value[num])<!--{/if}--></p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{/if}-->
+
+	<!--{if $birthlist}-->
+	<div class="searchfriend">
+		<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+			<h3>Birthday Reminder</h3>
+			<div class="box">
+			<table cellpadding="2" cellspacing="4">
+			<!--{loop $birthlist $key $values}-->
+			<tr>
+				<td align="right" valign="top" style="padding-left:10px;">
+				<!--{if $values[0]['istoday']}--> Today <!--{else}-->{$values[0][birthmonth]}-{$values[0][birthday]}<!--{/if}-->
+				</td>
+				<td style="padding-left:10px;">
+				<ul>
+				<!--{loop $values $value}-->
+				<li><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></li>
+				<!--{/loop}-->
+				</ul>
+				</td>
+			</tr>
+			<!--{/loop}-->
+			</table>
+			</div>
+		</div></div></div></div>
+	</div>
+	<!--{/if}-->
+
+	<div class="searchfriend">
+		<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+			<h3>Search Users</h3>
+			<form method="get" action="cp.php" style="padding:10px 0 5px 0;">
+				<input name="searchkey" value="" size="20" class="t_input" type="text">
+				<input name="searchsubmit" value="Find people" class="submit" type="submit">
+				<input type="hidden" name="searchmode" value="1" />
+				<input type="hidden" name="ac" value="friend" />
+				<input type="hidden" name="op" value="search" />
+			</form>
+			<p>
+				<a href="cp.php?ac=friend&op=search">Advanced Search</a><span class="pipe">|</span>
+				<a href="cp.php?ac=invite">Invite Friends</a><span class="pipe">|</span>
+<a href="cp.php?ac=friend&op=find">Peoples May be You know them</a></p>
+		</div></div></div></div>
+	</div>
+
+</div>
+<!--/sidebar-->
+
+<script type="text/javascript">
+
+	var next = $start;
+	function feed_more() {
+		var x = new Ajax('XML', 'ajax_wait');
+		var html = '';
+		next = next + $perpage;
+		x.get('cp.php?ac=feed&op=get&start='+next+'&view=$_GET[view]&appid=$_GET[appid]&icon=$_GET[icon]&filter=$_GET[filter]&day=$_GET[day]', function(s){
+			html = '<h4 class="feedtime">Unread new Feed</h4>' + s;
+			$('feed_div').innerHTML += html;
+		});
+	}
+
+	function filter_more(id) {
+		if($('feed_filter_div_'+id).style.display == '') {
+			$('feed_filter_div_'+id).style.display = 'none';
+			$('feed_filter_notice_'+id).style.display = '';
+		} else {
+			$('feed_filter_div_'+id).style.display = '';
+			$('feed_filter_notice_'+id).style.display = 'none';
+		}
+	}
+
+	function close_feedbox() {
+		var x = new Ajax();
+		x.get('cp.php?ac=common&op=closefeedbox', function(s){
+			$('feed_box').style.display = 'none';
+		});
+	}
+	
+	var elems = selector('li[class~=magicthunder]', $('feed_div')); 
+	for(var i=0; i<elems.length; i++){		
+		magicColor(elems[i]); 
+	}
+</script>
+
+<!--{eval my_checkupdate();}-->
+<!--{eval my_showgift();}-->
+<!--{template footer}-->
+<!--{/if}-->

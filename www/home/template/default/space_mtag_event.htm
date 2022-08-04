@@ -1,0 +1,71 @@
+<!--{eval $_TPL['titles'] = array($mtag['tagname'], $mtag['title'], 'Event');}-->
+<!--{template header}-->
+
+<h2 class="title">
+	<img src="image/app/mtag.gif"><a href="space.php?do=mtag&id=$mtag[fieldid]">$mtag[title]</a> -
+	<a href="space.php?do=mtag&tagid=$mtag[tagid]">$mtag[tagname]</a>
+</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li><a href="space.php?do=mtag&tagid=$mtag[tagid]"><span>Group Home</span></a></li>
+		<li><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=list"><span>Discussion</span></a></li>
+		<li><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=digest"><span>Digest</span></a></li>
+		<!--{if $eventnum}-->
+		<li class="active"><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=event"><span>Group Event</span></a></li>
+		<!--{/if}-->
+		<li><a href="space.php?do=mtag&tagid=$mtag[tagid]&view=member"><span>Members</span></a></li>
+		<!--{if $mtag['allowpost']}--><li class="null"><a href="cp.php?ac=thread&tagid=$tagid">Create new Discussion</a></li><!--{/if}-->
+	</ul>
+</div>
+
+<!--{if !empty($eventlist)}-->
+<div class="event_list">
+	<ol>
+		<!--{eval $hiddecount = 0}-->
+		<!--{loop $eventlist $key $event}-->
+		<!--{if $event[uid] != $_SGLOBAL[supe_uid] && ($event[grade]==0 || $event[public]==0)}-->
+		<!--{eval $hiddencount = $hiddencount + 1}-->
+		<!--{else}-->
+		<li>
+			<div class="event_icon">
+				<a href="space.php?do=event&id=$event[eventid]"><img class="poster_pre" src="$event[pic]" alt="$event[title]" onerror="this.src='$_SGLOBAL[eventclass][$event[classid]][poster]'"></a>
+			</div>
+			<div class="event_content">
+				<h4 class="event_title"><a href="space.php?do=event&id=$event[eventid]">$event[title]</a><span class="gray">[<!--{$_SGLOBAL[eventclass][$event[classid]][classname]}-->]</span></h4>
+				<ul>
+					<li>
+						<span class="gray">Event Time:</span> 	<!--{eval echo sgmdate("n on dÈÕ G:i", $event[starttime])}--> - <!--{eval echo sgmdate("on n d G:i", $event[endtime])}-->
+						<!--{if $event[grade] == 0}-->
+						<span class="event_state"> Pending</span>
+						<!--{/if}-->
+						<!--{if $event[endtime]<$_SGLOBAL[timestamp]}-->
+						<span class="event_state"> Finished</span>
+						<!--{elseif $event[deadline]<$_SGLOBAL[timestamp]}-->
+						<span class="event_state"> Listing Deadline:</span>
+						<!--{/if}-->						
+					</li>
+					<li><span class="gray">Location:</span>
+						<a href="space.php?uid=$_GET[uid]&do=event&view=$view&type=$type&classid=$_GET[classid]&province=$event[province]&date=$_GET[date]">$event[province]</a>
+						<a href="space.php?uid=$_GET[uid]&do=event&view=$view&type=$type&classid=$_GET[classid]&province=$event[province]&city=$event[city]&date=$_GET[date]">$event[city]</a>
+						$event[location]
+					</li>
+					<li><span class="gray">Organizer:</span> <a href="space.php?uid=$event[uid]">$_SN[$event[uid]]</a></li>
+					<li style="margin: 5px 0 0;">$event[viewnum] Timing &nbsp; $event[membernum] Attending &nbsp; $event[follownum] May be</li>
+				</ul>
+			</div>
+		</li>
+		<!--{/if}-->
+		<!--{/loop}-->
+	</ol>
+	<!--{if $hiddencount}-->
+	<div>Oops! you don't have access to This page $hiddencount and event, due to privacy setting </div>
+	<!--{/if}-->
+	<div class="page">$multi</div>
+</div>
+<!--{else}-->
+<div class="c_form">	
+	There is no group activities.
+</div>
+<!--{/if}-->
+
+<!--{template footer}-->

@@ -1,0 +1,196 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		
+		<table cellspacing="3" cellpadding="3">
+		<tr><th>Group Name *</th><td><input type="text" name="tagname" value="$_GET[tagname]"></td>
+			<th>Specify the group ID</th>
+			<td>
+				<input type="text" name="tagid" value="$_GET[tagid]" />
+			</td>
+		</tr>
+		
+		<tr>
+			<th>Whether the lock -</th><td>
+			<select name="close">
+			<option value="">Unlimited</option>
+			<option value="1"<!--{if $_GET[close]==1}--> selected<!--{/if}-->>Lock</option>
+			</select>
+			</td>
+			<th>Is recommended</th><td>
+			<select name="recommend">
+			<option value="">Unlimited</option>
+			<option value="1"<!--{if $_GET[recommend]==1}--> selected<!--{/if}-->>Recommended</option>
+			</select>
+			</td>
+		</tr>
+		
+		<tr>
+			
+			<th>Join Permissions</th>
+			<td>
+				<select name="joinperm">
+					<option value="">All</option>
+					<option value="0"$joinperms[0]>Open</option>
+					<option value="1"$joinperms[1]>Audit</option>
+					<option value="2"$joinperms[2]>私密</option>
+				</select>
+			</td>
+			<th>View Permissions</th>
+			<td>
+				<select name="viewperm">
+					<option value="">All</option>
+					<option value="0"$viewperms[0]>Open</option>
+					<option value="1"$viewperms[1]>Closed</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			
+			<th>Posting permission</th>
+			<td>
+				<select name="threadperm">
+					<option value="">All</option>
+					<option value="0"$threadperms[0]>Only members can send topic</option>
+					<option value="1"$threadperms[1]>All topics can be made</option>
+				</select>
+			</td>
+			<th>Replies Permissions</th>
+			<td>
+				<select name="postperm">
+					<option value="">All</option>
+					<option value="0"$postperms[0]>Only members can Replies</option>
+					<option value="1"$postperms[1]>Owner can Replies</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Attribution section</th><td colspan="3">
+			<select name="fieldid">
+			<option value="">All</option>
+			<!--{loop $_SGLOBAL[profield] $value}-->
+			<option value="$value[fieldid]"<!--{if $_GET[fieldid]==$value[fieldid]}--> selected<!--{/if}-->>$value[title]</option>
+			<!--{/loop}-->
+			</select>
+			</td>
+		</tr>
+		<tr><th>The number of users</th><td colspan="3">
+			<input type="text" name="membernum1" value="$_GET[membernum1]" size="10"> ~
+			<input type="text" name="membernum2" value="$_GET[membernum2]" size="10">
+		</td></tr>
+		<tr><th>Topic Number</th><td colspan="3">
+			<input type="text" name="threadnum1" value="$_GET[threadnum1]" size="10"> ~
+			<input type="text" name="threadnum2" value="$_GET[threadnum2]" size="10">
+		</td></tr>
+		<tr><th>Top Posts</th><td colspan="3">
+			<input type="text" name="postnum1" value="$_GET[postnum1]" size="10"> ~
+			<input type="text" name="postnum2" value="$_GET[postnum2]" size="10">
+		</td></tr>
+	
+		<tr><th>Sorting</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">Default Sort</option>
+		<option value="membernum"$orderby[membernum]>Membership</option>
+		<option value="threadnum"$orderby[threadnum]>Topic Number</option>
+		<option value="postnum"$orderby[postnum]>Top Posts</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>Decreasing</option>
+		<option value="asc"$ordersc[asc]>Incremental</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>20 per page</option>
+		<option value="50"$perpages[50]>50 per page</option>
+		<option value="100"$perpages[100]>100 per page</option>
+		</select>
+		<input type="hidden" name="ac" value="mtag">
+		<input type="submit" name="searchsubmit" value="Search" class="submit">
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+	<form method="post" action="admincp.php?ac=mtag">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th>Group Name</th>
+		<th>Categories</th>
+		<th width="80">The number of users</th>
+		<th width="80">Topic Number</th>
+		<th width="80">Top Posts</th>
+		<th width="100">Group Main</th>
+	</tr>
+	<!--{loop $list $value}-->
+	<tr>
+		<td><input type="<!--{if $managebatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[tagid]">
+		<a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank">$value[tagname]</a>
+			<!--{if $value[close]}-->(<a href="admincp.php?ac=mtag&close=$value[close]">Lock</a>)<!--{/if}-->
+			<!--{if $value[recommend]}-->(<a href="admincp.php?ac=mtag&recommend=$value[recommend]">Recommended</a>)<!--{/if}-->
+		</td>
+		<td><a href="admincp.php?ac=mtag&fieldid=$value[fieldid]">{$_SGLOBAL[profield][$value[fieldid]][title]}</a></td>
+		<td>$value[membernum]</td>
+		<td>$value[threadnum]</td>
+		<td>$value[postnum]</td>
+		<td>[<a href="cp.php?ac=mtag&op=manage&tagid=$value[tagid]&subop=base" target="_blank">Group Management</a>]</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+	</div>
+	
+	<div class="footactions" style="text-align:left;line-height:2.5em;">
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<!--{if $managebatch}-->
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select &nbsp; Please choose the type of action:<br>
+		<!--{/if}-->
+		<input type="radio" name="optype" value="delete"> Delete (group inside the post will be deleted)<br>
+		<input type="radio" name="optype" value="close"> Lock
+		<input type="radio" name="optype" value="open"> Unlock<br>
+		<input type="radio" name="optype" value="recommend"> Recommended
+		<input type="radio" name="optype" value="unrecommend"> Cancellation Recommended
+		<br>
+		<input type="radio" name="optype" value="move"> Transferred to the new classification
+			<select name="move_newfieldid">
+			<!--{loop $_SGLOBAL[profield] $value}-->
+			<option value="$value[fieldid]">$value[title]</option>
+			<!--{/loop}-->
+			</select>
+		<br>
+		<input type="radio" name="optype" value="merge"> Merge into other groups:
+			<select name="merge_newfieldid">
+			<!--{loop $_SGLOBAL[profield] $value}-->
+			<option value="$value[fieldid]">$value[title]</option>
+			<!--{/loop}-->
+			</select>
+			Group Name:<input type="text" name="newtagname" value="" size="5">
+		<br>
+		<input type="submit" name="opsubmit" value="Implementation of the action" onclick="return confirm('This action can not be restored, to confirm to continue?');" class="submit">
+	
+		<div class="pages">$multi</div>
+	</div>
+
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

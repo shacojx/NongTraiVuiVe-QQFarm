@@ -1,0 +1,49 @@
+<!--{tpl admin/inc_header}-->
+<div>
+	<strong>Tổng quan</strong>
+	<ul>
+		<li>Trồng trọt : <b> <FONT COLOR="#FF0000">{:$nccount}</FONT> </b> người chơi</li>
+		<li>Chăn nuôi : <b> <FONT COLOR="#FF0000">{:$mccount}</FONT> </b> người chơi
+		<li>Truy cập trong tuần : <b> <FONT COLOR="#FF0000">{:$tcount}</FONT></b> người</li>
+		<li>Truy cập trong tháng : <b> <FONT COLOR="#FF0000">{:$rcount}</FONT></b> người</li>
+		<br />
+		<li>Cây trồng: <b> <FONT COLOR="#FF0000">{:count($cropstype)}</FONT></b> loại</li>
+		<li>Item trang trí nông trại: <b> <FONT COLOR="#FF0000">{:count($nc_itemtype)/4}</FONT></b></li>
+		<li>Nông cụ trồng trọt: <b> <FONT COLOR="#FF0000">{:count($nc_toolstype)}</FONT></b></li>
+		<br />
+		<li>Vật nuôi : <b> <FONT COLOR="#FF0000">{:count($animaltype)}</FONT></b> loại</li>
+		<li>Set trang trí nông trang : <b> <FONT COLOR="#FF0000">{:count($mc_itemtype)}</FONT></b></li>
+		<li>Vật phẩm chăn nuôi:<b> <FONT COLOR="#FF0000">{:count($mc_toolstype)}</FONT></b></li>
+	<ul>
+<div>
+<br /><br />
+<div>
+	<strong>Thông số máy chủ</strong>
+	<ul>
+		<!--{foreach $farmTest as $key=>$value}-->
+		<!--{php is_bool($value[0]) && $value[0] =  $value[0] ? 'Hỗ trợ' : 'Không hỗ trợ';}-->
+		<!--{php $value[1] =  $value[1] ? '<span>'.$value[1].'</span>' : '';}-->
+		<li> {:$key} : {:$value[0]} {:$value[1]} </li>
+		<!--{/foreach}-->
+	<ul>
+<div>
+<script type="text/javascript">
+	var qf_stable_version, qf_development_version;
+	var JsURL = "http://www.phpye.com/version.js?v" + Math.random();
+	document.write(unescape("%3Cscript src='" + JsURL + "' type='text/javascript'%3E%3C/script%3E"));
+	function check_version() {
+		try {
+			var msg = '';
+			if(qf_stable_version) {
+				msg += 'Phiên bản mới nhất:' + qf_stable_version + '\r\n';
+			}
+			if(qf_development_version) {
+				msg += 'Phiên bản thử nghiệm:' + qf_development_version + '\r\n';
+			}
+			alert(msg || 'Không thể truy xuất kết quả');
+		} catch(e) {
+			alert('Lỗi không xác định');
+		}
+	}
+</script>
+<!--{tpl admin/inc_footer}-->

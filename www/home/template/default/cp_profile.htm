@@ -1,0 +1,538 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<div class="l_status c_form">
+	<a href="cp.php?ac=profile&op=base"$cat_actives[base]>Basic Info</a><span class="pipe">|</span>
+	<a href="cp.php?ac=profile&op=contact"$cat_actives[contact]>Contacts</a><span class="pipe">|</span>
+	<a href="cp.php?ac=profile&op=edu"$cat_actives[edu]>Educational</a><span class="pipe">|</span>
+	<a href="cp.php?ac=profile&op=work"$cat_actives[work]>Work</a><span class="pipe">|</span>
+	<a href="cp.php?ac=profile&op=info"$cat_actives[info]>Personal</a>
+</div>
+
+<!--{eval $farr = array(0=>'Public','1'=>'Friends Only','3'=>'Only Me');}-->
+<form method="post" action="$theurl&ref" class="c_form">
+
+<!--{if $_GET['op'] == 'base'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<tr>
+	<th style="width:10em;">Username:</th>
+	<td>
+		<!--{eval echo stripslashes($space['username']);}--> (<a href="cp.php?ac=password">Change password</a>)
+	</td>
+	<td></td>
+</tr>
+<!--{if !$_SCONFIG['realname']}-->
+<tr>
+	<th style="width:10em;">Real name:</th>
+	<td>
+		<input type="text" id="name" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" class="t_input" />
+	</td>
+	<td>&nbsp;</td>
+</tr>
+<!--{else}-->
+<tr>
+	<th style="width:10em;">Real Name:</th>
+	<td>
+	<!--{if $space[name] && empty($_GET['namechange'])}-->
+	<span style="font-weight:bold;"><!--{eval echo stripslashes($space['name']);}--></span>
+	<!--{if $_SCONFIG['namechange']}-->[<a href="$theurl&namechange=1">Update</a>]<!--{/if}-->
+	<!--{if $space[namestatus]}-->[<font color="red">Certificate</font>]<!--{else}--><br>approval pending,Just you can use some function!<!--{/if}-->
+	<input type="hidden" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" />
+	<!--{else}-->
+	<!--{if $rncredit && $_GET['namechange']}--><img src="image/credit.gif" align="absmiddle"> Need to pay $rncredit points£¬You have $space[credit] points¡£<br><!--{/if}-->
+	<!--{if empty($_SCONFIG['namechange'])}-->Your real name have been confirm,now it cannot change, Note: provide real name<br><!--{/if}-->
+	<!--{if $_SCONFIG['namecheck']}-->If you update your real name, it require confirmation from our team till then you do not have full access<br><!--{/if}-->
+	<input type="text" id="name" name="name" value="<!--{eval echo stripslashes($space['name']);}-->" class="t_input" /> (max 4¡«10 letters)
+	<!--{/if}-->
+	</td>
+	<td>&nbsp;</td>
+</tr>
+<!--{/if}-->
+<tr>
+	<th style="width:10em;">Sex:</th>
+	<td>
+	<!--{if empty($space[sex])}-->
+		<label for="sexm"><input id="sexm" type="radio" value="1" name="sex"$sexarr[1] />Male</label> 
+		<label for="sexw"><input id="sexw" type="radio" value="2" name="sex"$sexarr[2] />Female</label>
+		<span style="font-weight:bold;color:red;">(Sex can not be change)</span>
+	<!--{else}-->
+		<!--{if $space[sex]==1}-->Male<!--{else}-->Female<!--{/if}-->
+	<!--{/if}-->
+	</td>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<th style="width:10em;">Marital Status:</th>
+	<td>
+		<select id="marry" name="marry">
+			<option value="0">&nbsp;</option>
+			<option value="1"$marryarr[1]>Single</option>
+			<option value="2"$marryarr[2]>Married</option>
+		</select>
+		<a href="cp.php?ac=friend&op=search&view=sex" target="_blank">&raquo; Find Your Match</a>
+	</td>
+	<td>
+		<select name="friend[marry]">
+			<option value="0"{$friendarr[marry][0]}>Public</option>
+			<option value="1"{$friendarr[marry][1]}>Friends only </option>
+			<option value="3"{$friendarr[marry][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>Birthday:</th>
+	<td>
+		Day:<select id="birthday" name="birthday">
+			<option value="0">&nbsp;</option>
+			$birthdayhtml
+		</select> 
+		Month:<select id="birthmonth" name="birthmonth" onchange="showbirthday();">
+			<option value="0">&nbsp;</option>
+			$birthmonthhtml
+		</select>  
+		Year <select id="birthyear" name="birthyear" onchange="showbirthday();">
+			<option value="0">&nbsp;</option>
+			$birthyeayhtml
+		</select> 
+		<a href="cp.php?ac=friend&op=search&view=birthyear" target="_blank">&raquo; Find Zodiac compatibility</a>
+	</td>
+	<td>
+		<select name="friend[birth]">
+			<option value="0"{$friendarr[birth][0]}>Public</option>
+			<option value="1"{$friendarr[birth][1]}>Friends only </option>
+			<option value="3"{$friendarr[birth][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>Blood Type:</th>
+	<td>
+		<select id="blood" name="blood">
+			<option value="">&nbsp;</option>
+			$bloodhtml
+		</select>
+	</td>
+	<td>
+		<select name="friend[blood]">
+			<option value="0"{$friendarr[blood][0]}>Public</option>
+			<option value="1"{$friendarr[blood][1]}>Friends only </option>
+			<option value="3"{$friendarr[blood][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>Native Place</th>
+	<td id="birthcitybox">
+		<script type="text/javascript" src="source/script_city.js"></script>
+		<script type="text/javascript">
+		<!--
+		showprovince('birthprovince', 'birthcity', '$space[birthprovince]', 'birthcitybox');
+		showcity('birthcity', '$space[birthcity]', 'birthprovince', 'birthcitybox');
+		
+		//-->
+		</script>
+		<a href="cp.php?ac=friend&op=search&view=birth" target="_blank">&raquo; Find fellow-villager</a>
+	</td>
+	<td>
+		<select name="friend[birthcity]">
+			<option value="0"{$friendarr[birthcity][0]}>Public</option>
+			<option value="1"{$friendarr[birthcity][1]}>Friends only </option>
+			<option value="3"{$friendarr[birthcity][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>Current Location: </th>
+	<td id="residecitybox">
+		<script type="text/javascript">
+		<!--
+		showprovince('resideprovince', 'residecity', '$space[resideprovince]', 'residecitybox');
+		showcity('residecity', '$space[residecity]', 'resideprovince', 'residecitybox');
+		//-->
+		</script>
+		<a href="cp.php?ac=friend&op=search&view=reside" target="_blank">&raquo; Find peoples from your city</a>
+	</td>
+	<td>
+		<select name="friend[residecity]">
+			<option value="0"{$friendarr[residecity][0]}>Public</option>
+			<option value="1"{$friendarr[residecity][1]}>Friends only </option>
+			<option value="3"{$friendarr[residecity][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<!--{loop $profilefields $value}-->
+<tr>
+	<th>$value[title]<!--{if $value[required]}-->*<!--{/if}-->:</th>
+	<td>
+		$value[formhtml]
+		<!--{if $value[note]}--> <span class="gray">$value[note]</span><!--{/if}-->
+	</td>
+	<td>
+		<select name="friend[field_{$value[fieldid]}]">
+		<!--{eval $field_friendarr = $friendarr["field_$value[fieldid]"];}-->
+			<option value="0"{$field_friendarr[0]}>Public</option>
+			<option value="1"{$field_friendarr[1]}>Friends only </option>
+			<option value="3"{$field_friendarr[3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<!--{/loop}-->
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+	<input type="submit" name="nextsubmit" value="Next" class="submit" />
+	<input type="submit" name="profilesubmit" value="Save" class="submit" />
+	</td>
+	<td>&nbsp;</td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'contact'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+
+<!--{if $_GET[editemail]}-->
+</table>
+
+<div class="borderbox">
+<table cellspacing="0" cellpadding="0" class="formtable">
+<tbody>
+<tr>
+	<th style="width:10em;">Password:</th>
+	<td>
+		<input type="password" id="password" name="password" value="" class="t_input" />
+		<br>For account safety,please input your password to change the email account.
+	</td>
+	<td></td>
+</tr>
+<tr>
+	<th style="width:10em;">New Email Id:</th>
+	<td>
+		<input type="text" id="email" class="t_input" name="email" value="$space[email]" />
+		<!--{if $space['emailcheck']}-->
+		<br>Note:New Email Id need to activate.
+		<!--{/if}-->
+	</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</div><br>
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{else}-->
+<!--{if !$space[email]}-->
+<tr>
+	<th style="width:10em;" valign="top">Password:</th>
+	<td>
+		<input type="password" id="password" name="password" value="" class="t_input" />
+		<br>For account safety,verify password to change the E-mail ID.
+	</td>
+	<td></td>
+</tr>
+<!--{/if}-->
+<tr>
+	<th style="width:10em;" valign="top">Email:</th>
+	<td>
+		<!--{if $space[email]}-->
+			$space[email]<br>
+			<!--{if $space['emailcheck']}-->
+				This Email have been activated:(<a href="$theurl&editemail=1"> Change</a>)
+			<!--{else}-->
+				Wating for verify from you.....<br>
+				System have sent to you one activation link in your Email inbox, please check your Email and click on the activation link, if link can not open then please copy the activation link and paste it in your browser.<br><br
+				If you don't recieve the Email,you can<a href="$theurl&editemail=1"> Change Email ID</a>£¬or<a href="$theurl&resend=1"> click here rerecieve activation email</a>
+			<!--{/if}-->
+		<!--{else}-->
+			<input type="text" id="email" class="t_input" name="email" value="" />
+			<br><font size="1">Provide your frequently using E-mail id, in case you lost your password or for communicaton. Meanwhile, System will send you an email with activation link, Click on the link and follow the step</font><br>
+		<!--{/if}-->
+		<!--{if $space[newemail]}-->
+			<p>This new Email Id£º<strong>$space[newemail]</strong> require to activate, after that this Email account will be validate.<br>
+			If you don't recieve any Email,you can <a href="$theurl&resend=1"> click here to rerecieve activatation Email</a></p>
+		<!--{/if}-->
+	</td>
+	<td></td>
+</tr>
+<!--{/if}-->
+<tr>
+	<th style="width:10em;">Mobile:</th>
+	<td>
+		<input type="text" class="t_input" name="mobile" value="$space[mobile]" /> 
+	</td>
+	<td>
+		<select name="friend[mobile]">
+			<option value="0"{$friendarr[mobile][0]}>Public</option>
+			<option value="1"{$friendarr[mobile][1]}>Friends only </option>
+			<option value="3"{$friendarr[mobile][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th style="width:10em;">QQ/ICQ:</th>
+	<td>
+		<input type="text" class="t_input" name="qq" value="$space[qq]" /> 
+	</td>
+	<td>
+		<select name="friend[qq]">
+			<option value="0"{$friendarr[qq][0]}>Public</option>
+			<option value="1"{$friendarr[qq][1]}>Friends only </option>
+			<option value="3"{$friendarr[qq][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<th>MSN/YM:</th>
+	<td>
+		<input type="text" class="t_input" name="msn" value="$space[msn]" /> 
+	</td>
+	<td>
+		<select name="friend[msn]">
+			<option value="0"{$friendarr[msn][0]}>Public</option>
+			<option value="1"{$friendarr[msn][1]}>Friends only </option>
+			<option value="3"{$friendarr[msn][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+	<input type="submit" name="nextsubmit" value="Next Item" class="submit" />
+	<input type="submit" name="profilesubmit" value="Save" class="submit" />
+	</td>
+	<td>&nbsp;</td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'edu'}-->
+
+<!--{if $list}-->
+<table cellspacing="0" cellpadding="0" class="listtable">
+<tr class="title">
+	<td>institution/College</td>
+	<td>Entry Year</td>
+	<td>Privacy</td>
+	<td>Manage</td>
+</tr>
+<!--{loop $list $key $value}-->
+<!--{if $key%2==1}--><tr class="line"><!--{else}--><tr><!--{/if}-->
+	<td>$value[title]<br>$value[subtitle]</td>
+	<td>$value[startyear]</td>
+	<td>{$farr[$value[friend]]}</td>
+	<td><a href="$theurl&subop=delete&infoid=$value[infoid]">Delete information</a><br><a href="cp.php?ac=friend&op=search&searchmode=1&type=edu&title=$value[title_s]" target="_blank">Find Classmate</a></td>
+</tr>
+<!--{/loop}-->
+</table>
+<br>
+<!--{/if}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{if $list}-->
+<caption>
+	<h2>Add Institution/College</h2>
+</caption>
+<!--{/if}-->
+<tbody id="oldtbody">
+<tr>
+	<th style="width:10em;">Name:</th>
+	<td>
+		<input type="text" name="title[]" value="" class="t_input">
+	</td>
+</tr>
+<tr>
+	<th>Grade/Dept:</th>
+	<td>
+		<input type="text" name="subtitle[]" value="" class="t_input">
+	</td>
+</tr>
+<tr>
+	<th>Entry Year:</th>
+	<td>
+		<select name="startyear[]">
+		$yearhtml
+		</select> Year
+	</td>
+</tr>
+<tr>
+	<th>Privacy:</th>
+	<td>
+		<select name="friend[]">
+			<option value="0">Public</option>
+			<option value="1">Friends only </option>
+			<option value="3">Just Me</option>
+		</select>
+	</td>
+</tr>
+</tbody>
+
+<tbody id="newtbody"></tbody>
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td><a href="javascript:;" onclick="add_tbody();">Add new school/college information</a></td>
+</tr>
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+		<input type="submit" name="nextsubmit" value="Go to Next" class="submit" />
+		<input type="submit" name="profilesubmit" value="Save" class="submit" /></td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'work'}-->
+
+
+<!--{if $list}-->
+<table cellspacing="0" cellpadding="0" class="listtable">
+<tr class="title">
+	<td>Company/Organization</td>
+	<td>Period</td>
+	<td>Privacy</td>
+	<td>Manage</td>
+</tr>
+<!--{loop $list $key $value}-->
+<!--{if $key%2==1}--><tr class="line"><!--{else}--><tr><!--{/if}-->
+	<td>$value[title]<br>$value[subtitle]</td>
+	<td>
+		{$value[startyear]}year{$value[startmonth]}month ~ 
+		<!--{if $value[endmonth]}-->{$value[endmonth]}month<!--{/if}-->
+		<!--{if $value[endyear]}-->{$value[endyear]}year<!--{/if}-->
+		<!--{if !$value[endyear] && !$value[endmonth]}-->Till Now<!--{/if}-->
+	</td>
+	<td>{$farr[$value[friend]]}</td>
+	<td><a href="$theurl&subop=delete&infoid=$value[infoid]">Delete information</a><br><a href="cp.php?ac=friend&op=search&searchmode=1&type=work&title=$value[title_s]" target="_blank">Find colleague</a></td>
+</tr>
+<!--{/loop}-->
+</table>
+<br>
+<!--{/if}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{if $list}-->
+<caption>
+	<h2>Add Company/Organization</h2>
+</caption>
+<!--{/if}-->
+<tbody id="oldtbody">
+<tr>
+	<th style="width:10em;">Organization:</th>
+	<td>
+		<input type="text" name="title[]" value="" class="t_input">
+	</td>
+</tr>
+<tr>
+	<th>Department:</th>
+	<td>
+		<input type="text" name="subtitle[]" value="" class="t_input">
+	</td>
+</tr>
+<tr>
+	<th>Period</th>
+	<td>
+		MM:<select name="startmonth[]">
+		$monthhtml
+		</select>
+		YY:<select name="startyear[]">
+		$yearhtml
+		</select> ~ 
+		MM:<select name="endmonth[]">
+		<option value="">Till Now</option>
+		$monthhtml
+		</select>
+		YY:<select name="endyear[]">
+		<option value=""></option>
+		$yearhtml
+		</select> year
+	</td>
+</tr>
+<tr>
+	<th>Privacy:</th>
+	<td>
+		<select name="friend[]">
+			<option value="0">Public</option>
+			<option value="1">Friends only </option>
+			<option value="3">Just Me</option>
+		</select>
+	</td>
+</tr>
+</tbody>
+
+<tbody id="newtbody"></tbody>
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td><a href="javascript:;" onclick="add_tbody();">Add Company/Organization</a></td>
+</tr>
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td>
+		<input type="submit" name="nextsubmit" value="Go to Next" class="submit" />
+		<input type="submit" name="profilesubmit" value="Save" class="submit" /></td>
+</tr>
+</table>
+
+<!--{elseif $_GET['op'] == 'info'}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+<!--{eval 
+$infoarr = array(
+	'trainwith' => 'I am looking for',
+	'interest' => 'Hobbies',
+	'book' => 'Favorite Books',
+	'movie' => 'Favorite movies',
+	'tv' => 'Favorite TV show',
+	'music' => 'Favorite Music',
+	'game' => 'Favorite Games',
+	'sport' => 'Sports',
+	'idol' => 'My Idol',
+	'motto' => 'My Fev. Quote',
+	'wish' => 'Wishlist',
+	'intro' => 'About Me'
+);
+}-->
+<tr>
+	<th>Item</th>
+	<td>Content</td>
+	<td>Privacy</td>
+</tr>
+
+<!--{loop $infoarr $key $value}-->
+<tr>
+	<th>{$value}:</th>
+	<td>
+		<textarea name="info[$key]" rows="3" cols="50">{$list[$key][title]}</textarea>
+	</td>
+	<td>
+		<select name="info_friend[$key]">
+			<option value="0"{$friends[$key][0]}>Public</option>
+			<option value="1"{$friends[$key][1]}>Friends only </option>
+			<option value="3"{$friends[$key][3]}>Just Me</option>
+		</select>
+	</td>
+</tr>
+<!--{/loop}-->
+
+<tr>
+	<th style="width:10em;">&nbsp;</th>
+	<td><input type="submit" name="profilesubmit" value="Save" class="submit" /></td>
+</tr>
+</table>
+<!--{/if}-->
+
+
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+
+<script>
+function add_tbody() {
+	for(i=0; i<$("oldtbody").rows.length; i++) {
+		newnode = $("oldtbody").rows[i].cloneNode(true);
+		$("newtbody").appendChild(newnode);
+	}
+}
+</script>
+
+<!--{template footer}-->

@@ -1,0 +1,152 @@
+<!--{template header}-->
+<!--{if $op=='diy'}-->
+<!--{template cp_header}-->
+<div class="h_status"><a href="cp.php?ac=theme">Back to Homepage</a></div>
+
+<div class="d_content">
+	
+	<form method="post" action="cp.php?ac=theme" class="c_form">
+	
+	<!--{if !empty($_GET['view'])}-->
+	<div class="notice">Save the Previous: <!--{date('H:i:s',$_SGLOBAL[timestamp])}-->，<a href="space.php" target="_blank"> Preview Theme</a></div>
+	<!--{/if}-->
+	
+	<table cellspacing="6" cellpadding="0" width="100%">
+	<!--{if $allowcss}-->
+	<tr>
+		<td>Design your own theme, Require CSS basis knwoledge<br>
+		CSS:<br>
+		<textarea name="css" style="width:98%;" rows="20">$space[css]</textarea></td>
+	</tr>
+	<!--{else}-->
+	<tr>
+		<td>Not familiar with CSS, you can select from Templates or use others Theme, or <a href="cp.php?ac=theme">Return to Templates Homepage</a> to select our template as your profile theme</td>
+	</tr>
+	<!--{/if}-->
+	<tr>
+		<td>
+		<input type="checkbox" name="nocss" value="1"<!--{if $space[nocss]}--> checked<!--{/if}-->> <strong>Ignore other Theme</strong>
+		<br>
+		Somebody make a wrong choice cause the homepage display error.You can select this option, will see all memmbers homepage use the default setting.
+		</td>
+	</tr>
+	<tr>
+		<td><input type="submit" name="csssubmit" id="csssubmit" value="Save Changes" class="submit" /> 
+		</td>
+	</tr>
+	</table>
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<!--{else}-->
+<!--{template cp_header}-->
+<div class="c_form">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2>Theme Homepage</h2>
+		<p>Select your profile theme or design* your own (* Require CSS knweledge)</p>
+	</caption>
+	<tr>
+	<!--{eval $i=0;}-->
+	<!--{loop $themes $key $value}-->
+		<td align="center">
+			<div style="border: 1px solid #CCC; padding: 2px; width: 110px; ">
+			<!--{if $value['dir']!='uchomediy'}-->
+			<a href="space.php?theme=$value[dir]" target="_blank"><!--{if $value[pic]}--><img src="$value[pic]" alt="$value[name]" style="width: 110px; height: 120px" /><!--{else}--><img src="theme/$value[dir]/preview.jpg" alt="$value[name]" style="width: 110px; height: 120px" /><!--{/if}--></a>
+			<!--{else}-->
+			<a href="cp.php?ac=theme&op=diy"><img src="$value[pic]" alt="$value[name]" /></a>
+			<!--{/if}-->
+			</div>
+			
+			<div style="padding: 10px;">
+				<!--{if $value['dir']=='uchomediy'}-->
+				<a href="cp.php?ac=theme&op=diy"><strong>$value[name]</strong></a>
+				<!--{else}-->
+				<a href="space.php?theme=$value[dir]" target="_blank"><strong>$value[name]</strong></a>
+				<!--{/if}-->
+				<br>
+				<!--{if $value['dir']=='uchomediy'}-->
+				<a href="cp.php?ac=theme&op=diy">Go to setting page</a>
+				<!--{else}-->
+				<a href="space.php?theme=$value[dir]" target="_blank">Preview</a> | <a href="cp.php?ac=theme&op=use&dir=$value[dir]">Set</a>
+				<!--{/if}-->
+			</div>
+
+		</td>
+		<!--{if $i%4==3}--></tr><tr><!--{/if}-->
+		<!--{eval $i++;}-->
+	<!--{/loop}-->
+	</tr>
+	</table>
+	
+	<form method="post" action="cp.php?ac=theme">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2>My Time Zone</h2>
+		<p>If you see the System current time and your local time showing different then you need to change time zone</p>
+	</caption>
+	<tr>
+	<tr>
+		<th width="120">
+		Current time
+		</th>
+		<td>
+		<!--{date('d-m-Y H:i',$_SGLOBAL[timestamp])}-->
+		</td>
+	</tr>
+	<tr>
+		<th>
+			我的时区
+		</th>
+		<td>
+			<select name="timeoffset">
+			<option value="">Using the system default</option>
+			<option value="-12" $toselect[-12]>(GMT -12:00) Eniwetok, Kwajalein</option>
+			<option value="-11" $toselect[-11]>(GMT -11:00) Midway Island, Samoa</option>
+			<option value="-10" $toselect[-10]>(GMT -10:00) Hawaii</option>
+			<option value="-9" $toselect[-9]>(GMT -09:00) Alaska</option>
+			<option value="-8" $toselect[-8]>(GMT -08:00) Pacific Time (US &amp; Canada), Tijuana</option>
+			<option value="-7" $toselect[-7]>(GMT -07:00) Mountain Time (US &amp; Canada), Arizona</option>
+			<option value="-6" $toselect[-6]>(GMT -06:00) Central Time (US &amp; Canada), Mexico City</option>
+			<option value="-5" $toselect[-5]>(GMT -05:00) Eastern Time (US &amp; Canada), Bogota, Lima, Quito</option>
+			<option value="-4" $toselect[-4]>(GMT -04:00) Atlantic Time (Canada), Caracas, La Paz</option>
+			<option value="-3.5" $toselect[-3.5]>(GMT -03:30) Newfoundland</option>
+			<option value="-3" $toselect[-3]>(GMT -03:00) Brassila, Buenos Aires, Georgetown, Falkland Is</option>
+			<option value="-2" $toselect[-2]>(GMT -02:00) Mid-Atlantic, Ascension Is., St. Helena</option>
+			<option value="-1" $toselect[-1]>(GMT -01:00) Azores, Cape Verde Islands</option>
+			<option value="0"  $toselect[0]>(GMT) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia</option>
+			<option value="1" $toselect[1]>(GMT +01:00) Amsterdam, Berlin, Brussels, Madrid, Paris, Rome</option>
+			<option value="2" $toselect[2]>(GMT +02:00) Cairo, Helsinki, Kaliningrad, South Africa</option>
+			<option value="3" $toselect[3]>(GMT +03:00) Baghdad, Riyadh, Moscow, Nairobi</option>
+			<option value="3.5" $toselect[3.5]>(GMT +03:30) Tehran</option>
+			<option value="4" $toselect[4]>(GMT +04:00) Abu Dhabi, Baku, Muscat, Tbilisi</option>
+			<option value="4.5" $toselect[4.5]>(GMT +04:30) Kabul</option>
+			<option value="5" $toselect[5]>(GMT +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+			<option value="5.5" $toselect[5.5]>(GMT +05:30) Bombay, Calcutta, Madras, New Delhi</option>
+			<option value="5.75" $toselect[5.75]>(GMT +05:45) Katmandu</option>
+			<option value="6" $toselect[6]>(GMT +06:00) Almaty, Colombo, Dhaka, Novosibirsk</option>
+			<option value="6.5" $toselect[6.5]>(GMT +06:30) Rangoon</option>
+			<option value="7" $toselect[7]>(GMT +07:00) Bangkok, Hanoi, Jakarta</option>
+			<option value="8" $toselect[8]>(GMT +08:00) Beijing, Hong Kong, Perth, Singapore, Taipei</option>
+			<option value="9" $toselect[9]>(GMT +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk</option>
+			<option value="9.5" $toselect[9.5]>(GMT +09:30) Adelaide, Darwin</option>
+			<option value="10" $toselect[10]>(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok</option>
+			<option value="11" $toselect[11]>(GMT +11:00) Magadan, New Caledonia, Solomon Islands</option>
+			<option value="12" $toselect[12]>(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><input type="submit" name="timeoffsetsubmit" value="Save" class="submit" /></td>
+	</tr>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

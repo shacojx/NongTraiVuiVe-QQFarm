@@ -1,0 +1,72 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 25px; background-repeat: no-repeat;">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			 <tbody>
+				<tr>
+					<td width="75%" valign="top">
+					<div class="notice" style="margin:0 0 10px 0px;">Đây là <a href="space.php?uid={$user['uid']}" target="_blank">{$_SN[$user['uid']]} <img src="house/view/img/home.gif" /></a> Tài sản sở hữu</div>
+					<!--{if $data}-->
+					<!--{loop $data $v}-->
+						<div>
+						<table width="100%" cellspacing="1" cellpadding="0" border="0">
+							<tbody>
+								<tr>
+									<td width="42%" valign="middle" align="left">
+										<img class=show border="0" src="house/view/house/{$v['cid']}.jpg"/>
+									</td>
+									<td width="58%" style="line-height:1em;padding-left: 10px;padding-top: 10px;" valign="top">
+										<b><font color=green>{$v['name']}</font></b><!--{if $uid == $v['uid']}--> (<a href="#" onclick="return house.changeName($v['id']);">Phòng thay đổi tên</a>)<!--{/if}--><br/><br/>
+										<!--{if $uid == $v['uid']}-->	<a href="house.php?ac=buyhouse&op=change&id={$v['id']}"><img src="house/view/img/old_new.jpg"/></a><br/><br/><!--{/if}-->
+										<b>Chủ nhà:</b><a href="space.php?uid={$v['uid']}" target="_blank">{$_SN[$v['uid']]} <img src="house/view/img/home.gif" /></a><br/><br/>
+										<b>Bất động sản:</b>{$house_db[$v['cid']]['goods_money']}Gold / ngày <br /><br />
+										<b>Thuê:</b>{$v['price']}Gold / ngày <!--{if $uid == $v['uid']}-->(<a href="#" onclick="return house.changePrice($v['id']);">Thuê thay đổi</a>)<!--{/if}--><br /><br />
+										<b>Loại：</b>{$house_db[$v['cid']]['title']}<br/><br/>
+										<!--{if $v['status'] == 1}-->
+										<b>Hiện cư trú:</b>Không có người ở <br/><br/>
+										<!--{if $uid == $v['uid']}--><a href="#" onclick="return house.friend_renting($v['id']);"><img border="0" src="house/view/img/join_friend.jpg"/></a><br/><br/><!--{/if}-->
+										<a href="#" onclick="return house.moveIn($v['id']);"><img border="0" src="house/view/img/in.jpg"/></a>
+										<!--{if $uid == $v['uid']}--><a href="#" onclick="return house.sell($v['id']);"><img border="0" src="house/view/img/house_sell.jpg"/></a><!--{/if}-->
+										<!--{elseif $v['status'] == 2}-->
+										<b>Hiện cư trú:</b>chủ nhà sống(<a href="house.php?ac=index&uid={$v['uid']}">{$_SN[$v['uid']]}</a>) <br/><br/>
+										<!--{elseif $v['status'] == 3}-->
+										<b>Hiện cư trú:</b>Nước ngoài thuê <br/><br/>
+										<a href="#" onclick="return house.moveIn($v['id']);"><img border="0" src="house/view/img/in.jpg"/></a>
+										<!--{if $uid == $v['uid']}--><a href="#" onclick="return house.sell($v['id']);"><img border="0" src="house/view/img/house_sell.jpg"/></a><!--{/if}-->
+										<!--{else}-->
+										<b>Hiện cư trú:</b><a href="house.php?ac=index&uid={$v['sent_uid']}">{$_SN[$v['sent_uid']]}</a> (Chủ nhà <a href="house.php?ac=index&uid={$v['uid']}">{$_SN[$v['uid']]}</a>)<br/><br/>
+										<!--{if $uid == $v['uid']}--><a href="#" onclick="return house.get_back($v['id']);"><img border="0" src="house/view/img/get_house_back.jpg"/></a> <a href="#" onclick="return house.get_goods($v['id']);"><img border="0" src="house/view/img/get_house_goods.jpg"/></a><!--{/if}-->
+										<!--{/if}-->
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</div>
+					<!--{/loop}-->
+					<!--{else}-->
+						<table width="100%" cellspacing="1" cellpadding="0" border="0">
+							<tbody>
+								<tr>
+									<td><div class="notice">Không có nhà ? Đi<a href="house.php?ac=buyhouse">Thị trường nhà ở</a>Bar, nơi có ngôi nhà đẹp và giá rẻ！</div></td>
+								</tr>
+							</tbody>
+						</table>
+					<!--{/if}-->
+					</td>
+					<td width="25%" valign="top">
+						<!--{template house/view/load}-->
+					</td>
+				</tr>
+			 <tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

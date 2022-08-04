@@ -1,0 +1,9 @@
+
+/*fish*/
+#qfwrap {margin-top:14px;}
+#qfbody {width:100%;}
+#qfmain {margin-top:-12px;}
+#qfversion {padding-top:5px;text-align:right;color:#ccc;}
+
+#qfplayer {display:none;text-align:center;}
+.qfplayer_main {width:500px;margin:0 auto;padding:5px 0 6px 0;background:url(mp3player_bottom.jpg) no-repeat bottom center;overflow:hidden;}

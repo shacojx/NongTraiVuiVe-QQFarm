@@ -1,0 +1,886 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li><a href="#base"><span>Basic Settings</span></a></li>
+		<li><a href="#register"><span>Register Display</span></a></li>
+		<li><a href="#uch"><span>System function</span></a></li>
+		<li><a href="#name"><span>Real-name authentication settings</span></a></li>
+		<li><a href="#video"><span>Video Authentication Settings</span></a></li>
+		<li><a href="#upload"><span>Upload Photo Set</span></a></li>
+		<li><a href="#remote"><span>Remote Upload Setting</span></a></li>
+		<li><a href="#email"><span>Mail Settings</span></a></li>
+	</ul>
+</div>
+	
+	<form method="post" action="admincp.php?ac=config">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="bdrcontent">
+
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Site Name</th>
+		<td><input type="text" name="config[sitename]" value="$configs[sitename]" size="50"></td>
+	</tr>
+	<tr>
+		<th>URL address of the site visit</th>
+		<td>
+		<input type="text" name="config[siteallurl]" value="$configs[siteallurl]" size="50"><br>Open the two domain names to use, for example:http://u.discuz.net/ ，To be increased at the end of “/”
+		</td>
+	</tr>
+	<tr>
+		<th>Site Template</th>
+		<td>
+			<select name="config[template]">
+			<!--{loop $templatearr $value}-->
+			<option value="$value"{$templateselect[$value]}>$value</option>
+			<!--{/loop}-->
+			</select>
+			<br>Site template directory stored in the ./template Below. Which default Directory as the default style, can not be deleted.
+		</td>
+	</tr>
+	<tr>
+		<th>Site Contact E-mail</th>
+		<td><input type="text" name="config[adminemail]" value="$configs[adminemail]" size="50"></td>
+	</tr>
+	<tr>
+		<th>Server time zone settings</th>
+		<td>
+			<select name="timeoffset">
+			<option value="-12" $toselect[-12]>(GMT -12:00) Eniwetok, Kwajalein</option>
+			<option value="-11" $toselect[-11]>(GMT -11:00) Midway Island, Samoa</option>
+			<option value="-10" $toselect[-10]>(GMT -10:00) Hawaii</option>
+			<option value="-9" $toselect[-9]>(GMT -09:00) Alaska</option>
+			<option value="-8" $toselect[-8]>(GMT -08:00) Pacific Time (US &amp; Canada), Tijuana</option>
+			<option value="-7" $toselect[-7]>(GMT -07:00) Mountain Time (US &amp; Canada), Arizona</option>
+			<option value="-6" $toselect[-6]>(GMT -06:00) Central Time (US &amp; Canada), Mexico City</option>
+			<option value="-5" $toselect[-5]>(GMT -05:00) Eastern Time (US &amp; Canada), Bogota, Lima, Quito</option>
+			<option value="-4" $toselect[-4]>(GMT -04:00) Atlantic Time (Canada), Caracas, La Paz</option>
+			<option value="-3.5" $toselect[-3.5]>(GMT -03:30) Newfoundland</option>
+			<option value="-3" $toselect[-3]>(GMT -03:00) Brassila, Buenos Aires, Georgetown, Falkland Is</option>
+			<option value="-2" $toselect[-2]>(GMT -02:00) Mid-Atlantic, Ascension Is., St. Helena</option>
+			<option value="-1" $toselect[-1]>(GMT -01:00) Azores, Cape Verde Islands</option>
+			<option value="0"  $toselect[0]>(GMT) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia</option>
+			<option value="1" $toselect[1]>(GMT +01:00) Amsterdam, Berlin, Brussels, Madrid, Paris, Rome</option>
+			<option value="2" $toselect[2]>(GMT +02:00) Cairo, Helsinki, Kaliningrad, South Africa</option>
+			<option value="3" $toselect[3]>(GMT +03:00) Baghdad, Riyadh, Moscow, Nairobi</option>
+			<option value="3.5" $toselect[3.5]>(GMT +03:30) Tehran</option>
+			<option value="4" $toselect[4]>(GMT +04:00) Abu Dhabi, Baku, Muscat, Tbilisi</option>
+			<option value="4.5" $toselect[4.5]>(GMT +04:30) Kabul</option>
+			<option value="5" $toselect[5]>(GMT +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+			<option value="5.5" $toselect[5.5]>(GMT +05:30) Bombay, Calcutta, Madras, New Delhi</option>
+			<option value="5.75" $toselect[5.75]>(GMT +05:45) Katmandu</option>
+			<option value="6" $toselect[6]>(GMT +06:00) Almaty, Colombo, Dhaka, Novosibirsk</option>
+			<option value="6.5" $toselect[6.5]>(GMT +06:30) Rangoon</option>
+			<option value="7" $toselect[7]>(GMT +07:00) Bangkok, Hanoi, Jakarta</option>
+			<option value="8" $toselect[8]>(GMT +08:00) Beijing, Hong Kong, Perth, Singapore, Taipei</option>
+			<option value="9" $toselect[9]>(GMT +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk</option>
+			<option value="9.5" $toselect[9.5]>(GMT +09:30) Adelaide, Darwin</option>
+			<option value="10" $toselect[10]>(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok</option>
+			<option value="11" $toselect[11]>(GMT +11:00) Magadan, New Caledonia, Solomon Islands</option>
+			<option value="12" $toselect[12]>(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island</option>
+			</select>
+			<br>According to the configuration of the server \n s time zone selection, general domestic server GMT +08:00</td>
+	</tr>
+	<tr>
+		<th>Show authorization information links</th>
+		<td>
+			<input type="radio" name="config[licensed]" value="1"<!--{if $configs[licensed] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[licensed]" value="0"<!--{if $configs[licensed] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+
+	<tr>
+		<th>Display program execution information</th>
+		<td>
+			<input type="radio" name="config[debuginfo]" value="1"<!--{if $configs[debuginfo] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[debuginfo]" value="0"<!--{if $configs[debuginfo] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>ICP/IP/ Domain registration</th>
+		<td><input type="text" name="config[miibeian]" value="$configs[miibeian]" size="20"> (For example, Beijing ICP Preparation 04000001 No.，Displayed in the bottom of all pages)</td>
+	</tr>
+	<tr>
+		<th>Forced to use the default character set</th>
+		<td><input type="radio" name="config[headercharset]" value="1"<!--{if $configs[headercharset] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[headercharset]" value="0"<!--{if $configs[headercharset] != '1'}--> checked<!--{/if}-->>No
+			<br>Can prevent some server space page is garbled, generally do not need to open</td>
+	</tr>
+	<tr>
+		<th>URL Rewrite</th>
+		<td>
+			<input type="radio" name="config[allowrewrite]" value="1"<!--{if $configs[allowrewrite] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[allowrewrite]" value="0"<!--{if $configs[allowrewrite] != '1'}--> checked<!--{/if}-->>No
+			<br>Open to the Web server, this feature requires a corresponding increase in the Rewrite Rules
+			<br>And will slightly increase the burden on the server, the corresponding rules please refer to help documentation
+		</td>
+	</tr>
+	<tr>
+		<th style="width:15em;">Record Online Time</th>
+		<td><input type="text" name="config[onlinehold]" value="$configs[onlinehold]" size="5"> (Unit seconds)</td>
+	</tr>
+
+	<tr>
+		<th>Open the Site Profile and Statistics</th>
+		<td>
+			<input type="radio" name="config[updatestat]" value="1"<!--{if $configs[updatestat] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[updatestat]" value="0"<!--{if $configs[updatestat] != '1'}--> checked<!--{/if}-->>No
+			<br>The proposed open daily log recording the number of sites, published the number of interactions the number of other key parameters, can provide crucial data for the development of the site operator basis
+		</td>
+	</tr>
+
+	<tr>
+		<th>User avatar system</th>
+		<td>
+			<input type="radio" name="config[avatarreal]" value="0"<!--{if $configs[avatarreal] != '1'}--> checked<!--{/if}-->>Use picture system 1
+			<input type="radio" name="config[avatarreal]" value="1"<!--{if $configs[avatarreal] == '1'}--> checked<!--{/if}-->>Use picture system 2
+			<br>UCenter User avatar is divided into two systems (the default for the system 1), you can choose to use the picture of this system within the system, while in other applications (for example, Discuz! Forum) use the same or a different picture system. <br> NOTE: modify this option, the user needs to upload a new avatar system, corresponding to.
+		</td>
+	</tr>
+
+	<tr>
+		<th>UCenter the physical path</th>
+		<td><input type="text" name="config[uc_dir]" value="$configs[uc_dir]" size="40">
+			<br>The default is empty. If the system can read UCenter program directory, recommended fill in the path value.
+			<br>Please enter in order to “./” “../”At the beginning of a relative path or absolute path,Canada at the end of "/"，example, fill in：../ucenter/。
+		</td>
+	</tr>
+
+	<tr>
+		<th>MYOP The IP</th>
+		<td><input type="text" name="config[my_ip]" value="$configs[my_ip]" size="40">
+			<br>The default is empty. If your server is unavailable due to DNS resolution issues MYOP service, please fill in the IP address of MYOP.
+		</td>
+	</tr>
+
+	<tr>
+		<th>Close access to the site</th>
+		<td>
+			<input type="radio" name="config[close]" value="1"<!--{if $configs[close] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[close]" value="0"<!--{if $configs[close] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>Site Close instructions</th>
+		<td>
+			<textarea name="config[closereason]" cols="80" rows="4">$configs[closereason]</textarea>
+		</td>
+	</tr>
+	<tr>
+		<th>Report an optional reason</th>
+		<td>
+			<textarea name="dataset[reason]" cols="80" rows="4">$datasets[reason]</textarea>
+			<br>Reported reasons for the default options, one per line
+		</td>
+	</tr>
+
+	</table>
+
+	<br />
+	<div class="title" id="register">
+		<a class="r_option" href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+		<h3>Registration and display</h3>
+	</div>
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Close the New User Registration</th>
+		<td>
+			<input type="radio" name="config[closeregister]" value="1"<!--{if $configs[closeregister] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[closeregister]" value="0"<!--{if $configs[closeregister] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>Close invited registered functions</th>
+		<td>
+			<input type="radio" name="config[closeinvite]" value="1"<!--{if $configs[closeinvite] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[closeinvite]" value="0"<!--{if $configs[closeinvite] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>A mailbox can only sign up for an account</th>
+		<td>
+			<input type="radio" name="config[checkemail]" value="1"<!--{if $configs[checkemail] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[checkemail]" value="0"<!--{if $configs[checkemail] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>The same IP registration time interval</th>
+		<td>
+			<input type="text" name="config[regipdate]" value="$configs[regipdate]" size="5"> (Unit: hours)
+			<br>estrictions on the same ip, how long can sign up for an account
+		</td>
+	</tr>
+	<tr>
+		<th>Registration Terms of Service</th>
+		<td>
+			<textarea name="dataset[registerrule]" cols="80" rows="4">$datasets[registerrule]</textarea>
+			<br>Register will show the time and the need to accept the terms of service. (Support html language, wrap the use of &lt;br&gt;）
+		</td>
+	</tr>
+	<tr>
+		<th>List of the largest sub-pages</th>
+		<td><input type="text" name="config[maxpage]" value="$configs[maxpage]" size="5"> (The default is 100)<br>Allows users to view the largest sub-pages. When a user views the larger sub-pages when the load on the server, the greater the pressure.</td>
+	</tr>
+	<tr>
+		<th>Dynamic number of days to retain</th>
+		<td><input type="text" name="config[feedday]" value="$configs[feedday]" size="5"> (The default is 7)<br>Personal dynamics of the number of days to retain. Exceed the number of days of personal dynamic will be cleared out, which can guarantee the efficiency of MySQL. Is not recommended to set too long.</td>
+	</tr>
+	<tr>
+		<th>Home dynamically displays the number of</th>
+		<td><input type="text" name="config[feedmaxnum]" value="$configs[feedmaxnum]" size="5"> (The default is 100)<br>Home shows the number of friends dynamically from these events to merge display. Is not recommended to set too much, which can guarantee the efficiency of MySQL, but at least not be less than 50.</td>
+	</tr>
+	<tr>
+		<th>Home News Default tab setting</th>
+		<td>
+			Friend number is less than<input type="text" name="config[showallfriendnum]" value="$configs[showallfriendnum]" size="5"> When a display of all the dynamic, more than this value to show your friends dynamic. <br> In the log, album list page, the parameters of the same effect.
+		</td>
+	</tr>
+	<tr>
+		<th>Home News Folding Set</th>
+		<td>
+			<input type="text" name="config[feedhiddenicon]" value="$configs[feedhiddenicon]" size="60"><br>
+			Please enter the dynamic type of folding display （icon），Comma between multiple types of "," Between the multiple types separated by half-width.<br>
+			Certain dynamic folded, they can appropriately reduce the home page of the dynamic noise.<br>
+			Dynamic types of access methods:<br>
+			When viewing a dynamic friend, click the small icon in front of each dynamic (for example, <img src="image/icon/blog.gif" align="absmiddle">），<br>
+			Your browsers address would become similar to the following link:<br>
+			http://xxx.com/space.php?uid=&do=feed&view=we&appid=3&<b>icon=blog</b>，<br>
+			Which，icon=blog，Says that the dynamic type is blog<br>
+			MYOP the application icon to 7 digits. You can use the English words <b>myop</b> To represent the dynamic type of all MYOP applications.
+		</td>
+	</tr>
+	<tr>
+		<th>Home shows the number of hot spots</th>
+		<td><input type="text" name="config[feedhotnum]" value="$configs[feedhotnum]" size="5"> (The default is 3)<br>Is 0, then the page does not display hotspot recommended. Maximum should not exceed 10.<br>The system will automatically get 10 hot spots, which will be a fixed number one hot spot shows that the remaining hot spots will be randomly displayed.</td>
+	</tr>
+	
+	<tr>
+		<th>Home Welcome new members options</th>
+		<td>
+			Show<input type="text" name="config[newspacenum]" value="$configs[newspacenum]" size="5"> New members (0 to not display)<br>
+			Show the new members of conditions:<br>
+			<input type="checkbox" name="config[newspaceavatar]" value="1"<!--{if $configs[newspaceavatar]}--> checked<!--{/if}-->> Avatar has been uploaded<br>
+			<!--{if $_SCONFIG['realname']}-->
+			<input type="checkbox" name="config[newspacerealname]" value="1"<!--{if $configs[newspacerealname]}--> checked<!--{/if}-->> Has been certified real name<br>
+			<!--{/if}-->
+			<!--{if $_SCONFIG['videophoto']}-->
+			<input type="checkbox" name="config[newspacevideophoto]" value="1"<!--{if $configs[newspacevideophoto]}--> checked<!--{/if}-->> Video has been certified
+			<!--{/if}-->
+		</td>
+	</tr>
+
+	<tr>
+		<th>The recommended range of hot days</th>
+		<td><input type="text" name="config[feedhotday]" value="$configs[feedhotday]" size="5"> (In days, default is 2 days)<br>Set Home Hot select the number of days recommended range.</td>
+	</tr>
+	<tr>
+		<th>Hot heat value of the minimum recommended</th>
+		<td><input type="text" name="config[feedhotmin]" value="$configs[feedhotmin]" size="5"> <br>Set when the release of information exceeds the number of heat until after the recommendation displayed in the inside.</td>
+	</tr>
+	<tr>
+		<th>Dynamic Link to open mode</th>
+		<td>
+			<input type="radio" name="config[feedtargetblank]" value="1"<!--{if $configs[feedtargetblank] == '1'}--> checked<!--{/if}-->>Open a new window
+			<input type="radio" name="config[feedtargetblank]" value="0"<!--{if $configs[feedtargetblank] != '1'}--> checked<!--{/if}-->>The same window opens
+			<br>If you choose Yes, the user to read a dynamic time, all of the links will open in a new window opens.
+		</td>
+	</tr>
+	<tr>
+		<th>Record News Read Status</th>
+		<td>
+			<input type="radio" name="config[feedread]" value="1"<!--{if $configs[feedread] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[feedread]" value="0"<!--{if $configs[feedread] != '1'}--> checked<!--{/if}-->>No
+			<br>If you choose, is it a dynamic time when clicked, will become a gray, to indicate that have read. (Note, this feature of hot dynamic invalid)
+		</td>
+	</tr>
+	<tr>
+		<th>Close MYOP update tips</th>
+		<td>
+		<input type="radio" name="config[my_closecheckupdate]" value="1"<!--{if $configs[my_closecheckupdate] == '1'}--> checked<!--{/if}-->>Yes
+		<input type="radio" name="config[my_closecheckupdate]" value="0"<!--{if $configs[my_closecheckupdate] != '1'}--> checked<!--{/if}-->>No
+		<br>Your site opens MYOP multi-application service, when the platform with new information when MYOP will be automatically prompted to administrators. Turn off this feature, you will no longer be prompted to get updates.
+		</td>
+	</tr>
+	
+	<tr>
+		<th>Home Call Recommended Gift Tips</th>
+		<td>
+		<input type="radio" name="config[my_showgift]" value="1"<!--{if $configs[my_showgift] == '1'}--> checked<!--{/if}-->>Yes
+		<input type="radio" name="config[my_showgift]" value="0"<!--{if $configs[my_showgift] != '1'}--> checked<!--{/if}-->>No
+		<br>If you open a gift MYOP platform applications, you can gift the home page display recommended.
+		</td>
+	</tr>
+
+	<tr>
+		<th>Members of the list allows tabbed browsing</th>
+		<td>
+			<input type="radio" name="config[networkpage]" value="1"<!--{if $configs[networkpage]==1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[networkpage]" value="0"<!--{if $configs[networkpage] != '1'}--> checked<!--{/if}-->>No
+			<br>This setting is only in the auction Ranking list, online members, all members effectively.
+		</td>
+	</tr>
+
+	
+	<tr>
+		<th>Members of the list cache time</th>
+		<td>
+			<input type="text" name="config[topcachetime]" value="$configs[topcachetime]" size="5"> (Unit minutes)
+			<br>The user list, in addition to auction Ranking, online members, all members, the remaining list is a cache to deal with.
+			<br>Load conditions, depending on the server, set a reasonable update time interval. At least not be less than 5 minutes.
+		</td>
+	</tr>
+
+	<tr>
+		<th>External links show navigation bar</th>
+		<td>
+			<input type="radio" name="config[linkguide]" value="1"<!--{if $configs[linkguide]==1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[linkguide]" value="0"<!--{if $configs[linkguide] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>Threshold Star Experience</th>
+		<td><input type="text" name="config[starcredit]" value="$configs[starcredit]" size="5"> (Default is 100)<br>When the user experience, this threshold number, the addition of a star. A minimum of two, otherwise this feature is invalid, does not display the number of stars.</td>
+	</tr>
+	<tr>
+		<th>Star upgrading threshold</th>
+		<td><input type="text" name="config[starlevelnum]" value="$configs[starlevelnum]" size="5"> (Default is 5)<br>The number of stars of this threshold is reached, it will escalate into a high-level icons. A minimum of two, otherwise this feature will not work, always display the stars</td>
+	</tr>
+	</table>
+
+	<br />
+	<div class="title" id="uch">
+		<a class="r_option" href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+		<h3>System function</h3>
+	</div>
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Friend number of user groups</th>
+		<td><input type="text" name="config[groupnum]" value="$configs[groupnum]" size="5"> (Default is 8)
+			<br>Set up each user's friends have a number of user groups.
+		</td>
+	</tr>
+	<tr>
+		<th>Log into the maximum number of single -</th>
+		<td><input type="text" name="config[importnum]" value="$configs[importnum]" size="5"> (Default 100)<br>Allows the user to import a single log of the number of</td>
+	</tr>
+	<tr>
+		<th>(Mo voting single highest reward</th>
+		<td><input type="text" name="config[maxreward]" value="$configs[maxreward]" size="5"> (Default 10)<br>Offering a reward when they vote to allow users to create an average of one-vote reward amount</td>
+	</tr>
+	<tr>
+		<th>E-mail notice update the number of days</th>
+		<td><input type="text" name="config[sendmailday]" value="$configs[sendmailday]" size="5">(Default 0)<br> Unit: days when the number of days the user when there is no landing site will send a message to its notice;<br>Is set to 0, is not to enable e-mail notification function;<br>This feature will enable a slight increase in server load</td>
+	</tr>
+	<tr>
+		<th>Open XMLPRC Protocol Interface</th>
+		<td>
+			<input type="radio" name="config[openxmlrpc]" value="1"<!--{if $configs[openxmlrpc] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[openxmlrpc]" value="0"<!--{if $configs[openxmlrpc] != '1'}--> checked<!--{/if}-->>No
+			<br>Users can interface through this Agreement, use the client-side logs may be published. However, irrigation may also increase the possibility of a malicious.
+		</td>
+	</tr>
+	<tr>
+		<th>UCenter Apply the label information</th>
+		<td>
+			<table>
+			<tr>
+			<td width="150">Is enabled</td>
+			<td>
+			<input type="radio" name="config[uc_tagrelated]" value="1"<!--{if $configs[uc_tagrelated] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[uc_tagrelated]" value="0"<!--{if $configs[uc_tagrelated] != '1'}--> checked<!--{/if}-->>No
+			<br>Turn this feature, the system will be adopted by UCenter, access to other applications, go to the label information
+			<br>Otherwise, it only shows the tag of the relevant site logs
+			</td>
+			</tr>
+			<tr>
+			<td>Cache Update interval</td>
+			<td>
+			<input type="text" name="config[uc_tagrelatedtime]" value="$configs[uc_tagrelatedtime]" size="10"> (Unit: seconds, default is: 86400 that is, 24 hours)
+			<br>Settings tab associated with how long the information is updated, it is recommended to set 1 hour (3600 seconds) above, to alleviate the pressure on the server. 0 is not updated.
+			</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Module Cache</th>
+		<td>
+			<table>
+			<tr>
+			<td width="150">Is enabled</td>
+			<td><input type="radio" name="config[allowcache]" value="1"<!--{if $configs[allowcache] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[allowcache]" value="0"<!--{if $configs[allowcache] != '1'}--> checked<!--{/if}-->>No
+			<br>Recommended open, so that the use of the data when the module is called, can greatly reduce server load MYSQL
+			</td></tr>
+			<tr>
+			<td>Cache Mode</td>
+			<td>
+			<input type="radio" name="config[cachemode]" value="file"<!--{if $configs[cachemode] == 'file'}--> checked<!--{/if}-->>Stored in the text
+			<input type="radio" name="config[cachemode]" value="database"<!--{if $configs[cachemode] == 'database'}--> checked<!--{/if}-->>Stored to the database
+			</td></tr>
+			<tr>
+			<td>Cache sub-table level</td>
+			<td>
+			<select name="config[cachegrade]">
+			<option value="0"<!--{if $configs[cachegrade] == '0'}--> selected<!--{/if}-->>Use only one table (or directory)</option>
+			<option value="1"<!--{if $configs[cachegrade] == '1'}--> selected<!--{/if}-->>Distributed to 15 sub-table (or directory)</option>
+			<option value="2"<!--{if $configs[cachegrade] == '2'}--> selected<!--{/if}-->>Distributed to 225 sub-table (or directory)</option>
+			</select>
+			<br>Sub-table (or directory) the more the higher the efficiency, but the establishment of the data table (or directory) the more
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+
+	<tr>
+		<th>2 domain function</th>
+		<td>
+			<table>
+			<tr>
+			<td width="150">Is enabled</td>
+			<td>
+			<input type="radio" name="config[allowdomain]" value="1"<!--{if $configs[allowdomain] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[allowdomain]" value="0"<!--{if $configs[allowdomain] != '1'}--> checked<!--{/if}-->>No
+			<br>2 domain functionality requires the server configuration to support
+			</td></tr>
+			<tr>
+			<td>To retain two domain names</td><td>
+			<input type="text" name="config[holddomain]" value="$configs[holddomain]" size="50">
+			<br>Between multiple use | separated, you can use the wildcard *
+			</td></tr>
+			<tr>
+			<td>Two domain root domain</td>
+			<td>
+			<input type="text" name="config[domainroot]" value="$configs[domainroot]" size="50">
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+
+	</table>
+
+
+	<br />
+	<div class="title" id="name">
+		<a class="r_option" href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+		<h3>Real-name authentication settings</h3>
+	</div>
+
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Open the real-name</th>
+		<td><input type="radio" name="config[realname]" value="1"<!--{if $configs[realname] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[realname]" value="0"<!--{if $configs[realname] != '1'}--> checked<!--{/if}-->>No
+			<br>The following settings only in the open, after the real-name system effective;
+			<br>Note that, open real-name authentication will increase the burden on the server.
+			</td>
+	</tr>
+	<tr>
+		<th>Real-name authentication required manual</th>
+		<td><input type="radio" name="config[namecheck]" value="1"<!--{if $configs[namecheck] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[namecheck]" value="0"<!--{if $configs[namecheck] != '1'}--> checked<!--{/if}-->>No
+			<br>Is set to "Yes", then fill in the name of the user only after being certified management manual be considered valid. Otherwise, it is automatically valid for authentication.
+			</td>
+	</tr>
+	<tr>
+		<th>Certified real names can be further modified</th>
+		<td><input type="radio" name="config[namechange]" value="1"<!--{if $configs[namechange] == '1'}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[namechange]" value="0"<!--{if $configs[namechange] != '1'}--> checked<!--{/if}-->>No
+			<br>Fill in the names of certified valid, it allows the user to change the name again.<br>If allowed to modify and manual authentication, the user need to modify the new name shall be effective upon certification by hand again.
+			</td>
+	</tr>
+	<tr>
+		<th>Authority is not real-name authentication</th>
+		<td>
+			<table>
+			<tr>
+			<td width="150">Allowed to see the real-name user's home page</td>
+			<td>
+			<input type="radio" name="config[name_allowviewspace]" value="1"<!--{if $configs[name_allowviewspace] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowviewspace]" value="0"<!--{if $configs[name_allowviewspace] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allowed to add friends</td>
+			<td>
+			<input type="radio" name="config[name_allowfriend]" value="1"<!--{if $configs[name_allowfriend] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowfriend]" value="0"<!--{if $configs[name_allowfriend] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allowed to say hello</td>
+			<td>
+			<input type="radio" name="config[name_allowpoke]" value="1"<!--{if $configs[name_allowpoke] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowpoke]" value="0"<!--{if $configs[name_allowpoke] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair Records</td>
+			<td>
+			<input type="radio" name="config[name_allowdoing]" value="1"<!--{if $configs[name_allowdoing] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowdoing]" value="0"<!--{if $configs[name_allowdoing] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair Log</td>
+			<td>
+			<input type="radio" name="config[name_allowblog]" value="1"<!--{if $configs[name_allowblog] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowblog]" value="0"<!--{if $configs[name_allowblog] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allows the use of album</td>
+			<td>
+			<input type="radio" name="config[name_allowalbum]" value="1"<!--{if $configs[name_allowalbum] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowalbum]" value="0"<!--{if $configs[name_allowalbum] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair topic</td>
+			<td>
+			<input type="radio" name="config[name_allowthread]" value="1"<!--{if $configs[name_allowthread] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowthread]" value="0"<!--{if $configs[name_allowthread] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair to vote</td>
+			<td>
+			<input type="radio" name="config[name_allowpoll]" value="1"<!--{if $configs[name_allowpoll] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowpoll]" value="0"<!--{if $configs[name_allowpoll] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair Activities</td>
+			<td>
+			<input type="radio" name="config[name_allowevent]" value="1"<!--{if $configs[name_allowevent] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowevent]" value="0"<!--{if $configs[name_allowevent] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow Sharing</td>
+			<td>
+			<input type="radio" name="config[name_allowshare]" value="1"<!--{if $configs[name_allowshare] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowshare]" value="0"<!--{if $configs[name_allowshare] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow Comments / Comments</td>
+			<td>
+			<input type="radio" name="config[name_allowcomment]" value="1"<!--{if $configs[name_allowcomment] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowcomment]" value="0"<!--{if $configs[name_allowcomment] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow groups Replies</td>
+			<td>
+			<input type="radio" name="config[name_allowpost]" value="1"<!--{if $configs[name_allowpost] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowpost]" value="0"<!--{if $configs[name_allowpost] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allows the use of MYOP Application</td>
+			<td>
+			<input type="radio" name="config[name_allowuserapp]" value="1"<!--{if $configs[name_allowuserapp] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[name_allowuserapp]" value="0"<!--{if $configs[name_allowuserapp] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+
+	<br />
+	<div class="title" id="video">
+		<a class="r_option" href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+		<h3>Video Authentication Settings</h3>
+	</div>
+
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Open Video Certification</th>
+		<td>
+		<!--{if $_SCONFIG[my_status]}-->
+		<input type="radio" name="config[videophoto]" value="1"<!--{if $configs[videophoto] == '1'}--> checked<!--{/if}-->>Yes
+		<input type="radio" name="config[videophoto]" value="0"<!--{if $configs[videophoto] != '1'}--> checked<!--{/if}-->>No
+		<!--{else}-->
+		You do not have to open MYOP, it can not use video authentication
+		<!--{/if}-->
+			<br>The following settings only in the open video certification effective
+			</td>
+	</tr>
+	<tr>
+		<th>Certification user permissions are not video</th>
+		<td>
+			<table>
+			<tr>
+			<td width="150">Allows users to view video pictures</td>
+			<td>
+			<input type="radio" name="config[video_allowviewphoto]" value="1"<!--{if $configs[video_allowviewphoto] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowviewphoto]" value="0"<!--{if $configs[video_allowviewphoto] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Add Video to allow users to Friend</td>
+			<td>
+			<input type="radio" name="config[video_allowfriend]" value="1"<!--{if $configs[video_allowfriend] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowfriend]" value="0"<!--{if $configs[video_allowfriend] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allows users to say hello to the video</td>
+			<td>
+			<input type="radio" name="config[video_allowpoke]" value="1"<!--{if $configs[video_allowpoke] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowpoke]" value="0"<!--{if $configs[video_allowpoke] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			
+			<tr>
+			<td width="150">Allows the user to the video message</td>
+			<td>
+			<input type="radio" name="config[video_allowwall]" value="1"<!--{if $configs[video_allowwall] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowwall]" value="0"<!--{if $configs[video_allowwall] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			
+			<tr>
+			<td width="150">Allows users to comment on the video</td>
+			<td>
+			<input type="radio" name="config[video_allowcomment]" value="1"<!--{if $configs[video_allowcomment] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowcomment]" value="0"<!--{if $configs[video_allowcomment] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			
+			<tr>
+			<td width="150">Allow hair Records</td>
+			<td>
+			<input type="radio" name="config[video_allowdoing]" value="1"<!--{if $configs[video_allowdoing] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowdoing]" value="0"<!--{if $configs[video_allowdoing] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair Log</td>
+			<td>
+			<input type="radio" name="config[video_allowblog]" value="1"<!--{if $configs[video_allowblog] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowblog]" value="0"<!--{if $configs[video_allowblog] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allows the use of album</td>
+			<td>
+			<input type="radio" name="config[video_allowalbum]" value="1"<!--{if $configs[video_allowalbum] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowalbum]" value="0"<!--{if $configs[video_allowalbum] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair topic</td>
+			<td>
+			<input type="radio" name="config[video_allowthread]" value="1"<!--{if $configs[video_allowthread] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowthread]" value="0"<!--{if $configs[video_allowthread] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair to vote</td>
+			<td>
+			<input type="radio" name="config[video_allowpoll]" value="1"<!--{if $configs[video_allowpoll] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowpoll]" value="0"<!--{if $configs[video_allowpoll] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow hair Activities</td>
+			<td>
+			<input type="radio" name="config[video_allowevent]" value="1"<!--{if $configs[video_allowevent] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowevent]" value="0"<!--{if $configs[video_allowevent] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow Sharing</td>
+			<td>
+			<input type="radio" name="config[video_allowshare]" value="1"<!--{if $configs[video_allowshare] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowshare]" value="0"<!--{if $configs[video_allowshare] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allow groups Replies</td>
+			<td>
+			<input type="radio" name="config[video_allowpost]" value="1"<!--{if $configs[video_allowpost] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowpost]" value="0"<!--{if $configs[video_allowpost] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			<tr>
+			<td width="150">Allows the use of MYOP Application</td>
+			<td>
+			<input type="radio" name="config[video_allowuserapp]" value="1"<!--{if $configs[video_allowuserapp] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[video_allowuserapp]" value="0"<!--{if $configs[video_allowuserapp] != '1'}--> checked<!--{/if}-->>No
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+	
+	
+	<br />
+	<div class="title" id="upload">
+		<a class="r_option" href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+		<h3>Upload Photo Set</h3>
+	</div>
+
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Preview Thumbnail Size</th>
+		<td>W<input type="text" name="data[thumbwidth]" value="$datas[thumbwidth]" size="5">px &nbsp;
+			High<input type="text" name="data[thumbheight]" value="$datas[thumbheight]" size="5">px
+			<br>is feature requires PHP environment supports not take effect until GD
+			<br>Thumbnail original plans scaled down in width will not exceed the set high. Example is set to wide -：100px，High：100px，But they can not be less than the 60px</td>
+	</tr>
+	<tr>
+		<th style="width:15em;">Image maximum size</th>
+		<td>W<input type="text" name="data[maxthumbwidth]" value="$datas[maxthumbwidth]" size="5">px &nbsp;
+			High<input type="text" name="data[maxthumbheight]" value="$datas[maxthumbheight]" size="5">px
+			<br>This feature requires PHP environment supports not take effect until GD
+			<br>If the user uploads a number of large size digital images, the program will be carried out in accordance with this set up to narrow the image and display, for example can be set to a wide：1024px，High：768px，But they can not be less than the 300px。Is set to 0, then no treatment.</td>
+	</tr>
+	<tr>
+		<th>Image Watermark</th>
+		<td>
+			<table>
+			<tr>
+			<td width="150">Is enabled</td>
+			<td>
+			<input type="radio" name="config[allowwatermark]" value="1"<!--{if $configs[allowwatermark] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[allowwatermark]" value="0"<!--{if $configs[allowwatermark] != '1'}--> checked<!--{/if}-->>No
+			<br>This feature requires PHP environment supports not take effect until GD
+			<br>Note that, open Watermark feature, the image EXIF information will not be able to obtain
+			</td></tr>
+			<tr>
+			<td>Watermark Images Add</td>
+			<td>
+			<input type="text" name="data[watermarkfile]" value="$datas[watermarkfile]">
+			<br>Default image/watermark.png，Only support JPG/GIF/PNG Format，Recommended in a transparent png Picture
+			</td></tr>
+			<tr>
+			<td>Watermark Position</td>
+			<td>
+			<input type="radio" name="data[watermarkpos]" value="1"<!--{if $datas[watermarkpos] == 1}--> checked<!--{/if}-->>The top left-Ju
+			<input type="radio" name="data[watermarkpos]" value="2"<!--{if $datas[watermarkpos] == 2}--> checked<!--{/if}-->>The top left-Ju
+			<input type="radio" name="data[watermarkpos]" value="3"<!--{if $datas[watermarkpos] == 3}--> checked<!--{/if}-->>The top left-Ju
+			<input type="radio" name="data[watermarkpos]" value="4"<!--{if $datas[watermarkpos] == 4}--> checked<!--{/if}-->>The top left-Ju
+			</td></tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	<br />
+	<div class="title" id="remote">
+		<a class="r_option" href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+		<h3>Remote Upload Setting</h3>
+	</div>
+
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Enable remote attachment</th>
+		<td><input type="radio" name="config[allowftp]" value="1"<!--{if $configs[allowftp] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[allowftp]" value="0"<!--{if $configs[allowftp] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>Enable SSL connections</th>
+		<td>
+			<input type="radio" name="data[ftpssl]" value="1"<!--{if $datas[ftpssl] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="data[ftpssl]" value="0"<!--{if $datas[ftpssl] != '1'}--> checked<!--{/if}-->>No
+		</td>
+	</tr>
+	<tr>
+		<th>FTP connection information</th>
+		<td>
+			<table>
+			<tr><td width="150">FTP server address</td>
+			<td><input type="text" name="data[ftphost]" value="$datas[ftphost]"> (FTP server's IP address or domain name)</td>
+			</tr>
+			<tr><td>FTP server port</td>
+			<td><input type="text" name="data[ftpport]" value="$datas[ftpport]" size="5"> (Default 21)</td>
+			</tr>
+			<tr><td>FTP Account</td>
+			<td><input type="text" name="data[ftpuser]" value="$datas[ftpuser]"></td>
+			</tr>
+			<tr><td>FTP Password</td>
+			<td><input type="password" name="data[ftppassword]" value="$datas[ftppassword]"></td>
+			</tr>
+			<tr><td>Passive mode (pasv) connection</td>
+			<td><input type="radio" name="data[ftppasv]" value="1"<!--{if $datas[ftppasv] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="data[ftppasv]" value="0"<!--{if $datas[ftppasv] != '1'}--> checked<!--{/if}-->>(Under normal circumstances can the non-passive mode)</td>
+			</tr>
+			<tr><td>Remote Accessories Catalog</td>
+			<td><input type="text" name="data[ftpdir]" value="$datas[ftpdir]">
+			<br>Remote attachment directory absolute path or relative to the FTP The relative path to home directory<br>“.” That FTP Home directory, for example, fill in：./attachment</td>
+			</tr>
+			<tr><td>Remote Access URL</td>
+			<td><input type="text" name="config[ftpurl]" value="$configs[ftpurl]">
+			<br>Support for HTTP and FTP protocols, to add a slash at the end of “/”</td>
+			</tr>
+			<tr><td>FTP Transfer timeout</td>
+			<td><input type="text" name="data[ftptimeout]" value="$datas[ftptimeout]" size="5"> (Unit: seconds, 0 for the server default)</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+
+	<br />
+	<div class="title" id="email">
+		<a class="r_option" href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+		<h3>Mail Settings</h3>
+	</div>
+
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">E-mail Send method</th>
+		<td><input class="radio" name="mail[mailsend]" value="1"<!--{if $mails[mailsend] == 1}--> checked<!--{/if}--> onclick="$('tb_smtp1').style.display = 'none';$('tb_smtp2').style.display = 'none';" type="radio"> PHP function to send through sendmail (recommended in this method)<br>
+			<input class="radio" name="mail[mailsend]" value="2"<!--{if $mails[mailsend] == 2}--> checked<!--{/if}--> onclick="$('tb_smtp1').style.display = '';$('tb_smtp2').style.display = '';" type="radio"> SOCKET to connect via SMTP server to send (supports ESMTP authentication)<br>
+			<input class="radio" name="mail[mailsend]" value="3"<!--{if $mails[mailsend] == 3}--> checked<!--{/if}--> onclick="$('tb_smtp1').style.display = '';$('tb_smtp2').style.display = 'none';" type="radio"> PHP functions via SMTP to send Email (only valid under Windows hosts do not support ESMTP authentication)
+		</td>
+	</tr><tr>
+		<th>E-mail header separator</th>
+		<td><input class="radio" name="mail[maildelimiter]" value="0"<!--{if $mails[maildelimiter] == 0}--> checked<!--{/if}--> type="radio"> The use of LF as a separator (usually Unix / Linux host)<br>
+			<input class="radio" name="mail[maildelimiter]" value="1"<!--{if $mails[maildelimiter] == 1}--> checked<!--{/if}--> type="radio"> Use CRLF as a separator (usually a Windows host)<br>
+			<input class="radio" name="mail[maildelimiter]" value="2"<!--{if $mails[maildelimiter] == 2}--> checked<!--{/if}--> type="radio"> The use of CR as a separator (usually a Mac host)
+		</td>
+	</tr><tr>
+		<th>Recipient displays the user name</th>
+		<td><input class="radio" name="mail[mailusername]" value="1"<!--{if $mails[mailusername] == 1}--> checked<!--{/if}--> type="radio"> Yes &nbsp; &nbsp;
+			<input class="radio" name="mail[mailusername]" value="0"<!--{if $mails[mailusername] != '1'}--> checked<!--{/if}--> type="radio"> No
+		</td>
+	</tr>
+
+	<tbody id="tb_smtp1"<!--{if $mails[mailsend] < 2}--> style="display:none;"<!--{/if}-->>
+	<th>&nbsp;</th>
+	<td>
+		<table>
+		<tr>
+			<td width="150">SMTP Server</td>
+			<td><input type="text" name="mail[server]" value="$mails[server]"></td>
+		</tr><tr>
+			<td>SMTP Port</td>
+			<td><input type="text" name="mail[port]" value="$mails[port]" size="5"> Default 25</td>
+		</tr>
+	</tbody>
+
+	<tbody id="tb_smtp2"<!--{if $mails[mailsend] != 2}--> style="display:none;"<!--{/if}-->>
+		<tr>
+			<td>Requires authentication</td>
+			<td><input class="radio" name="mail[auth]" value="1"<!--{if $mails[auth] == 1}--> checked<!--{/if}--> type="radio"> Yes &nbsp; &nbsp;
+			<input class="radio" name="mail[auth]" value="0"<!--{if $mails[auth] != '1'}--> checked<!--{/if}--> type="radio"> No</td>
+		</tr><tr>
+			<td>Sender e-mail address</td>
+			<td><input type="text" name="mail[from]" value="$mails[from]"><br>Format “ username &lt;user@domain.com&gt;”，Addresses can also be Zhitian</td>
+		</tr><tr>
+			<td>SMTP Username</td>
+			<td><input type="text" name="mail[auth_username]" value="$mails[auth_username]"></td>
+		</tr><tr>
+			<td>SMTP Password</td>
+			<td><input type="password" name="mail[auth_password]" value="$mails[auth_password]"></td>
+		</tr>
+		</table>
+	</td></tr>
+	</tbody>
+
+	</tr>
+
+	</table>
+	</div>
+
+	<div class="footactions">
+		<input type="submit" name="thevaluesubmit" value="Submit" class="submit">
+	</div>
+
+	</form>
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

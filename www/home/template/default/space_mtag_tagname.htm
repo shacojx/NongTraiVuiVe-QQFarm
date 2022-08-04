@@ -1,0 +1,76 @@
+<!--{template header}-->
+
+<h2 class="title"><img src="image/app/mtag.gif" />Groups</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li class="active"><a href="#"><span>Visit Groups</span></a></li>
+		<li><a href="space.php?do=mtag&view=me"><span>Back to my groups</span></a></li>
+	</ul>
+</div>
+
+<!--{if $taglist}-->
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2>Select Group to Visit</h2>
+		<p>There is so many groups please select one according to your interest</p>
+	</caption>
+	<!--{loop $taglist $value}-->
+	<tr>
+		<td><a href="space.php?do=mtag&tagid=$value[tagid]" style="font-size:14px;" target="_blank">$value[tagname]</a></td>
+		<td>{$_SGLOBAL[profield][$value[fieldid]][title]}</td>
+		<td>$value[membernum] Members</td>
+		<td>
+			<a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank">Qucik visit this group</a>
+			<span class="pipe">|</span>
+			<!--{if $value['joinperm'] < 2}-->
+			<a href="cp.php?ac=mtag&op=join&tagid=$value[tagid]" id="mtag_like_$value[tagid]" onclick="ajaxmenu(event, this.id)">Become member</a>
+			<!--{else}-->
+			<strong>This Group need group Admin approval for members</strong>
+			<!--{/if}-->
+		</td>
+	</tr>
+	<!--{/loop}-->
+</table>
+
+<!--{else}-->
+
+<form method="post" action="cp.php?ac=mtag" class="c_form">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2>Create your group: $tagname</h2>
+		<p>Oops!, The Group of interest, which you are looking, have not created yet. Be first person and you can create the this group and invite the friends to join, Be famous and get the credits, Build it now before some one get it<br><br>Groups is making it even easier for people to meet others and make a difference together.Connect with a world of people who share your passions.<br><br>It's where people with a shared interest meet, get to know each other, and stay informed. Your group gives you instant access to:<br>
+-Shared message archives<br>
+-Photos and photo albums<br>
+-Group event calendars<br>
+-Member polls and shared links<br>
+And best of all, <b>it's free.</b></p>
+	</caption>
+	<tr>
+		<th width="120">Group Name</th>
+		<td>$tagname</td>
+	</tr>
+	<tr>
+		<th width="120">Group Category</th>
+		<td>
+		<select name="fieldid">
+		<!--{loop $fields $value}-->
+		<option value="$value[fieldid]">$value[title]</option>
+		<!--{/loop}-->
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td></td><td>
+			<input type="hidden" name="tagname" value="$tagname">
+			<input type="submit" name="textsubmit" value="Create Group" class="submit">
+		</td>
+	</tr>
+</table>
+</form>
+
+<!--{/if}-->
+
+
+<!--{template footer}-->

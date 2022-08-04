@@ -1,0 +1,149 @@
+﻿<!--{eval $_TPL['titles'] = array('Game hứng trứng vàng ở Trang trại trừng vàng trên mạng xã hội Nhà Tui - GoHooH.Com');}-->
+<!--{template header}-->
+<!--{template gohoohhungtrung/view/fgame_header}-->
+<div class=div_layout>
+		<div class=left>
+			<div>
+				<div overflow="hidden" height="407" width="540">
+					<object>
+						<embed src="gohoohhungtrung/view/gohoohhungtrung.swf" width="540" height="407" />
+					</object>
+				</div>			
+			</div>
+			
+			<br>	
+			<div class=mycar>
+				<div class=title>		
+				     Hướng dẫn 
+				</div>
+				<div class=info>
+				Click vào Play để chơi. mỗi khi qua màn, click vào "bring it on!!" để tiếp tục hứng trứng.<br />
+				<font color="red">Dùng các phím mũi tên qua lại, lên xuống để hứng trứng.<br /></font>
+				Số trứng dưới sàn nhà tượng trưng cho giới hạn số trứng bạn cỏ thể làm rớt.<br />
+				Đừng hứng trứng ung, kết thúc game nhớ lưu điểm lại nhé!
+				</div>
+
+</div>
+			<div>
+				<!--{if $reArr}-->
+				<br>
+				<div class="parkmenu">
+						<ul>
+						  <LI>Thành viên đã tham gia hứng trứng vàng</LI>
+						</ul>
+				</div>
+					<div class="box">
+						<ul class="avatar_list s_clear">
+							<!--{loop $reArr $key $value}-->
+							<li>
+								<div class="avatar48"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+								<p><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></p>
+							</li>
+							<!--{/loop}-->	
+									
+							<li>
+								
+								<p></p>
+							</li>
+										  
+						</ul>
+					</div>
+				<!--{/if}-->
+			</div>
+		</div>
+
+		<div id="gohoohhungtrungbar">
+
+			<div class="sidebox">
+				<h2 class="title">
+					<p class="r_option">
+						
+					</p>
+					Thông tin của tôi
+				</h2>
+				<ul class="gohoohhungtrung_list">
+
+					<li>Thứ hạng: <!--{$myrk}--> / <!--{$allrk}--></li>
+				
+					<li>Điểm cao nhất: <!--{$score}--></li>
+
+
+				</ul>
+			</div>
+
+
+
+			<!--{if $dayrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top trong ngày
+				</h2>
+				<ul class="gohoohhungtrung_list">
+					<table width="220" align="center"><!--{loop $dayrktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}--> điểm</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+
+
+
+			<!--{if $weekrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top trong tuần
+				</h2>
+				<ul class="gohoohhungtrung_list">
+					<table width="220" align="center">
+					<!--{loop $weekrktopArr $key $value}-->	
+					<tr>
+						<td style="padding-right:6px;"><!--{$key}--></td>
+						<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+						<td><!--{$value[score]}--> điểm</td>
+					</tr>
+					<!--{/loop}-->
+					</table>
+				</ul>
+			</div>
+			<!--{/if}-->
+
+
+			<!--{if $mrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top 3
+				</h2>
+				<ul class="gohoohhungtrung_list">
+					<table width="220" align="center"><!--{loop $aarktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}-->điểm</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+	    </div>
+</div>	
+
+<div class="IND_lwide" valign="left">
+	<div class="wdL"></div>
+	<p align="right"><font color="#808080">
+	<span class="fl" valign="left">Game Hứng trứng cho <a href="http://www.gohooh.com/forum/index.php?gid=172">mạng xã hội Ucenter Home 2.0</a></span>	
+	</font></p>
+	<div class="wdR" valign="left">
+		<p align="right"></div>	
+	<p align="right">	
+	<span class="fr" valign="left"><font color="#808080">Phát triển bởi </font> <a href="http://www.gohooh.com">
+	<font color="#808080">Discuz! Việt - GoHooH.com</font></a><font color="#808080"> &copy; 2010
+	</font> </span>		
+ 
+</div>
+</div>
+
+<!--{template footer}-->

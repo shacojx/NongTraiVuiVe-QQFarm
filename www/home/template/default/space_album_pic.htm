@@ -1,0 +1,42 @@
+<!--{eval $_TPL['titles'] = array(getstr($pic['title'], 60, 0, 0, 0, 0, -1), $album['albumname'], 'Albums');}-->
+<!--{eval $friendsname = array(1 => 'Only Friends',2 => 'Selected Peoples',3 => 'Only Me',4 => 'Pssword Protected');}-->
+<!--{template header}-->
+
+<!--{if $space[self]}-->
+<div class="searchbar floatright">
+	<form method="get" action="space.php">
+		<input name="searchkey" value="" size="15" class="t_input" type="text">
+		<input name="searchsubmit" value="Search Album" class="submit" type="submit">
+		<input type="hidden" name="do" value="album" />
+		<input type="hidden" name="view" value="all" />
+		<input type="hidden" name="orderby" value="dateline" />
+	</form>
+</div>
+<h2 class="title"><img src="image/app/album.gif">Album- $album[albumname]</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li class="active"><a href="space.php?uid=$pic[uid]&do=album&id=$pic[albumid]"><span>View Image</span></a></li>
+		<li><a href="space.php?uid=$space[uid]&do=album&id=$pic[albumid]"><span>Back to Album List</span></a></li>
+		<li><a href="space.php?uid=$space[uid]&do=album&view=me"><span>My Album</span></a></li>
+		<li class="null"><a href="cp.php?ac=upload&albumid=$pic[albumid]">Upload Image</a></li>
+	</ul>
+	<!--{if $_SGLOBAL[refer]}-->
+	<div class="r_option">
+		<a  href="$_SGLOBAL[refer]">&laquo; Prev Page</a>
+	</div>
+	<!--{/if}-->
+</div>
+<!--{else}-->
+<!--{eval 
+	$_TPL['spacetitle'] = "Album - $album[albumname]";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=album&view=me\">Share whole album</a>";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=album&id=$pic[albumid]\">$album[albumname]</a>";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=album&picid=$pic[picid]\">View Image</a>";
+}-->
+<!--{template space_menu}-->
+<!--{/if}-->
+
+<!--{template space_pic}-->
+
+	
+<!--{template footer}-->

@@ -1,0 +1,62 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<div class="clearfix">
+		<div class="vip_info">
+			<p class="choose">Hội viên: <b> Cấp {:$vipExt['level']}</b></p>
+			<p class="choose">Kinh nghiệm: <b> {:$vip['exp']}</b></p>
+			<p class="choose">Mức tăng trưởng: <b> {:$vipSpeed[$vip['status']]}</b> Exp/ngày</p>
+			<p class="choose">Loại thẻ: <b> {:$vipExt['status']}</b></p>
+			<p class="choose">Thời hạn: <b> {:$vipExt['valid']}</b></p>
+		</div>
+		<div class="vip_exp">
+			<p class="choose">Cấp độ</p>
+			<div class="vip_exp_signs">
+				<div class="item{:$vip[status]}" style="left:2px;" title="Exp: {:$vipExps[1]}"><span>1</span></div>
+				<div class="item{:$vip[status]}" style="left:{:round($vipExps[2]/$vipExps[7]*90)}%;" title="Exp: {:$vipExps[2]}"><span>2</span></div>
+				<div class="item{:$vip[status]}" style="left:{:round($vipExps[3]/$vipExps[7]*90)}%;" title="Exp: {:$vipExps[3]}"><span>3</span></div>
+				<div class="item{:$vip[status]}" style="left:{:round($vipExps[4]/$vipExps[7]*90)}%;" title="Exp: {:$vipExps[4]}"><span>4</span></div>
+				<div class="item{:$vip[status]}" style="left:{:round($vipExps[5]/$vipExps[7]*90)}%;" title="Exp: {:$vipExps[5]}"><span>5</span></div>
+				<div class="item{:$vip[status]}" style="left:{:round($vipExps[6]/$vipExps[7]*90)}%;" title="Exp: {:$vipExps[6]}"><span>6</span></div>
+				<div class="item{:$vip[status]}" style="left:90%;" title="Exp: {:$vipExps[7]}"><span>7</span></div>
+			</div>
+			<div class="vip_exp_line clearfix">
+				<div class="l{:$vip[status]}"></div>
+				<div class="c{:$vip[status]} clearfix" title="EXP (Hiện tại/Thăng cấp): {:$vip['exp']}/{:$vipExt['allExp']}">
+					<div class="m{:$vip[status]}" style="width:{:round($vip['exp']/$vipExps[7]*90)}%;"></div>
+				</div>
+				<div class="r{:$vip[status]}"></div>
+			</div>
+			<p class="choose">Hội viên theo tháng: {:$vipSpeed[1]} Exp/ngày</p>
+			<p class="choose">Hội viên theo năm: {:$vipSpeed[2]} Exp/ngày</p>
+		</div>
+	</div>
+	<form id="vip_pay" onsubmit="return submits();">
+		<dl class="clearfix">
+			<dt class="choose">Chọn loại thẻ hội viên:</dt>
+			<dd><input type="radio" name="payMonth" value="1" OnClick="ShowPayMsg(this);" />1 tháng</dd>
+			<dd><input type="radio" name="payMonth" value="3" OnClick="ShowPayMsg(this);" />3 tháng</dd>
+			<dd><input type="radio" name="payMonth" value="6" OnClick="ShowPayMsg(this);" />6 tháng</dd>
+			<dd><input type="radio" name="payMonth" value="12" OnClick="ShowPayMsg(this);" checked="true" />1 năm(<font color=red>Tiết kiệm nhất</font>)</dd><br /><br />
+			<dd id="paymsg"><b>Chi phí</b>: <font color=red>{:$vipCost[2]}</font> vàng, tiết kiệm được <font color=red>{:$vipCost[1]*12-$vipCost[2]}</font> vàng</dd>
+		</dl>
+		<div class='doPay'><input type="submit" value="Thanh toán" /> <span id="showmsg"></span></div>
+	</form>
+</div>
+
+<script type="text/javascript">
+function ShowPayMsg(o) {
+	if(o.value == 12) {
+		$('#paymsg').innerHTML = "<b>Chi phí</b>: <font color=red>{:$vipCost[2]}</font> vàng, tiết kiệm được <font color=red>{:$vipCost[1]*12-$vipCost[2]}</font> vàng";
+	}
+	else {
+		$('#paymsg').innerHTML = "<b>Chi phí</b>: <font color=red>"+o.value*{:$vipCost[1]}+"</font> vàng";
+	}
+}
+function submits() {
+	request('tools.php?mod=vip', 'showmsg', $.getForm('#vip_pay', 1));
+	return false;
+}
+</script>
+
+<!--{tpl inc_footer}-->

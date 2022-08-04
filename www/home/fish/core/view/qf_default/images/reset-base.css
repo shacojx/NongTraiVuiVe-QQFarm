@@ -1,0 +1,29 @@
+/*
+ * reset.css
+ * Based on YUI http://developer.yahoo.com/yui/reset/ 
+ * version:1.4 | 20100206
+ */
+
+html {color:#000;background:#fff;}
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,
+form,fieldset,legend,input,textarea,p,blockquote,th,td {margin:0;padding:0;}
+
+fieldset,img,abbr,acronym {border:0;}
+table {border-collapse:collapse;border-spacing:0;}
+
+ol,ul,dl {list-style:none;}
+
+
+/* base.css
+ * version:1.4 | 20100206
+ */
+
+/*下划线&焦点虚线*/
+:link,:visited {text-decoration:none;}
+:focus {outline:0;}
+a {blr:expression(this.onFocus=this.blur());}
+
+/*清除浮动*/
+.clearfix:after {height:0;clear:both;content:".";display:block;visibility:hidden;}
+.clearfix {zoom:1;}

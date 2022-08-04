@@ -1,0 +1,107 @@
+<!--{eval $_TPL['titles'] = array(); $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+<!--Translated by Saokim999 & kienngohik, Vào www.traitimyenbai.net Để cập nhập lang việt, tem và ứng dụng.-->
+<div id="network">
+<style type="text/css">
+#radomuser .nbox_c { width: 970px; w\idth: 966px; }
+	#radomuser ul { padding: 10px 0 0 10px; }
+		#radomuser li { float: left; width: 190px; height: 70px; color: #999; overflow: hidden; }
+</style>
+<script type="text/javascript">
+function setintro(type) {
+	var intro = '';
+	var bPosition = '';
+	if(type == 'doing') {
+		intro = 'Các dòng cảm xúc, trạng thái tình cảm của bạn trong cuộc sống';
+		bPosition = '0';
+	} else if(type == 'mtag') {
+		intro = 'Tạo Nhóm hoặc tham gia Nhóm, chia sẻ các chủ đề mà mọi người quan tâm';
+		bPosition = '175px';
+	} else if(type == 'pic') {
+		intro = 'Upload ảnh và cùng chia sẻ khoảnh khắc cuộc sống';
+		bPosition = '55px';
+	} else if(type == 'app') {
+		intro = 'Cùng bạn bè chơi game thật vui và thú vị qua các Ứng dụng
+		bPosition = '118px';
+	} else {
+		intro = 'Đăng ký tham gia cùng bạn bè chia sẻ ảnh, blog, các trò chơi thú vị';
+		bPosition = '0';
+	}
+	$('guest_intro').innerHTML = intro + '......';
+	$('guest_intro').style.backgroundPosition = bPosition + ' 100%'
+}
+</script>
+
+<div id="guestbar" class="nbox">
+	<div class="nbox_c">
+		<p id="guest_intro">Hãy đăng ký thành viên để kết bạn, chia sẻ ảnh, blog, tham gia nhóm và chơi game......</p>
+		<a href="do.php?ac=$_SCONFIG[register_action]" id="regbutton" onmouseover="setintro('register');">Đăng nhập</a>
+		<p id="guest_app">
+			<a href="javascript:;" class="appdoing" onmouseover="setintro('doing');">Status</a>
+			<a href="javascript:;" class="appphotos" onmouseover="setintro('pic');">Hình ảnh</a>
+			<a href="javascript:;" class="appgames" onmouseover="setintro('app');">Games</a>
+			<a href="javascript:;" class="appgroups" onmouseover="setintro('mtag');">Nhóm</a> 
+		</p>
+	</div>	
+	<div class="nbox_s side_rbox" id="nlogin_box">
+		<h3 class="ntitle">Xin hãy điền</h3>
+		<div class="side_rbox_c">
+			<form name="loginform" action="do.php?ac=$_SCONFIG[login_action]&$url_plus&ref" method="post">
+				<p><label for="username">User name</label> <input type="text" name="username" id="username" class="t_input" value="$membername" /></p>
+				<p><label for="password">Pasword</label> <input type="password" name="password" id="password" class="t_input" value="$password" /></p>
+				<p class="checkrow"><input type="checkbox" id="cookietime" name="cookietime" value="315360000" $cookiecheck style="margin-bottom: -2px;" /><label for="cookietime">Nhớ tài khoản</label></p>
+				<p class="submitrow">
+					<input type="hidden" name="refer" value="space.php?do=home" />
+					<input type="submit" id="loginsubmit" name="loginsubmit" value="Đăng nhập" class="submit" />
+					<a href="do.php?ac=lostpasswd">Quên mật khẩu?</a>
+					<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!--{if $myappcount}-->
+<div class="nbox">
+	<div class="nbox_c" style="border: none;">
+		<ul class="applist">
+		<!--{loop $myapplist $value}-->
+			<li>
+				<p class="aimg"><a href="userapp.php?id=$value[appid]" target="_blank"><img src="http://appicon.manyou.com/logos/$value[appid]" alt="$value[appname]" /></a></p>
+				<p><a href="userapp.php?id=$value[appid]" target="_blank">$value[appname]</a></p>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+	<div class="susb">
+		<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+			<div class="appmo">
+				<p>Tổng cộng <span>$myappcount</span> ứng dụng</p>
+				<p class="appmobutton"><a href="cp.php?ac=userapp&my_suffix=%2Fapp%2Flist">Xem các Ứng dụng khác</a></p>
+			</div>
+		</div></div></div></div>	
+	</div>
+</div>
+<!--{/if}-->
+
+
+<div id="radomuser" class="nbox">
+	<div class="nbox_c">
+		<h2 class="ntitle">Chào mừng bạn, Hãy tham gia trao đổi chia sẻ</h2>
+		<ul class="s_clear">
+		<!--{loop $spacelist $value}-->
+			<li>
+				<div class="d_avatar avatar48"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="space.php?uid=$value[uid]" target="_blank">{$_SN[$value[uid]]}</a></p>
+				<p>$value[resideprovince] $value[residecity]</p>
+				<p>$value[friendnum] Bạn bè</p>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+
+
+</div>
+
+<!--{template footer}-->

@@ -1,0 +1,12 @@
+Message: MySQL Query Error 
+    URI: /home/qqfarm/core/41Fto43F.php 
+    SQL: ALTER TABLE uchome_qqfarm_nc ADD `randtime` int (10)  DEFAULT '0' 
+  Errno: 1060 
+  Error: Duplicate column name 'randtime' 
+ 
+Message: MySQL Query Error 
+    URI: /home/qqfarm/core/6B3to60F.php 
+    SQL: SELECT uid, beasts, crystal, tools FROM uchome_qqfarm_mc 
+  Errno: 1054 
+  Error: Unknown column 'beasts' in 'field list' 
+ 

@@ -1,0 +1,43 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<div id="toplist" class="clearfix">
+	<table>
+		<tr><th colspan="2">Người chơi mới đăng nhập</th></tr>
+		<!--{foreach $list_visit as $v}-->
+		<tr>
+			<td class="uname"><a href="{:qf_getHomePage($v['uid'])}" title="{:$v['username']}" target="_blank">{:$v['regname']}</a></td>
+			<td class="uitem">{:date("Y-m-d H:s",($v['visittime']))}</td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+	<table>
+		<tr><th colspan="2">[Top] Phú hộ</th></tr>
+		<!--{foreach $list_money as $v}-->
+		<tr>
+			<td class="uname"><a href="{:qf_getHomePage($v['uid'])}" title="{:$v['username']}" target="_blank">{:$v['regname']}</a></td>
+			<td class="uitem">{:$v['money']}</td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+	<table>
+		<tr><th colspan="2">[Top] Kinh nghiệm trồng trọt</th></tr>
+		<!--{foreach $list_ncexp as $v}-->
+		<tr>
+			<td class="uname"><a href="{:qf_getHomePage($v['uid'])}" title="{:$v['username']}" target="_blank">{:$v['regname']}</a></td>
+			<td class="uitem">{:$v['exp']}</td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+	<table>
+		<tr><th colspan="2">[Top] Kinh nghiệm chăn nuôi</th></tr>
+		<!--{foreach $list_mcexp as $v}-->
+		<tr>
+			<td class="uname"><a href="{:qf_getHomePage($v['uid'])}" title="{:$v['username']}" target="_blank">{:$v['regname']}</a></td>
+			<td class="uitem">{:$v['exp']}</td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+</div>
+
+<!--{tpl inc_footer}-->

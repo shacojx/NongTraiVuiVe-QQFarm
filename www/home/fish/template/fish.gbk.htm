@@ -1,0 +1,44 @@
+<!--{eval $_TPL['titles'] = array($space['username'], '我的鱼塘');}-->
+<!--{template header}-->
+
+<!--提示: 此文件继承UCH模板中加载的CSS定义-->
+
+
+<!--附加CSS样式表-->
+<link rel="stylesheet" type="text/css" href="$qf_root/static/style.css" />
+
+<div id="qfwrap">
+	<!--主框架区域-->
+	<div id="qfbody">
+		<div class="tabs_header clearfix">
+			<ul class="tabs">
+				<li id="tab0" class="active" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/index.php?type=ui"><span>我的鱼塘</span></a></li>
+				<li id="tab1" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/tools.php?mod=setting"><span>游戏设置</span></a></li>
+				<li id="tab2" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/tools.php?mod=exchange"><span>积分兑换</span></a></li>
+				<!--{if in_array($_SGLOBAL['supe_uid'], $_HSC['adminer'])}-->
+				<li id="tab5" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/admin.php"><span>鱼塘后台</span></a></li>
+				<!--{/if}-->
+			</ul>
+		</div>
+		<div id="qfmain">
+			<iframe id="myfish" name="myfish" src="$qf_root/core/index.php?type=ui" frameborder="0" scrolling="no" width="800px" height="685px"></iframe>
+		</div>
+		<div id="qfplayer">
+			<div id="qfplayer_main"></div>
+			<div id="qfplayer_ctrl">
+				<input class="button" type="button" value="关闭播放器" onclick="loadPlayer(0);" />
+				<input class="button" type="button" value="迷你版播放器" onclick="loadPlayer(48);" />
+				<input class="button" type="button" value="显示实时歌词" onclick="loadPlayer(83);" />
+				<input class="button" type="button" value="显示播放列表" onclick="loadPlayer(230);" />
+			</div>
+		</div>
+		<script type="text/javascript" src="$qf_root/core/script.php?swfobject"></script>
+		<div id="qfversion"></div>
+	</div>
+</div>
+
+<!--附加JS脚本-->
+<script type="text/javascript" charset="utf-8" src="$qf_root/core/script.php?squery"></script>
+<script type="text/javascript" charset="utf-8" src="$qf_root/static/main.js"></script>
+
+<!--{template footer}-->

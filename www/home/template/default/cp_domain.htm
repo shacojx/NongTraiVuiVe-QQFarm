@@ -1,0 +1,31 @@
+<!--{template header}-->
+
+<!--{template cp_header}-->
+
+<div class="c_form">
+	<form method="post" action="cp.php?ac=domain&op=">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>Space URL name</h2>
+			<p>The space URL name must be between $domainlength to 30 alphanumeric characters and must begin with an alphabet.</p>
+		</caption>
+		<!--{if $space[domain] && $dcredit}-->
+		<tr>
+			<th width="100">Credits</th>
+			<td><img src="image/credit.gif" align="absmiddle"> To change the space URL name, you will need to use $dcredit credits; you currently have $space[credit] credits</td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<th width="100">Space URL name</th>
+			<td>http://<input type="text" name="domain" value="$space[domain]" size="10" class="t_input" />.{$_SCONFIG[domainroot]}</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="submit" name="domainsubmit" value="Change URL Name" class="submit" /></td>
+		</tr>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<!--{template footer}-->

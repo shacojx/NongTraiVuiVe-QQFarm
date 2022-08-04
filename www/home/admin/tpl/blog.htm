@@ -1,0 +1,141 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		
+		<table cellspacing="3" cellpadding="3">
+		<!--{if $allowmanage}-->
+		<tr><th>By UID</th><td><input type="text" name="uid" value="$_GET[uid]"></td>
+			<th>By Name</th><td><input type="text" name="username" value="$_GET[username]"></td>
+		</tr>
+		<!--{/if}-->
+		<tr><th>Title *</th><td><input type="text" name="subject" value="$_GET[subject]"></td>
+			<th>Content *</th><td><input type="text" name="message" value="$_GET[message]">* Expressed support for the fuzzy query</td>
+		</tr>
+		<tr>
+			<th>Open to the public</th><td>
+			<select name="friend">
+			<option value="">Open</option>
+			<option value="0"<!--{if $_GET[friend] == '0'}--> selected<!--{/if}-->>Users can see the whole station</option>
+			<option value="1"<!--{if $_GET[friend] == '1'}--> selected<!--{/if}-->>All friends can see that</option>
+			<option value="2"<!--{if $_GET[friend] == '2'}--> selected<!--{/if}-->>Only designated friends can be seen</option>
+			<option value="3"<!--{if $_GET[friend] == '3'}--> selected<!--{/if}-->>Itself can be seen only</option>
+			<option value="4"<!--{if $_GET[friend] == '4'}--> selected<!--{/if}-->>View with a password</option>
+			</select>
+			</td>
+			<th>Release IP</th><td colspan="3"><input type="text" name="postip" value="$_GET[postip]"></td>
+		</tr>
+		<tr>
+			<th>Specify the log ID</th>
+			<td colspan="3">
+				<input type="text" name="blogid" value="$_GET[blogid]" />
+			</td>
+		</tr>
+		<tr><th>View the number of</th><td colspan="3">
+			<input type="text" name="viewnum1" value="$_GET[viewnum1]" size="10"> ~
+			<input type="text" name="viewnum2" value="$_GET[viewnum2]" size="10">
+		</td></tr>
+		<tr><th>Replies</th><td colspan="3">
+			<input type="text" name="replynum1" value="$_GET[replynum1]" size="10"> ~
+			<input type="text" name="replynum2" value="$_GET[replynum2]" size="10">
+		</td></tr>
+		<tr><th>Hot</th><td colspan="3">
+			<input type="text" name="hot1" value="$_GET[hot1]" size="10"> ~
+			<input type="text" name="hot2" value="$_GET[hot2]" size="10">
+		</td></tr>
+		<tr><th>Published</th><td colspan="3">
+			<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+			<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+
+		<tr><th>Sorting</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">Default Sort</option>
+		<option value="dateline"$orderby[dateline]>Published</option>
+		<option value="viewnum"$orderby[viewnum]>View the number of</option>
+		<option value="replynum"$orderby[replynum]>Replies</option>
+		<option value="hot"$orderby[hot]>Hot</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>Decreasing</option>
+		<option value="asc"$ordersc[asc]>Incremental</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>20 per page</option>
+		<option value="50"$perpages[50]>50 per page</option>
+		<option value="100"$perpages[100]>100 per page</option>
+		<option value="1000"$perpages[1000]>One dealing with 1000</option>
+		</select>
+		<input type="hidden" name="ac" value="blog">
+		<input type="submit" name="searchsubmit" value="Search" class="submit">
+		</td>
+		</tr>
+		</table>
+
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+	<form method="post" id="batchform" action="admincp.php?ac=blog">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+	<!--{if $perpage>100}-->
+		<p>A total of data to meet the conditions<strong>$count</strong> </p>
+		<!--{loop $list $value}-->
+		<input type="hidden" name="ids[]" value="$value[blogid]">
+		<!--{/loop}-->
+	
+	<!--{else}-->
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><td width="25">&nbsp;</td><th>Title</th><th width="80">Operation</th></tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td>
+				<input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[blogid]">
+			</td>
+			<td>
+				<a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]" target="_blank">$value[subject]</a>
+				<!--{if $value[friend]}-->[<a href="admincp.php?ac=blog&friend=$value[friend]">$value[friend]</a>]<!--{/if}-->
+				<p class="gray">
+					<a href="admincp.php?ac=blog&uid=$value[uid]">$value[username]</a><!--{if $value[postip]}-->(<a href="admincp.php?ac=blog&postip=$value[postip]">$value[postip]</a>)<!--{/if}-->
+					&nbsp; <!--{date('Y-m-d H:i',$value[dateline])}-->
+					<br>Hot({$value[hot]}) / Reply({$value[replynum]}) / View({$value[viewnum]})
+				</p>
+			</td>
+			<td>
+				<a href="cp.php?ac=blog&op=edit&blogid=$value[blogid]" target="_blank">Edit</a>&nbsp;
+				<a href="admincp.php?ac=comment&id=$value[blogid]&idtype=blogid">Comments</a>
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	<!--{/if}-->
+	</div>
+	
+	<div class="footactions">
+		<!--{if $allowbatch && $perpage<=100}--><input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select<!--{/if}-->
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<input type="submit" name="batchsubmit" value="Bulk Delete" onclick="return confirm('This action can not be restored, to confirm the deletion?');" class="submit">
+	
+		<div class="pages">$multi</div>
+	</div>
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

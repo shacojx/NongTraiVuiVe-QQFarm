@@ -1,0 +1,45 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+	
+		<form method="post" action="admincp.php?ac=ip">
+			<div class="bdrcontent">
+				<table cellspacing="0" cellpadding="0" class="formtable">
+					<tr><th>Allows access to the IP list</th></tr>
+					<tr>
+						<td>
+							<textarea name="config[ipaccess]" style="width:98%;" rows="8">$configs[ipaccess]</textarea>
+							<br />
+							Only when the user is in the list of IP addresses can only access the site, the list will be considered other than the IP address of access to be banned.<br/>
+							Each IP line, can enter the full address, just enter the IP can also be the beginning.<br/>
+							For example: <br/>"192.168."(Without the quotation marks) can match the 192.168.0.0 ~ 192.168.255.255 all addresses within the scope of, can be left blank for all IP access.
+							<br />Your current IP: $onlineip
+						</td>
+					</tr>
+					<tr><th>Disabled access IP list of</th></tr>
+					<tr>
+						<td>
+							<textarea name="config[ipbanned]" style="width:98%;" rows="8">$configs[ipbanned]</textarea>
+							<br/>
+							Users in this list of IP address block access to the site. Each IP line, can enter the full address, just enter the IP can also be the beginning.<br/>
+							For example:<br/>
+							"192.168."(Without the quotation marks) can match the range of 192.168.0.0 ~ 192.168.255.255 all addresses within the<br/>
+							202.101.98.55<br/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="footactions">
+				<input type="submit" name="thevaluesubmit" value="Submit" class="submit">
+			</div>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,20 @@
+<!--{tpl header}-->
+
+<div id="main">
+	<p>
+		<p>Đổi điểm của web. 10 điểm mua lại 1 đồng tiền Y</p>
+		Vui lòng nhập số<input type='text' id='yb' size='15' />
+		<input type="button" onclick='request("tools.php?mod=exchange&do=save&type=yb&number="+SQuery("#yb").value, "state1");' value='Trao đổi' />
+		<span id="state1"></span>
+	</p>
+	<br />
+		<p>
+		<p>Đổi điểm web lấy vàng 1 điểm đổi 10 vàng</p>
+		Nhập số muốn đổi<input type='text' id='jb' size='15' /> x10
+		<input type="button" onclick='request("tools.php?mod=exchange&do=save&type=jb&number="+SQuery("#jb").value, "state2");' value='Trao đổi' />
+		<span id="state2"></span>
+	</p>
+
+</div>
+
+<!--{tpl footer}-->

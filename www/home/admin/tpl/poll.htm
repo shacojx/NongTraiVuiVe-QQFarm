@@ -1,0 +1,151 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+	
+		<form method="get" action="admincp.php">
+		<div class="block style4">
+			
+			<table cellspacing="3" cellpadding="3">
+			<!--{if $allowmanage}-->
+			<tr><th>By UID</th><td><input type="text" name="uid" value="$_GET[uid]"></td>
+				<th>By Name</th><td><input type="text" name="username" value="$_GET[username]"></td>
+			</tr>
+			<!--{/if}-->
+			<tr><th>Title *</th><td><input type="text" name="subject" value="$_GET[subject]"></td>
+				<th>Appointment of Polling ID</th><td><input type="text" name="pid" value="$_GET[pid]">* Expressed support for the fuzzy query</td>
+			</tr>
+			<tr>
+				<th>Comments limited</th><td>
+				<select name="noreply">
+				<option value="">Open</option>
+				<option value="0"<!--{if $_GET[noreply] == '0'}--> selected<!--{/if}-->>Users can see the whole station</option>
+				<option value="1"<!--{if $_GET[noreply] == '1'}--> selected<!--{/if}-->>Only friends can comment on</option>
+				</select>
+				</td>
+				<th>Voting restrictions</th><td>
+				<select name="sex">
+				<option value="">Open</option>
+				<option value="1"<!--{if $_GET[sex] == '1'}--> selected<!--{/if}-->>Male</option>
+				<option value="2"<!--{if $_GET[sex] == '2'}--> selected<!--{/if}-->>Female</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Expired Vote</th>
+				<td colspan="3">
+					<select name="expiration">
+						<option value="">Open</option>
+						<option value="1"<!--{if $_GET[expiration] == '1'}--> selected<!--{/if}-->>Expired</option>
+						<option value="2"<!--{if $_GET[expiration] == '2'}--> selected<!--{/if}-->>Unexpired</option>
+					</select>
+				</td>
+			</tr>
+			<tr><th>Reward points</th><td colspan="3">
+				<input type="text" name="percredit1" value="$_GET[percredit1]" size="10"> ~
+				<input type="text" name="percredit2" value="$_GET[percredit2]" size="10">
+			</td></tr>
+			<tr><th>The number of participants</th><td colspan="3">
+				<input type="text" name="voternum1" value="$_GET[voternum1]" size="10"> ~
+				<input type="text" name="voternum2" value="$_GET[voternum2]" size="10">
+			</td></tr>
+			<tr><th>Comments</th><td colspan="3">
+				<input type="text" name="replynum1" value="$_GET[replynum1]" size="10"> ~
+				<input type="text" name="replynum2" value="$_GET[replynum2]" size="10">
+			</td></tr>
+			<tr><th>Hot</th><td colspan="3">
+				<input type="text" name="hot1" value="$_GET[hot1]" size="10"> ~
+				<input type="text" name="hot2" value="$_GET[hot2]" size="10">
+			</td></tr>
+			<tr><th>Published</th><td colspan="3">
+				<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+				<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+			</td></tr>
+	
+			<tr><th>Sorting</th>
+			<td colspan="3">
+			<select name="orderby">
+			<option value="">Default Sort</option>
+			<option value="dateline"$orderby[dateline]>Published</option>
+			<option value="voternum"$orderby[voternum]>The number of participants</option>
+			<option value="replynum"$orderby[replynum]>Comments</option>
+			<option value="percredit"$orderby[percredit]>Reward points</option>
+			<option value="hot"$orderby[hot]>Hot</option>
+			</select>
+			<select name="ordersc">
+			<option value="desc"$ordersc[desc]>Decreasing</option>
+			<option value="asc"$ordersc[asc]>Incremental</option>
+			</select>
+			<select name="perpage">
+			<option value="20"$perpages[20]>20 per page</option>
+			<option value="50"$perpages[50]>50 per page</option>
+			<option value="100"$perpages[100]>100 per page</option>
+			<option value="1000"$perpages[1000]>One dealing with 1000</option>
+			</select>
+			<input type="hidden" name="ac" value="poll">
+			<input type="submit" name="searchsubmit" value="Search" class="submit">
+			</td>
+			</tr>
+			</table>
+	
+		</div>
+		</form>
+	
+	<!--{if $list}-->
+	
+		<form method="post" action="admincp.php?ac=poll">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<div class="bdrcontent">
+		
+		<!--{if $perpage>100}-->
+			<p>A total of data to meet the conditions <strong>$count</strong> </p>
+			<!--{loop $list $value}-->
+			<input type="hidden" name="ids[]" value="$value[blogid]">
+			<!--{/loop}-->
+		
+		<!--{else}-->
+			<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr><td width="25">&nbsp;</td><th>Title</th><!--{if $allowmanage}--><th width="80">Author</th><!--{/if}--><th width="80">Involved in D / Comments</th><th width="80">Time</th><th width="80">Operation</th></tr>
+			<!--{loop $list $value}-->
+			<tr>
+				<td>
+					<input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[pid]">
+				</td>
+				<td>
+					<a href="space.php?uid=$value[uid]&do=poll&pid=$value[pid]" target="_blank"><strong><!--{if $value[credit]}-->[Reward:{$value[credit]}]<!--{/if}--><!--{if $value[isexpired]}-->[Expired]<!--{/if}--></strong>$value[subject]</a>
+					<!--{if $value[hot]}--><span style="color:red;">Hot($value[hot])</span><!--{/if}-->
+					<!--{if $value[friend]}-->[<a href="admincp.php?ac=blog&friend=$value[friend]">$value[friend]</a>]<!--{/if}-->
+				</td>
+				<!--{if $allowmanage}--><td><a href="admincp.php?ac=poll&uid=$value[uid]">$value[username]</a></td><!--{/if}-->
+				<td align="center">$value[voternum]/$value[replynum]</td>
+				<td><!--{date('Y-m-d',$value[dateline])}--></td>
+				<td>
+					<a href="admincp.php?ac=poll&op=delete&pid=$value[pid]" onclick="return confirm('This action can not be restored, to confirm the deletion?');" >Remove</a>&nbsp;
+					<a href="admincp.php?ac=comment&id=$value[pid]&idtype=pid">Comments</a>
+				</td>
+			</tr>
+			<!--{/loop}-->
+			</table>
+		<!--{/if}-->
+		</div>
+		
+		<div class="footactions">
+			<!--{if $allowbatch && $perpage<=100}--><input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select<!--{/if}-->
+			<input type="hidden" name="mpurl" value="$mpurl">
+			<input type="submit" name="deletesubmit" value="Bulk Delete" onclick="return confirm('This action can not be restored, to confirm the deletion?');" class="submit">
+		
+			<div class="pages">$multi</div>
+		</div>
+		</form>
+	<!--{else}-->
+		<div class="bdrcontent">
+			<p>No data under specified conditions</p>
+		</div>
+	<!--{/if}-->
+	</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+<!--{template admin/tpl/footer}-->

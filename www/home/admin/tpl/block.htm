@@ -1,0 +1,816 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[view]><a href="admincp.php?ac=block"><span>View All Modules</span></a></li>
+			<li class="null"><a href="admincp.php?ac=block&op=add">Add a new module</a></li>
+		</ul>
+	</div>
+	
+<!--{if empty($_GET['op'])}-->
+
+	<div class="bdrcontent">
+		<p>Data call, the data will be inside the station, through the queries you write SQL statements,
+			 query and read out, generating a call to the code. You will call code (the template embedded,
+			  or the JS call can be) placed on the site on the page would be able to display query results
+			   corresponding to the visitor, and thus enables the display of any data station call.</p>
+	</div>
+	<br />
+	<div class="bdrcontent">
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th>Name</th>
+			<th width="220">Calling code</th>
+			<th width="180">Operation</th>
+		</tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td>$value[blockname]</td>
+			<td><a href="$turl&op=tpl&id=$value[bid]">Module embedded code</a> | <a href="$turl&op=js&id=$value[bid]">Javascript Calling code</a></td>
+			<td><a href="$turl&op=blocksql&id=$value[bid]">Edit SQL</a> | 
+			<a href="$turl&op=code&id=$value[bid]">Preferences</a> | 
+			<a href="$turl&op=delete&id=$value[bid]">Remove</a></td>
+		</tr>
+		<!--{/loop}-->
+		<tr><td colspan="3"><div class="pages">$multi</div></td></tr>
+		</table>
+	</div>
+
+<!--{elseif $_GET['op'] == 'add' || $_GET['op'] == 'blocksql'}-->
+
+	<form method="post" action="$turl" id="sqlform">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+			<div class="tabs_header"id="sqlGuide" style="display:none;">
+		<ul class="tabs">
+			<li id="li_<!--{eval echo tname('blog');}-->"><a id="a_select_<!--{eval echo tname('blog');}-->" href="javascript:void(0);" onclick="javascript:showSQLDiv('<!--{eval echo tname('blog');}-->');"><span>Log</span></a></li>
+			<li id="li_<!--{eval echo tname('album');}-->"><a id="a_select_<!--{eval echo tname('album');}-->" href="javascript:void(0);" onclick="javascript:showSQLDiv('<!--{eval echo tname('album');}-->');"><span>Album</span></a></li>
+			<li id="li_<!--{eval echo tname('thread');}-->"><a id="a_select_<!--{eval echo tname('thread');}-->" href="javascript:void(0);" onclick="javascript:showSQLDiv('<!--{eval echo tname('thread');}-->');"><span>Topics</span></a></li>
+			<li id="li_<!--{eval echo tname('feed');}-->"><a id="a_select_<!--{eval echo tname('feed');}-->" href="javascript:void(0);" onclick="javascript:showSQLDiv('<!--{eval echo tname('feed');}-->');"><span>News</span></a></li>
+			<li id="li_<!--{eval echo tname('space');}-->"><a id="a_select_<!--{eval echo tname('space');}-->" href="javascript:void(0);" onclick="javascript:showSQLDiv('<!--{eval echo tname('space');}-->');"><span>Users</span></a></li>
+			<li id="li_<!--{eval echo tname('pic');}-->"><a id="a_select_<!--{eval echo tname('pic');}-->" href="javascript:void(0);" onclick="javascript:showSQLDiv('<!--{eval echo tname('pic');}-->');"><span>Photos</span></a></li>
+			<li id="li_<!--{eval echo tname('mtag');}-->"><a id="a_select_<!--{eval echo tname('mtag');}-->" href="javascript:void(0);" onclick="javascript:showSQLDiv('<!--{eval echo tname('mtag');}-->');"><span>Groups</span></a></li>
+			<li id="li_sqlDiy"><a id="a_select_sqlDiy" href="javascript:void(0);" onclick="javascript:showSQLDiv('sqlDiy');"><span>Hand-written SQL</span></a></li>
+		</ul>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:10em;">Module Name</th><td><input type="text" name="blockname" value="$block[blockname]"></td></tr>
+		</table>
+		<table cellspacing="0" cellpadding="0" class="formtable" id="{$sqlTables['blog']}" style="display:none;">
+		<tr><th style="width:10em;">Filter Set</th><td></td></tr>
+		<tr><th>Specify the log blogid</th><td>
+			<input type="radio" name="sqluseid_{$sqlTables['blog']}" value="0" onclick="javascript:setRadioValue('{$sqlTables['blog']}_where', '{$sqlTables['blog']}_ids');" checked />Do not specify the
+			<input type="radio" name="sqluseid_{$sqlTables['blog']}" value="1" onclick="javascript:setRadioValue('{$sqlTables['blog']}_ids', '{$sqlTables['blog']}_where');" />Designated
+			<input type="hidden" id="{$sqlTables['blog']}_id" value="blogid" />
+		</td></tr>
+		<tbody id="{$sqlTables['blog']}_ids" style="display:none;">
+			<tr><th>Log blogid</th><td><input type="text" id="{$sqlTables['blog']}_where_blogid" value="" />Multiple log blogid Please use, open Grid</td></tr>
+		</tbody>
+		<tbody id="{$sqlTables['blog']}_where">
+			<tr><th>Specified by uid</th><td><input type="text" id="{$sqlTables['blog']}_where_uid" value="" /> Multiple users uid Please, open Grid</td></tr>
+			<tr><th>View the number of range</th><td><input type="text" id="{$sqlTables['blog']}_where_viewnum_min" value="" /> ~ <input type="text" id="{$sqlTables['blog']}_where_viewnum_max" value="" /></td></tr>
+			<tr><th>Replies Range</th><td><input type="text" id="{$sqlTables['blog']}_where_replynum_min" value="" /> ~ <input type="text" id="{$sqlTables['blog']}_where_replynum_max" value="" /></td></tr>
+			<tr><th>Published</th><td><select id="{$sqlTables['blog']}_where_dateline">
+				<option value="0" selected>---Unlimited---</option>
+				<option value="86400">一Days since</option>
+				<option value="172800">Two days</option>
+				<option value="604800">A week</option>
+				<option value="1209600">Two weeks</option>
+				<option value="2592000">Past month</option>
+				<option value="7948800">Three months</option>
+				<option value="15897600">The past six months</option>
+				<option value="31536000">Over the past year</option>
+				</select></td></tr>
+			<tr><th>Are there pictures</th><td><select id="{$sqlTables['blog']}_where_picflag">
+				<option value="null">All</option>
+				<option value="1">There picture</option>
+				</select></td></tr>
+			<tr><th>Privacy range</th><td><select id="{$sqlTables['blog']}_where_friend">
+				<option value="0">Users can see the whole station</option>
+				<option value="null">All</option>
+				</select></td></tr>
+		</tbody>
+		<tr><th>Sort Set</th><td></td></tr>
+		<tr><th>1st Sort</th><td><select id="{$sqlTables['blog']}_order_key_1">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="replynum">Replies</option>
+			<option value="dateline">Published</option>
+			</select>
+			<select id="{$sqlTables['blog']}_order_value_1">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>2nd Sort</th><td><select id="{$sqlTables['blog']}_order_key_2">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="replynum">Replies</option>
+			<option value="dateline">Published</option>
+			</select>
+			<select id="{$sqlTables['blog']}_order_value_2">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>Third order</th><td><select id="{$sqlTables['blog']}_order_key_3">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="replynum">Replies</option>
+			<option value="dateline">Published</option>
+			</select>
+			<select id="{$sqlTables['blog']}_order_value_3">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr></table>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable" id="{$sqlTables['album']}" style="display:none;">
+		<tr><th style="width:10em;">Filter Set</th><td></td></tr>
+		<tr><th>Specify an album albumid</th><td>
+			<input type="radio" name="sqluseid_{$sqlTables['album']}" value="0" onclick="javascript:setRadioValue('{$sqlTables['album']}_where', '{$sqlTables['album']}_ids');" checked />Do not specify the
+			<input type="radio" name="sqluseid_{$sqlTables['album']}" value="1" onclick="javascript:setRadioValue('{$sqlTables['album']}_ids', '{$sqlTables['album']}_where');" />Designated
+			<input type="hidden" id="{$sqlTables['album']}_id" value="albumid" />
+		</td></tr>
+		<tbody id="{$sqlTables['album']}_ids" style="display:none;">
+			<tr><th>Album albumid</th><td><input type="text" id="{$sqlTables['album']}_where_albumid" value="" />Multiple albums albumid Please, Open Grid</td></tr>
+		</tbody>
+		<tbody id="{$sqlTables['album']}_where">
+			<tr><th>Specified by uid</th><td><input type="text" id="{$sqlTables['album']}_where_uid" value="" /> Multiple users uid Please, Open Grid</td></tr>
+			<tr><th>Scope number of photos</th><td><input type="text" id="{$sqlTables['album']}_where_picnum_min" value="" /> ~ <input type="text" id="{$sqlTables['album']}_where_picnum_max" value="" /></td></tr>
+			<tr><th>Published</th><td><select id="{$sqlTables['album']}_where_dateline">
+				<option value="0" selected>---Unlimited---</option>
+				<option value="86400">Since the day</option>
+				<option value="172800">Two days</option>
+				<option value="604800">A week</option>
+				<option value="1209600">Two weeks</option>
+				<option value="2592000">Past month</option>
+				<option value="7948800">Three months</option>
+				<option value="15897600">The past six months</option>
+				<option value="31536000">Over the past year</option>
+				</select></td></tr>
+			<tr><th>Updated</th><td><select id="{$sqlTables['album']}_where_updatetime">
+				<option value="0" selected>---Unlimited---</option>
+				<option value="86400">Since the day</option>
+				<option value="172800">Two days</option>
+				<option value="604800">A week</option>
+				<option value="1209600">Two weeks</option>
+				<option value="2592000">Past month</option>
+				<option value="7948800">Three months</option>
+				<option value="15897600">The past six months</option>
+				<option value="31536000">Over the past year</option>
+				</select></td></tr>
+			<tr><th>Are there pictures</th><td><select id="{$sqlTables['album']}_where_picflag">
+				<option value="1">There picture</option>
+				<option value="null">All</option>
+				</select></td></tr>
+			<tr><th>Privacy range</th><td><select id="{$sqlTables['album']}_where_friend">
+				<option value="0">Users can see the whole station</option>
+				<option value="null">All</option>
+				</select></td></tr>
+		</tbody>
+		<tr><th>Sort Set</th><td></td></tr>
+		<tr><th>1st Sort</th><td><select id="{$sqlTables['album']}_order_key_1">
+			<option value="null">Select</option>
+			<option value="picnum">The number of photos</option>
+			<option value="updatetime">Updated</option>
+			<option value="dateline">Created</option>
+			</select>
+			<select id="{$sqlTables['album']}_order_value_1">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>2nd Sort</th><td><select id="{$sqlTables['album']}_order_key_2">
+			<option value="null">Select</option>
+			<option value="picnum">The number of photos</option>
+			<option value="updatetime">Updated</option>
+			<option value="dateline">Created</option>
+			</select>
+			<select id="{$sqlTables['album']}_order_value_2">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>Third order</th><td><select id="{$sqlTables['album']}_order_key_3">
+			<option value="null">Select</option>
+			<option value="picnum">The number of photos</option>
+			<option value="updatetime">Updated</option>
+			<option value="dateline">Created</option>
+			</select>
+			<select id="{$sqlTables['album']}_order_value_3">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr></table>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable" id="{$sqlTables['thread']}" style="display:none;">
+		<tr><th style="width:10em;">Filter Set</th><td></td></tr>
+		<tr><th>Topics threadid</th><td>
+			<input type="radio" name="sqluseid_{$sqlTables['thread']}" value="0" onclick="javascript:setRadioValue('{$sqlTables['thread']}_where', '{$sqlTables['thread']}_ids');" checked />Do not specify the
+			<input type="radio" name="sqluseid_{$sqlTables['thread']}" value="1" onclick="javascript:setRadioValue('{$sqlTables['thread']}_ids', '{$sqlTables['thread']}_where');" />Designated
+			<input type="hidden" id="{$sqlTables['thread']}_id" value="tid" />
+		</td></tr>
+		<tbody id="{$sqlTables['thread']}_ids" style="display:none;">
+			<tr><th>Topics threadid</th><td><input type="text" id="{$sqlTables['thread']}_where_tid" value="" /> Number of topics threadid Please, open grid</td></tr>
+		</tbody>
+		<tbody id="{$sqlTables['thread']}_where">
+			<tr><th>Specified by uid</th><td><input type="text" id="{$sqlTables['thread']}_where_uid" value="" /> Multiple users uid Please, Open grid</td></tr>
+			<tr><th>Designated group tagid</th><td><input type="text" id="{$sqlTables['thread']}_where_tagid" value="" /> Several groups tagid Please, Open grid</td></tr>
+			<tr><th>Number of topics see the scope of</th><td><input type="text" id="{$sqlTables['thread']}_where_viewnum_min" value="" /> ~ <input type="text" id="{$sqlTables['thread']}_where_viewnum_max" value="" /></td></tr>
+			<tr><th>Topic Replies Range</th><td><input type="text" id="{$sqlTables['thread']}_where_replynum_min" value="" /> ~ <input type="text" id="{$sqlTables['thread']}_where_replynum_max" value="" /></td></tr>
+			<tr><th>Published</th><td><select id="{$sqlTables['thread']}_where_dateline">
+				<option value="0" selected>---Unlimited---</option>
+				<option value="86400">Since the day</option>
+				<option value="172800">Two days</option>
+				<option value="604800">A week</option>
+				<option value="1209600">Two weeks</option>
+				<option value="2592000">Past month</option>
+				<option value="7948800">Three months</option>
+				<option value="15897600">The past six months</option>
+				<option value="31536000">Over the past year</option>
+				</select></td></tr>
+			<tr><th>Does Top</th><td><select id="{$sqlTables['thread']}_where_displayorder">
+				<option value="null">All</option>
+				<option value="1">Top</option>
+				</select></td></tr>
+			<tr><th>Whether the essence Topics</th><td><select id="{$sqlTables['thread']}_where_digest">
+				<option value="null">All</option>
+				<option value="1">Essence</option>
+				</select></td></tr>
+		</tbody>
+		<tr><th>Sort Set</th><td></td></tr>
+		<tr><th>1st Sort</th><td><select id="{$sqlTables['thread']}_order_key_1">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="replynum">Replies</option>
+			<option value="dateline">Published</option>
+			</select>
+			<select id="{$sqlTables['thread']}_order_value_1">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>2nd Sort</th><td><select id="{$sqlTables['thread']}_order_key_2">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="replynum">Replies</option>
+			<option value="dateline">Published</option>
+			</select>
+			<select id="{$sqlTables['thread']}_order_value_2">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>Third order</th><td><select id="{$sqlTables['thread']}_order_key_3">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="replynum">Replies</option>
+			<option value="dateline">Published</option>
+			</select>
+			<select id="{$sqlTables['thread']}_order_value_3">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr></table>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable" id="{$sqlTables['feed']}" style="display:none;">
+		<tr><th style="width:10em;">Filter Set</th><td></td></tr>
+		<tbody id="{$sqlTables['feed']}_where">
+			<tr><th>Dynamic feedid</th><td><input type="text" id="{$sqlTables['feed']}_where_feedid" value="" /> Multiple dynamic feedid Please, Open grid</td></tr>
+			<tr><th>Dynamic Types</th><td><select id="{$sqlTables['feed']}_where_appid">
+				<option value="null">All</option>
+				<option value="0">Station</option>
+				<option value="1">Apply</option>
+				</select></td></tr>
+			<tr><th>Privacy range</th><td><select id="{$sqlTables['feed']}_where_friend">
+				<option value="0">Users can see the whole station</option>
+				<option value="null">All</option>
+				</select></td></tr>
+		</tbody>
+		<tr><th>Sort Set</th><td></td></tr>
+		<tr><th>1st Sort</th><td><select id="{$sqlTables['feed']}_order_key_1">
+			<option value="null">Select</option>
+			<option value="dateline">Generate time</option>
+			</select>
+			<select id="{$sqlTables['feed']}_order_value_1">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr></table>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable" id="{$sqlTables['space']}" style="display:none;">
+		<tr><th style="width:10em;">Filter Set</th><td></td></tr>
+		<tr><th>pecify a user uid</th><td>
+			<input type="radio" name="sqluseid_{$sqlTables['space']}" value="0" onclick="javascript:setRadioValue('{$sqlTables['space']}_where', '{$sqlTables['space']}_ids');" checked />Do not specify the
+			<input type="radio" name="sqluseid_{$sqlTables['space']}" value="1" onclick="javascript:setRadioValue('{$sqlTables['space']}_ids', '{$sqlTables['space']}_where');" />Designated
+			<input type="hidden" id="{$sqlTables['space']}_id" value="uid" />
+		</td></tr>
+		<tbody id="{$sqlTables['space']}_ids" style="display:none;">
+			<tr><th>User uid</th><td><input type="text" id="{$sqlTables['space']}_where_uid" value="" /> Multiple users uid Please, Open grid</td></tr>
+		</tbody>
+		<tbody id="{$sqlTables['space']}_where">
+			<tr><th>Number of range points</th><td><input type="text" id="{$sqlTables['space']}_where_credit_min" value="" /> ~ <input type="text" id="{$sqlTables['space']}_where_credit_max" value="" /></td></tr>
+			<tr><th>Specify the user group</th><td>
+				<table cellpadding="0" cellspacing="0" class="formtable"><tr>
+				<!--{eval $i = 0;}-->
+				<!--{loop $usergrouparr $gid $value}-->
+				<!--{if !empty($i) && 0 == $i % 3}--></tr><tr><!--{/if}-->
+				<td><input type="checkbox" name="{$sqlTables['space']}_where_groupid_{$gid}" value="$gid" id="{$sqlTables['space']}_where_groupid_{$gid}" /> <label for="{$sqlTables['space']}_where_groupid_{$gid}" style="cursor:pointer;">$value[grouptitle]</label></td>
+				<!--{eval $i ++;}-->
+				<!--{/loop}-->
+				</tr></table>
+			</td></tr>
+			<tr><th>View the number of the scope of</th><td><input type="text" id="{$sqlTables['space']}_where_viewnum_min" value="" /> ~ <input type="text" id="{$sqlTables['space']}_where_viewnum_max" value="" /></td></tr>
+			<tr><th>Friend Number Range</th><td><input type="text" id="{$sqlTables['space']}_where_friendnum_min" value="" /> ~ <input type="text" id="{$sqlTables['space']}_where_friendnum_max" value="" /></td></tr>
+			<tr><th>hether the real-name authentication</th><td><select id="{$sqlTables['space']}_where_namestatus">
+				<option value="null">All</option>
+				<option value="1">Certified</option>
+				</select></td></tr>
+			<tr><th>Created</th><td><select id="{$sqlTables['space']}_where_dateline">
+				<option value="0" selected>---Unlimited---</option>
+				<option value="86400">Since the day</option>
+				<option value="172800">Two days</option>
+				<option value="604800">A week</option>
+				<option value="1209600">Two weeks</option>
+				<option value="2592000">Past month</option>
+				<option value="7948800">Three months</option>
+				<option value="15897600">The past six months</option>
+				<option value="31536000">Over the past year</option>
+				</select></td></tr>
+			<tr><th>Updated</th><td><select id="{$sqlTables['space']}_where_updatetime">
+				<option value="0" selected>---Unlimited---</option>
+				<option value="86400">Since the day</option>
+				<option value="172800">Two days</option>
+				<option value="604800">A week</option>
+				<option value="1209600">Two weeks</option>
+				<option value="2592000">Past month</option>
+				<option value="7948800">Three months</option>
+				<option value="15897600">The past six months</option>
+				<option value="31536000">Over the past year</option>
+				</select></td></tr>
+			<tr><th>Are there head</th><td><select id="{$sqlTables['space']}_where_avatar">
+				<option value="null">All</option>
+				<option value="1">Have</option>
+				</select></td></tr>
+			<tr><th>Sexo</th><td><select id="{$sqlTables['space']}_where_sex">
+				<option value="null">All</option>
+				<option value="1">Male</option>
+				<option value="2">Female</option>
+				</select></td></tr>
+		</tbody>
+		<tr><th>Sort Set</th><td></td></tr>
+		<tr><th>1st Sort</th><td><select id="{$sqlTables['space']}_order_key_1">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="friendnum">Friends Number</option>
+			<option value="updatetime">Last Updated</option>
+			<option value="lastlogin">Last Login</option>
+			<option value="credit">Number of points</option>
+			<option value="dateline">Open Time</option>
+			</select>
+			<select id="{$sqlTables['space']}_order_value_1">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>2nd Sort</th><td><select id="{$sqlTables['space']}_order_key_2">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="friendnum">Friends Number</option>
+			<option value="updatetime">Last Updated</option>
+			<option value="lastlogin">Last Login</option>
+			<option value="credit">Number of points</option>
+			<option value="dateline">Open Time</option>
+			</select>
+			<select id="{$sqlTables['space']}_order_value_2">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr>
+		<tr><th>Third order</th><td><select id="{$sqlTables['space']}_order_key_3">
+			<option value="null">Select</option>
+			<option value="viewnum">View the number of</option>
+			<option value="friendnum">Friends Number</option>
+			<option value="updatetime">Last Updated</option>
+			<option value="lastlogin">Last Login</option>
+			<option value="credit">Number of points</option>
+			<option value="dateline">Open Time</option>
+			</select>
+			<select id="{$sqlTables['space']}_order_value_3">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr></table>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable" id="{$sqlTables['mtag']}" style="display:none;">
+		<tr><th style="width:10em;">Filter Set</th><td></td></tr>
+		<tr><th>Designated group tagid</th><td>
+			<input type="radio" name="sqluseid_{$sqlTables['mtag']}" value="0" onclick="javascript:setRadioValue('{$sqlTables['mtag']}_where', '{$sqlTables['mtag']}_ids');" checked />Do not specify the
+			<input type="radio" name="sqluseid_{$sqlTables['mtag']}" value="1" onclick="javascript:setRadioValue('{$sqlTables['mtag']}_ids', '{$sqlTables['mtag']}_where');" />Designated
+			<input type="hidden" id="{$sqlTables['mtag']}_id" value="tagid" />
+		</td></tr>
+		<tbody id="{$sqlTables['mtag']}_ids" style="display:none;">
+			<tr><th>Groups tagid</th><td><input type="text" id="{$sqlTables['mtag']}_where_tagid" value="" /> Several groups tagid Please, Open grid</td></tr>
+		</tbody>
+		<tbody id="{$sqlTables['mtag']}_where">
+			<tr><th>Group Number</th><td><input type="text" id="{$sqlTables['mtag']}_where_membernum_min" value="" /> ~ <input type="text" id="{$sqlTables['mtag']}_where_membernum_max" value="" /></td></tr>
+			<tr><th>Group Classification</th><td>
+				<table cellpadding="0" cellspacing="0" class="formtable"><tr>
+				<!--{eval $i = 0;}-->
+				<!--{loop $list $value}-->
+				<!--{if !empty($i) && 0 == $i % 3}--></tr><tr><!--{/if}-->
+				<td><input type="checkbox" name="{$sqlTables['mtag']}_where_fieldid_{$value[fieldid]}" value="{$value[fieldid]}" id="{$sqlTables['mtag']}_where_fieldid_{$value[fieldid]}" /> <label for="{$sqlTables['mtag']}_where_fieldid_{$value[fieldid]}" style="cursor:pointer;">$value[title]</label></td>
+				<!--{eval $i ++;}-->
+				<!--{/loop}-->
+				</tr></table>
+			</td></tr>
+			<tr><th>Group Permissions</th><td><select id="{$sqlTables['mtag']}_where_joinperm">
+				<option value="null">All</option>
+				<option value="1">Allow everyone can join</option>
+				</select></td></tr>
+		</tbody>
+		<tr><th>Sort Set</th><td></td></tr>
+		<tr><th>1st Sort</th><td><select id="{$sqlTables['mtag']}_order_key_1">
+			<option value="null">Select</option>
+			<option value="membernum">Group Number</option>
+			</select>
+			<select id="{$sqlTables['mtag']}_order_value_1">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr></table>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable" id="{$sqlTables['pic']}" style="display:none;">
+		<tr><th style="width:10em;">Filter Set</th><td></td></tr>
+		<tbody id="{$sqlTables['pic']}_where">
+			<tr><th>Album albumid</th><td><input type="text" id="{$sqlTables['pic']}_where_albumid" value="" /> Multiple albums albumid Please, Open grid</td></tr>
+			<tr><th>User uid</th><td><input type="text" id="{$sqlTables['pic']}_where_uid" value="" /> Multiple users uid Please, Open grid</td></tr>
+		</tbody>
+		<tr><th>Sort Set</th><td></td></tr>
+		<tr><th>1st Sort</th><td><select id="{$sqlTables['pic']}_order_key_1">
+			<option value="null">Select</option>
+			<option value="dateline">Upload time</option>
+			</select>
+			<select id="{$sqlTables['pic']}_order_value_1">
+			<option value="null">Select</option>
+			<option value="ASC">Incremental</option>
+			<option value="DESC">Decreasing</option>
+			</select></td></tr></table>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable" id="sqlDiy" style="display:none;">
+		<tr><th style="width:10em;">Data Call SQL</th><td><textarea id="blocksql" name="blocksql" style="width:98%;" rows="6">$block[blocksql]</textarea>
+			<br />This feature requires you to have a certain knowledge of SQL prepared.
+			<br />This data call is only the beginning of support the preparation of SELECT query SQL.
+			<br />SQL statement in the need to use the full table name. If you want to call to this procedure in the database table in front of the table to increase the database name. For example:
+			<br />1. Query to read the latest log (if the table name prefix to the default uchome_)
+			<br />SELECT * FROM uchome_blog ORDER BY dateline DESC
+			<br />2. Query to read the latest forum posts (if the forum is installed in discuz database table prefix cdb_)
+			<br />SELECT * FROM discuz.cdb_threads ORDER BY dateline DESC
+			</td></tr>
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="bid" value="$block[bid]">
+		<input type="submit" name="valuesubmit" value="Submit" class="submit">
+	</div>
+	
+	<script language="javascript" type="text/javascript">
+	var curMod = '';
+	var tableFields = ['uid', 'feedid', 'tagid', 'albumid'];
+	var sqls = [];
+	var tablePre = '{$_SC['tablepre']}';
+	<!--{loop $sqls $key $value}-->
+	sqls['$key'] = '$value';
+	<!--{/loop}-->
+	$('sqlform').onsubmit = function() {
+		var frmObj = $('sqlform');
+		var eLen = frmObj.elements.length;
+		var whereArr = [];
+		var orderKeys = [];
+		var orderValues = [];
+		var orderArr = [];
+		var tmpArr = [];
+		var groupidArr = [];
+		var fieldidArr = [];
+		var preReg = new RegExp(tablePre, 'ig');
+		var tableName = curMod.replace(preReg, '');
+		var timeFields = ['dateline', 'updatetime'];
+		var str = '';
+		var whereOrder = '';
+		if('' == curMod || 'undefined' == typeof(sqls[tableName])) {
+			return;
+		}
+		var tReg = new RegExp('_([a-zA-Z0-9]*)', 'ig');
+		for(var i = 0; i < eLen; i ++) {
+			if('' == frmObj.elements[i].value || 'null' == frmObj.elements[i].value) {
+				continue;
+			}
+			tmpArr.length = 0;
+			str = (frmObj.elements[i].id).replace(curMod, '');
+			if(frmObj.elements[i].id != str) {
+				str.replace(tReg, function($0, $1) {
+					tmpArr[tmpArr.length] = $1;
+				});
+				if('where' == tmpArr[0]) {
+					if('min' == tmpArr[2]) {
+						minv = parseInt(frmObj.elements[i].value);
+						if(isNaN(minv)) {
+							continue;
+						}
+						whereArr.push("`" + tableName + "`.`" + tmpArr[1] + "`>'" + minv + "'");
+					} else if('max' == tmpArr[2]) {
+						maxv = parseInt(frmObj.elements[i].value);
+						if(isNaN(maxv)) {
+							continue;
+						}
+						whereArr.push("`" + tableName + "`.`" + tmpArr[1] + "`<'" + maxv + "'");
+					} else {
+						if(-1 != in_array(tmpArr[1], tableFields)) {
+							whereArr.push("`" + tableName + "`.`" + tmpArr[1] + "` in ('" + ((frmObj.elements[i].value).split(',')).join("','") + "')");
+						} else if('groupid' == tmpArr[1]) {
+							groupid = parseInt(tmpArr[2]);
+							if(isNaN(groupid) || !frmObj.elements[i].checked) {
+								continue;
+							}
+							groupidArr.push(tmpArr[2]);
+						} else if('fieldid' == tmpArr[1]) {
+							fieldid = parseInt(tmpArr[2]);
+							if(isNaN(fieldid) || !frmObj.elements[i].checked) {
+								continue;
+							}
+							fieldidArr.push(tmpArr[2]);
+						} else if('appid' == tmpArr[1]) {
+							appid = parseInt(frmObj.elements[i].value);
+							if(isNaN(appid)) {
+								continue;
+							}
+							if(0 == appid) {
+								whereArr.push("`" + tableName + "`.`" + tmpArr[1] + "`='0'");
+							} else {
+								whereArr.push("`" + tableName + "`.`" + tmpArr[1] + "`>'0'");
+							}
+						} else if('sex' == tmpArr[1]) {
+							whereArr.push("`spacefield`.`sex`='" + parseInt(frmObj.elements[i].value) + "'");
+						} else if(-1 != in_array(tmpArr[1], timeFields)) {
+							if(0 < frmObj.elements[i].value) {
+								whereArr.push("`" + tableName + "`.`" + tmpArr[1] + "`>'[" + frmObj.elements[i].value + "]'");
+							}
+						} else {
+							whereArr.push("`" + tableName + "`.`" + tmpArr[1] + "`='" + frmObj.elements[i].value + "'");
+						}
+					}
+				} else if('order' == tmpArr[0]) {
+					if('key' == tmpArr[1]) {
+						orderKeys[frmObj.elements[i].value] = tmpArr[2];
+					} else if('value' == tmpArr[1]) {
+						orderValues[tmpArr[2]] = frmObj.elements[i].value;
+					}
+				}
+			}
+		}
+		if(0 < groupidArr.length) {
+			whereArr.push("`" + tableName + "`.`groupid` in ('" + groupidArr.join("','") + "')");
+		}
+		if(0 < fieldidArr.length) {
+			whereArr.push("`" + tableName + "`.`fieldid` in ('" + fieldidArr.join("','") + "')");
+		}
+		for(var i in orderKeys) {
+			if(null != orderValues[orderKeys[i]]) {
+				orderArr.push("`" + tableName + "`.`" + i + "` " + orderValues[orderKeys[i]]);
+			}
+		}
+		// If you are only using the ID, put the empty where
+		if($(curMod + '_ids') && 'none' != $(curMod + '_ids').style.display) {
+			whereArr.length = 0;
+			var whereId = $(curMod + '_where_' + $(curMod + '_id').value).value;
+			if('' != whereId) {
+				whereArr.push("`" + tableName + "`.`" + $(curMod + '_id').value + "` in ('" + (whereId.split(",")).join("','") + "')");
+			}
+		}
+		if(0 < whereArr.length) {
+			whereOrder += ' WHERE ' + whereArr.join(' AND ');
+		}
+		if(0 < orderArr.length) {
+			whereOrder += " ORDER BY " + orderArr.join(", ");
+		}
+		$('blocksql').value = sqls[tableName].replace(/WHEREORDER/g, whereOrder);
+	}
+	function in_array(ineedle, haystack, caseinsensitive) {
+		var needle = new String(ineedle);
+		if(needle.Length == 0) return -1;
+		if(caseinsensitive) {
+			needle = needle.toLowerCase();
+			for(var i in haystack)	{
+				if(haystack[i].toLowerCase() == needle) {
+					return i;
+				}
+			}
+		} else {
+			for(var i in haystack)	{
+				if(haystack[i] == needle) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	function setRadioValue(showid, hiddenid) {
+		if($(showid)) {
+			$(showid).style.display = '';
+		}
+		if($(hiddenid)) {
+			$(hiddenid).style.display = 'none';
+		}
+	}
+	function showSQLDiv(sid) {
+		var sObj = $(sid);
+		if('' != curMod) {
+			$(curMod).style.display = 'none';
+			$('li_' + curMod).className = '';
+		}
+		$('li_' + sid).className = 'active';
+		sObj.style.display = '';
+		curMod = sid;
+	}
+	<!--{if 'blocksql' == $_GET['op']}-->
+	$('sqlDiy').style.display = '';
+	<!--{else}-->
+	$('sqlGuide').style.display = '';
+	showSQLDiv('{$sqlTables['blog']}');
+	<!--{/if}-->
+	</script>
+	</form>
+	
+	<br />
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Data Dictionary Reference</h3>
+			<p>The following is the procedure of the database table name and field list for the query, when you write reference. The specific meaning of each field, please refer to the package in the \u0026quot;data dictionary\u0026quot; Document</p>
+		</div>
+	
+		<!--{loop $tables $key $value}-->
+		<br />
+		<ul class="listcol list4col">
+			<b>$key</b>
+			<!--{loop $value $subkey $subvalue}-->
+			<li>$subvalue</li>
+			<!--{/loop}-->
+		</ul>
+		<!--{/loop}-->
+
+	</div>
+	
+<!--{elseif $_GET['op'] == 'code'}-->
+
+	<form method="post" action="$turl">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr><th style="width:10em;">Query SQL Statement</th><td>
+	$block[blocksql]
+	<br />[<a href="$turl&op=blocksql&id=$block[bid]">Edit SQL</a>]
+	</td></tr>
+	
+	<tr><th>Variable name</th><td>{$phptag}_SBLOCK['<input type="text" name="cachename" id="cachename" value="$block[cachename]" style="width: 60px;">']</td></tr>
+	<tr><th>Cache Time</th><td><input type="text" name="cachetime" value="$block[cachetime]" size="5"> Seconds
+		<br />To set a cache time interval, the module data will be automatically updated within the specified time interval data
+		<br />Cache time setting the greater the smaller the load on the server, but the timeliness of data is not fully.
+		<br />Is set to 0, no use of caching, real-time updates, which will significantly increase server load.</td></tr>
+	<tr><th>Get the number of</th><td>
+		<input id="ra_start_num" name="num_option" type="radio" onclick="show_num_option()"<!--{if !$block[perpage]}--> checked="checked"<!--{/if}-->><label for="ra_start_num">To meet the conditions of access to part of the data</label>
+		&nbsp;&nbsp;
+		<input id="ra_perpage" name="num_option" type="radio" onclick="show_num_option()"<!--{if $block[perpage]}--> checked="checked"<!--{/if}-->><label for="ra_perpage">Get all the data, paging display</label><br />
+		<p id="op_start_num"<!--{if $block[perpage]}--> style="display:none"<!--{/if}-->>
+			To meet the conditions to obtain the first<input type="text" name="startnum" value="$block[startnum]" size="5"> 至 <input type="text" name="num" value="$block[num]" size="5"> Article Data
+		</p>
+		<p id="op_perpage"<!--{if !$block[perpage]}--> style="display:none"<!--{/if}-->>
+			Display <input type="text" name="perpage" value="$block[perpage]" size="5"> Article
+		</p>
+		</td></tr>
+	<tr><th>Data show HTML code</th><td>
+		<textarea name="htmlcode" id="htmlcode" style="width:98%;" rows="10">$block[htmlcode]</textarea>
+		<br />Use html language, write the data display style.
+		<br />Access to the data stored in the array ($ phptag) _SBLOCK [variable name] in (to replace the variable name you set in the above variable names), you can use the syntax of the loop to cycle through an array of variables. Please refer to the package in the \u0026quot;data call\u0026quot; document.
+	</td></tr>
+	
+	<!--{if $colnames}-->
+	<tr><th>Data Preview</th><td>
+		<input type="button" class="submit" id="preview" name="preview" value="Preview" />
+		<div id="previewBlock" style="border:1px solid #BBB;padding:2px;margin-top:3px;">Data Preview</div></td></tr>
+	
+	<tr><th>Field examples of callable</th>
+	<td>
+		<table cellspacing="1" cellpadding="0" bgcolor="#CCCCCC">
+		<tr bgcolor="#F3F3F3"><th>&nbsp;Field Name </th><th>&nbsp;Data examples&nbsp;</th></tr>
+		<!--{loop $colnames $key $value}-->
+		<tr><td bgcolor="#F5F5F5">&nbsp;$key&nbsp;</td><td bgcolor="#FFFFFF">&nbsp;$value&nbsp;</td></tr>
+		<!--{/loop}-->
+		</table>
+	</td></tr>
+	<!--{/if}-->
+
+	</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="bid" value="$block[bid]">
+		<input type="submit" name="codesubmit" value="Submit" class="submit">
+	</div>
+	
+	</form>
+	<script language="javascript" type="text/javascript">
+	$('cachename').onkeyup = function() {
+		var blockReg = new RegExp('\\$\\_SBLOCK\\[(.*?)\\]', 'ig');
+		var cname = $('cachename').value;
+		var htmvalue = $('htmlcode').value;
+		htmvalue = htmvalue.replace(blockReg, function($0, $1) {
+			$1 = cname;
+			return '$' + '_SBLOCK[' + $1 + ']';
+		});
+		$('htmlcode').value = htmvalue;
+	}
+	<!--{if $colnames}-->
+	var colname = {};
+	<!--{loop $colnames $key $value}-->
+	colname['$key'] = '<!--{eval echo addcslashes($value, '\'\\');}-->';
+	<!--{/loop}-->
+	$('preview').onclick = function() {
+		var html = $('htmlcode').value;
+		var loopReg2 = /\<\!\-\-\{loop\s+(\S+)\s+\$(\S+)\}\-\-\>/ig;
+		var loopReg3 = /\<\!\-\-\{loop\s+(\S+)\s+\$(\S+)\s+\$(\S+)\}\-\-\>/ig;
+		var varReg = /\$(([a-zA-Z_]+)(\[[a-zA-Z0-9_\-\.\"\'\[\]\$]+\])*)/ig;
+		var reg = '';
+		html = html.replace(loopReg2, function($0, $1, $2) {
+			reg = $2;
+			return '';
+		});
+		if('' == reg) {
+			html = html.replace(loopReg3, function($0, $1, $2, $3) {
+				reg = $3;
+				return '';
+			})
+		}
+		eval(reg + ' = colname');
+		html = html.replace(varReg, function($0, $1, $2, $3) {
+			key = $3.match(/(\w+)/ig);
+			return eval($2 + '["' + key + '"]');
+		});
+		$('previewBlock').innerHTML = html;
+	}
+	<!--{/if}-->
+	
+	function show_num_option(){
+		if($('ra_perpage').checked) {
+			var inputs = $('op_start_num').getElementsByTagName('input');
+			for(var i = 0, L=inputs.length; i < L; i++) {
+				inputs[i].value = '0';
+			}
+			$('op_perpage').style.display = "";
+			$('op_start_num').style.display = "none";
+		} else {
+			var inputs = $('op_perpage').getElementsByTagName('input');
+			for(var i = 0, L=inputs.length; i < L; i++) {
+				inputs[i].value = '0';
+			}
+			$('op_perpage').style.display = "none";
+			$('op_start_num').style.display = "";	
+		}
+	}
+	
+	</script>
+
+<!--{elseif $_GET['op'] == 'tpl'}-->
+	<div class="bdrcontent">
+	<div class="title"><h3>Template calling code</h3></div>
+
+	<table cellspacing="0" cellpadding="0" width="100%">
+	<tr><td>Please copy the following code, put the site to any page template specified location.</td></tr>
+	<tr><td><input type="text" name="blockcode" value="$code" size="80"></td></tr>
+	</table>
+	</div>
+
+<!--{elseif $_GET['op'] == 'js'}-->
+
+	<div class="bdrcontent">
+	<div class="title"><h3>Javascript calling code</h3></div>
+
+	<table cellspacing="0" cellpadding="0" width="100%">
+	<tr><td><textarea name="blockcode" style="width:98%;" rows="5">$code</textarea></td></tr>
+	</table>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<main>
+	<version value="" loginurl="" /> 
+	<debug value="0"/> 
+	<postUrl url = "../core/" />
+	<loading url="module/fish/mutilang/loading_vn.swf" />
+	<ad url = "" /> 
+	<diyFolder url = "module/fish/common/diy/" />
+	<defaultHeadPic facebook="" renren=""/>
+	<moduleList>
+		<module name="main" url="module/MainModule.swf" size="184069"
+				statusText_cn="Đang tải dữ liệu ..." statusText_zh="加載主文件..." statusText_en="loading content..." statusText_jp="アプリを追加する.." statusText_vn="Đang tải dữ liệu ...">
+			<material url="module/fish/common/ui/ui.swf" size="140000" 
+				statusText_cn="Đang tải ..." statusText_zh="加載UI素材..." statusText_en="loading UI materials..." statusText_jp="素材をダウンロードする.." statusText_vn="Đang tải ..."/>	
+			<material url="module/fish/mutilang/yutangui34_vn.swf" size="140000" 
+				statusText_cn="Đang tải ..." statusText_zh="加載UI素材..." statusText_en="loading UI materials..." statusText_jp="素材をダウンロードする.." statusText_vn="Đang tải ..."/>
+			<material url="module/fish/mutilang/task-xg3_vn.swf" size="89824"
+				statusText_cn="Đang tải ..." statusText_zh="加載UI素材..." statusText_en="loading UI materials..." statusText_jp="素材をダウンロードする.." statusText_vn="Đang tải ..."/>
+			<material url="module/fish/common/fish/fish.swf" size="900032"
+				statusText_cn="Đang tải ..." statusText_zh="加載魚苗素材..." statusText_en="loading seedlings..." statusText_jp="稚魚素材をダウンロード..." statusText_vn="Đang tải ..."/>
+			<material url="module/fish/mutilang/ball_vn.swf" size="157715"
+				statusText_cn="Đang tải ..." statusText_zh="加載幸運甲蟲..." statusText_en="loading lucky beetles..." statusText_jp="てんとうクジをダウンロード..." statusText_vn="Đang tải ..."/>
+         	<material url="module/fish/common/dog/dog.swf" size="157715"
+				statusText_cn="Đang tải ..." statusText_zh="加載狗..." statusText_en="loading dog..." statusText_jp="犬をダウンロードする.." statusText_vn="Đang tải ..."/>
+		</module>
+		<module name="yutang" url="module/YutangModule.swf" size="80000">
+		</module>
+	</moduleList>
+<tools>
+	<tool id="1" className="Fertilizer" />
+	<tool id="2" className="FertilizerFast" />
+	<tool id="3" className="FertilizerVeryFast" />
+	<tool id="4" className="FishRod2" />
+	<tool id="5" className="FishRod3" />
+	<tool id="6" className="Dog_6_shop" />
+	<tool id="7" className="ShopDogFood_Normal" />
+	<tool id="8" className="ShopDogFood_Mid" />
+	<tool id="9" className="ShopDogFood_High" />
+</tools>
+<gifts>
+	<gift id="1" className="god_wealth" />
+	<gift id="2" className="papercut_1" />
+	<gift id="3" className="tangyuan" />
+	<gift id="4" className="flower" />
+	<gift id="5" className="dumpling" />
+	<gift id="6" className="lion_head" />
+	<gift id="7" className="fulushou" />
+	<gift id="8" className="papercut" />
+	<gift id="9" className="liyu" />
+	<gift id="10" className="candybox" />
+	<gift id="11" className="chineselantern_red" />
+	<gift id="12" className="chineselantern_color" />
+	<gift id="13" className="savecan" />
+	<gift id="14" className="giftbox" />
+	<gift id="15" className="lantern_lotus" />
+	<gift id="16" className="ruyi" />
+	<gift id="17" className="candy_three" />
+	<gift id="18" className="bangbangtang_2" />
+	<gift id="19" className="bangbangtang_yuan" />
+	<gift id="20" className="fengche" />
+	<gift id="21" className="cake" />
+	<gift id="22" className="chocolate" />
+	<gift id="23" className="goldenlock" />
+	<gift id="24" className="mask" />
+	<gift id="25" className="fu" />
+	<gift id="26" className="cheseknot" />
+	<gift id="27" className="yuanbao_jin" />
+	<gift id="28" className="yuanbao_yin" />
+	<gift id="29" className="niangao" />
+	<gift id="30" className="firecrackers" />
+	<gift id="31" className="tanghulu" />
+	<gift id="32" className="corns" />
+	<gift id="33" className="hongbao" />
+	<gift id="34" className="manekiNeko" />
+	<gift id="35" className="lotus" />
+	<gift id="36" className="paibian_2" />
+	<gift id="37" className="paibian_3" />
+	<gift id="38" className="paibian_4" />
+	<gift id="39" className="paibian_5" />
+	<gift id="40" className="paibian_6" />
+	<gift id="41" className="paibian_1" />
+	<gift id="42" className="moneybag" />
+	<gift id="43" className="heart_1" />
+	<gift id="44" className="heart_2" />
+	<gift id="45" className="rose_99" />
+	<gift id="46" className="tanghulus" />
+	<gift id="47" className="manekiNeko_gold" />
+	<gift id="48" className="tiger" />
+</gifts>
+<fishs>
+		<offset offsetX="25" offsetY="-63" />
+		<rubish position="0,0,0,0,0,0|0,0,0,0,0,0|0,0,0,0,0,0|0,0,0,0,0,0" />
+		<nextText>
+			<zh value="魚苗,幼魚,成長,成熟,已成熟"/>
+			<en value="seedling, young,adult,mature,mature"/>
+			<jp value="稚魚,幼魚,成魚,収穫,養殖終了"/>
+			<cn value=" Cá giống, Cá con,Cá nhỏ, Cá lớn, Cá trưởng thành"/>
+			<vn value=" Cá giống, Cá con,Cá nhỏ, Cá lớn, Cá trưởng thành"/>
+		</nextText>
+		
+      	<fish id="1" className="Liyu">
+			<grow value="3600,12000,21600,9999999" />
+		</fish>		
+		<fish id="2" className="Jiyu">
+			<grow value="4200,16200,28800,9999999" />
+		</fish>
+		<fish id="3" className="Nianyu">
+			<grow value="4200,19800,36000,9999999" />
+		</fish>			
+		<fish id="4" className="Caoyu">
+			<grow value="4800,24000,43200,9999999" />				
+		</fish>
+		<fish id="5" className="Caoxia">
+			<grow value="5400,27600,50400,9999999" />				
+		</fish>
+		 <fish id="6" className="Jiaji">
+			<grow value="6600,30000,54000,9999999" />				
+		</fish>
+		<fish id="7" className="Luofei">
+			<grow value="7800,34200,61200,9999999" />				
+		</fish>		
+	 	<fish id="8" className="Hongzun">
+			<grow value="9000,36600,64800,9999999" />				
+		</fish>				
+		<fish id="9" className="Sanwen">
+			<grow value="9000,36600,64800,9999999" />				
+		</fish>				
+		<fish id="10" className="Baishan">
+			<grow value="10200,40800,72000,9999999" />				
+		</fish>	
+		<fish id="11" className="Qiudao">
+			<grow value="11400,50400,90000,9999999" />				
+		</fish>	
+		<fish id="12" className="Guiyu">
+			<grow value="12000,52800,93600,9999999" />				
+		</fish>	
+		<fish id="13" className="Huangshan">
+			<grow value="12600,54600,97200,9999999" />				
+		</fish>				
+		<fish id="14" className="Shiban">
+			<grow value="13200,57000,100800,9999999" />				
+		</fish>				
+		<fish id="15" className="Longxia">
+			<grow value="13800,58800,104400,9999999" />				
+		</fish>		
+		<fish id="16" className="Qingxie">
+			<grow value="15000,61200,108000,9999999" />				
+		</fish>		
+		<fish id="17" className="Zhaxie">
+			<grow value="16200,65400,115200,9999999" />				
+		</fish>				
+		<fish id="18" className="Jiayu">
+			<grow value="17400,67800,118800,9999999" />				
+		</fish>		
+		<fish id="19" className="Hetun">
+			<grow value="18600,70200,122400,9999999" />				
+		</fish>					
+		<fish id="20" className="Baoyu">
+			<grow value="19800,72600,126000,9999999" />				
+		</fish>		
+		<fish id="21" className="Zhonghuaxun">
+			<grow value="21000,75000,129600,9999999" />				
+		</fish>
+		<fish id="22" className="Nemo">
+			<grow value="7200,14400,21600,9999999" />				
+		</fish>
+		<fish id="23" className="BlueTangWang">
+			<grow value="10800,21600,32400,9999999" />				
+		</fish>
+		<fish id="24" className="RegalTang">
+			<grow value="10800,21600,32400,9999999" />				
+		</fish>		
+		<fish id="25" className="Shuiguoyu">
+			<grow value="3600,10800,21600,9999999" />				
+		</fish>					
+		<fish id="26" className="Tangguoyu">
+			<grow value="7200,21600,43200,9999999" />				
+		</fish>	
+		<fish id="27" className="Lanjingling">
+			<grow value="8400,25200,50400,9999999" />				
+		</fish>	
+		<fish id="28" className="Jixiangyu">
+			<grow value="9600,28800,57600,9999999" />				
+		</fish>	
+		<fish id="29" className="Dahuangyu">
+			<grow value="10200,30600,61200,9999999" />				
+		</fish>	
+		<fish id="30" className="Lanbandian">
+			<grow value="10800,32400,64800,9999999" />				
+		</fish>	
+		<fish id="31" className="Hongbandian">
+			<grow value="12000,36000,72000,9999999" />				
+		</fish>	
+		<fish id="32" className="Sanqiangyu">
+			<grow value="13800,41400,82800,9999999" />				
+		</fish>	
+		<fish id="33" className="Huaqiyu">
+			<grow value="15000,45000,90000,9999999" />
+		</fish>				
+		<fish id="34" className="Ailisi">
+			<grow value="15600,46800,93600,9999999" />				
+		</fish>	
+		<fish id="35" className="Caidaiyu">
+			<grow value="16200,48600,97200,9999999" />				
+		</fish>	
+		<fish id="36" className="Huaguan">
+			<grow value="17400,52200,104400,9999999" />				
+		</fish>	
+		<fish id="37" className="Lvhuaguan">
+			<grow value="18600,55800,111600,9999999" />				
+		</fish>	
+		<fish id="38" className="Longtoudeng">
+			<grow value="19200,57600,115200,9999999" />				
+		</fish>	
+		<fish id="39" className="Pengkeyu">
+			<grow value="19800,59400,118800,9999999" />				
+		</fish>	
+		<fish id="40" className="Caihong">
+			<grow value="20400,61200,122400,9999999" />				
+		</fish>	
+		<fish id="41" className="Weinasi">
+			<grow value="21000,63000,126000,9999999" />				
+		</fish>	
+      	<fish id="42" className="Fish42">
+			<grow value="3600,12000,21600,9999999" />
+		</fish>		
+		<fish id="43" className="Fish43">
+			<grow value="4200,16200,28800,9999999" />
+		</fish>
+		<fish id="44" className="Fish44">
+			<grow value="4200,19800,36000,9999999" />
+		</fish>			
+		<fish id="45" className="Fish45">
+			<grow value="4800,24000,43200,9999999" />				
+		</fish>
+		<fish id="46" className="Fish46">
+			<grow value="5400,27600,50400,9999999" />				
+		</fish>
+		<fish id="47" className="Fish47">
+			<grow value="6600,30000,54000,9999999" />				
+		</fish>
+		<fish id="48" className="Fish48">
+			<grow value="7800,34200,61200,9999999" />				
+		</fish>		
+		<fish id="49" className="Fish49">
+			<grow value="9000,36600,64800,9999999" />				
+		</fish>				
+		<fish id="50" className="Fish50">
+			<grow value="9000,36600,64800,9999999" />				
+		</fish>				
+		<fish id="51" className="Fish51">
+			<grow value="10200,40800,72000,9999999" />				
+		</fish>	
+		<fish id="52" className="Fish52">
+			<grow value="11400,50400,90000,9999999" />				
+		</fish>	
+		<fish id="53" className="Fish53">
+			<grow value="12000,52800,93600,9999999" />				
+		</fish>	
+		<fish id="54" className="Fish54">
+			<grow value="12600,54600,97200,9999999" />	
+		</fish>	
+		<fish id="55" className="Fish55">
+			<grow value="11400,50400,90000,9999999" />	
+		</fish>	
+		<fish id="56" className="Fish56">
+			<grow value="12000,52800,93600,9999999" />				
+		</fish>	
+		<fish id="57" className="Fish57">
+			<grow value="12600,54600,97200,9999999" />				
+		</fish>
+		<fish id="58" className="Fish58">
+			<grow value="13200,57000,100800,9999999" />				
+		</fish>
+		<fish id="59" className="Fish59">
+			<grow value="13800,58800,104400,9999999" />				
+		</fish>	
+		<fish id="60" className="Fish60">
+			<grow value="15000,61200,108000,9999999" />				
+		</fish>
+		<fish id="61" className="Fish61">
+			<grow value="16200,65400,115200,9999999" />				
+		</fish>	
+		<fish id="62" className="Fish62">
+			<grow value="17400,67800,118800,9999999" />				
+		</fish>
+		<fish id="63" className="Fish63">
+			<grow value="18600,70200,122400,9999999" />				
+		</fish>	
+      	<fish id="64" className="Fish64">
+			<grow value="5400,26000,46800,9999999" />
+		</fish>		
+      	<fish id="65" className="Fish65">
+			<grow value="6000,28800,54000,9999999" />
+		</fish>		
+      	<fish id="66" className="Fish66">
+			<grow value="7200,34000,57600,9999999" />
+		</fish>		
+      	<fish id="67" className="Fish67">
+			<grow value="8000,35400,61200,9999999" />
+		</fish>		
+      	<fish id="68" className="Fish68">
+			<grow value="9000,36600,64800,9999999" />
+		</fish>		
+      	<fish id="69" className="Fish69">
+			<grow value="9500,38800,68400,9999999" />
+		</fish>		
+      	<fish id="70" className="Fish70">
+			<grow value="10800,42500,75600,9999999" />
+		</fish>		
+      	<fish id="71" className="Fish71">
+			<grow value="11600,51500,90000,9999999" />
+		</fish>		
+      	<fish id="72" className="Fish72">
+			<grow value="12200,53300,93600,9999999" />
+		</fish>		
+      	<fish id="73" className="Fish73">
+			<grow value="12800,55000,97200,9999999" />
+		</fish>		
+      	<fish id="74" className="Fish74">
+			<grow value="13200,57000,100800,9999999" />
+		</fish>		
+      	<fish id="75" className="Fish75">
+			<grow value="13800,58800,104400,9999999" />
+		</fish>		
+      	<fish id="76" className="Fish76">
+			<grow value="15800,64200,111600,9999999" />
+		</fish>		
+      	<fish id="77" className="Fish77">
+			<grow value="17000,66600,115200,9999999" />
+		</fish>		
+      	<fish id="78" className="Fish78">
+			<grow value="18200,69800,118800,9999999" />
+		</fish>		
+      	<fish id="79" className="Fish79">
+			<grow value="19200,71500,122400,9999999" />
+		</fish>		
+      	<fish id="80" className="Fish80">
+			<grow value="20000,73500,126000,9999999" />
+		</fish>		
+      	<fish id="81" className="Fish81">
+			<grow value="19800,72600,126000,9999999" />
+		</fish>		
+      	<fish id="82" className="Fish82">
+			<grow value="8888,18888,28800,9999999" />
+		</fish>
+        <fish id="83" className="Fish83">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="84" className="Fish84">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="85" className="Fish85">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="86" className="Fish86">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="87" className="Fish87">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="88" className="Fish88">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="89" className="Fish89">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="90" className="Fish90">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="91" className="Fish91">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="92" className="Fish92">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="93" className="Fish93">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="94" className="Fish94">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="95" className="Fish95">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="96" className="Fish96">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="97" className="Fish97">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="98" className="Fish98">
+            <grow value="8888,18888,28800,9999999" />
+        </fish> 
+        <fish id="99" className="CaribbeanBlueTang">
+            <grow value="11600,51500,90000,9999999" />
+        </fish> 
+        <fish id="100" className="FlameAngel">
+            <grow value="12000,52800,93600,9999999" />
+        </fish> 
+        <fish id="101" className="PyramidButterfly">
+            <grow value="12600,54600,97200,9999999" />
+        </fish> 
+        <fish id="102" className="KoranAngel">
+            <grow value="12800,55000,97200,9999999" />
+        </fish> 
+        <fish id="103" className="EmperorAngel">
+            <grow value="13200,57000,100800,9999999" />
+        </fish> 
+        <fish id="104" className="PowderBlueTang">
+            <grow value="13200,57000,100800,9999999" />
+        </fish> 
+        <fish id="105" className="BlueAngel">
+            <grow value="13800,58800,104400,9999999" />
+        </fish> 
+        <fish id="106" className="YellowTang">
+            <grow value="13800,58800,104400,9999999" />
+        </fish> 
+        <fish id="107" className="BlackPerculaClown">
+            <grow value="15800,64200,111600,9999999" />
+        </fish> 
+        <fish id="108" className="BlueShimmeryClown">
+            <grow value="16200,65400,115200,9999999" />
+        </fish> 
+        <fish id="109" className="RoyalAngel">
+            <grow value="17000,66600,115200,9999999" />
+        </fish> 
+        <fish id="110" className="RegalButterfly">
+            <grow value="17400,67800,118800,9999999" />
+        </fish> 
+        <fish id="111" className="RacoonButterfly">
+            <grow value="18200,69800,118800,9999999" />
+        </fish> 
+        <fish id="112" className="AchillesTang">
+            <grow value="18600,70200,122400,9999999" />
+        </fish> 
+        <fish id="113" className="NasoTang">
+            <grow value="19200,71500,122400,9999999" />
+        </fish> 
+        <fish id="114" className="ClarionAngel">
+            <grow value="19800,72600,126000,9999999" />
+        </fish> 
+        <fish id="115" className="ChevronTang">
+            <grow value="20000,73500,126000,9999999" />
+        </fish> 
+        <fish id="116" className="PurpleTang">
+            <grow value="21000,75000,129600,9999999" />
+        </fish> 
+	</fishs>
+</main>

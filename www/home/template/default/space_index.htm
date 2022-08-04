@@ -1,0 +1,470 @@
+﻿<!--{eval $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+ <!--Translated by Saokim999 & kienngohik, Vào www.traitimyenbai.net Để cập nhập lang việt, tem và ứng dụng.-->
+<!--{if $narrowlist || $widelist}-->
+<script type="text/javascript" src="source/script_swfobject.js"></script>
+<!--{/if}-->
+
+<div id="space_page">
+
+	<div id="ubar">
+
+		<div id="space_avatar">
+			<!--{if $space[magicstar] && $space[magicexpire]>$_SGLOBAL[timestamp]}-->
+			<div class="magicstar">
+			<object codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,45,0" width="200" height="250">
+				<param name="movie" value="image/magic/star/{$space[magicstar]}.swf" />
+				<param name="quality" value="high" />
+				<param NAME="wmode" value="transparent">
+				<embed src="image/magic/star/{$space[magicstar]}.swf" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash"  wmode="transparent" width="200" height="250"></embed>
+			</object>
+			</div>
+			
+			<div class="magicavatar"><!--{else}--><div><!--{/if}--><!--{avatar($space[uid],big)}--></div>
+			
+		</div>
+
+		<!--{if $space[self] && $_SGLOBAL[magic][superstar]}-->
+		<div class="borderbox">
+			<div style="width:100%; overflow:hidden;">
+			<img src="image/magic/superstar.small.gif" class="magicicon" />
+			<!--{if $space[magicstar] && $space[magicexpire]>$_SGLOBAL[timestamp]}-->
+			<a id="a_magic_superstar" href="cp.php?ac=magic&op=cancelsuperstar" onclick="ajaxmenu(event, this.id)">Hủy Superstar</a>
+			<!--{else}-->
+			<a id="a_magic_superstar" href="magic.php?mid=superstar" onclick="ajaxmenu(event, this.id, 1)">Trở thành Superstar</a>
+			<!--{/if}-->
+			</div>
+		</div><br />
+		<!--{/if}-->
+
+		<div class="borderbox">
+			<ul class="spacemenu_list" style="width:100%; overflow:hidden;">
+		<!--{if $space[self]}-->
+			<li><a href="cp.php?ac=avatar">Avatar</a></li>
+			<li><a href="cp.php?ac=profile">Edit Profile</a></li>
+			<li><a href="cp.php?ac=theme">Giao diện</a></li>
+			<li><a href="cp.php?ac=credit">Điểm số</a></li>
+			<!--{if $_SCONFIG[sendmailday]}-->
+			<li><a href="cp.php?ac=sendmail">Cài Email</a></li>
+			<!--{/if}-->
+			<li><a href="cp.php?ac=privacy">Riêng tư</a></li>
+		<!--{else}-->
+			<!--{if !$space['isfriend']}-->
+			<li><img src="image/icon/friend.gif"><a href="cp.php?ac=friend&op=add&uid=$space[uid]" id="a_friend_li" onclick="ajaxmenu(event, this.id, 1)">Kết bạn</a></li>
+			<!--{/if}-->
+			<li><img src="image/icon/pm.gif"><a href="cp.php?ac=pm&uid=$space[uid]" id="a_pm" onclick="ajaxmenu(event, this.id, 1)">Send PM</a></li>
+			<li><img src="image/icon/poke.gif"><a href="cp.php?ac=poke&op=send&uid=$space[uid]" id="a_poke" onclick="ajaxmenu(event, this.id, 1)">Chọc tức</a></li>
+			<li><img src="image/icon/wall.gif"><a href="#comment">Tường</a></li>
+			<!--{if $space['isfriend']}-->
+			<li><img src="image/icon/friend.gif"><a href="cp.php?ac=friend&op=ignore&uid=$space[uid]" id="a_ignore" onclick="ajaxmenu(event, this.id)">Từ chối</a></li>
+			<!--{/if}-->
+			<li><img src="image/icon/report.gif"><a href="cp.php?ac=common&op=report&idtype=uid&id=$space[uid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">Báo cáo</a></li>
+			<!--{if checkperm('managename')||checkperm('managespacegroup')||checkperm('managespaceinfo')||checkperm('managespacecredit')||checkperm('managespacenote')}-->
+			<li><img src="image/icon/profile.gif"><a href="admincp.php?ac=space&op=manage&uid=$space[uid]" id="a_manage">Quản lý</a></li>
+			<!--{/if}-->
+		<!--{/if}-->
+			</ul>
+		</div><br />
+
+		<div id="space_mymenu">
+			<h2>Space Menu</h2>
+			<ul class="line_list">
+				<li>
+					<!--{if $space[self]}-->
+					<a href="cp.php?ac=profile" class="r_option" target="_blank">Cập nhập</a>
+					<!--{/if}-->
+					<img src="image/icon/profile.gif"><a href="javascript:;" onclick="getindex('info');">Về tôi</a>
+				</li>
+				<li>
+					<!--{if $space[self]}-->
+					<a href="space.php?do=doing&view=me" class="r_option" target="_blank">My Status</a>
+					<!--{/if}-->
+					<img src="image/icon/doing.gif"><a href="javascript:;" onclick="getindex('doing');">Trạng thái</a><!--{if $space[doingnum]}--><em>($space[doingnum])</em><!--{/if}-->
+				</li>
+				<li>
+					<!--{if $space[self]}-->
+					<a href="cp.php?ac=blog" class="r_option" target="_blank">Viết Blog</a>
+					<!--{/if}-->
+					<img src="image/icon/blog.gif"><a href="javascript:;" onclick="getindex('blog');">Blog</a><!--{if $space[blognum]}--><em>($space[blognum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=upload" class="r_option" target="_blank">Upload</a>
+					<!--{/if}-->
+					<img src="image/icon/album.gif"><a href="javascript:;" onclick="getindex('album');">Album</a><!--{if $space[albumnum]}--><em>($space[albumnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=thread" class="r_option" target="_blank">Thêm mới</a>
+					<!--{/if}-->
+					<img src="image/icon/thread.gif"><a href="javascript:;" onclick="getindex('thread');">Thảo luận</a><!--{if $space[threadnum]}--><em>($space[threadnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=poll" class="r_option" target="_blank">Tạo mới</a>
+					<!--{/if}-->
+					<img src="image/icon/poll.gif"><a href="javascript:;" onclick="getindex('poll');">Vote</a><!--{if $space[pollnum]}--><em>($space[pollnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=event" class="r_option" target="_blank">Tạo Event</a>
+					<!--{/if}-->
+					<img src="image/icon/event.gif"><a href="javascript:;" onclick="getindex('event');">Event</a><!--{if $space[eventnum]}--><em>($space[eventnum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="space.php?do=share&view=me" class="r_option" target="_blank">Thêm mới</a>
+					<!--{/if}-->
+					<img src="image/icon/share.gif"><a href="javascript:;" onclick="getindex('share');">Share</a><!--{if $space[sharenum]}--><em>($space[sharenum])</em><!--{/if}--></li>
+				<li><!--{if $space[self]}-->
+					<a href="cp.php?ac=friend&op=search" class="r_option" target="_blank">Tìm bạn</a>
+					<!--{/if}-->
+					<img src="image/icon/friend.gif"><a href="javascript:;" onclick="getindex('friend');">Bạn bè</a><!--{if $space[friendnum]}--><em>($space[friendnum])</em><!--{/if}--></li>
+			</ul>
+		</div>
+
+		<!--{if $guidelist}-->
+		<div id="space_app_guide">
+			<h2>Các ứng dụng</h2>
+			<ul class="line_list">
+			<!--{loop $guidelist $value}-->
+			<li id="space_app_profilelink_$value[appid]">
+				<!--{if $space[self]}-->
+				<a href="cp.php?ac=space&op=delete&appid=$value[appid]&type=profilelink" id="user_app_profile_$value[appid]" class="r_option float_del" style="position: static;" onclick="ajaxmenu(event, this.id)" title="Delete">Xóa</a>
+				<!--{/if}-->
+				<img src="http://appicon.manyou.com/icons/$value[appid]"><!--{eval eval($value[profilelink]);}-->
+			</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
+		<!--{loop $narrowlist $value}-->
+		<div id="space_app_$value[appid]">
+			<h2>
+				<!--{if $space[self]}-->
+				<a href="cp.php?ac=space&op=delete&appid=$value[appid]" id="user_app_$value[appid]" class="r_option float_del" onclick="ajaxmenu(event, this.id)" title="Remove">Remove</a>
+				<!--{/if}-->
+				<a href="$value[appurl]">$value[appname]</a>
+			</h2>
+			<!--{if $value[myml]}-->
+			<div class="box">
+			<!--{eval eval($value[myml]);}-->
+			</div>
+			<!--{/if}-->
+		</div>
+		<!--{/loop}-->
+
+	</div>
+
+	<div id="content">
+			
+		<h3 id="spaceindex_name">
+		<!--{if $_SCONFIG[realname]}-->
+			<!--{if $space[name]}--><a href="space.php?uid=$space[uid]"<!--{eval g_color($space[groupid]);}-->>$space[name]</a><!--{else}--> Name not verified <!--{/if}-->
+			&nbsp;<em>(Nickname: $space[username])</em>
+		<!--{else}-->
+			<a href="space.php?uid=$space[uid]"<!--{eval g_color($space[groupid]);}-->>$space[username]</a>
+			<!--{if $space[name]}-->&nbsp;<em>(Tên thật: $space[name])</em><!--{/if}-->
+		<!--{/if}-->
+
+		<!--{if $_SCONFIG[realname]}-->
+			<!--{if $space[namestatus]}-->
+				&nbsp;<img src="image/realname_yes.gif" align="absmiddle" alt="Real Name Verified ">
+			<!--{else}-->
+				&nbsp;<img src="image/realname_no.gif" align="absmiddle" alt="Name not verified"> <span class="gray">Name not verified</span>
+			<!--{/if}-->
+		<!--{/if}-->
+			
+		<!--{if $_SCONFIG[videophoto]}-->	
+			<!--{if $space[videostatus]}-->
+				&nbsp;<img src="image/videophoto_yes.gif" align="absmiddle" alt="has been verified via WebCam"> <a id="a_space_videophoto" href="space.php?uid=$space[uid]&do=videophoto" onclick="ajaxmenu(event, this.id, 1)"><span style="color:red;font-weight:bold;font-size:12px;">View WebCam verified License</span></a>
+			<!--{else}-->
+				&nbsp; <img src="image/videophoto_no.gif" align="absmiddle" alt="not verified via WebCam"> <span class="gray"><a href="cp.php?ac=videophoto">User is not certified via WebCam </a></span>
+			<!--{/if}-->
+		<!--{/if}-->
+		</h3>
+
+
+		<div id="spaceindex_note">
+			<a href="cp.php?ac=share&type=space&id=$space[uid]" class="a_share" id="a_share" onclick="ajaxmenu(event, this.id, 1)">Share</a>
+			<a href="rss.php?uid=$space[uid]" id="i_rss" title="Subscribe RSS">RSS</a>
+			
+			<ul class="note_list">
+				<li>Thống kê: $space[viewnum] lượt ghé thăm, Tiền: $space[credit], Kinh nghiệm: $space[experience] $space[star]</li>
+				<li>Cấp độ: <a href="cp.php?ac=credit&op=usergroup">{$_SGLOBAL[grouptitle][$space[groupid]][grouptitle]}</a> <!--{eval g_icon($space[groupid]);}--></li>
+				<li>Trang cá nhân: <a href="$space[domainurl]" onclick="javascript:setCopy('$space[domainurl]');return false;" class="spacelink domainurl">$space[domainurl]</a></li>
+			
+				<!--{if !$space[self] && $space[spacenote]}-->
+				<li>$space[spacenote] <a href="space.php?uid=$space[uid]&do=doing">&raquo;</a></li>
+				<!--{/if}-->
+			</ul>
+	
+			<!--{if $space[self]}-->
+				<!--{template space_status}-->
+			<!--{/if}-->
+		</div>
+
+		<div id="maincontent">
+
+		<!--{if !$space['isfriend']}-->
+		<div class="borderbox">
+			<p style="padding-bottom:10px;"><b>Nếu bạn muốn hiểu rõ hơn về {$_SN[$space[uid]]}, để có thể cùng nói chuyện, tâm sự chia sẻ về cuộc sống, hãy cùng kết bạn nhé</b></p>
+			<a href="cp.php?ac=friend&op=add&uid=$space[uid]" id="a_friend_notice" onclick="ajaxmenu(event, this.id, 1)" class="submit">Kết bạn với {$_SN[$space[uid]]}</a></p>
+		</div><br>
+		<!--{/if}-->
+
+		<div id="space_info">
+			<h3 class="feed_header">
+				<!--{if $space[self]}-->
+				<a href="cp.php?ac=profile" class="r_option">Edit thông tin cá nhân</a>
+				<!--{/if}-->
+				Thông tin cá nhân
+			</h3>
+			<ul class="spacemenu_list">
+				<li><em>Tham gia từ:</em><!--{date('d-m-Y',$space[dateline],1)}--></li>
+				<li><em>Đăng nhập lần cuối:</em><!--{if $space[lastlogin]}--><!--{date('d-m-Y',$space[lastlogin],1)}--><!--{/if}--></li>
+				<!--{if $isonline}-->
+				<li><em>Status:</em>$isonline (Online Now)</li>
+				<!--{/if}-->
+			<!--{if $space[sex]}-->
+				<li><em>Giới tính:</em>$space[sex]</li>
+			<!--{/if}-->
+			<!--{if $space[birth]}-->
+				<li><em>Ngày sinh:</em>$space[birth]</li>
+			<!--{/if}-->
+			<!--{if $space[blood]}-->
+				<li><em>Nhóm máu:</em>$space[blood]</li>
+			<!--{/if}-->
+			<!--{if $space[marry]}-->
+				<li><em>Hôn nhân:</em>$space[marry]</li>
+			<!--{/if}-->
+
+			<!--{if $space[residecity]}-->
+				<li><em>Nơi ở hiện tại:</em>$space[residecity]</li>
+			<!--{/if}-->
+			<!--{if $space[birthcity]}-->
+				<li><em>Nơi sinh:</em>$space[birthcity]</li>
+			<!--{/if}-->
+			<!--{if $space[mobile]}-->
+				<li><em>Mobile:</em>$space[mobile]</li>
+			<!--{/if}-->
+				<li><em>MSN:</em>$space[msn]</li>
+			<!--{if $space[qq]}-->
+				<li><em>QQ:</em>$space[qq]</li>
+			<!--{/if}-->
+			</ul>
+			<p class="info_more"><a href="javascript:;" onclick="getindex('info');">&raquo; Xem tất cả thông tin</a></p>
+		</div>
+
+		<!--{if $feedlist}-->
+		<!--{eval $_TPL['hidden_hot']=1;}-->
+		<div id="space_feed" class="feed">
+			<h3 class="feed_header">
+				<span class="r_option">
+				<a href="space.php?uid=$space[uid]&do=feed&view=me" class="action">All</a>
+				</span>
+				<span class="entry-title">Cập nhập hoạt động</span>
+			</h3>
+			<div class="box_content">
+				<ul>
+				<!--{loop $feedlist $value}-->
+					<!--{template space_feed_li}-->
+				<!--{/loop}-->
+				</ul>
+			</div>
+		</div>
+		<!--{/if}-->
+
+		<!--{if $albumlist}-->
+		<div id="space_photo">
+			<h3 class="feed_header">
+				<a href="space.php?uid=$space[uid]&do=album&view=me" class="r_option">All</a>
+				 Album ảnh
+			</h3>
+			<table cellspacing="4" cellpadding="4" width="100%">
+			<tr>
+				<!--{loop $albumlist $key $value}-->
+				<td width="85" align="center"><a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" target="_blank"><img src="$value[pic]" alt="$value[albumname]" width="70" /></a></td>
+				<td width="165">
+					<h6><a href="space.php?uid=$space[uid]&do=album&id=$value[albumid]" target="_blank" title="$value[albumname]">$value[albumname]</a></h6>
+					<p class="gray">$value[picnum] Photos</p>
+					<p class="gray">Cập nhật <!--{date('d-m',$value[dateline],1)}--></p>
+				</td>
+				<!--{if $key%2==1}--></tr><tr><!--{/if}-->
+				<!--{/loop}-->
+			</tr>
+			</table>
+		</div>
+		<!--{/if}-->
+
+		<!--{if $bloglist}-->
+		<div id="space_blog" class="feed">
+			<h3 class="feed_header">
+				<a href="space.php?uid=$space[uid]&do=blog&view=me" class="r_option">All</a>
+				 Blogs cá nhân
+			</h3>
+			<ul class="line_list">
+			<!--{loop $bloglist $value}-->
+				<li>
+					
+					<h4>
+						<span class="gray r_option"><!--{date('m-d H:i',$value[dateline],1)}--></span>
+						<a href="space.php?uid=$space[uid]&do=blog&id=$value[blogid]" target="_blank">$value[subject]</a>
+					</h4>
+					<div class="detail">
+						$value[message]
+					</div>
+				</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
+
+		<!--{loop $widelist $value}-->
+		<!--{if $value[myml]}-->
+		<div id="space_app_$value[appid]" class="appbox">
+			<h3 class="feed_header">
+				<!--{if $space[self]}-->
+				<a href="cp.php?ac=space&op=delete&appid=$value[appid]" id="user_app_$value[appid]" class="r_option float_del" onclick="ajaxmenu(event, this.id)" title="Remove">Xóa</a>
+				<!--{/if}-->
+				<a href="$value[appurl]">$value[appname]</a>
+			</h3>
+			<div class="box" style="margin: 0 0 20px;">
+			<!--{eval eval($value[myml]);}-->
+			</div>
+		</div>
+		<!--{/if}-->
+		<!--{/loop}-->
+
+		</div>
+
+		<div id="comment" class="comments_list">
+			<h3 class="feed_header">
+				<a href="space.php?uid=$space[uid]&do=wall&view=me" class="r_option">Tất cả</a>
+				 Tường nhà
+			</h3>
+
+			<div class="box">
+				<form action="cp.php?ac=comment" id="quick_commentform_{$space[uid]}" name="quick_commentform_{$space[uid]}" method="post" style="padding:0 0 0 5px;">
+					<a href="###" id="editface" onclick="showFace(this.id, 'comment_message');return false;"><img src="image/facelist.gif" align="absmiddle" /></a>
+					<!--{if $_SGLOBAL['magic']['doodle']}-->
+					<a id="a_magic_doodle" href="magic.php?mid=doodle&showid=comment_doodle&target=comment_message" onclick="ajaxmenu(event, this.id, 1)"><img src="image/magic/doodle.small.gif" class="magicicon" /> Vẽ lên tường</a>
+					<!--{/if}-->
+					<br />
+					<textarea name="message" id="comment_message" rows="4" cols="60" style="width:98%;" onkeydown="ctrlEnter(event, 'commentsubmit_btn');"></textarea><br>
+					<input type="hidden" name="refer" value="space.php?uid=$space[uid]" />
+					<input type="hidden" name="id" value="$space[uid]" />
+					<input type="hidden" name="idtype" value="uid" />
+					<input type="hidden" name="commentsubmit" value="true" />
+					<input type="button" id="commentsubmit_btn" name="commentsubmit_btn" class="submit" value="Viết lên tường" onclick="ajaxpost('quick_commentform_{$space[uid]}', 'wall_add')" />
+					<span id="__quick_commentform_{$space[uid]}"></span>
+					<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				</form>
+			</div>
+
+			<div class="box_content">
+				<ul class="post_list a_list justify_list" id="comment_ul">
+				<!--{loop $walllist $value}-->
+					<!--{template space_comment_li}-->
+				<!--{/loop}-->
+				</ul>
+				<!--{if $walllist}-->
+				<p class="r_option" style="padding:5px 0 10px 0;"><a href="space.php?uid=$space[uid]&do=wall&view=me">&raquo; Xem thêm</a></p>
+				<!--{/if}-->
+			</div>
+		</div>
+	</div>
+
+	<div id="obar">
+		<!--{if !$space['self']}-->
+
+			<!--{if $space['magiccredit']}-->
+			<div class="magichongbao" id="div_magic_gift">
+				<a id="a_magic_gift" href="cp.php?&ac=magic&op=receive&uid=$space[uid]" onclick="ajaxmenu(event, this.id)">Tặng <span>$space[magiccredit]</span> điểm</a>
+			</div>
+			<!--{/if}-->
+
+			<!--{if $_SGLOBAL[magic][viewmagiclog] || $_SGLOBAL[magic][viewmagic] || $_SGLOBAL[magic][viewvisitor]}-->
+			<div class="indexmagic">
+			<!--{loop array('viewmagiclog','viewmagic','viewvisitor') $mid}-->
+				<!--{if $_SGLOBAL[magic][$mid]}-->
+				<a id="a_magic_{$mid}" href="magic.php?mid=$mid&idtype=uid&id=$space[uid]" onclick="ajaxmenu(event,this.id,1)">
+				<img src="image/magic/{$mid}.small.gif" title="{$_SGLOBAL[magic][$mid]}" alt="{$_SGLOBAL[magic][$mid]}">
+				</a>
+				<!--{/if}-->
+			<!--{/loop}-->
+			</div>
+			<!--{/if}-->
+		<!--{else}-->
+			<!--{if $_SGLOBAL[magic][gift]}-->
+			<div class="magichongbao" id="div_magic_gift">				
+				<!--{if $space['magiccredit']}-->
+				<a id="a_magic_retrieve" href="cp.php?ac=magic&op=retrieve" onclick="ajaxmenu(event,this.id)"></a>
+				<!--{else}-->
+				<a id="a_magic_gift" href="magic.php?mid=gift" onclick="ajaxmenu(event,this.id,1)">Tặng quà</a>
+				<!--{/if}-->				
+			</div>
+			<!--{/if}-->
+		<!--{/if}-->
+
+
+		<!--{if $visitorlist}-->
+		<div class="sidebox">
+			<h2 class="title">
+				<a href="space.php?uid=$space[uid]&do=friend&view=visitor" class="r_option">Tất cả</a>
+				Gần đây
+				<!--{if !$space[self] && $_SGLOBAL[magic][anonymous]}-->
+				<span class="gray"><img title="$_SGLOBAL[magic][anonymous]" src="image/magic/anonymous.small.gif"/><a id="a_magic_anonymous" href="magic.php?mid=anonymous&idtype=uid&id=$space[uid]" onclick="ajaxmenu(event,this.id,1)">Ẩn</a></span>
+				<!--{/if}-->
+			</h2>
+			<ul class="avatar_list">
+				<!--{loop $visitorlist $key $value}-->
+				<li>
+					<!--{if $value[vusername] == ''}-->
+					<div class="avatar48"><img src="image/magic/hidden.gif" alt="Anonymous" /></div>
+					<p>Ẩn</p>
+					<p class="gray"><!--{date('n day j month',$value[dateline],1)}--></p>
+					<!--{else}-->
+					<div class="avatar48"><a href="space.php?uid=$value[vuid]"><!--{avatar($value[vuid],small)}--></a></div>
+					<p<!--{if $ols[$value[vuid]]}--> class="online_icon_p"<!--{/if}-->><a href="space.php?uid=$value[vuid]" title="{$_SN[$value[vuid]]}">{$_SN[$value[vuid]]}</a></p>
+					<p class="gray">Dt:<!--{date('j-n ',$value[dateline],1)}--></p>
+					<!--{/if}-->
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
+
+		<!--{if $friendlist}-->
+		<div class="sidebox">
+			<h2 class="title">
+			<span class="r_option">
+				<a href="space.php?uid=$space[uid]&do=friend&view=me" class="action">Tất cả ($space[friendnum])</a>
+			</span>
+			Bạn bè
+			</h2>
+			<ul class="avatar_list">
+				<!--{loop $friendlist $value}-->
+				<li>
+				<div class="avatar48"><a href="space.php?uid=$value[fuid]"><!--{avatar($value[fuid],small)}--></a></div>
+				<p<!--{if $ols[$value[fuid]]}--> class="online_icon_p"<!--{/if}-->><a href="space.php?uid=$value[fuid]">{$_SN[$value[fuid]]}</a></p>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+
+	</div>
+
+</div>
+
+<!--{if $_GET['theme']}--><div class="nn">Bạn có muốn chọn giao diện này làm giao diện mắc định?<br /><a href="cp.php?ac=theme&op=use&dir=<!--{$_GET['theme']}-->">[Có]</a><a href="cp.php?ac=theme">[Ko]</a></div><!--{/if}-->
+<!--{template footer}-->
+
+<script>
+function getindex(type) {
+	var plus = '';
+	if(type == 'event') plus = '&type=self';
+	ajaxget('space.php?uid=$space[uid]&do='+type+'&view=me'+plus+'&ajaxdiv=maincontent', 'maincontent');
+}
+
+//²ÊºçìÅ
+var elems = selector('div[class~=magicflicker]'); 
+for(var i=0; i<elems.length; i++){
+	magicColor(elems[i]);
+}
+
+</script>

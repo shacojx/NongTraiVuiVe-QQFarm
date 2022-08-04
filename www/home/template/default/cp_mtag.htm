@@ -1,0 +1,565 @@
+<!--{template header}-->
+
+<!--{if $_GET[op]=='manage'}-->
+
+	<!--{if $_GET['subop'] != 'member'}-->
+	<h2 class="title"><img src="image/app/mtag.gif" /> Groups - $mtag[tagname]</h2>
+	<div class="tabs_header">
+		<ul class="tabs">
+		<!--{if $mtag['grade'] >= 8}-->
+			<li$actives[base]><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=base"><span>Basic Setting</span></a></li>
+		<!--{/if}-->
+		<!--{if $mtag['allowinvite']}-->
+			<li$actives[invite]><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=invite"><span>Invite Friend</span></a></li>
+		<!--{/if}-->
+		<!--{if $mtag['grade'] >= 8}-->
+			<li$actives[members]><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=members"><span>Manage</span></a></li>
+			<li$actives[thread]><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=thread"><span>Bulk Manage</span></a></li>
+		<!--{/if}-->
+		<li><a href="space.php?do=mtag&tagid=$mtag[tagid]"><span>Back to Group</span></a></li>
+		</ul>
+		<!--{if ($actives[members] || $mtag['allowinvite']) && ($_GET['subop'] == 'invite' || $_GET['subop'] == 'members')}-->
+		<script>
+			function searchUser() {
+				$('searchform').submit();
+			}
+		</script>
+		<form name="searchform" id="searchform" method="get" action="cp.php">
+			<div style="float:right;margin:0 6px 5px 0;">
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<td style="padding: 0;"><input type="text" id="key" name="key" value="Search" onfocus="if(this.value=='Members')this.value='';" class="t_input" tabindex="1" style="width: 160px; border-right: none;" /></td>
+						<td style="padding: 0;"><a href="javascript:searchUser();"><img src="image/search_btn.gif" alt="Search" /></a></td>
+					</tr>
+				</table>
+			</div>
+			<input type="hidden" name="ac" value="mtag">
+			<input type="hidden" name="op" value="manage">
+			<input type="hidden" name="tagid" value="$mtag[tagid]">
+			<input type="hidden" name="subop" value="$_GET[subop]">
+			<input type="hidden" name="uid" value="$_GET[uid]">
+			<input type="hidden" name="grade" value="$_GET[grade]">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+		<!--{/if}-->
+	</div>
+	<!--{/if}-->
+	
+	<form id="manageform" name="manageform" method="post" action="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=$_GET[subop]&uid=$_GET[uid]&grade=$_GET[grade]&group=$_GET[group]&page=$_GET[page]&start=$_GET[start]">
+	
+	<!--{if $_GET['subop'] == 'base'}-->
+	
+	<table cellspacing="4" cellpadding="4" class="formtable">
+	<tr>
+		<th width="100">Group Name</th>
+		<td>$mtag[tagname]</td>
+	</tr>
+	<tr>
+		<th width="100"><label for="pic">Group Logo</label></th>
+		<td><input id="pic" type="text" name="pic" value="$mtag[pic]" size="80" class="t_input" /><br />Enter Image URL begin http:// ) Tip: Upload the image in your album, copy the url (right click on image then find the image Location or use property, which should end with .jpg .png .gif)</td>
+	</tr>
+	<tr>
+		<th>
+			<label for="announcement">Groups Bulletins</label>
+		</th>
+		<td>
+			<textarea id="announcement" name="announcement" cols="80" rows="5">$mtag[announcement]</textarea>
+			<p class="gray">Max <strong>10000</strong> Characters</p>	
+		</td>
+	</tr>
+	
+	<!--{if $mtag[grade]==9}-->
+	<!--{if $field['manualmember']}-->
+	<tr>
+		<th width="100">Privacy Setting</th>
+		<td>
+			<select name="joinperm">
+			<option value="0"$joinperms[0]>Open (any one can join)</option>
+			<option value="1"$joinperms[1]>Moderated Membership</option>
+			<option value="2"$joinperms[2]>Private (Only Invited people)</option>
+			</select>
+		</td>
+	</tr>
+	<!--{else}-->
+	<tr>
+		<th width="100">Permissions</th>
+		<td>Open (member can add each other)</td>
+	</tr>
+	<!--{/if}-->
+	<tr>
+		<th width="100">View Permissions</th>
+		<td>
+			<select name="viewperm">
+			<option value="0"$viewperms[0]>Public (anyone can view the contents)</option>
+			<option value="1"$viewperms[1]>Private (Only members can view)</option>
+			</select>
+			<br>In order to protect the privacy, if it's private, the topics and other relavent things will be not display in members Feed.
+		</td>
+	</tr>
+	<tr>
+		<th width="100">Discussions</th>
+		<td>
+			<select name="threadperm">
+			<option value="0"$threadperms[0]>Just Group owner can create new topic</option>
+			<option value="1"$threadperms[1]>Any member can create New Topic</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th width="100">Replies</th>
+		<td>
+			<select name="postperm">
+			<option value="0"$postperms[0]>Just member can reply</option>
+			<option value="1"$postperms[1]>Any one can reply</option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<th>Group For new members</th>
+		<td>
+			<input type="radio" name="closeapply" value="0" $closeapply[0]/> Open
+			<input type="radio" name="closeapply" value="1" $closeapply[1]/> Close
+		</td>
+	</tr>
+	<!--{/if}-->
+	
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+		<input type="submit" name="basesubmit" value="Save Changes" class="submit" />&nbsp;
+		</td>
+	</tr>
+	</table>
+	
+	<!--{elseif $_GET['subop'] == 'thread'}-->
+	
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<td>
+		Login to Group Control Panel to mange the group content in bulk,<br>
+		<br><a href="admincp.php?ac=thread&&perpage=20&tagid=$mtag[tagid]&searchsubmit=1" class="submit">Manage Topic</a> &nbsp; 
+		<a href="admincp.php?ac=post&&perpage=20&tagid=$mtag[tagid]&searchsubmit=1" class="submit">Manage Replies</a>
+		</td>
+	</tr>
+	</table>
+	
+	<!--{elseif $_GET['subop'] == 'invite'}-->
+	
+	<div id="content" style="width: 640px;">
+		<div class="h_status">
+			You can invite your friends to join this group, who are not in this group!
+		</div>
+	
+	<!--{if $list}-->
+		<div class="h_status">
+			<ul class="avatar_list">
+			<!--{loop $list $value}-->
+				<li><div class="avatar48"><a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}"><!--{avatar($value[fuid],small)}--></a></div>
+					<p><a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}">{$_SN[$value[fuid]]}</a></p>
+					<p><!--{if empty($joins[$value[fuid]])}--><input type="checkbox" name="ids[]" value="$value[fuid]">Checked<!--{else}--> already invited<!--{/if}--></p>
+				</li>
+			<!--{/loop}-->
+			</ul>
+			<div class="page">$multi</div>
+		</div>
+		<p>
+			<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select All &nbsp;			<input type="submit" name="invitesubmit" value="Invite" class="submit" />
+			<input type="submit" name="invitesubmit" value="ÑûÇë" class="submit" />
+		</p>
+	
+	<!--{else}-->
+		<div class="c_form">No friends!</div>
+	<!--{/if}-->
+
+	</div>
+	
+	<div id="sidebar" style="width: 150px;">
+	<div class="cat">
+		<h3>Friends Category</h3>
+		<ul class="post_list line_list">
+			<li<!--{if $_GET[group]==-1}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&tagid=$mtag[tagid]&op=manage&subop=invite&group=-1">All Friends</a></li>
+			<!--{loop $groups $key $value}-->
+			<li<!--{if $_GET[group]==$key}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&tagid=$mtag[tagid]&op=manage&subop=invite&group=$key">$value</a></li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	</div>
+		
+	<!--{elseif $_GET['subop'] == 'members'}-->
+	
+	<div id="content" style="width: 640px;">
+	
+	<div class="h_status">
+		Select the user to change their level!
+	</div>
+	
+	<div class="h_status">
+		<!--{if $list}-->
+		<ul class="avatar_list">
+		<!--{loop $list $value}-->
+			<li><div class="avatar48"><a href="space.php?uid=$value[uid]" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></p>
+				<p><input type="checkbox" name="ids[]" value="$value[uid]">Selected</p>
+			</li>
+		<!--{/loop}-->
+		</ul>
+		<div class="page">$multi</div>
+		<!--{else}-->
+		<div class="c_form">Nothing found to related this</div>
+		<!--{/if}-->
+	</div>
+	<p>
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select &nbsp;
+		Create£º
+		<select name="newgrade">
+			<!--{if $mtag[grade]==9}-->
+			<option value="9">Group Admin</option>
+			<option value="8">Moderator</option>
+			<!--{/if}-->
+			<option value="1">Star Member</option>
+			<option value="0">Member</option>
+			<option value="-1">Banned</option>
+			<option value="-2">Pending</option>
+			<option value="-9">Remove</option>
+		</select>  &nbsp;
+		<input type="submit" name="memberssubmit" value="Submit" class="submit" />
+	</p>
+	</div>
+	
+	<div id="sidebar" style="width: 150px;">
+	<div class="cat">
+		<h3>Member Level</h3>
+		<ul class="post_list line_list">
+			<li<!--{if $_GET[grade]==-2}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=members&grade=-2">Pending</a></li>
+			<li<!--{if $_GET[grade]==0}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=members&grade=0">Member</a></li>
+			<li<!--{if $_GET[grade]==9}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=members&grade=9">Group Admin</a></li>
+			<li<!--{if $_GET[grade]==8}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=members&grade=8">Moderator</a></li>
+			<li<!--{if $_GET[grade]==1}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=members&grade=1">Star members</a></li>
+			<li<!--{if $_GET[grade]==-1}--> class="current"<!--{/if}-->><a href="cp.php?ac=mtag&op=manage&tagid=$mtag[tagid]&subop=members&grade=-1">Banned</a></li>
+		</ul>
+	</div>
+	</div>
+	
+	<!--{elseif $_GET['subop'] == 'member'}-->
+	
+	<h1>Manage Member</h1>
+	<a href="javascript:hideMenu();" title="Close" class="float_del">Close</a>
+	<div id="$_GET[uid]" class="popupmenu_inner">
+	<p>Mane User: {$_SN[$tagspace[uid]]}</p>
+	<p>Set Level£º
+		<select name="grade">
+			<option value="9"$grades[9]>Admin</option>
+			<option value="8"$grades[8]>Moderator</option>
+			<option value="1"$grades[1]>Star Member</option>
+			<option value="0"$grades[0]>Member</option>
+			<option value="-1"$grades[-1]>Ban</option>
+			<option value="-2"$grades[-2]>Pending</option>
+			<option value="-9">Remove</option>
+		</select>
+	</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<button name="membersubmit" type="submit" class="submit" value="true">Save</button>
+	</p>
+	</div>
+	
+	<!--{/if}-->
+
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+
+<!--{elseif $_GET[op]=='mtaginvite'}-->
+	
+	<h2 class="title"><img src="image/app/mtag.gif" />Gourp Invite</h2>
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li class="active"><a href="cp.php?ac=mtag&op=mtaginvite"><span>Invatation from Group</span></a></li>
+			<li><a href="space.php?do=mtag&view=me"><span>Back to my Group</span></a></li>
+		</ul>
+	</div>
+	
+	<div class="h_status">
+		Your friends invite you to join the following group
+		<!--{if $invites}-->
+			<span class="pipe">|</span>
+			<a href="cp.php?ac=mtag&op=inviteconfirm&tagid=0&r=0"><span>Ignore all</span></a>
+		<!--{/if}-->
+	</div>
+	
+	<div class="c_form">
+		<!--{if $invites}-->
+		<table cellspacing="4" cellpadding="4" class="formtable">
+		<!--{loop $invites $value}-->
+		<tr>
+			<td width="80">
+			<div class="threadimg60"><a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank"><img src="$value[pic]" width="60"></a></div></td>
+			<td class="h_status">
+				<p><a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank" style="font-size:14px;font-weight:bold;">$value[tagname]</a></p>
+				<div id="tag_$value[tagid]" style="padding:0.5em 0 0.5em 0;">
+					<p>$value[membernum] Members<!--{if $value[viewperm]}-->, Just member can browse <!--{/if}-->, Category: $value[title]</p>
+					Invite friends: <a href="space.php?uid=$value[fromuid]" target="_blank">{$_SN[$value[fromuid]]}</a>
+					<br>Invite time: <!--{date('d-m-Y H:i', $value[dateline], 1)}-->
+					<p style="padding:1em 0 0 0;">
+					<a href="cp.php?ac=mtag&op=inviteconfirm&tagid=$value[tagid]&r=1" class="submit" onclick="ajaxget(this.href, 'tag_$value[tagid]');return false;">Confirm the invitition</a> 
+					<a href="cp.php?ac=mtag&op=inviteconfirm&tagid=$value[tagid]&r=0" class="button" onclick="ajaxget(this.href, 'tag_$value[tagid]');return false;">Ignore</a>
+					</p>
+				</div>
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		<!--{else}-->
+		Do not invite the new peoples!
+		<!--{/if}-->
+	
+	</div>	
+
+<!--{elseif $_GET[op]=='join'}-->
+	
+	<h1>Join Group</h1>
+	<a href="javascript:hideMenu();" class="float_del" title="Close">close</a>
+	<div class="popupmenu_inner" id="__joinform_{$tagid}">
+	<form id="joinform_{$tagid}" name="joinform_{$tagid}" method="post" action="cp.php?ac=mtag&op=join&tagid=$tagid">
+		<p>Are you sure do you want to join this group?</p>
+		<p class="btn_line">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+			<input type="submit" name="joinsubmit" value="Join" class="submit" />
+		</p>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+	</div>
+
+<!--{elseif $_GET[op]=='out'}-->
+	
+	<h1>Leave This Group</h1>
+	<a href="javascript:hideMenu();" class="float_del" title="Close">Close</a>
+	<div class="popupmenu_inner" id="__outform">
+	<form id="outform" name="outform" method="post" action="cp.php?ac=mtag&op=out&tagid=$mtag[tagid]">
+		<p>Are you sure do you want to quit this group?</p>
+		<p class="btn_line">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+			<input type="submit" name="outsubmit" value="Quit" class="submit" />
+		</p>
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+	</div>
+
+<!--{elseif $_GET[op]=='apply'}-->
+	
+	<h1>Apply for Group Admin</h1>
+	<a href="javascript:hideMenu();" class="float_del" title="Close">Close</a>
+	<div class="popupmenu_inner" id="__pmapplyform_{$tagid}">
+	<form id="pmapplyform_{$tagid}" name="pmapplyform_{$tagid}" method="post" action="cp.php?ac=mtag&op=apply&tagid=$tagid">
+		<table cellspacing="0" cellpadding="3">
+			<tr><td>Please give the reason and tell us, why should be give you this role, your application will sent one short message to Admin</td></tr>
+			<tr>
+				<td><textarea id="message" name="message" cols="40" rows="4" tabindex="3" style="width: 400px; height: 150px;" onkeydown="ctrlEnter(event, 'pmsubmit_btn');"></textarea></td>
+			</tr>
+			<tr>
+				<td>
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+				<input type="hidden" name="pmsubmit" value="true" />
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				<!--{if $_SGLOBAL[inajax]}-->
+				<input type="button" name="pmsubmit_btn" id="pmsubmit_btn" value="Apply" class="submit" onclick="ajaxpost('pmapplyform_{$tagid}','',2000)" />
+				<!--{else}-->
+				<input type="submit" name="pmsubmit_btn" id="pmsubmit_btn" value="Apply" class="submit" />
+				<!--{/if}-->
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+
+
+<!--{else}-->
+	
+	<h2 class="title"><img src="image/app/mtag.gif" />Groups</h2>
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li class="active"><a href="cp.php?ac=mtag"><span>Create New Group</span></a></li>
+			<li><a href="space.php?do=mtag&view=me"><span>My Groups</span></a></li>
+		</ul>
+	</div>
+
+	<!--{if $_GET[op]=='multiresult'}-->
+
+	<div class="c_form">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>You have successfully joined the group</h2>
+			<p>Now you can visit the group and meet the same interest people, create some topic or poke the members and let them know you're here too!</p>
+		</caption>
+		<!--{loop $mtags $value}-->
+		<tr>
+			<td><a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank">$value[tagname]</a></td>
+			<td>{$value[title]}</td>
+			<td>$value[membernum] Memebers</td>
+			<td><a href="space.php?do=mtag&tagid=$value[tagid]" class="submit">Immediate access to this group</a></td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	</div>
+
+	<!--{elseif $_GET[op]=='confirm'}-->
+
+		<!--{if $findmtag}-->
+	
+		<div class="c_form">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr><td width="90"><div class="threadimg60"><img src="$findmtag[pic]" width="60" height="60"></div></td><td>
+				Groups <a href="space.php?do=mtag&tagid=$findmtag[tagid]" target="_blank">$findmtag[tagname]</a> Already exists
+				<br>$findmtag[membernum] Peoples
+				<br><br><a href="space.php?do=mtag&tagid=$findmtag[tagid]" class="submit">Visit group</a>
+			</td></tr>
+		</table>
+		</div>
+		
+		<!--{else}-->
+	
+		<form method="post" action="cp.php?ac=mtag" class="c_form">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<!--{if $likemtags}-->
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<caption>
+				<h2>Popular Groups</h2>
+				<p>The following popular groups and the group you want to create already exist, you can not create a new group, but You can join directly group, Already there are many members, you together discuss the topic and share the stuff.</p>
+			</caption>
+			<!--{loop $likemtags $value}-->
+			<tr>
+				<td><a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank">$value[tagname]</a></td>
+				<td>$value[membernum] Members</td>
+				<td>
+					<a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank">Quick access to this group</a>
+					<span class="pipe">|</span>
+					<!--{if $value['joinperm'] < 2}-->
+					<a href="cp.php?ac=mtag&op=join&tagid=$value[tagid]" id="mtag_like_$value[tagid]" onclick="ajaxmenu(event, this.id)">Select to join group</a>
+					<!--{else}-->
+					<strong>it require the invitition to join this group</strong>
+					<!--{/if}-->
+				</td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+		<!--{/if}-->
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<caption>
+				<h2>Are you sure do you want to create new group?</h2>
+			</caption>
+			<tr>
+				<th width="120">Create Group Name</th>
+				<td>$newtagname</td>
+			</tr>
+			<tr>
+				<th width="120">Group Category</th>
+				<td>$profield[title]</td>
+			</tr>
+			<tr>
+				<td></td><td>
+					<input type="hidden" name="tagname" value="$newtagname">
+					<input type="hidden" name="fieldid" value="$fieldid">
+					<input type="hidden" name="joinmode" value="1">
+					<input type="submit" id="textsubmit" name="textsubmit" value="Create Group" class="submit"></td>
+			</tr>
+		</table>
+		</form>
+		<!--{/if}-->
+
+	<!--{else}-->
+
+	<!--{if $textarr}-->
+	<form method="post" action="cp.php?ac=mtag" class="c_form">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<table cellspacing="6" cellpadding="6" class="formtable">
+	<caption>
+		<h2>Create your own new group!</h2>
+		<p>You are free to create a group of your own and invite friends to join to discuss the share the stuff.</p>
+	</caption>
+	<tr>
+		<th width="120">Group Name</th>
+		<td><input type="text" name="tagname" value="" class="t_input"></td>
+	</tr>
+	<tr>
+		<th>Group Type</th>
+		<td>
+		<select name="fieldid">
+		<!--{loop $textarr $value}-->
+		<option value="$value[fieldid]">$value[title]</option>
+		<!--{/loop}-->
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><input type="submit" name="textsubmit" value="Create Group" class="submit"></td>
+	</tr>
+	</table>
+	</form>
+	<!--{/if}-->
+	
+	<!--{if $choicearr}-->
+	<form method="post" action="cp.php?ac=mtag" class="c_form">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<table cellspacing="6" cellpadding="6" class="formtable">
+	<caption>
+		<h2>Join the Default Group</h2>
+		<p>You can select to join the interest group created on site if you don't wanna create your own, with more like-minded friends together to discuss relevant topics.<br> Please visit the Group's home page and select which one you want!</p>
+	</caption>
+	<!--{loop $choicearr $fid $value}-->
+	<tr>
+		<th width="120">$value[title]</th>
+		<td>
+		<!--{if $value['formtype']=='multi'}-->
+			<table><tr>
+			<!--{loop $value['choice'] $sk $sv}-->
+			<td><input type="checkbox" name="tagname[$fid][]" value="$sv" <!--{if $existmtag[$fid] && in_array($sv, $existmtag[$fid])}-->checked disabled<!--{/if}-->> <a href="space.php?do=mtag&fieldid=$fid&tagname=<!--{eval echo urlencode($sv);}-->" target="_blank">$sv</a></td>
+			<!--{if $sk%3==2}--></tr><tr><!--{/if}-->
+			<!--{/loop}-->
+			</tr></table>
+		<!--{else}-->
+			<table><tr>
+			<!--{loop $value['choice'] $sk $sv}-->
+			<td><input type="radio" name="tagname[$fid]" value="$sv" <!--{if $existmtag[$fid] && in_array($sv, $existmtag[$fid])}--> checked <!--{/if}--> <!--{if $existmtag[$fid]}-->disabled<!--{/if}-->> <a href="space.php?do=mtag&fieldid=$fid&tagname=<!--{eval echo urlencode($sv);}-->" target="_blank">$sv</a></td>
+			<!--{if $sk%3==2}--></tr><tr><!--{/if}-->
+			<!--{/loop}-->
+			</tr></table>
+		<!--{/if}-->
+		</td>
+	</tr>
+	<!--{/loop}-->
+	<tr>
+		<th>&nbsp;</th>
+		<td><input type="submit" name="choicesubmit" value="Join Group" class="submit"></td>
+	</tr>
+	</table>
+	</form>
+	<!--{/if}-->
+	
+	<form method="get" action="space.php" class="c_form">
+	<table cellspacing="6" cellpadding="6" class="formtable">
+	<caption>
+		<h2>Search the existing group</h2>
+		<p>You can try search your interest group</p>
+	</caption>
+	<tr>
+		<th width="120">Search group members</th>
+		<td>
+		<input name="searchkey" value="" class="t_input" type="text">
+		</td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td><input name="searchsubmit" value="Search Groups" class="submit" type="submit"></td>
+	</tr>
+	</table>
+	<input type="hidden" name="searchmode" value="1" />
+	<input type="hidden" name="do" value="mtag" />
+	<input type="hidden" name="view" value="hot" />
+	</form>
+
+	<!--{/if}-->
+
+<!--{/if}-->
+<!--{template footer}-->

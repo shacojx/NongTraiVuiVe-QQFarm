@@ -1,0 +1,37 @@
+<!--{tpl admin/inc_header}-->
+
+<!--{if $animaltype_list}-->
+<table class="list">
+	<tr>
+		<th>Vật nuôi</th>
+		<th>Cấp độ</th>
+		<th>Giá mua</th>
+		<th>EXP Thu hoạch</th>
+		<th>Exp Sinh sản</th>
+		<th>Sản lượng</th>
+		<th>Giá mua</th>
+		<th>Giá bán</th>
+		<th></th>
+	</tr>
+	<!--{foreach $animaltype_list as $key=>$animaltype}-->
+	<tr>
+		<td>{:$animaltype['cName']}</td>
+		<td>{:$animaltype['cLevel']}</td>
+		<td>{:$animaltype['byproductprice']}</td>
+		<td>{:$animaltype['harvestpExp']}</td>
+		<td>{:$animaltype['harvestbExp']}</td>
+		<td>{:$animaltype['output']}</td>
+		<td>{:$animaltype['price'] }</td>
+		<td>{:$animaltype['productprice'] }</td>
+		<td>
+			<a href="admin.php?mod=animaltype_edit&id={:$key}">Sửa</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<div id="pages" class="multiPage"></div>
+<!--{else}-->
+<div class="no_hpinfo">Chưa có</div>
+<!--{/if}-->
+
+<!--{tpl admin/inc_footer}-->

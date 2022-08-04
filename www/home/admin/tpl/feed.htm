@@ -1,0 +1,206 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<!--{if $allowmanage}-->
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[all]><a href="admincp.php?ac=feed"><span>View All News</span></a></li>
+		<li$actives[site]><a href="admincp.php?ac=feed&uid=0"><span>View Global Dynamic</span></a></li>
+		<li class="null"><a href="admincp.php?ac=feed&op=add">Post Global Dynamic</a></li>
+	</ul>
+</div>
+<!--{/if}-->
+	
+<!--{if $_GET['op']!='add'}-->
+	
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		<table cellspacing="3" cellpadding="3">
+
+		<!--{if $allowmanage}-->
+		<tr><th>By UID</th><td><input type="text" name="uid" value="$_GET[uid]"></td>
+			<th>By Name</th><td><input type="text" name="username" value="$_GET[username]"></td>
+		</tr>
+		<!--{/if}-->
+		<tr><th>News (feedid)</th><td><input type="text" name="feedid" value="$_GET[feedid]"></td>
+			<th>Dynamic Types(icon)</th><td><input type="text" name="icon" value="$_GET[icon]"></td>
+		</tr>
+		<tr><th>Published</th><td colspan="3">
+			<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+			<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		
+		<tr><th>Hot range</th><td colspan="3">
+			<input type="text" name="hot1" value="$_GET[hot1]" size="10"> ~
+			<input type="text" name="hot2" value="$_GET[hot2]" size="10">
+		</td></tr>
+
+		<tr><th>Sorting</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">Default Sort</option>
+		<option value="dateline"$orderby[dateline]>Published</option>
+		<option value="hot"$orderby[hot]>Hot</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>Decreasing</option>
+		<option value="asc"$ordersc[asc]>Incremental</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>20 per page</option>
+		<option value="50"$perpages[50]>50 per page</option>
+		<option value="100"$perpages[100]>100 per page</option>
+		<option value="1000"$perpages[1000]>One dealing with 1000</option>
+		</select>
+		<input type="hidden" name="ac" value="feed">
+		<input type="submit" name="searchsubmit" value="Search" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		The global dynamics, and which would at the station of any one member of the Friends dynamics will appear inside the dynamic, each member can be the first time to see. Website owners can use global dynamic and flexible to publish some public information.
+	</div>
+	<br>
+<!--{/if}-->
+
+
+<!--{if $_GET['op']=='add' || $_GET['op']=='edit'}-->
+	<form method="post" action="admincp.php?ac=feed">
+
+	<script language="javascript" src="image/editor/editor_function.js"></script>
+	<div class="bdrcontent">
+		<table cellspacing="3" cellpadding="3" width="100%">
+
+		<!--{if empty($feed[uid])}-->
+		<tr><th width="150">Dynamic title</th><td><input type="text" name="title_template" value="$feed[title_template]" size="100"> <br>Support html，For example: Bold <b> </b>，Discoloration font color=red> /font></td></tr>
+		<tr><th>Dynamic Content</th><td>
+			<textarea class="userData" name="body_template" id="uchome-ttHtmlEditor" style="height:100%;width:100%;display:none;border:0px">$feed[body_template]</textarea>
+			<iframe src="editor.php?charset=$_SC[charset]&allowhtml=1" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:100%;border: 1px solid #C5C5C5;" height="400"></iframe>
+		</td></tr>
+		<tr><th>Dynamic Notes</th><td><input type="text" name="body_general" value="$feed[body_general]" size="60"> (Support html)</td></tr>
+		<!--{else}-->
+		<tr><th width="150">Dynamic title</th><td>$feed[title_template]</td></tr>
+		<tr><th>Dynamic Content</th><td>$feed[body_template]</td></tr>
+		<tr><th>Dynamic Notes</th><td>$feed[body_general]</td></tr>
+		<!--{/if}-->
+
+		<tbody id="image">
+		<tr><th>1 pictures Address</th><td><input type="text" name="image_1" value="$feed[image_1]" size="60"></td></tr>
+		<tr><th>No. 1 Picture Link</th><td><input type="text" name="image_1_link" value="$feed[image_1_link]" size="60"></td></tr>
+		<tr><th>The first two pictures Address</th><td><input type="text" name="image_2" value="$feed[image_2]" size="60"></td></tr>
+		<tr><th>No. 2 Picture Link</th><td><input type="text" name="image_2_link" value="$feed[image_2_link]" size="60"></td></tr>
+		<tr><th>The first three pictures Address</th><td><input type="text" name="image_3" value="$feed[image_3]" size="60"></td></tr>
+		<tr><th>No. 3 Picture Link</th><td><input type="text" name="image_3_link" value="$feed[image_3_link]" size="60"></td></tr>
+		<tr><th>No. 4 pictures Address</th><td><input type="text" name="image_4" value="$feed[image_4]" size="60"></td></tr>
+		<tr><th>No. 4 Picture Link</th><td><input type="text" name="image_4_link" value="$feed[image_4_link]" size="60"></td></tr>
+		</tbody>
+		
+		<tr><th>Published</th><td><input type="text" name="dateline" value="$feed[dateline]" size="30"> (At present moment:<!--{eval echo sgmdate('Y-m-d H:i');}-->)
+			<br>You can fill out a future date and time, then this dynamic will be before the arrival of this future date, has been displayed in the first.</td></tr>
+			
+		<!--{if $feed['id']}-->
+		<tr><th>Dynamic hot</th><td><input type="text" name="hot" value="$feed[hot]" size="10"></td></tr>
+		<!--{/if}-->
+
+		<tr><td>&nbsp;</td><td>
+		<input type="hidden" name="feedid" value="$feed[feedid]">
+		<input type="hidden" name="feeduid" value="$feed[uid]">
+		<input type="hidden" name="id" value="$feed[id]">
+		<input type="hidden" name="idtype" value="$feed[idtype]">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<input type="submit" name="feedsubmit" value="Submitted to the Depositary" class="submit"<!--{if empty($feed[uid])}--> onclick="edit_save();"<!--{/if}-->>
+		<!--{if $feed[feedid]}-->
+		&nbsp; <a href="admincp.php?ac=feed&op=delete&feedid=$feed[feedid]" onclick="return confirm('Sure you want to delete?');">Delete this dynamic</a>
+		<!--{/if}-->
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+	<br>
+<!--{else}-->
+
+	<!--{if $list}-->
+
+	<form method="post" action="admincp.php?ac=feed">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		<div class="feed">
+		<div id="feed_div" class="feed_content">
+			<ul>
+			<!--{loop $list $value}-->
+			<!--{eval $value = mkfeed($value);}-->
+			<li id="feed_$value[feedid]_li">
+				<div style="width:100%;overflow:hidden;">
+					<div style="padding:10px 0 0 0;" class="r_option gray">
+						<input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[feedid]"> Choose
+						<!--{if $allowmanage}--> &nbsp;
+						<a href="admincp.php?ac=feed&op=edit&feedid=$value[feedid]">Edit</a>
+						<!--{/if}-->
+					</div>
+					<a class="type" href="admincp.php?ac=feed&icon=$value[icon]" title="Look for such dynamic"><img src="$value[icon_image]" /></a>
+					$value[title_template] 
+					<span class="time"><!--{date('m-d H:i',$value[dateline],1)}--></span>
+					<!--{if $value[hot]}--><span style="color:red;">(Hot:$value[hot])</span><!--{/if}-->
+					<div class="feedContent">
+						<!--{if $value['image_1']}-->
+						<a href="$value[image_1_link]"><img src="$value[image_1]" class="summaryimg" /></a>
+						<!--{/if}-->
+						<!--{if $value['image_2']}-->
+						<a href="$value[image_2_link]"><img src="$value[image_2]" class="summaryimg" /></a>
+						<!--{/if}-->
+						<!--{if $value['image_3']}-->
+						<a href="$value[image_3_link]"><img src="$value[image_3]" class="summaryimg" /></a>
+						<!--{/if}-->
+						<!--{if $value['image_4']}-->
+						<a href="$value[image_4_link]"><img src="$value[image_4]" class="summaryimg" /></a>
+						<!--{/if}-->
+						<!--{if $value['body_template']}-->
+						<div class="detail" <!--{if $value['image_3']}-->style="clear: both;"<!--{/if}-->>
+							$value[body_template]
+						</div>
+						<!--{/if}-->
+						<!--{if $value['body_general']}-->
+						<div class="quote"><span class="q">$value[body_general]</span></div>
+						<!--{/if}-->
+					</div>
+				</div>
+			</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+		</div>
+	</div>
+	<div class="footactions">
+		<!--{if $allowbatch}-->
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select
+		<!--{/if}--> 
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<input type="submit" name="deletesubmit" value="Bulk Delete" onclick="return confirm('This action can not be restored, to confirm the deletion?');" class="submit">
+
+		<div class="pages">$multi</div>
+	</div>
+
+	</form>
+	<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+	<!--{/if}-->
+
+<!--{/if}-->
+
+</div>
+</div>
+
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

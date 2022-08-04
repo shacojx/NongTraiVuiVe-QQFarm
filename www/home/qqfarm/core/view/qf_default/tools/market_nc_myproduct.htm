@@ -1,0 +1,38 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<!--{tpl tools/market_menu}-->
+	<!--{if $fruit}-->
+	<table class="list">
+		<tr>
+			<th width="40">ID</th>
+			<th width="100">Tên</th>
+			<th width="70">Hình dáng</th>
+			<th width="40">Cấp</th>
+			<th width="100">Giá gốc</th>
+			<th width="100">Số lượng</th>
+			<th width="100">Giá bán</th>
+			<th width="100"></th>
+		</tr>
+		<!--{foreach $fruit as $key => $value}-->
+		<tr>
+			<td>{:$key}</td>
+			<td>{:$cropstype[$key]['cName']}</td>
+			<td><img src="module/ui/farm/icon/{:$key}.png" height="24px" /></td> 
+			<td>{:$cropstype[$key]['cLevel']}</td>
+			<td><font color="ff0000">{:$cropstype[$key]['sale']}</font>Xu</td>
+			<td><input type='text' id='number{:$key}' size='10' value="{:$value}"/></td>
+			<td><input type='text' id='price{:$key}' size='15' value="{:$cropstype[$key]['sale']}"/></td>
+			<td>
+				<input type="button" onclick='request("tools.php?mod=market&act=nc&type=saleitem&mclass=3&cid={:$key}&number="+$("#number{:$key}").value+"&price="+$("#price{:$key}").value, "state{:$key}");' value='Bán' /><span id="state{:$key}"></span>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+	<div id="pages" class="multiPage"></div>
+	<!--{else}-->
+	<div class="no_hpinfo">Chưa có</div>
+	<!--{/if}-->
+</div>
+
+<!--{tpl inc_footer}-->

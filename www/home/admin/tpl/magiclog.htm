@@ -1,0 +1,312 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[holdlog]><a href="admincp.php?ac=magiclog&view=holdlog"><span>Props to hold records</span></a></li>
+			<li$actives[inlog]><a href="admincp.php?ac=magiclog&view=inlog"><span>Props to obtain records</span></a></li>
+			<li$actives[uselog]><a href="admincp.php?ac=magiclog&view=uselog"><span>Props to use records</span></a></li>
+			<!--{if $allowmanage}-->
+			<li$actives[storelog]><a href="admincp.php?ac=magiclog&view=storelog"><span>Props for sale statistics</span></a></li>
+			<!--{/if}-->
+		</ul>
+	</div>
+
+<!--{if $_GET[view] == 'inlog'}-->
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+	<table cellspacing="3" cellpadding="3">
+		<tr>
+			<!--{if $allowmanage}-->
+			<th>Username</th><td><input type="text" name="username" value="$_GET[username]"></td>
+			<!--{else}-->
+			<th>Username</th><td><input type="text" name="username" value="$_SGLOBAL[supe_username]" disabled></td>
+			<!--{/if}-->
+			<th>Props</th>
+			<td>
+				<select name="mid">
+				<option value="">Open</option>
+				<!--{loop $_SGLOBAL[magic] $key $value}-->
+				<option value="$key"<!--{if $_GET[mid]==$key}--> selected<!--{/if}-->>$value</option>
+				<!--{/loop}-->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Volume</th>
+			<td>
+				<select name="count">
+					<option value="">Open</option>
+					<option value="1-4"<!--{if $_GET['count']=='1-4'}--> selected<!--{/if}-->>1 - 4</option>
+					<option value="5-9"<!--{if $_GET['count']=='5-9'}--> selected<!--{/if}-->>5 - 9</option>
+					<option value="10-49"<!--{if $_GET['count']=='10-49'}--> selected<!--{/if}-->>10 - 49</option>
+					<option value="50-99"<!--{if $_GET['count']=='50-99'}--> selected<!--{/if}-->>50 - 99</option>
+					<option value="100-99999"<!--{if $_GET['count']=='100-99999'}--> selected<!--{/if}-->>Above 100</option>
+				</select>
+			</td>
+			<th>Accessibility</th>
+			<td>
+				<select name="type">
+					<option value="">Open</option>
+					<option value="1"<!--{if $_GET[type]==1}--> selected<!--{/if}-->>Buy</option>
+					<option value="2"<!--{if $_GET[type]==2}--> selected<!--{/if}-->>Gift</option>
+					<option value="3"<!--{if $_GET[type]==3}--> selected<!--{/if}-->>Upgrade</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Recording time</th>
+			<td colspan="3">
+				<script type="text/javascript" src="source/script_calendar.js"></script>
+				<input type="text" name="starttime" value="$_GET[starttime]" onclick="showcalendar(event,this,1)"/> ~
+				<input type="text" name="endtime" value="$_GET[endtime]"  onclick="showcalendar(event,this,1)" />
+				<input type="hidden" name="view" value="$_GET[view]">
+				<input type="hidden" name="ac" value="magiclog">
+				<input type="submit" name="searchsubmit" value="Search" class="submit">
+			</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+	
+	<!--{if $list}-->
+	<div class="bdrcontent">
+	<table width="100%">
+		<tr>
+			<th>Users</th>
+			<th>Way</th>
+			<th>Props</th>
+			<th>Amount</th>
+			<th>Time</th>
+		</tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td>
+			<a href="admincp.php?ac=magiclog&view=inlog&username=$value[username]">$value[username]</a>
+			</td>
+			<td>
+			<!--{if $value[type]==2}-->
+			Receive
+			<!--{elseif $value[type] == 3}-->
+			Upgrade User Group
+			<!--{else}-->
+			Buy
+			<!--{/if}-->
+			</td>
+			<td>
+			<a href="admincp.php?ac=magiclog&view=inlog&mid=$value[mid]">$_SGLOBAL[magic][$value[mid]]</a>
+			</td>
+			<td>
+			$value[count]
+			</td>
+			<td>
+			<!--{eval echo sgmdate('Y-m-d H:i', $value[dateline])}-->
+			</td>
+		</tr>
+		<!--{/loop}-->	
+	</table>
+	</div>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{else}-->
+	<div class="bdrcontent">
+	Do not specify the data
+	</div>	
+	<!--{/if}-->
+	
+<!--{elseif $_GET[view] == 'uselog'}-->
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+	<table cellspacing="3" cellpadding="3">
+		<tr>
+			<!--{if $allowmanage}-->
+			<th>Username</th><td><input type="text" name="username" value="$_GET[username]"></td>
+			<!--{else}-->
+			<th>Username</th><td><input type="text" name="username" value="$_SGLOBAL[supe_username]" disabled></td>
+			<!--{/if}-->
+			<th>Props</th>
+			<td>
+				<select name="mid">
+				<option value="">Open</option>
+				<!--{loop $_SGLOBAL[magic] $key $value}-->
+				<option value="$key"<!--{if $_GET[mid]==$key}--> selected<!--{/if}-->>$value</option>
+				<!--{/loop}-->
+				</select>
+				</select>			
+			</td>
+		</tr>
+		<tr>
+			<th>Role of the object type</th>
+			<td>
+				<select name="idtype">
+					<option value="">Open</option>
+					<option value="blogid"<!--{if $_GET['idtype']=='blogid'}--> selected<!--{/if}-->>BLog</option>
+					<option value="tid"<!--{if $_GET['idtype']=='tid'}--> selected<!--{/if}-->>Topics</option>
+					<option value="cid"<!--{if $_GET['idtype']=='cid'}--> selected<!--{/if}-->>Comments / Message</option>
+					<option value="uid"<!--{if $_GET['idtype']=='uid'}--> selected<!--{/if}-->>Space</option>
+					<option value="picid"<!--{if $_GET['idtype']=='picid'}--> selected<!--{/if}-->>Picture</option>
+					<option value="pollid"<!--{if $_GET['idtype']=='pollid'}--> selected<!--{/if}-->>Vote</option>
+					<option value="eventid"<!--{if $_GET['idtype']=='eventid'}--> selected<!--{/if}-->>Activities</option>
+				</select>
+			</td>
+			<th>Role of the Object ID</th>
+			<td>
+				<input type="text" name="id" value="$_GET[id]" />
+			</td>
+		</tr>
+		<tr>
+			<th>Recording time</th>
+			<td colspan="3">
+				<script type="text/javascript" src="source/script_calendar.js"></script>
+				<input type="text" name="starttime" value="$_GET[starttime]" onclick="showcalendar(event,this,1)"/> ~
+				<input type="text" name="endtime" value="$_GET[endtime]"  onclick="showcalendar(event,this,1)" />
+				<input type="hidden" name="view" value="$_GET[view]">
+				<input type="hidden" name="ac" value="magiclog">
+				<input type="submit" name="searchsubmit" value="Search" class="submit">
+			</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+	
+	<!--{if $list}-->	
+	<div class="bdrcontent">	
+	<table width="100%">
+		<tr>
+			<th>Users</th>
+			<th>Props</th>
+			<th>Time</th>
+		</tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td>
+			<a href="admincp.php?ac=magiclog&view=uselog&username=$value[username]">$value[username]</a>
+			</td>
+			<td>
+			<a href="admincp.php?ac=magiclog&view=uselog&mid=$value[mid]">$_SGLOBAL[magic][$value[mid]]</a>
+			</td>
+			<td>
+			<!--{eval echo sgmdate('Y-m-d H:i', $value[dateline])}-->
+			</td>
+		</tr>
+		<!--{/loop}-->	
+	</table>
+	</div>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{else}-->
+	<div class="bdrcontent">
+	Do not specify the data
+	</div>	
+	<!--{/if}-->
+<!--{elseif $_GET['view'] == 'storelog'}-->
+	<!--{if $list}-->	
+	<div class="bdrcontent">
+	<h3>
+		Props were sold $totalcount Parts, recycling $totalcredit Points
+	</h3>
+	<br />
+	<table width="100%">
+		<tr>
+			<th>Props</th>
+			<th>Number sold</th>
+			<th>Recycling Points</th>
+		</tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td><a href="admincp.php?ac=magiclog&view=holdlog&mid=$value[mid]">$_SGLOBAL[magic][$value[mid]]</a></td>
+			<td>$value[sellcount]</td>
+			<td>$value[sellcredit]</td>
+			</td>
+		</tr>
+		<!--{/loop}-->	
+	</table>
+	</div>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{else}-->
+	<div class="bdrcontent">
+	Do not specify the data
+	</div>	
+	<!--{/if}-->
+<!--{else}-->
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+	<table cellspacing="3" cellpadding="3">
+		<tr>
+			<!--{if $allowmanage}-->
+			<th>User UID</th><td><input type="text" name="uid" value="$_GET[uid]"></td>
+			<th>Username</th><td><input type="text" name="username" value="$_GET[username]"></td>
+			<!--{else}-->
+			<th>User UID</th><td><input type="text" name="uid" value="$_SGLOBAL[supe_uid]" disabled></td>
+			<th>Username</th><td><input type="text" name="username" value="$_GET[username]" disabled></td>
+			<!--{/if}-->
+		</tr>
+		<tr>
+			<th>Props</th>
+			<td colspan="3">
+				<select name="mid">
+				<option value="">Open</option>
+				<!--{loop $_SGLOBAL[magic] $key $value}-->
+				<option value="$key"<!--{if $_GET[mid]==$key}--> selected<!--{/if}-->>$value</option>
+				<!--{/loop}-->
+				</select>
+				</select>	
+				<input type="hidden" name="view" value="$_GET[view]">
+				<input type="hidden" name="ac" value="magiclog">
+				<input type="submit" name="searchsubmit" value="Search" class="submit">		
+			</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+	
+	<!--{if $list}-->	
+	<div class="bdrcontent">	
+	<table width="100%">
+		<tr>
+			<th>Users</th>
+			<th>Props</th>
+			<th>Amount</th>
+		</tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<td>
+			<a href="admincp.php?ac=magiclog&view=holdlog&uid=$value[uid]">
+			$value[username]
+			</a>
+			</td>
+			<td>
+			<a href="admincp.php?ac=magiclog&view=holdlog&mid=$value[mid]">$_SGLOBAL[magic][$value[mid]]</a>
+			</td>
+			<td>
+			$value[count]
+			</td>
+		</tr>
+		<!--{/loop}-->	
+	</table>
+	</div>
+	<div class="footactions">
+		<div class="pages">$multi</div>
+	</div>
+	<!--{else}-->
+	<div class="bdrcontent">
+	Do not specify the data
+	</div>	
+	<!--{/if}-->
+
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

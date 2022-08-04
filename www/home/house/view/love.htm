@@ -1,0 +1,193 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+	<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+	<!--{template header}-->
+	<!--{template house/view/menu}-->
+	<div class="s_clear">
+		<div style="background-color: #EEFCFF; line-height: 25px;">
+				<div id="house_menu">
+					<li><img src="house/view/img/love_love.gif" /><a href="house.php?ac=love&op=index">Tường</a></li>
+					<li><img src="house/view/img/love_house.gif" /><a href="house.php?ac=love&op=my">ước của tôi</a></li>
+					<li><img src="house/view/img/love_zuan.gif" /><a href="house.php?ac=love&op=send">ước</a></li>
+				</div>
+	<!--{if $op == 'send'}-->
+		<script type="text/javascript">
+		function strCounter(field){
+			if ($(field).value.length > 70)
+				$(field).value = $(field).value.substring(0, 70);
+			else{
+				$("Char").innerHTML = 70 - $(field).value.length;
+			}
+		}
+		function IconChange(k){
+			$('icon').value = k;
+			$('IconImg').src = "house/view/icon/"+ k + '.gif';
+		}
+		function FaceChoose(n){
+			var ClassName = "Face"+n;
+			$("Peview").setAttribute("class",ClassName);
+			$("Peview").setAttribute("className",ClassName);
+			$('color').value = n;
+		}
+		</script>
+		<table width="100%" cellspacing="1" cellpadding="0" border="0" class="Add">
+		<form action="house.php?ac=love&op=send" method="POST">
+			<input type="hidden" value="update" name="myFormAc"/>
+			<input type="hidden" value="0" name="color" id="color"/>
+			<input type="hidden" value="9" name="icon" id="icon"/>
+			<tbody>
+				<tr>
+					<td class="td"> ↓↓↓ Chúng tôi vĩnh viễn sẽ tiết kiệm được lưu ý của bạn </td>
+					<td class="td" colspan="2"> </td>
+				</tr>
+				<tr>
+					<td class="Peview" rowspan="6">
+						<div id="AD">
+							<p class="Num"><span class="red">Hướng dẫn sử dụng：</span></p>
+							<p class="Detail">1. Để thực hiện theo luật pháp Trung Quốc có liên quan và các quy định, tôn trọng các dòng đạo đức, chịu mọi kết quả của hành vi của bạn, trực tiếp hoặc gián tiếp phát sinh từ trách nhiệm pháp lý;<br/>2.Nội dung của bạn được công bố trên trang web này, chúng tôi có quyền xóa hoặc sao chép trang web này, tài liệu tham khảo;<br/>3.Chi phí của việc kê khai từng <b>100</b> Vàng. </p>
+							<p class="Sign"><span class="red">Cảm ơn bạn đã hỗ trợ của bạn!</span></p>
+						</div>
+						<div class="Face0" id="Peview">
+							<p class="Num">Xem trước lưu ý:<img alt="Đóng lại" src="house/view/img/close.gif"/></p>
+							<p class="Detail"><img width="50" height="50" id="IconImg" alt="aspk" src="house/view/icon/9.gif"/><span id="Head" class="Head"></span><br/><span id="AreaText"></span></p>
+							<p id="Sign" class="Sign" style="margin:0 10px;">亮亮</p>
+							<p class="Date">2008-10-25 12:5:18</p>
+						</div>
+					</td>
+					<th>Tiêu đề</th>
+					<td><input type="text" value="" size="20" name="title" class="input" maxlength=10/> Lên đến 10 ký tự</td>
+				</tr>
+				<tr>
+					<th>Nội dung</th>
+					<td>
+						<textarea onchange="strCounter('message');" onkeyup="strCounter('message');" rows="4" cols="20" name="message" id="message"></textarea> <span class="red">*</span>Còn lại<span id="Char" class="red"> 70 </span>Từ
+					</td>		
+				</tr>
+				<tr>
+					<th>Phong cách</th>
+					<td>
+						<span onclick="FaceChoose('0')" class="colorBlock0" id="colorBlock"></span>
+						<span onclick="FaceChoose('1')" class="colorBlock1" id="colorBlock"></span>
+						<span onclick="FaceChoose('2')" class="colorBlock2" id="colorBlock"></span>
+						<span onclick="FaceChoose('3')" class="colorBlock3" id="colorBlock"></span>
+						<span onclick="FaceChoose('4')" class="colorBlock4" id="colorBlock"></span>
+						<span onclick="FaceChoose('5')" class="colorBlock5" id="colorBlock"></span>
+					</td>
+				</tr>
+				<tr>
+					<th>Hoa văn</th>
+					<td>
+						<img onclick="IconChange( '0');" src="house/view/icon/0.gif" class="iconBox"/>
+						<img onclick="IconChange( '1');" src="house/view/icon/1.gif" class="iconBox"/>
+						<img onclick="IconChange( '2');" src="house/view/icon/2.gif" class="iconBox"/>
+						<img onclick="IconChange( '3');" src="house/view/icon/3.gif" class="iconBox"/>
+						<img onclick="IconChange( '4');" src="house/view/icon/4.gif" class="iconBox"/>
+						<img onclick="IconChange( '5');" src="house/view/icon/5.gif" class="iconBox"/>
+						<img onclick="IconChange( '6');" src="house/view/icon/6.gif" class="iconBox"/>
+						<img onclick="IconChange( '7');" src="house/view/icon/7.gif" class="iconBox"/>
+						<img onclick="IconChange( '8');" src="house/view/icon/8.gif" class="iconBox"/>
+						<img onclick="IconChange( '9');" src="house/view/icon/9.gif" class="iconBox"/>
+						<img onclick="IconChange( '10');" src="house/view/icon/10.gif" class="iconBox"/>
+						<img onclick="IconChange( '11');" src="house/view/icon/11.gif" class="iconBox"/>
+						<img onclick="IconChange( '12');" src="house/view/icon/12.gif" class="iconBox"/>
+						<img onclick="IconChange( '13');" src="house/view/icon/13.gif" class="iconBox"/>
+						<img onclick="IconChange( '14');" src="house/view/icon/14.gif" class="iconBox"/>
+						<img onclick="IconChange( '15');" src="house/view/icon/15.gif" class="iconBox"/>
+						<img onclick="IconChange( '16');" src="house/view/icon/16.gif" class="iconBox"/>
+						<img onclick="IconChange( '17');" src="house/view/icon/17.gif" class="iconBox"/>
+						<img onclick="IconChange( '18');" src="house/view/icon/18.gif" class="iconBox"/>
+						<img onclick="IconChange( '19');" src="house/view/icon/19.gif" class="iconBox"/>
+						<img onclick="IconChange( '20');" src="house/view/icon/20.gif" class="iconBox"/>
+						<img onclick="IconChange( '21');" src="house/view/icon/21.gif" class="iconBox"/>
+						<img onclick="IconChange( '22');" src="house/view/icon/22.gif" class="iconBox"/>
+						<img onclick="IconChange( '23');" src="house/view/icon/23.gif" class="iconBox"/>
+						<img onclick="IconChange( '24');" src="house/view/icon/24.gif" class="iconBox"/>
+						<img onclick="IconChange( '25');" src="house/view/icon/25.gif" class="iconBox"/>
+						<img onclick="IconChange( '26');" src="house/view/icon/26.gif" class="iconBox"/>
+						<img onclick="IconChange( '27');" src="house/view/icon/27.gif" class="iconBox"/>
+						<img onclick="IconChange( '28');" src="house/view/icon/28.gif" class="iconBox"/>
+						<img onclick="IconChange( '29');" src="house/view/icon/29.gif" class="iconBox"/>
+					</td>
+				</tr>
+				<tr>
+					<td> </td>
+					<td><input type="submit" value="Gửi một lưu ý" class="submit"/></td>
+				</tr>
+			</tbody>
+		</form>
+		</table>
+	<!--{else}-->
+				<div id="house_main">
+				<!--{loop $data['data'] $key $val}-->
+					<div id="Layer{$val['index']}" class="Face{$val['color']}" style="z-index:{$val['index']}" rel="{$val['index']}">
+						<p class="Num">Tuyên bố số：{$val['id']}<img src="house/view/img/close.gif" alt="Đóng lại" onclick="Close({$val['index']})" /></p>
+						<p class="Detail">
+							<img src="house/view/icon/{$val['icon']}.gif" alt="{$val['title']}" />
+							<span class="Head">{$val['title']}</span><br />{$val['message']}
+						</p>
+						<p class="Sign" title="{$val['name']}Tất cả các Tuyên bố"><a href="house.php?ac=love&op=my&uid={$val['uid']}">{$val['name']}</a></p>
+						<p class="Date">
+							<span class="vote">
+								<a href="house.php?ac=index&uid={$val['uid']}"><img src="house/view/img/home.gif" alt="nơi bạn sống？" /></a>
+							</span><!--{eval echo date('Y-n-d H:i', $val['dateline']);}-->
+						</p>
+					</div>
+				<!--{/loop}-->
+					<div class="page">{$htmlpage}</div>
+				</div>
+				<script type="text/javascript">
+				domReady(function(){
+					var o = $('house_main');
+					var pos = base.fetchOffset(o);
+					var w = o.offsetWidth;
+					var h = o.offsetHeight;
+					var obj = o.getElementsByTagName('DIV');
+					var rand = 0;
+					var l = t = 0;
+					for(var i=0; i<obj.length-2;i++){
+						rand = Math.random();
+						switch(i%4){
+							case 0 :
+								l = Math.abs(parseInt(pos.left + rand * w)) ;
+								t = Math.abs(parseInt(pos.top + rand * h)) ;
+							break;
+
+							case 1 :
+								l = Math.abs(parseInt(pos.left + w - rand * w)) ;
+								t = Math.abs(parseInt(pos.top + h - rand * h)) ;
+							break;
+
+							case 2 :
+								l = Math.abs(parseInt(pos.left + rand * w)) ;
+								t = Math.abs(parseInt(pos.top + h - rand * h)) ;
+							break;
+
+							case 3 :
+								l = Math.abs(parseInt(pos.left + w - rand * w)) ;
+								t = Math.abs(parseInt(pos.top + rand * h)) ;
+							break;
+						}
+						if(l + 245 > pos.left + w) l = pos.left + w - 245 - rand * 245;;
+						if(t + 200 > pos.top + h) t = pos.top + h - 200 - rand * 200;
+						obj[i].style.top = t + 'px';
+						obj[i].style.left = l + 'px';
+					};
+					index = $data['index'];
+					var oo = base.fetchOffset($('house_main'));
+					var l = parseInt(oo.left);
+					var w = $('house_main').offsetWidth;
+					var t = parseInt(oo.top);
+					var h = $('house_main').offsetHeight;
+					range = {x1:l,x2:l+w,y1:t,y2:t+h};
+					<!--{loop $data['data'] $val}-->
+					var m_{$val['index']} = new DragDrop('Layer{$val['index']}');
+					<!--{/loop}-->
+				});
+				</script>
+	<!--{/if}-->
+				<div id="house_footer"></div>
+		</div>
+	</div>
+
+	<!--{template footer}-->

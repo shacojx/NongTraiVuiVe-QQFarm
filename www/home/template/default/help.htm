@@ -1,0 +1,123 @@
+<!--{eval $_TPL['titles'] = array('Help');}-->
+<!--{template header}-->
+
+	<div id="content">
+		<table cellpadding="0" cellspacing="0" class="formtable">
+		
+<!--{if $_GET['ac']=='register'}-->
+		<caption>
+			<h2>Registration</h2>
+		</caption>
+		<tr><td>
+		Registration is simple! Type desired user name, password and enter an email address., Please make sure to verify your email address in case lost password<br /><br />
+		<img src="image/help/register.gif" alt="" /><br /><br />
+		</td></tr>
+		
+<!--{elseif $_GET['ac']=='home'}-->
+		<caption>
+			<h2>Get your friends latest update on your homepage!</h2>
+		</caption>
+		<tr><td>
+		<h2>Latest social life updates</h2>
+		After logging in, you can view the your homepage to see the latest social life updates of your friends, including their latest Shout (shouts), blogs, photos, file Shares and topic, discussion, Threads.<br /><br />
+		<img src="image/help/home.gif"><br /><br />
+		</td></tr>
+		<tr><td>
+		<h2>Notice indicators</h2>
+		Quickly you will notify, once when you have a new notificaton or private message.<br /><br />
+		<img src="image/help/home2.gif"><br /><br />
+		</td></tr>
+		
+<!--{elseif $_GET['ac']=='space'}-->
+		<caption>
+			<h2>Profile</h2>
+		</caption>
+		<tr><td>
+		Here you can let all you data, information for others to view or set who can view. Who knows perhaps you will meet someone special as you desire and provide the more details. Other users have the capability of searching all profiles according to these criteria. Make sure you fill it all about if you want to maximize your chances of meeting someone with similar interests!<br /><br />
+		<img src="image/help/space.gif"><br /><br />
+		</td></tr>
+
+<!--{elseif $_GET['ac']=='doing'}-->
+		<caption>
+			<h2>Shout/Doing/Status</h2>
+		</caption>
+		<tr><td>
+		A quick shout-out/status let your other know and get their comments back on your shouts,(max 200 characters)- (if more than 200 characters and your message will be cropped).<br /><br />
+		<img src="image/help/doing.gif"><br /><br />
+		</td></tr>
+
+<!--{elseif $_GET['ac']=='blog'}-->
+		<caption>
+			<h2>Blog</h2>
+		</caption>
+		<tr><td>
+		You may post your own blog. Feel free to make note of anything you wish to share with the world, then you can post links around the web for those who are interested.<br /><br />
+		<img src="image/help/blog.gif"><br /><br />
+		</td></tr>
+
+<!--{elseif $_GET['ac']=='album'}-->
+		<caption>
+			<h2>Albums</h2>
+		</caption>
+		<tr><td>
+		You can easily post all your photos, dynamically re-size and edit them on the fly. Share your good looks with the entire world wide web. <br /><br />
+		<img src="image/help/album.gif"><br /><br />
+		</td></tr>
+
+<!--{elseif $_GET['ac']=='share'}-->
+		<caption>
+			<h2>Shares</h2>
+		</caption>
+		<tr><td>
+		Share  your profile, photos, blogs albums threads and files too.<br /><br />
+		<img src="image/help/share1.gif"><br /><br />
+		You may also share cool websites or link with friends and others stuff from other web sites what ever you found useful or interest,.<br /><br /><br /><br />
+		<img src="image/help/share2.gif"><br /><br />
+		</td></tr>
+
+<!--{elseif $_GET['ac']=='mtag'}-->
+		<caption>
+			<h2>Group</h2>
+		</caption>
+		<tr><td>
+		Create and share your own special interest groups. Discuss and share image and things within the group with minded people who share your same fanaticism on the content of your scope or interest.<br /><br />
+		<img src="image/help/mtag1.gif" /><br /><br />
+		Join any available group you like.<br /><br />
+		<img src="image/help/mtag2.gif"><br /><br />
+		You can initiate threads in your group after you join.<br /><br />
+		<img src="image/help/mtag3.gif"><br /><br />
+		</td></tr>
+
+<!--{elseif $_GET['ac']=='cp'}-->
+		<caption>
+			<h2>Space Freedom</h2>
+		</caption>
+		<tr><td>
+		You can set up your own space with several styles to select from available template ... or design your own!<br /><br />
+		<img src="image/help/cp.gif"><br /><br />
+		Set your privacy who can view your space and categories it what can see and who can view<br /><br />
+		<img src="image/help/cp2.gif"><br /><br />
+		</td></tr>
+<!--{/if}-->
+		</table>
+	</div>
+	
+	<div id="sidebar">
+		<div class="sidebox">
+		<h2 class="title">Help</h2>
+		<ul class="line_list">
+			<li$actives[register]><a href="help.php?ac=register">Register</a></li>
+		<li$actives[home]><a href="help.php?ac=home"></a>Home</li>
+			<li$actives[space]><a href="help.php?ac=space">Space</a></li>
+			<li$actives[doing]><a href="help.php?ac=doing">Shout</a></li>
+			<li$actives[blog]><a href="help.php?ac=blog">Blog</a></li>
+			<li$actives[album]><a href="help.php?ac=album">Album</a></li>
+			<li$actives[share]><a href="help.php?ac=share">Share</a></li>
+			<li$actives[mtag]><a href="help.php?ac=mtag">Groups</a></li>
+			<li$actives[cp]><a href="help.php?ac=cp">Settings</a></li>
+		</ul>
+		</div>
+	</div>
+
+
+<!--{template footer}-->

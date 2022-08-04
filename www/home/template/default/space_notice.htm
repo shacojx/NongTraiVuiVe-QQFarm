@@ -1,0 +1,181 @@
+﻿<!--{eval $_TPL['titles'] = array('Thông báo');}-->
+<!--{template header}-->
+
+<h2 class="title"><img src="image/icon/pm.gif">Thông báo</h2>
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li><a href="space.php?do=pm"><span>Tin nhắn</span></a></li>
+		<li$actives[notice]><a href="space.php?do=notice"><span>Thông báo</span></a></li>
+		<!--{if $_SCONFIG['my_status']}-->
+		<li$actives[userapp]><a href="space.php?do=notice&view=userapp"><span>Apps info</span></a></li>
+		<!--{/if}-->
+	</ul>
+</div>
+
+<!--{if $view=='userapp'}-->
+
+	
+	<script type="text/javascript">
+		function manyou_add_userapp(hash, url) {
+			if(isUndefined(url)) {
+				$(hash).innerHTML = "<tr><td colspan=\"2\">Will get all updates about the apps</td></tr>";
+			} else {
+				$(hash).innerHTML = "<tr><td colspan=\"2\">Guide to you....</td></tr>";
+			}
+			var x = new Ajax();
+			x.get('do.php?ac=ajax&op=deluserapp&hash='+hash, function(s){
+				if(!isUndefined(url)) {
+					location.href = url;
+				}
+			});
+		}
+	</script>
+	
+	<div id="content">
+
+		<style>
+			.topicList table{width:100%;margin:10px 0 5px 0;}
+			.topicList td{color:#333;}
+		</style>
+		<!--{if $list}-->
+		<div class="m_box">
+		<!--{loop $list $key $invite}-->
+			<h3 class="feed_header">
+				<a href="space.php?do=notice&view=userapp&op=del&appid=$invite[0][appid]" class="r_option">Cấm tất cả lời mời ứng dụng</a>
+				<a href="userapp.php?id=$invite[0][appid]&uid=$space[uid]" title="$apparr[$invite[0][appid]]"><img src="http://appicon.manyou.com/icons/$invite[0][appid]" alt="$apparr[$invite[0][appid]]" align="absmiddle" /></a> 
+				Bạn có <!--{eval echo count($invite);}--> $invite[0][typename] <!--{if $invite[0][type]}--><!--{else}--> lời mời<!--{/if}-->
+			</h3>
+			<table cellpadding="0" cellspacing="0" width="100%" class="topic_list">
+			<!--{loop $invite $value}-->
+				<tbody>
+				<tr>
+					<td width="60" valign="top">
+						<div class="avatar48">
+							<a href="space.php?uid=$value[fromuid]" class="avatarlink"><!--{avatar($value[fromuid],small)}--></a>
+						</div>
+					</td>
+					<td id="$value[hash]">
+						$value[myml]
+					</td>
+				</tr>
+				</tbody>
+			<!--{/loop}-->
+			</table>
+		<!--{/loop}-->
+		</div>
+		<div class="page">$multi</div>
+		<!--{else}-->
+		<div class="c_form">
+			Ko có yêu cầu, lời mời mới
+		</div>
+		<!--{/if}-->
+	</div>
+	
+	<div id="sidebar">
+		<div class="sidebox">
+		<h2 class="title">Danh sách các ứng dụng</h2>
+		<ul class="line_list">
+			<li><a href="space.php?do=notice&view=userapp">Tất cả tin tức về ứng dụng</a></li>
+			<!--{loop $apparr $type $val}-->
+			<li><a href="userapp.php?id=$val[0][appid]&uid=$space[uid]" title="$val[0][typename]"><img src="http://appicon.manyou.com/icons/$val[0][appid]" alt="$val[0][typename]" /></a><a href="space.php?do=notice&view=userapp&type=$val[0][appid]"> <!--{eval echo count($val);}-->  $val[0][typename] <!--{if $val[0][type]}--> Request<!--{else}--> Invitation<!--{/if}--></a></li>
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>
+
+<!--{else}-->
+	
+	<div id="content">
+		
+		<div class="h_status">
+		Tip: Bạn có thể nhấn vào nút <img src="template/$_SCONFIG[template]/image/2k.PNG"> để ko phải nhận những thông báo tương tự.
+		</div>
+			
+		<!--{if $newnum}-->
+		<div class="mgs_list">
+			<!--{if $space[notenum]}--><div><img src="image/icon/notice.gif"><a href="space.php?do=notice"><strong>$space[notenum]</strong> Tin mới</a></div><!--{/if}-->
+			<!--{if $space[addfriendnum]}--><div><img src="image/icon/friend.gif" alt="" /><a href="cp.php?ac=friend&op=request"><strong>$space[addfriendnum]</strong> Mời kết bạn</a></div><!--{/if}-->
+			<!--{if $space[mtaginvitenum]}--><div><img src="image/icon/mtag.gif" alt="" /><a href="cp.php?ac=mtag&op=mtaginvite"><strong>$space[mtaginvitenum]</strong> Mời nhóm</a></div><!--{/if}-->
+			<!--{if $space[eventinvitenum]}--><div><img src="image/icon/event.gif" alt="" /><a href="cp.php?ac=event&op=eventinvite"><strong>$space[eventinvitenum]</strong> Mời tham gia sự kiện</a></div><!--{/if}-->
+			<!--{if $space[myinvitenum]}--><div><img src="image/icon/userapp.gif" alt="" /><a href="space.php?do=notice&view=userapp"><strong>$space[myinvitenum]</strong> Mời dùng ứng dụng</a></div><!--{/if}-->
+			<!--{if $space[pokenum]}--><div><img src="image/icon/poke.gif" alt="" /><a href="cp.php?ac=poke"><strong> $space[pokenum]</strong> New Poke</a></div><!--{/if}-->
+		</div>
+		<!--{/if}-->
+
+		
+		<!--{if $list}-->
+		<table cellpadding="0" cellspacing="0" width="100%" class="topic_list">
+		<!--{loop $list $key $value}-->
+			<tbody>
+			<tr>
+			<td width="60" valign="top">
+			<!--{if $value[authorid]}-->
+				<div class="avatar48">
+					<a href="space.php?uid=$value[authorid]" class="avatarlink"><!--{avatar($value[authorid],small)}--></a>
+				</div>
+			<!--{else}-->
+				<div class="avatar48"><img src="image/systempm.gif" width="48" height="48" /></div>
+			<!--{/if}-->
+			</td>
+			<td>
+				
+					<a href="cp.php?ac=common&op=ignore&authorid=$value[authorid]&type=$value[type]" id="a_note_$value[id]" onclick="ajaxmenu(event, this.id)" class="float_cancel">Ignore</a>
+
+					<div style="padding:10px 0 5px 0;$value[style]">
+						<!--{if $value[authorid]}-->
+						<a href="space.php?uid=$value[authorid]">{$_SN[$value[authorid]]}</a>
+						<!--{/if}-->
+						$value[note]
+						<p class="time">&nbsp;<!--{date('d-m H:i',$value[dateline],1)}--></p>
+					</div>
+					
+					<!--{if $value[authorid] && !$value[isfriend]}-->
+					<p>
+						<a href="cp.php?ac=friend&op=add&uid=$value[authorid]" id="add_note_friend_$value[authorid]" onclick="ajaxmenu(event, this.id, 1)">Kết bạn</a>
+						<span class="pipe">|</span>
+						<a href="cp.php?ac=poke&op=send&uid=$value[authorid]" id="a_poke_$value[authorid]" onclick="ajaxmenu(event, this.id, 1)">Poke back</a>
+					</p>
+					<!--{/if}-->
+					
+				</td>
+			</tr>
+			</tbody>
+		<!--{/loop}-->
+		
+		<!--{if $view!='userapp' && $space[notenum]}-->
+			<tbody>
+			<tr>
+			<td width="60">
+			</td>
+			<td align="center"><a href="space.php?do=notice&ignore=all">&raquo; Hãy cố gắng đọc tất cả các thông báo, để ko bở lỡ các thông tin quan trọng.</a></td>
+			</tr>
+			</tbody>
+		<!--{/if}-->
+		
+		</table>
+		
+
+		<div class="page">$multi</div>
+		<!--{else}-->
+		<div class="c_form">
+		Không có thông báo mới.
+		</div>
+		<!--{/if}-->
+	</div>
+	
+	<div id="sidebar">		
+		<div class="sidebox">
+			<h2 class="title">Phân loại</h2>
+			<ul class="line_list">
+				<li><a href="space.php?do=notice">Tất cả</a></li>
+				<!--{loop $noticetypes $type $name}-->
+				<li><a href="space.php?do=notice&type=$type">$name</a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		
+	</div>
+	
+<!--{/if}-->
+<!--{template footer}-->

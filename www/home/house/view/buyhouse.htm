@@ -1,0 +1,59 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 25px; background-repeat: no-repeat;">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			  <tbody>
+				<tr>
+				<td width="75%" valign="top">
+					<table width="100%" cellpadding="0" border="0" cellspacing="1" id="house_market">
+						<tr >
+							<td width="75%" valign="top" >
+							<!--{if $op == 'change'}-->
+								<div class='notice _notice'>
+									<p>Bạn chọn để thay thế ngôi nhà là: {$my_house['name']}， Nhà ở loại: {$house_db[$my_house['cid']]['title']}， Nhà ở giá： {$house_db[$my_house['cid']]['buy']}Vàng</p>
+									<p>Lưu ý: nhà cũ bởi giá gốc <font color=green><b>80%</b></font> Giá nhà ở mới (không đủ tiền mặt để thêm bài Xu Yong)</p>
+									<p>Việc thay thế loại nhà ở:</p>
+								</div>
+							<!--{/if}-->
+							<!--{loop $data $key=>$val}-->
+								<div<!--{if $key == $total - 1}--> class="noborder"<!--{/if}-->>
+									<table width="100%" cellpadding="0" border="0" cellspacing="1" >
+										<tr >
+											<td width="55%" >
+												<img class="show" src="house/view/house/{$val['cid']}.jpg" border="0" />
+											</td>
+											<td>
+												<b >Loại:</b>{$val['title']} <br /><br />
+												<b >Giá:</b>{$val['buy']} Vàng<br /><br />
+												<b >Bất động sản:</b>{$house_db[$val['cid']]['goods_money']}Gold / ngày <br /><br />
+												<!--{if $op == 'change'}-->
+												<b >Thay thế bằng：</b> <form action="house.php?ac=buyhouse&op=change&id={$id}" method="POST" style="display:inline;"><input type="submit" class="submit" value="Xác định" /><input type="hidden" name="cid" value="{$val['cid']}" /><input type="hidden" name="myFormAc" value="update" /></form><br /><br />
+												<!--{else}-->
+												<h4 ><a href="#" onclick="return buyHouse($val['cid']);">
+													<img src="house/view/img/buy.jpg" border="0" />
+												</a></h4>
+												<!--{/if}-->
+											</td>
+										</tr>
+									</table>
+								</div>
+							<!--{/loop}-->
+							</tr>
+						</table>
+					</td>
+					<td width="25%" valign="top">
+						<!--{template house/view/load}-->
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

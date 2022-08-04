@@ -1,0 +1,36 @@
+<!--{tpl admin/header}-->
+
+<div>
+	<strong>快捷操作</strong>
+	<ul>
+		<li>
+			用户UID:
+			<input type="text" id="user_id" style="width:30px;"/>
+			<input type="button" onclick='searchUser("user_id");' value="查询" />
+		</li>
+		<li>&nbsp;</li>
+		<li>
+			清理日志
+			<input type="button" onclick='request("admin.php?mod=quick&go=exchange_clean", "exchange_clean_msg");' value="确定" />
+			<span id="exchange_clean_msg"></span>
+		</li>
+		<li>&nbsp;</li>
+		<li>
+			初始化成果
+			<input type="button" onclick='request("admin.php?mod=quick&go=repertory_clean", "repertory_clean_msg");' value="确定" />
+			<span id="repertory_clean_msg"></span>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	function searchUser(inputId) {
+		var uid = parseInt($('#'+inputId).value);
+		if(uid > 0) {
+			var url = "admin.php?mod=user_edit&id=" + uid;
+			location.assign(url);
+		}
+	}
+</script>
+
+<!--{tpl admin/footer}-->

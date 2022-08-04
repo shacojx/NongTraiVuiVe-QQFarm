@@ -1,0 +1,56 @@
+<!--{tpl admin/inc_header}-->
+
+<form id="myform" onsubmit="return submits();">
+	<table class="edit">
+		<tr>
+			<td width="50px;">ID</td>
+			<td width="100px;">{:$farm_list['cId']}</td>
+		</tr>
+		<tr>
+			<td width="80px">Tên</td>
+			<td>{:$farm_list['cName']} </td>
+		</tr>
+		<tr>
+			<td width="80px">Cấp độ</td>
+			<td><input type="text" name="cLevel" value="{:$farm_list['cLevel']}"/></td>
+		</tr>
+		<tr>
+			<td width="80px">EXP</td>
+			<td><input type="text" name="cropExp" value="{:$farm_list['cropExp']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Thu nhập</td>
+			<td><input type="text" name="expect" value="{:$farm_list['expect']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Thời gian</td>
+			<td>{:$farm_list['growthCycle']/3600} giờ</td>
+		</tr>
+		<tr>
+			<td width="80px">Sản lượng</td>
+			<td><input type="text" name="output" value="{:$farm_list['output']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Số vụ</td>
+			<td>{:$farm_list['maturingTime']}</td>
+		</tr>
+		<tr>
+			<td width="80px">Giá mua</td>
+			<td><input type="text" name="price" value="{:$farm_list['price']}" />  </td>
+		</tr>
+		<tr>
+			<td width="80px">Giá bán</td>
+			<td><input type="text" name="sale" value="{:$farm_list['sale']}" /></td>
+		</tr>
+	</table>
+	<input type="submit" value="Xác nhận" /><span id="state"></span>
+</form>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		request('admin.php?mod=cropstype_edit&submit=1&id={:$id}', 'state', $.getForm('#myform', 1));
+		return false;
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

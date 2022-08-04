@@ -1,0 +1,120 @@
+<!--{if !empty($uploadResponse)}-->
+<uploadResponse>
+	<message><!--{if $status=="success"}-->Uploaded<!--{else}-->$uploadfiles<!--{/if}--></message>
+	<status>$status</status>
+	<proid>$proid</proid>
+	<albumid>$albumid</albumid>
+	<picid>$picid</picid>
+	<!--{if $fileurl}--><filepath>$fileurl</filepath><!--{/if}-->
+</uploadResponse>
+<!--{else}-->
+<parameter>
+	<!--{if $iscamera}-->
+		<images>
+			<!--{loop $dirarr $key $val}-->
+			<categories name="$val[0]" directory="$val[1]">
+				<!--{loop $val[2] $ikey $value}-->
+					<img name="$value"/>
+				<!--{/loop}-->
+			</categories>
+			<!--{/loop}-->
+		</images>
+	<!--{elseif $isdoodle}-->
+		<background>
+			<!--{loop $filearr $key $filename}-->
+			<bg url="./image/doodle/big/{$filename}" thumb="./image/doodle/thumb/{$filename}"/>
+			<!--{/loop}-->
+		</background>
+	<!--{elseif $isupload}-->
+		<allowsExtend>
+			<extend depict="All Image File(*.jpg,*.jpeg,*.gif,*.png)">*.jpg,*.gif,*.png,*.jpeg</extend>
+		</allowsExtend>
+	<!--{/if}-->
+	<language>
+			<create>Create</create>
+			<notCreate>Cancel</notCreate>
+			<albumName>Album Name</albumName>
+			<createTitle>Create Album</createTitle>
+		<!--{if !$isdoodle}-->
+			<okbtn>Continue</okbtn>
+			<cancelbtn>View</cancelbtn>
+			<!--{if $isupload}-->
+				<fileName>File Name</fileName>
+				<depict>Details(Click to Edit)</depict>
+				<size>Size</size>
+				<stat>progress</stat>
+				<aimAlbum>Upload to:</aimAlbum>
+				<browser>Browse</browser>
+				<delete>Remove</delete>
+				<upload>Upload</upload>
+				<okTitle>Uploaded</okTitle>
+				<okMsg>all files upload completed</okMsg>
+				<uploadTitle>Upload</uploadTitle>
+				<uploadMsg1>Total </uploadMsg1>
+				<uploadMsg2> File waitings, Uploading...</uploadMsg2>
+				<uploadMsg3>files</uploadMsg3>
+				<bigFile>too large file size</bigFile>
+				<uploaderror>Upload failed</uploaderror>
+			<!--{elseif $iscamera}-->
+				<desultory>Captur</desultory>
+				<series>Continue</series>
+				<save>Save</save>
+				<pageup>Prev.</pageup>
+				<pagedown>Next</pagedown>
+				<clearbg>Clear all</clearbg>
+				<reload>Reload</reload>
+				<cancel>Cancel</cancel>
+				<siteerror>Error!. system failure loading</siteerror>
+				<ver1>Require FlashPlayer version 9.0.45 or higher</ver1>
+				<ver2>Upgrade</ver2>
+				<refuse>WebCam detected,but You refused use it</refuse>
+				<countdown>Remainig</countdown>
+				<second>sec.</second>
+				<nocam>WEbCam not found. Please Check you have WebCam attached with your system or not using by other program e.g. MSN
+</nocam>
+				<autoShooting>Auto Shoot</autoShooting>
+				<explain>Settings: </explain>
+				<okTitle>Upload Completed</okTitle>
+				<okMsg>pic upload completed
+</okMsg>
+				<saveTitle>Upload</saveTitle>
+				<saveToNote>Save to </saveToNote>
+				<saveMsg1>total </saveMsg1>
+				<saveMsg2>How many images WEbCam should shoot:</saveMsg2>
+				<saveMsg3>Shoot Avatar</saveMsg3>
+			<!--{/if}-->
+		<!--{else}-->
+			<reload>Reload</reload>
+			<save>Save</save>
+			<notDraw>There is no graffiti available now, could not be saved</notDraw>
+		<!--{/if}-->
+	</language>
+	<config>
+		<userid>$_SGLOBAL[supe_uid]</userid>
+		<hash>$hash</hash>
+		<maxupload>$max</maxupload>
+		<!--{if $iscamera}-->
+			<countdown>3</countdown>
+			<countBy>2000</countBy>
+		<!--{/if}-->
+	</config>
+	<!--{if $isdoodle}-->
+	<filters>
+		<filter id="0">Disable</filter>
+		<filter id="1">Shadow</filter>
+		<filter id="2">Blur</filter>
+		<filter id="3">Glow</filter>
+		<filter id="4">Watercolor</filter>
+		<filter id="5">Splash</filter>
+		<filter id="6">Griffith</filter>
+	</filters>
+	<!--{/if}-->
+	<albums>
+		<album id="-1">Select album</album>
+		<!--{loop $albums $key $value}-->
+			<album id="$value[albumid]">$value['albumname']</album>
+		<!--{/loop}-->
+		<album id="add">+New Album</album>
+	</albums>
+</parameter>
+<!--{/if}-->

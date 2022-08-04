@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="vi-vn" lang="vi-vn">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Nông trại vui vẻ</title>
+<link type="text/css" rel="stylesheet" href="images/style.css" />
+<script type="text/javascript" src="script.php?squery&common"></script>
+<script type="text/javascript">
+	function fullWindow() {
+		try { window.parent.dlBox1_Show(); }
+		catch(e) {}
+	}
+	doParent("{:FARM_VERSION}", "{:$_QSC['view']['player']}");
+</script>
+</head>
+<body>
+<div id="wrap">
+	<div id="tabs" class="clearfix">
+		<ul>
+			<!--{php $active[$tab_name] = ' class="active"';}-->
+			<li{:$active['nc']}><a href="nmc.php?type=nc"><span>Trồng trọt</span></a></li>
+			<li{:$active['mc']}><a href="nmc.php?appid=358"><span>Chăn nuôi</span></a></li>
+			<li{:$active['market']}{:$active['market_nc']}><a href="tools.php?mod=market&act=nc"><span>Giao dịch</span></a></li>
+			<li{:$active['vip']}><a href="tools.php?mod=vip"><span>Hội viên</span></a></li>
+			<li{:$active['exchange']}><a href="tools.php?mod=exchange"><span>Đổi tiền</span></a></li>
+			<li{:$active['setting']}><a href="tools.php?mod=setting"><span>Thiết lập</span></a></li>
+			<li{:$active['top']}><a href="tools.php?mod=top"><span>Xếp hạng</span></a></li>
+			<li{:$active['help']}><a href="tools.php?mod=help"><span>Hướng dẫn</span></a></li>
+			<!--{if in_array($_QFG['uid'], $_QSC['adminer'])}-->
+			<li{:$active['admin']}><a href="admin.php"><span>Quản lý</span></a></li>
+			<!--{/if}-->
+			<li><a onclick="return fullWindow();" href="#"><span>Phóng lớn</span></a></li>
+		</ul>
+	</div>
+
+	<!--{tpl inc_info}-->

@@ -1,0 +1,400 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[enabled]><a href="admincp.php?ac=magic&view=enabled"><span>Enabled props</span></a></li>
+			<li$actives[disabled]><a href="admincp.php?ac=magic&view=disabled"><span>Disabled props</span></a></li>
+		</ul>
+	</div>
+
+<!--{if "edit" == $_GET['op']}-->
+	
+	<form method="post" action="admincp.php?ac=magic&op=$_GET[op]&mid=$_GET[mid]&view=$_GET[view]">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="bdrcontent">
+	
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th style="width:15em;">Name</th>
+				<td>$thevalue[name]</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Props Description</th>
+				<td>
+					<textarea name="description" cols="80" rows="2">$thevalue[description]</textarea>					
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Props Price</th>
+				<td>
+					<input type="text" name="charge" value="$thevalue[charge]" />
+					Purchase an individual takes integral values, must be less than 65535
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Experience Growth</th>
+				<td>
+					<input type="text" name="experience" value="$thevalue[experience]" />
+					The experience of buying a single can increase the value must be less than 65535
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Replenishment cycle</th>
+				<td>
+					<select name="provideperoid">
+						<option value="0"<!--{if $thevalue[provideperoid]==0}--> selected<!--{/if}-->>Always</option>
+						<option value="3600"<!--{if $thevalue[provideperoid]==3600}--> selected<!--{/if}-->>Interval of 1 hour</option>
+						<option value="86400"<!--{if $thevalue[provideperoid]==86400}--> selected<!--{/if}-->>24 hour intervals</option>
+						<option value="604800"<!--{if $thevalue[provideperoid]==604800}--> selected<!--{/if}-->>Interval of 7 days</option>
+					</select>
+					If the prop shop props sold for this light, in the replenishment cycle automatically recharge time
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">The number of supply</th>
+				<td>
+					<input type="text" name="providecount" value="$thevalue[providecount]" maxlength="6" />
+					If the prop shop props sold for this light, the number of auto-replenishment time required to less than 65535
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Lifetime</th>
+				<td>
+					<select name="useperoid">
+						<option value="0"<!--{if $thevalue[useperoid]==0}--> selected<!--{/if}-->>Always</option>
+						<option value="3600"<!--{if $thevalue[useperoid]==3600}--> selected<!--{/if}-->>Interval of 1 hour</option>
+						<option value="86400"<!--{if $thevalue[useperoid]==86400}--> selected<!--{/if}-->>24 hour intervals</option>
+						<option value="604800"<!--{if $thevalue[useperoid]==604800}--> selected<!--{/if}-->>Interval of 7 days</option>
+					</select>
+					To set the user to use this cycle, the use of props
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Use the number of</th>
+				<td>
+					<input type="text" name="usecount" value="$thevalue[usecount]" maxlength="6" />
+					Set the user using the cycle up to the number of props to use this will take less than 65535
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Ban user group purchases</th>
+				<td>
+					Selected user group can not store the props in the props (but can accept a gift)<br />
+					<!--{loop $usergroups $groups}-->
+					<!--{loop $groups $gid $value}-->
+					<input id="ckgid_$gid" type="checkbox" name="forbiddengid[]" value="$gid"<!--{if in_array($gid, $thevalue[forbiddengid])}-->checked<!--{/if}--> />
+					<label for="ckgid_$gid">$value[grouptitle]</label>
+					<!--{/loop}-->
+					<br />
+					<!--{/loop}-->
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Stock Number</th>
+				<td>
+					<input type="text" name="storage" value="$thevalue[storage]" size="5" maxlength="5" />
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Display order</th>
+				<td>
+					<input type="text" name="displayorder" value="$thevalue[displayorder]" size="5" maxlength="5" />
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15em;">Does Disable</th>
+				<td>
+					<input type="checkbox" id="magicclose" name="close" value="1"<!--{if $thevalue[close]}--> checked<!--{/if}--> />
+					<label for="magicclose">After disabling the page will not display this prop</label>
+				</td>
+			</tr>
+			<!--{if $_GET[mid] == 'invisible'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describ<br />
+					<table>
+						<tr>
+							<th width="100">Stealth Time</th>
+							<td>
+								<select name="custom[effectivetime]">
+									<option value="">Default</option>
+									<option value="86400"<!--{if $thevalue[custom][effectivetime]==86400}--> selected<!--{/if}-->>24 Hours</option>
+									<option value="259200"<!--{if $thevalue[custom][effectivetime]==259200}--> selected<!--{/if}-->>3 days</option>
+									<option value="432000"<!--{if $thevalue[custom][effectivetime]==432000}--> selected<!--{/if}-->>5 days</option>
+									<option value="604800"<!--{if $thevalue[custom][effectivetime]==604800}--> selected<!--{/if}-->>7 days</option>
+								</select>
+								The default is 24 hours
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'superstar'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">Duration</th>
+							<td>
+								<select name="custom[effectivetime]">
+									<option value="">Default</option>
+									<option value="86400"<!--{if $thevalue[custom][effectivetime]==86400}--> selected<!--{/if}-->>24 Hours</option>
+									<option value="259200"<!--{if $thevalue[custom][effectivetime]==259200}--> selected<!--{/if}-->>3 days</option>
+									<option value="432000"<!--{if $thevalue[custom][effectivetime]==432000}--> selected<!--{/if}-->>5 days</option>
+									<option value="604800"<!--{if $thevalue[custom][effectivetime]==604800}--> selected<!--{/if}-->>7 days</option>
+								</select>							
+							</td>
+							The default is 7 days
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'friendnum'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">Increase in the number of friends</th>
+							<td>
+								<select name="custom[addnum]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][addnum]==5}--> selected<!--{/if}-->>5</option>
+									<option value="10"<!--{if $thevalue[custom][addnum]==10}--> selected<!--{/if}-->>10</option>
+									<option value="20"<!--{if $thevalue[custom][addnum]==20}--> selected<!--{/if}-->>20</option>
+									<option value="50"<!--{if $thevalue[custom][addnum]==50}--> selected<!--{/if}-->>50</option>
+									<option value="100"<!--{if $thevalue[custom][addnum]==100}--> selected<!--{/if}-->>100</option>
+								</select>
+								The default is 10
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'attachsize'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">Increase capacity</th>
+							<td>
+								<select name="custom[addsize]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][addsize]==5}--> selected<!--{/if}-->>5M</option>
+									<option value="10"<!--{if $thevalue[custom][addsize]==10}--> selected<!--{/if}-->>10M</option>
+									<option value="20"<!--{if $thevalue[custom][addsize]==20}--> selected<!--{/if}-->>20M</option>
+									<option value="50"<!--{if $thevalue[custom][addsize]==50}--> selected<!--{/if}-->>50M</option>
+									<option value="100"<!--{if $thevalue[custom][addsize]==100}--> selected<!--{/if}-->>100M</option>
+								</select>
+								The default is 10M
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'visit'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">Visit friends a few</th>
+							<td>
+								<select name="custom[maxvisit]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][maxvisit]==5}--> selected<!--{/if}-->>5</option>
+									<option value="10"<!--{if $thevalue[custom][maxvisit]==10}--> selected<!--{/if}-->>10</option>
+									<option value="20"<!--{if $thevalue[custom][maxvisit]==20}--> selected<!--{/if}-->>20</option>
+									<option value="50"<!--{if $thevalue[custom][maxvisit]==50}--> selected<!--{/if}-->>50</option>
+								</select>
+								The default is 10
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'gift'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">Maximum value of each integral</th>
+							<td>
+								<select name="custom[maxchunk]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][maxchunk]==5}--> selected<!--{/if}-->>5</option>
+									<option value="10"<!--{if $thevalue[custom][maxchunk]==10}--> selected<!--{/if}-->>10</option>
+									<option value="20"<!--{if $thevalue[custom][maxchunk]==20}--> selected<!--{/if}-->>20</option>
+									<option value="50"<!--{if $thevalue[custom][maxchunk]==50}--> selected<!--{/if}-->>50</option>
+									<option value="100"<!--{if $thevalue[custom][maxchunk]==100}--> selected<!--{/if}-->>100</option>
+									<option value="999"<!--{if $thevalue[custom][maxchunk]=='999'}--> selected<!--{/if}-->>Open</option>
+								</select>
+								The default is 20
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'viewmagic'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">To view up to the number of</th>
+							<td>
+								<select name="custom[maxview]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][maxview]==5}--> selected<!--{/if}-->>5</option>
+									<option value="10"<!--{if $thevalue[custom][maxview]==10}--> selected<!--{/if}-->>10</option>
+									<option value="20"<!--{if $thevalue[custom][maxview]==20}--> selected<!--{/if}-->>20</option>
+									<option value="50"<!--{if $thevalue[custom][maxview]==50}--> selected<!--{/if}-->>50</option>
+									<option value="999"<!--{if $thevalue[custom][maxview]=='999'}--> selected<!--{/if}-->>Open</option>
+								</select>
+								The default is 10
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'viewvisitor'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">To view up to the number of</th>
+							<td>
+								<select name="custom[maxview]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][maxview]==5}--> selected<!--{/if}-->>5</option>
+									<option value="10"<!--{if $thevalue[custom][maxview]==10}--> selected<!--{/if}-->>10</option>
+									<option value="20"<!--{if $thevalue[custom][maxview]==20}--> selected<!--{/if}-->>20</option>
+									<option value="50"<!--{if $thevalue[custom][maxview]==50}--> selected<!--{/if}-->>50</option>
+								</select>
+								The default is 10
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'detector'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">Up to a few detection</th>
+							<td>
+								<select name="custom[maxdetect]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][maxdetect]==5}--> selected<!--{/if}-->>5</option>
+									<option value="10"<!--{if $thevalue[custom][maxdetect]==10}--> selected<!--{/if}-->>10</option>
+									<option value="20"<!--{if $thevalue[custom][maxdetect]==20}--> selected<!--{/if}-->>20</option>
+									<option value="50"<!--{if $thevalue[custom][maxdetect]==50}--> selected<!--{/if}-->>50</option>
+								</select>
+								The default is 10
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{elseif $_GET[mid] == 'call'}-->
+			<tr>
+				<th style="width:15em;">Custom Effects</th>
+				<td>
+					Please modify the effect of the same props and props describe<br />
+					<table>
+						<tr>
+							<th width="100">Most name a few</th>
+							<td>
+								<select name="custom[maxcall]">
+									<option value="">Default</option>
+									<option value="5"<!--{if $thevalue[custom][maxcall]==5}--> selected<!--{/if}-->>5</option>
+									<option value="10"<!--{if $thevalue[custom][maxcall]==10}--> selected<!--{/if}-->>10</option>
+									<option value="20"<!--{if $thevalue[custom][maxcall]==20}--> selected<!--{/if}-->>20</option>
+									<option value="50"<!--{if $thevalue[custom][maxcall]==50}--> selected<!--{/if}-->>50</option>
+								</select>
+								The default is 10
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--{/if}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="mid" value="$thevalue[mid]" />
+		<input type="submit" name="editsubmit" value="Submit" class="submit">
+	</div>
+
+	</form>
+	
+<!--{else}-->
+	<form method="post" action="admincp.php?ac=magic&view=$_GET[view]">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th width="100">Icon</th>
+				<th>Props</th>
+				<!--{if $_GET[view] != 'disabled'}-->
+				<th width="80">Props Price</th>
+				<th width="80">Display order</th>
+				<!--{/if}-->
+				<th width="80">Operation</th>
+			</tr>
+			<!--{loop $list $key $value}-->
+			<tr>
+				<th><img src="image/magic/{$value[mid]}.gif" alt="$value[name]" /></th>
+				<td>
+					<b>$value[name]</b>
+					<p>$value[description]</p>				
+				</td>
+				<!--{if $_GET[view] != 'disabled'}-->
+				<td><input type="text" name="charge[$key]" value="$value[charge]" size="5" maxlength="5" /></td>
+				<td><input type="text" name="displayorder[$key]" value="$value[displayorder]" size="5" maxlength="5" /></td>
+				<!--{/if}-->
+				<td><a href="admincp.php?ac=magic&op=edit&mid=$key&view=$_GET[view]">Edit</a></td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+
+	<!--{if $_GET[view] != 'disabled'}-->
+	<div class="footactions">
+		<input type="submit" name="ordersubmit" value="Update data" class="submit">
+	</div>
+	<!--{/if}-->
+
+	</form>
+
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

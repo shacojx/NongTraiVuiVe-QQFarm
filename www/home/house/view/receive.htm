@@ -1,0 +1,93 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 25px;">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			 <tbody>
+				<tr>
+					<td width="75%" valign="top">
+					<!--{if $op == 'sure'}-->
+						<form action="house.php?ac=receive&op={$op}&uid={$oer}&fuid={$fuid}&id={$id}&hash={$hash}" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+							<table valign=top width="100%" cellspacing="1" cellpadding="0" border="0" style="padding-left: 25px;">
+								<tbody>
+									<tr>
+										<td style="padding: 5px; width: 97%;" colspan=2>
+											<div class="notice"><a href="house.php?ac=index&uid={$user['uid']}">{$_SN[$user['uid']]}</a> bạn yêu cầu bạn thuê một căn nhà</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="house/view/house/{$house['cid']}.jpg" />
+										</td>
+										<td valign=top >
+											<p><b>Bạn có chắc bạn muốn thuê một ngôi nhà bạn？</b></p>
+											<p><b>Thuê</b>：{$house['price']} Gold / ngày</p>
+											<p><b>Bất động sản</b>：{$house_db[$house['cid']]['goods_money']} Gold / ngày</p>
+											<p><input type="hidden" name='myForm' id="myFormAc" value="ok" /><input type="button" class="submit" value="Tôi muốn thuê" onclick="$('myFormAc').value='ok';Form.submitDo('ajaxForm');"  /> <input type="button" class="submit" value="Không cho thuê"  onclick="$('myFormAc').value='no';Form.submitDo('ajaxForm');"/></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					<!--{elseif $op == 'love'}-->
+						<form action="house.php?ac=receive&op={$op}&uid={$oer}&fuid={$fuid}&id={$id}&hash={$hash}" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+							<table valign=top width="100%" cellspacing="1" cellpadding="0" border="0" style="padding-left: 25px;">
+								<tbody>
+									<tr>
+										<td style="padding: 5px; width: 97%;" colspan=2>
+											<div class="notice"><a href="house.php?ac=index&uid={$user['uid']}">{$_SN[$user['uid']]}</a> Yêu cầu bạn và chung sống với bạn</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="house/view/house/{$house['cid']}.jpg" />
+										</td>
+										<td valign=top >
+											<p><b>Bạn có chắc bạn muốn, và chung sống bạn？</b></p>
+											<p><input type="hidden" name='myForm' id="myFormAc" value="ok" /><input type="button" class="submit" value="Tôi muốn sống chung" onclick="$('myFormAc').value='ok';Form.submitDo('ajaxForm');"  /> <input type="button" class="submit" value="Bỏ qua"  onclick="$('myFormAc').value='no';Form.submitDo('ajaxForm');"/></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					<!--{elseif $op == 'save'}-->
+						<form action="house.php?ac=receive&op={$op}&hash={$data['hash']}&sid={$data['sid']}" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+							<table valign=top width="100%" cellspacing="1" cellpadding="0" border="0" style="padding-left: 25px;">
+								<tbody>
+									<tr>
+										<td style="padding: 5px; width: 97%;">
+											<div class="notice"><a href="house.php?ac=index&uid={$data['uid']}">{$_SN[$data['uid']]}</a> Yêu cầu bạn lưu các đau khổ của bạn</div>
+										</td>
+									</tr>
+									<tr>
+										<td valign=top style="padding-left: 25px;">
+											<p><b>bạn của bạn chắc chắn rằng bạn muốn lưu nó? (Lưu bạn cần phải trả {$m}Tiền xu vàng) </b></p>
+											<p><input type="hidden" name='myForm' id="myFormAc" value="ok" />
+											<input type="submit" class="submit" value="đủ khả năng này" /> 
+											<input type="button" class="submit" value="Nếu không có khả năng này"  onclick="window.location.href='house.php';"/></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					<!--{/if}-->
+					</td>
+					<td width="25%" valign="top">
+						<!--{template house/view/load}-->
+					</td>
+				</tr>
+			 <tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="f_status f_status_w s_clear">
+	<a href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP">TOP</a>
+</div>
+<!--{template footer}-->

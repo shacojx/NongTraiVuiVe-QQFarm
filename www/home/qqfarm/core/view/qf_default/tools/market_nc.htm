@@ -1,0 +1,86 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<!--{tpl tools/market_menu}-->
+	<table class="list">
+		<tr>
+			<th width="80">Mã số</th>
+			<th width="50">Loại</th>
+			<th width="80">Tên</th>
+			<th width="70">Hình dáng</th>
+			<th width="40">Cấp</th>
+			<th width="100">Giá gốc</th>
+			<th width="100">Giá bán</th>
+			<th width="70">Số lượng</th>
+			<th width="80">Người bán</th>
+			<th width="100">Đã bán</th>
+			<th width="100"></th>
+			<th width="100"><font color="#ff0000">So giá</font></th>
+		</tr>
+		<!--{foreach $list as $key=>$value}-->
+		<tr>
+			<td>{:$value[id]}</td>
+			<td><!--{if $value[mclass] == 1}--><font color="#0000ff">Hạt giống</font><!--{elseif $value[mclass] == 2}--><font color="#ff00ff"><b>Vật phẩm</b></font><!--{elseif $value[mclass] == 3}--><font color="#ff0000">Nông sản</font><!--{/if}--></td>
+			<td>{:$cropstype[$value[cid]]['cName']}</td>
+			<!--{if $value[mclass] == 2}--><td><img src="module/ui/farm/icon/{:$value[cid]+30000}.png" height="24px"/></td> 
+			<!--{else}--><td><img src="module/ui/farm/icon/{:$value[cid]}.png" height="24px"/></td>
+			<!--{/if}-->
+			<td>{:$cropstype[$value[cid]]['cLevel']}</td>
+			<!--{if $value[mclass] == 3}-->
+			<td><font color=blue>{:$cropstype[$value[cid]]['sale']}</font> Xu</td>
+			<!--{elseif $value[mclass] == 2}-->
+			<td><font color=blue>{:$toolstype[$value[cid]+30000]['price']}</font> Xu</td>
+			<!--{else}-->
+			<td><font color=blue>{:$cropstype[$value[cid]]['price']}</font> Xu</td>
+			<!--{/if}-->
+			<td><font color="#ff0000">{:$value[cprice]}</font> Xu</td>
+			<td><font color="#ff00ff">{:$value[cnumber]}</font></td>
+			<td><font color="#0000ff">{:$value[username]}</font></td>
+			<td><input type='text' id='number{:$value[id]}' size='10' value="{:$value[cnumber]}"/></td>
+			<!--{if $_QFG['uid'] == $value[selluid]}-->
+			<td><input type="button" onclick='request("tools.php?mod=market&act=nc&type=cancelitem&id={:$value[id]}", "state{:$value[id]}");' value='Hủy bỏ' /><span id="state{:$value[id]}"></span></td>
+			<!--{else}-->
+			<td><input type="button" onclick='request("tools.php?mod=market&act=nc&type=buyitem&id={:$value[id]}&number="+$("#number{:$value[id]}").value, "state{:$value[id]}");' value='Mua' /><span id="state{:$value[id]}"></span></td>
+			<!--{/if}-->
+			<!--{if $value[mclass] == 3}-->
+			<!--{if $cropstype[$value[cid]]['sale']-$value[cprice]<>0}-->
+			<!--{if $cropstype[$value[cid]]['sale']-$value[cprice]>0}-->
+			<td>Rẻ hơn <font color="#0000ff">{:$cropstype[$value[cid]]['sale']-$value[cprice]}</font> Xu</td> 
+			<!--{else}-->
+			<td>Đắt hơn <font color="#ff0000">{:$value[cprice]-$cropstype[$value[cid]]['sale']}</font> Xu</td>
+			<!--{/if}-->
+			<!--{else}-->
+			<td><font color="#ff00ff">Cùng giá</font></td> 
+			<!--{/if}-->
+			<!--{elseif $value[mclass] == 2}-->
+			<!--{if $toolstype[$value[cid]+30000]['price']-$value[cprice]<>0}-->
+			<!--{if $toolstype[$value[cid]+30000]['price']-$value[cprice]>0}-->
+			<td>Rẻ hơn <font color="#0000ff">{:$toolstype[$value[cid]+30000]['price']-$value[cprice]}</font> Xu</td> 
+			<!--{else}-->
+			<td>Đắt hơn <font color="#ff0000">{:$value[cprice]-$toolstype[$value[cid]+30000]['price']}</font> Xu</td> 
+			<!--{/if}-->
+			<!--{else}-->
+			<td><font color="#ff00ff">Cùng giá</font></td> 
+			<!--{/if}-->
+			<!--{else}-->
+			<!--{if $cropstype[$value[cid]]['price']-$value[cprice]<>0}-->
+			<!--{if $cropstype[$value[cid]]['price']-$value[cprice]>0}-->
+			<td>Rẻ hơn <font color="#0000ff">{:$cropstype[$value[cid]]['price']-$value[cprice]}</font> Xu</td> 
+			<!--{else}-->
+			<td>Đắt hơn <font color="#ff0000">{:$value[cprice]-$cropstype[$value[cid]]['price']}</font> Xu</td> 
+			<!--{/if}-->
+			<!--{else}-->
+			<td><font color="#ff00ff">Cùng giá</font></td> 
+			<!--{/if}-->
+			<!--{/if}-->
+		</tr>
+		<!--{/foreach}-->
+	</table>
+	<div id="pages" class="multiPage"></div>
+</div>
+
+<script type="text/javascript">
+	$('#pages').innerHTML = multiPage({pid:"{:$pid}",purl:"{:$purl}",psize:"{:$psize}",count:"{:$count}"});
+</script>
+
+<!--{tpl inc_footer}-->

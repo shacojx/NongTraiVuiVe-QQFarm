@@ -1,0 +1,40 @@
+InnoDB: The log sequence number in ibdata files does not match
+InnoDB: the log sequence number in the ib_logfiles!
+110903  5:13:05  InnoDB: Database was not shut down normally!
+InnoDB: Starting crash recovery.
+InnoDB: Reading tablespace information from the .ibd files...
+InnoDB: Restoring possible half-written data pages from the doublewrite
+InnoDB: buffer...
+110903  5:13:05  InnoDB: Started; log sequence number 0 43655
+110903  5:13:05 [Note] C:\Program Files\VertrigoServ\mysql\bin\v_mysqld.exe: ready for connections.
+Version: '5.0.51b-community'  socket: ''  port: 3306  MySQL Community Edition (GPL)
+InnoDB: The log sequence number in ibdata files does not match
+InnoDB: the log sequence number in the ib_logfiles!
+110903  5:14:00  InnoDB: Database was not shut down normally!
+InnoDB: Starting crash recovery.
+InnoDB: Reading tablespace information from the .ibd files...
+InnoDB: Restoring possible half-written data pages from the doublewrite
+InnoDB: buffer...
+110903  5:14:00  InnoDB: Started; log sequence number 0 43655
+110903  5:14:00 [Note] C:\Program Files\VertrigoServ\mysql\bin\v_mysqld.exe: ready for connections.
+Version: '5.0.51b-community'  socket: ''  port: 3306  MySQL Community Edition (GPL)
+InnoDB: The log sequence number in ibdata files does not match
+InnoDB: the log sequence number in the ib_logfiles!
+110903  7:11:53  InnoDB: Database was not shut down normally!
+InnoDB: Starting crash recovery.
+InnoDB: Reading tablespace information from the .ibd files...
+InnoDB: Restoring possible half-written data pages from the doublewrite
+InnoDB: buffer...
+110903  7:11:55  InnoDB: Started; log sequence number 0 43665
+110903  7:11:55 [Note] C:\Program Files\VertrigoServ\mysql\bin\v_mysqld.exe: ready for connections.
+Version: '5.0.51b-community'  socket: ''  port: 3306  MySQL Community Edition (GPL)
+InnoDB: The log sequence number in ibdata files does not match
+InnoDB: the log sequence number in the ib_logfiles!
+110903 10:24:41  InnoDB: Database was not shut down normally!
+InnoDB: Starting crash recovery.
+InnoDB: Reading tablespace information from the .ibd files...
+InnoDB: Restoring possible half-written data pages from the doublewrite
+InnoDB: buffer...
+110903 10:24:41  InnoDB: Started; log sequence number 0 43665
+110903 10:24:41 [Note] C:\Program Files\VertrigoServ\mysql\bin\v_mysqld.exe: ready for connections.
+Version: '5.0.51b-community'  socket: ''  port: 3306  MySQL Community Edition (GPL)

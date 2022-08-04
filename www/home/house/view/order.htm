@@ -1,0 +1,47 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #EEFCFF; line-height: 25px;">
+		<div id="order" style="text-align:center;">
+		<table width=100% align =center><tr><td></td><td width=600 align =center>
+		<table width=600 align =center><tr><td width=600 align =right>
+			<div style="height:180px;background-image: url(house/view/img/order_0.jpg); ">
+				<ul>
+				<!--{loop $data[0] $val}-->
+					<li><b>S{$val['order']}Tên</b> <a href="house.php?ac=index&amp;uid={$val['uid_1']}">{$_SN[$val['uid_1']]}</a> Và <a href="house.php?ac=index&amp;uid={$val['uid_2']}">{$_SN[$val['uid_2']]}</a> (Sự thân mật:{$val['thick']}) </li>
+				<!--{/loop}-->
+				</ul>
+			</div>
+
+			<div style="height:180px;background-image: url(house/view/img/order_1.jpg); ">
+				<ul>
+				<!--{loop $data[1] $val}-->
+					<li><b>S{$val['order']}Tên</b> <a href="house.php?ac=index&amp;uid={$val['uid']}">{$_SN[$val['uid']]}</a> <a title="Để trang chủ của bạn để xem" target="_blank" href="space.php?uid={$val['uid']}"><img src="house/view/img/home.gif"/></a> (Số nhà:{$val['house_num']})  </li>
+				<!--{/loop}-->
+				</ul>
+			</div>
+
+			<div style="height:180px;background-image: url(house/view/img/order_2.jpg); ">
+				<ul>
+				<!--{loop $data[2] $val}-->
+					<li><b>S{$val['order']}Tên</b> <a href="house.php?ac=index&amp;uid={$val['uid']}">{$_SN[$val['uid']]}</a> <a title="Để trang chủ của bạn để xem" target="_blank" href="space.php?uid={$val['uid']}"><img src="house/view/img/home.gif"/></a> (Số lượng sống chung:{$val['love_num']})  </li>
+				<!--{/loop}-->
+			</div>
+
+			<div style="height:180px;background-image: url(house/view/img/order_3.jpg); ">
+				<ul>
+				<!--{loop $data[3] $val}-->
+					<li><b>S{$val['order']}Tên</b> <a href="house.php?ac=index&amp;uid={$val['uid']}">{$_SN[$val['uid']]}</a><a title="Để trang chủ của bạn để xem" target="_blank" href="space.php?uid={$val['uid']}"><img src="house/view/img/home.gif"/></a> (Vàng:{$val['money']})  </li>
+				<!--{/loop}-->
+				</ul>
+			</div>
+		</td></tr></table></td><td></td></tr></table>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

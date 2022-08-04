@@ -1,0 +1,38 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 25px;">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			 <tbody>
+				<tr>
+					<td width="75%" valign="top">
+						<div class="pic_list">
+							<ul>
+								<!--{loop $data $val}-->
+									<li>
+										<div class="ar_r_t"><div class="ar_l_t"><div class="ar_r_b"><div class="ar_l_b"><img width="120" alt="Nhưng" src="<!--{avatar($val['uid'],middle)}-->"/></div></div></div></div>
+										<div style="clear:both"></div>
+										<p><a href="space.php?uid={$val['uid']}" target="_blank">{$_SN[$val['uid']]} <img src="house/view/img/home.gif" /> </a></p>
+										<p>Và bạn đang chung sống với nhau <b>{$val['num']}</b> Times</p>
+										<p>Và sự thân mật của bạn <b>{$val['thick']}</b></p>
+									</li>
+								<!--{/loop}-->
+							</ul>
+						</div>
+					</td>
+					<td width="25%" valign="top">
+						<!--{template house/view/load}-->
+					</td>
+				</tr>
+			 <tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

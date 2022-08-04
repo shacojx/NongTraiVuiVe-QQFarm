@@ -1,0 +1,20 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+
+	<div class="menu">
+		<!--{php $active[$mod_name] = ' class="active"';}-->
+		<a{:$active[home]} href="admin.php?mod=home">Tổng quan</a>
+		<a{:$active[quick]} href="admin.php?mod=quick">Quản lý nhanh</a>
+		<a{:$active[system]} href="admin.php?mod=system">Hệ thống</a>
+		<a{:$active[notice]} href="admin.php?mod=notice">Thông báo</a>
+		<a{:$active[user_list]} href="admin.php?mod=user_list">Thành viên</a>
+		<a{:$active[cropstype_list]} href="admin.php?mod=cropstype_list">Hạt giống</a>
+		<a{:$active[itemtype_list]} href="admin.php?mod=itemtype_list">Trang trí</a>
+		<a{:$active[toolstype_list]} href="admin.php?mod=toolstype_list">Item NC</a>
+		<a{:$active[animaltype_list]} href="admin.php?mod=animaltype_list">Vật nuôi</a>
+		<a{:$active[toolstype_list]} href="admin.php?mod=mctoolstype_list">Item MC</a>
+		<a{:$active[syncdata]} href="admin.php?mod=syncdata">Cập nhật</a>
+	</div>
+
+	<div id="main_admin">

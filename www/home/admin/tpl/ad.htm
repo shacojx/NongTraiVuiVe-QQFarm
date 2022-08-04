@@ -1,0 +1,230 @@
+﻿<!--{eval 
+	$_TPL['pagetypes'] = array('header'=>'页头', 'rightside'=>'内容页面', 'footer'=>'页脚', 'couplet'=>'对联', 'contenttop'=>'页面主区域上方', 'contentbottom'=>'页面主区域下方', 'feedbox'=>'动态置顶位');
+	$_TPL['availables'] = array('0'=>'-', '1'=>'有效');
+}-->
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[view]><a href="admincp.php?ac=ad"><span>Browse Ads</span></a></li>
+		<li class="null"><a href="admincp.php?ac=ad&op=add">Add new ad</a></li>
+	</ul>
+</div>
+
+		
+<!--{if empty($_GET['op'])}-->
+
+	<form method="post" action="admincp.php?ac=ad">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		
+		<div class="title">
+			<h3>System Built-in ad</h3>
+			<p>Advertising space has been built, according to the need to fill out to display advertising content can be add</p>
+		</div>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th>Title</th>
+			<th width="24%">Page Location</th>
+			<th width="8%">Effective</th>
+			<th width="8%">Edit</th>
+		</tr>
+		<!--{loop $listvalue[1] $key $value}-->
+		<tr>
+			<td><input type="checkbox" name="adids[]" value="$value[adid]"> $value[title]</td>
+			<td><a href="admincp.php?ac=ad&pagetype=$value[pagetype]">$_TPL[pagetypes][$value[pagetype]]</a></td>
+			<td>$_TPL[availables][$value[available]]</td>
+			<td><a href="admincp.php?ac=ad&op=edit&adid=$value[adid]">Edit</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+
+		<br />
+		<div class="title">
+			<h3>Custom ad listings</h3>
+			<p>Free to decide on ad display position, only need to get the ad code (template embedded code, or Javascript code that can be), then insert the ad code into the template can be displayed at any position</p>
+		</div>
+	
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th>Title</th>
+			<th width="32%">Call Ad</th>
+			<th width="8%">Operation</th>
+		</tr>
+		<!--{loop $listvalue[0] $key $value}-->
+		<tr>
+			<td><input type="checkbox" name="adids[]" value="$value[adid]"> $value[title]</td>
+			<td><a href="admincp.php?ac=ad&op=tpl&adid=$value[adid]">Templates with embedded code</a> | 
+				<a href="admincp.php?ac=ad&op=js&adid=$value[adid]">Javascript Code</a></td>
+			<td><a href="admincp.php?ac=ad&op=edit&adid=$value[adid]">Edit</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="checkbox" name="chkall" onclick="checkAll(this.form, 'adid')">Select
+		<input type="submit" name="delsubmit" value="Bulk Delete" class="submit">
+	</div>
+	
+	</form>
+
+<!--{elseif $_GET['op'] == 'add' || $_GET['op'] == 'edit'}-->
+	<script type="text/JavaScript">
+	function style_show(theobj) {
+		var styles,key;
+		styles = new Array('html','flash','image','text');
+		for(key in styles){
+			var obj=$('style_'+styles[key]);
+			obj.style.display = styles[key]==theobj.options[theobj.selectedIndex].value?'':'none';
+		}
+	}
+	</script>
+
+	<form method="post" action="admincp.php?ac=ad">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent">
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:12em;">Ad Type</th>
+		<td><input type="radio" name="system" value="1" $systems[1] onclick="$('style_system').style.display='';">System Built-in ad 
+			<input type="radio" name="system" value="0" $systems[0] onclick="$('style_system').style.display='none';">User-defined ad
+		</td></tr>
+		<tr><th>Ad title</th>
+		<td><input name="title" value="$advalue[title]" class="t_input"></td>
+		</tr>
+		
+		<tbody id="style_system" style="display:<!--{if $advalue['system']==0}-->none<!--{/if}-->">
+		<tr>
+		<th>Page Location</th>
+		<td>
+		<select name="pagetype">
+		<option value="header"{$pagetypes[header]}>Top of the page (width 970px)</option>
+		<option value="footer"{$pagetypes[footer]}>Footer (width 970px)</option>
+		<option value="contenttop"{$pagetypes[contenttop]}>The main area at the top of the page (width 800px)</option>
+		<option value="contentbottom"{$pagetypes[contentbottom]}>The bottom of the page main area (width 800px)</option>
+		<option value="rightside"{$pagetypes[rightside]}>Log (topic) content area (width 300px)</option>
+		<option value="couplet"{$pagetypes[couplet]}>Couplet Advertising (W 90px)</option>
+		<option value="feedbox"{$pagetypes[feedbox]}>Dynamic at the top (width 500px)</option>
+		</select>
+		</td>
+		</tr>
+		<tr>
+		<th>Validity</th>
+		<td>
+		<input type="radio" name="available" value="1" $availables[1]>Effective
+		<input type="radio" name="available" value="0" $availables[0]>Effective
+		</td></tr>
+		</tbody>
+
+		<tr><th>Advertising</th><td>
+		<select name="adcode[type]" onchange="style_show(this)">
+		<option value="html" $adcodes[html]>Html Code</option>
+		<option value="flash" $adcodes[flash]>Flash</option>
+		<option value="image" $adcodes[image]>Image</option>
+		<option value="text" $adcodes[text]>Text</option>
+		</select>
+		</td></tr>
+		<tbody id="style_html" style="display:<!--{if $advalue['adcode']['type']!='html'}-->none<!--{/if}-->">
+		<tr>
+		<th>Advertising Code (required)</th>
+		<td><textarea rows="10" style="width:98%;" name="adcode[html]">$advalue[adcode][html]</textarea></td>
+		</tr>
+		</tbody>
+	
+		<tbody id="style_flash" style="display:<!--{if $advalue['adcode']['type']!='flash'}-->none<!--{/if}-->">
+		<tr>
+		<th>Flash width (required)</th>
+		<td><input name="adcode[flashwidth]" value="$advalue[adcode][flashwidth]" size="5"></td>
+		</tr>
+		<tr>
+		<th>Flash height (required)</th>
+		<td><input name="adcode[flashheight]" value="$advalue[adcode][flashheight]" size="5"></td>
+		</tr>
+		<tr>
+		<th>Flash URL (required)</th>
+		<td><input name="adcode[flashurl]" value="$advalue[adcode][flashurl]" size="50"></td>
+		</tr>
+		</tbody>
+		
+		<tbody id="style_image" style="display:<!--{if $advalue['adcode']['type']!='image'}-->none<!--{/if}-->">
+		<tr>
+		<th>Picture Address (required)</th>
+		<td><input name="adcode[imagesrc]" value="$advalue[adcode][imagesrc]" size="50"></td>
+		</tr>
+		<tr>
+		<th>Picture Link (required)</th>
+		<td><input name="adcode[imageurl]" value="$advalue[adcode][imageurl]" size="50"></td>
+		</tr>
+		<tr>
+		<th>Image width (optional)</th>
+		<td><input name="adcode[imagewidth]" value="$advalue[adcode][imagewidth]" size="5"></td>
+		</tr>
+		<tr>
+		<th>Image Height (optional)</th>
+		<td><input name="adcode[imageheight]" value="$advalue[adcode][imageheight]" size="5"></td>
+		</tr>
+		<tr>
+		<th>Replace the image with text (optional)</th>
+		<td><input name="adcode[imagealt]" value="$advalue[adcode][imagealt]"></td>
+		</tr>
+		</tbody>
+	
+		<tbody id="style_text" style="display:<!--{if $advalue['adcode']['type']!='text'}-->none<!--{/if}-->">
+		<tr>
+		<th>Text (required)</th>
+		<td><input name="adcode[textcontent]" value="$advalue[adcode][textcontent]" size="50"></td>
+		</tr>
+		<tr>
+		<th>Text Link (required)</th>
+		<td><input name="adcode[texturl]" value="$advalue[adcode][texturl]" size="50"></td>
+		</tr>
+		<tr>
+		<th>Text Size (optional)</th>
+		<td><input name="adcode[textsize]" value="$advalue[adcode][textsize]" size="5"> px</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="adid" value="$advalue[adid]">
+		<input type="submit" name="adsubmit" value="Submit" class="submit">
+	</div>
+
+	</form>
+	
+<!--{elseif $_GET['op'] == 'tpl'}-->
+	<div class="bdrcontent">
+	<div class="title"><h3>Template calling code</h3></div>
+	
+	<table class="formtable">
+	<tr><td>Please copy the following code, put the site to any page template specified location.</td></tr>
+	<tr><td><input type="text" name="blockadcode" value="$adcode" size="80"></td></tr>
+	</table>
+	</div>
+
+<!--{elseif $_GET['op'] == 'js'}-->
+
+	<div class="bdrcontent">
+	<div class="title"><h3>Javascript Calling code</h3></div>
+	
+	<table class="formtable">
+	<tr><td><textarea name="blockadcode" style="width:98%;" rows="5">$adcode</textarea></td></tr>
+	</table>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

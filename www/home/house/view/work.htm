@@ -1,0 +1,62 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<script type="text/javascript">
+function check()
+{
+	var obj = $('work_form').getElementsByTagName('input');
+	for(var i=0; i<obj.length;i++){
+		if(obj[i].type != 'radio') continue;
+		if(obj[i].checked == true) return true;
+	}
+	alert('Hãy chọn loại công việc bạn muốn');
+	return false;
+}
+</script>
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 25px;">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			 <tbody>
+				<tr>
+					<td width="75%" valign="top">
+						<table width="100%" cellspacing="0" cellpadding="0">
+							<tbody>
+								<tr>
+									<td>
+										<form id="work_form" action="house.php?ac=work" method="post" class="ajaxForm" onsubmit="return check();">
+											<p><input type="radio" id="type_0"  name="type" value="0"/><label for="type_0" style="float:none;"><b>Thực tập</b>(Tiền lương:{$money[0]}，Có{$work_num[0]}Ngày kinh nghiệm)</label></p>
+											<p><input type="radio" id="type_1"  name="type" value="1"/><label for="type_1" style="float:none;"><b>lao động chân tay</b>(Tiền lương:{$money[1]}，Cần{$mapping[1]}Ngày làm việc kinh nghiệm thực hành. Có{$work_num[1]}Ngày kinh nghiệm)</label></p>
+											<p><input type="radio" id="type_2"  name="type" value="2"/><label for="type_2" style="float:none;"><b>công nhân cổ xanh công việc</b>(Tiền lương:{$money[2]}，Cần{$mapping[2]}Ngày kinh nghiệm của công nhân cổ xanh. Có{$work_num[2]}Ngày kinh nghiệm)</label></p>
+											<p><input type="radio" id="type_3"  name="type" value="3"/><label for="type_3" style="float:none;"><b>công nhân cổ áo trắng công việc</b>(Tiền lương:{$money[3]}，Cần{$mapping[3]}Ngày kinh nghiệm của công nhân cổ áo trắng. Có{$work_num[3]}Ngày kinh nghiệm)</label></p>
+											<p style="padding-left:30px;"><input type="hidden" name="myFormAc" value="update"/><input type="submit" name="submit"  value="Để làm việc" class="submit"/></p>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<a name="work_list"></a>
+						<table width="100%" cellspacing="1" cellpadding="0" border="0" style="padding-left: 25px;">
+							<tbody>
+							<!--{loop $data $val}-->
+								<tr>
+									<td style="padding: 5px; width: 97%; height: 18px; line-height: 18px; border-bottom:1px solid #CCCCCC;margin-bottom:6px;padding-bottom:6px;">Tôi {$val['tip']} Được {$val['work_type']}，Tiền lương {$val['money']} 。{$val['status']}</td>
+								</tr>
+							<!--{/loop}-->
+							</tbody>
+						</table>
+					</td>
+					<td width="25%" valign="top">
+						<!--{template house/view/load}-->
+					</td>
+				</tr>
+			 <tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

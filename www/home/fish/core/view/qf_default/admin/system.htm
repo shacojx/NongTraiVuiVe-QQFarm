@@ -1,0 +1,38 @@
+<!--{tpl admin/header}-->
+
+<table border='0' cellspacing='10'>
+<form id="HSC" onsubmit="return submits();">
+	<tr>
+		<td width=20% align="right" height="25"><b>管理列表</b></td>
+		<td><input type="text" name="adminer" value="{:implode($_HSC['adminer'], ',')}" style="width:300px;" /> [格式为: 1,2,3,4...]</td>
+	</tr>
+	<tr>
+		<td align="right"  height="25"><b>好友类型</b></td><td><input type="radio" name="friendType" value="1" {if $_HSC['friendType']==1}checked="checked"{/if}/>默认好友 <input type="radio" name="friendType" value="2" {if $_HSC['friendType']==2}checked="checked"{/if}/>全站好友</td>
+	</tr>
+	<tr>
+		<td align="right"  height="25"><b>音乐播放器</b></td>
+		<td><input type="radio" name="view_player" value="0" {if $_HSC['view']['player']==0}checked="checked"{/if}/>关闭 <input type="radio" name="view_player" value="1" {if $_HSC['view']['player']==1}checked="checked"{/if}/>打开</td>
+	</tr>
+	<tr>
+		<td align="right"  height="25"><b>关闭鱼塘</b></td>
+		<td><input type="radio" name="closefish" value="0" {if $_HSC['closefish']==0} checked="checked"{/if} />关闭 <input type="radio" name="closefish" value="1" {if $_HSC['closefish']==1} checked="checked"{/if}/>打开</td>
+	</tr>
+	<tr>
+		<td align="right"><b>关闭鱼塘说明</b></td>
+		<td><textarea name="closeinfo" style="width:500px;height:100px;">{:$_HSC['closeinfo'] }</textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" value="提 交"><span id="state"></span></td>
+	</tr>
+</form>
+</table>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		param = $.getForm('#HSC', 1);
+		request('admin.php?mod=system&submit=1', 'state', param);
+		return false;
+	}
+</script>
+
+<!--{tpl admin/footer}-->

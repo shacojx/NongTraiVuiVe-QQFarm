@@ -1,0 +1,20 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<div class="menu">
+		<!--{php $active[$type] = ' class="active"';}-->
+		<a{:$active[nc]} href="tools.php?mod=help&type=nc">Trồng trọt</a>
+		<a{:$active[mc]} href="tools.php?mod=help&type=mc">Chăn nuôi</a>
+	</div>
+	<div id="help_tabs"></div>
+	<dl id="help_content"></dl>
+</div>
+
+<script type="text/javascript" src="script.php?info_{:$type}&help"></script>
+<script type="text/javascript">
+	generateTabs();
+	tabs[0].style.fontWeight = 'bold';
+	generateContent(0);
+</script>
+
+<!--{tpl inc_footer}-->

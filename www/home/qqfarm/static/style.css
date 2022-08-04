@@ -1,0 +1,21 @@
+/*qqfarm*/
+
+#qfversion {padding-top:5px;text-align:right;color:#ccc;}
+
+#qfplayer {display:none;text-align:center;}
+#qfplayer .qfplayer_main {width:500px;margin:0 auto;padding:5px 0 6px 0;background:url(mp3player_bottom.jpg) no-repeat bottom center;overflow:hidden;}
+
+
+/*dialogBox*/
+
+.dlBox_load {background:#fff url(loading.gif) no-repeat center center;}
+.dlBox_main {display:none;border:1px #6b97c1 solid;overflow:hidden;}
+.dlBox_head {height:28px;line-height:28px;background:#8baccf url(dlbox.png) repeat-x;cursor:move;}
+.dlBox_head h1 {position:absolute;font-size:14px;font-weight:bold;color:#fff;text-indent:8px;}
+.dlBox_head a {width:34px;height:19px;position:absolute;top:1px;right:6px;background:url(dlbox.png) no-repeat 0px -30px;overflow:hidden;}
+.dlBox_head a:hover {background-position:-37px -30px;}
+.dlBox_body {}
+
+#dlBox1_main {width:900px;background:#fff;}
+#dlBox2_main {width:150px;background:#fff;}
+#dlBox2_main select {width:100%;}

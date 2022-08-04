@@ -1,0 +1,43 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<div class="c_form">
+
+<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2><!--{if $space[videostatus]}-->Verify photos from my WebCam<!--{else}-->WebCam verify Apps<!--{/if}--></h2>
+		<p>
+		<!--{if $space[videostatus]}-->
+here is your certified video pictures. If the system allow, you can <a href="userapp.php?id=1036584"> re-enter the video certification program </ a>.
+		<!--{else}-->
+	You required one WebCam ready and hit the below button, WebCam authentication
+		<!--{/if}-->
+		</p>
+	</caption>
+	<tr>
+		<td>
+			<!--{if $space[videostatus]}-->
+			<img src="$videophoto" id="avatar" alt="" width="400" />
+			<!--{elseif $_SCONFIG['videophoto']}-->
+			<a href="userapp.php?id=1036584&my_suffix=Lw%3D%3D"><img src="image/videophoto_btn.gif" alt=""></a>
+			<!--{/if}-->
+		</td>
+	</tr>
+</table>
+
+<!--{if checkperm('managevideophoto')}-->
+<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2>WebCam certification setting</h2>
+		<p>You can enter the WebCam authentication Module, set up your own certificate,<br> for this module you have big credit/points,</p>
+	</caption>
+	<tr>
+		<td>
+			<a href="userapp.php?id=1036584" class="submit">Edit WebCam certificate</a>
+		</td>
+	</tr>
+</table>
+<!--{/if}-->
+	
+</div>
+<!--{template footer}-->

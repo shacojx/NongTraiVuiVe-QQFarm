@@ -1,0 +1,29 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 20px;">
+	
+			<table width="100%" cellspacing="1" cellpadding="0" border="0" style="padding-left: 25px;">
+				<tbody>
+				<!--{loop $data $val}-->
+					<tr>
+						<td style="padding: 5px; width: 97%; height: 18px; line-height: 18px; border-bottom:1px solid #CCCCCC;">Bạn <a href="house.php?ac=index&uid={$val['uid']}">{$_SN[$val['uid']]}</a> Trong {$val['dateline']}Bắt đầu sống với nhau, bạn yêu đang diễn ra {$val['last_time']}<!--{if $val['status'] == 1}-->（Tiếp tục）<!--{/if}-->，Sự gần gũi về khoảng thời gian{$val['thick']}</td>
+					</tr>
+				<!--{/loop}-->
+				</tbody>
+			</table>
+			<table  width="100%" cellspacing="1" cellpadding="0" border="0" style="padding-left: 25px;">
+				<tr><td align=right style="padding-top: 10px;">
+						<div class="page" style="padding-top: 12px;">{$htmlpage}</div>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

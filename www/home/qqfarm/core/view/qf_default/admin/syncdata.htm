@@ -1,0 +1,64 @@
+<!--{tpl admin/inc_header}-->
+
+<table class="list">
+	<tr>
+	<th colspan="2">Vui lòng điền số ID vật phẩm, hạt giống.. muốn cập nhật</th>
+	</tr>
+    <!-- <tr>
+	<td><a href="admin.php?mod=syncdata&sync=swf">点击同步module主要SWF文件</a></td>
+	<td>选择远程数据列表</td>
+	</tr> -->
+    <tr>
+	<td nowrap>
+    Nhập ID hạt giống mới 
+    <input id="nc_crop"> 
+    <input type="button" onClick="submits('nc_crop')" value="Xác nhận" />
+    </td>
+    <td>
+    <select id="ncsel" onChange="$('#nc_crop').value=$('#ncsel').options.value" >
+    <!--{foreach $nID as $key=>$vn}-->
+    <option value="{:$key}">{:$vn}</option>
+    <!--{/foreach}-->
+    </select>
+    <input type="button" onClick="submitss(1)" value="Chọn nhanh" />
+    </td>
+	</tr>
+	<tr>
+	<td>Nhập ID con giống mới 
+    <input id="mc_animal"> 
+    <input type="button" onClick="submits('mc_animal')" value="Xác nhận" />
+    </td>
+    <td>
+    <select id="mcsel" onChange="$('#mc_animal').value=$('#mcsel').options.value" >
+    <!--{foreach $mID as $key=>$vm}-->
+    <option value="{:$key}">{:$vm}</option>
+    <!--{/foreach}-->
+    </select>
+    <input type="button" onClick="submitss(2)" value="Chọn nhanh" />
+    </td>
+	<tr>
+	<td>ID Set trang trí nông trại <input id="nc_item"> <input type="button" onClick="submits('nc_item')" value="Xác nhận" /></td>
+    <td>4 Item trong mỗi bộ có cùng 1 nhóm ID</td>
+	</tr>
+	<tr>
+	<td>ID Set trang trí nông trang <input id="mc_item"> <input type="button" onClick="submits('mc_item')" value="Xác nhận" /></td>
+    <td>Mỗi bộ set trang trí có 1 số ID</td>
+	</tr>
+    <tr>
+    <td></td>
+    <td><span id="stat"></span></td>
+    </tr>
+</table>
+<script type="text/javascript">
+	function submitss(inputId){
+		request('admin.php?mod=syncdata&xmlid='+inputId, 'stat');
+		return false;
+	}
+	function submits(type) {
+		var sid = $('#'+type).value || 0;
+		if(sid) {
+			window.location='admin.php?mod=syncdata&sync='+type+'&sid='+sid;
+		}
+	}
+</script>
+<!--{tpl admin/inc_footer}-->

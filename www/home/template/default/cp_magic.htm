@@ -1,0 +1,345 @@
+<!--{template header}-->
+
+<!--{if $op == "buy"}-->
+
+	<h1>Buy Props/Gifts</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<div class="toolly" id="__magicbuy_$mid">
+	<!--{if $ac=='magic'}-->	
+		<form id="magicbuy_$mid" action="cp.php?ac=magic&mid=$mid&op=buy" method="post">
+	<!--{else}-->		
+		<form id="magicbuy_$mid" action="magic.php?mid=$mid&op=buy&idtype=$idtype&id=$id{$extra}" method="post">
+	<!--{/if}-->
+			<div class="magic_img">
+				<img src="image/magic/{$mid}.gif" alt="$magic[name]" />
+			</div>
+			<div class="magic_info">
+				<h3>$magic[name]</h3>
+				<p class="gray">$magic[description]</p>
+				<!--{if $magic[experience]}-->
+				<p>Go to next Level: <span>$magic[experience]</span></p>
+				<!--{/if}-->
+				<p>
+					Props Price: <span>$magic[charge]</span> points
+					<!--{if $discount > 0}-->
+					 (Enjoy the Discount of $discount <span>$charge</span> points £©
+					<!--{elseif $discount < 0}-->
+					£¨Enjoy <span> Free</span> Discount £©
+					<!--{/if}-->				
+				</p>
+				<p>Your active storage : <span>$magicstore[storage]</span> </p>
+				<p>You bought: <input type="text" name="buynum" value="1" style="width:40px;" /> £¨currently max you can buy: $magicstore[maxbuy] £©</p>
+				<!--{if $coupon[count]}-->
+				<p>Use coupon <input type="text" name="coupon" value="0" style="width:40px;" /> (Each coupon can exchange for 100 points, Now value is {$coupon[count]})</p>
+				<!--{/if}-->
+				<p class="btn_line">
+					<input type="hidden" name="formhash" value="<!--{eval echo formhash()}-->" />
+					<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+					<input type="hidden" name="buysubmit" value="1" />
+				<!--{if $_SGLOBAL[inajax]}-->
+					<!--{if $ac=='magic'}-->
+					<input type="button" class="submit" id="buysubmit_btn" value="Buy" onclick="ajaxpost('magicbuy_$mid', 'magicBought', 2000)" />
+					<!--{else}-->
+					<input type="button" class="submit" id="buysubmit_btn" value="Buy" onclick="ajaxpost('magicbuy_$mid')" />
+					<!--{/if}-->
+				<!--{else}-->
+					<input type="submit" class="submit" id="buysubmit_btn" value="Buy">
+				<!--{/if}-->
+				</p>
+			</div>
+		</form>
+	</div>
+
+<!--{elseif $op == "present"}-->
+
+	<h1>Gifted Props</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<div class="popupmenu_inner" id="__magicpresent_$mid">
+		<form id="magicpresent_$mid" action="cp.php?ac=magic&mid=$mid" method="post">
+			<p>
+				Gifted to: $magic[name]
+			</p>
+			<p>
+				Friends Username: 
+				<input type="text" name="fusername" />
+			</p>
+			<p class="btn_line">
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash()}-->" />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+				<input type="hidden" name="presentsubmit" value="1" />
+				<!--{if $_SGLOBAL[inajax]}-->
+				<input type="button" class="submit" name="presentsubmit_btn" value="Gifted" onclick="ajaxpost('magicpresent_$mid', 'magicPresent', 2000)" />
+				<!--{else}-->
+				<input type="submit" class="submit" name="presentsubmit_btn" value="Gifted">
+				<!--{/if}-->
+			</p>
+		</form>
+	</div>
+<!--{elseif $op == "showusage"}-->
+
+	<h1>Example Plans to use props</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<div class="popupmenu_inner">
+		<img src="image/magic/usage/{$mid}.gif" />		
+	</div>
+	
+<!--{elseif $op == 'appear'}-->
+
+	<h1>Back to online status</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<div class="popupmenu_inner" id="__appearform">
+	<form action="cp.php?ac=magic&op=$op" method="post" id="appearform">
+		<p>
+			Are you sure to return to online status, Please Restore online status£¿
+		</p>
+		<p class="btn_line">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash()}-->" />
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+			<input type="hidden" name="appearsubmit" value="1" />
+			<input type="submit" class="submit" value="Submit" />
+		</p>
+	</form>
+	</div>
+
+<!--{elseif $op == 'retrieve'}-->
+
+	<h1>Recovery of the Credits</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<div class="popupmenu_inner" id="__retrieveform">
+	<form action="cp.php?ac=magic&op=$op" method="post" id="retrieveform">
+		<p>
+			At present the remaining Credit points $leftcredit £¬Are you sure you want to recovery£¿
+		</p>
+		<p class="btn_line">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash()}-->" />
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+			<input type="hidden" name="retrievesubmit" value="1" />
+			<input type="submit" class="submit" value="Submit" />
+		</p>
+	</form>
+	</div>
+
+<!--{elseif in_array($op, array('cancelsuperstar', 'cancelflicker', 'cancelcolor', 'cancelframe', 'cancelbgimage'))}-->
+
+	<h1>Effect to closing down props</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<div class="popupmenu_inner" id="__cancelform">
+	<form action="cp.php?ac=magic&op=$op&id=$_GET[id]&idtype=$_GET[idtype]" method="post" id="cancelform">
+		<p>
+			Are you sure you want to cancel props $_SGLOBAL[magic][$mid] Effect£¿
+		</p>
+		<p class="btn_line">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash()}-->" />
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+			<input type="hidden" name="cancelsubmit" value="1" />
+			<input type="submit" class="submit" value="Submit" />
+		</p>
+	</form>
+	</div>
+	
+<!--{else}-->
+
+	<h2 class="title"><img src="image/icon/magic.gif">Props Center</h2>
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[store]><a href="cp.php?ac=magic&view=store"><span>Props stores</span></a></li>
+			<li$actives[me]><a href="cp.php?ac=magic&view=me"><span>My Props</span></a></li>
+			<li$actives[log]><a href="cp.php?ac=magic&view=log"><span>Props trace</span></a></li>
+		</ul>
+	</div>
+
+	<div style="float:none;">
+
+	<!--{if $_GET['view'] == "me"}-->
+			
+		<!--{if $mid}-->
+		<p class="notice">
+			Only Showing you, the current trace of the important props, 
+			<a href="cp.php?ac=magic&view=$_GET[view]">Click here to view the all props</a>
+		</p>
+		<p>&nbsp;</p>
+		<!--{/if}-->
+
+		<!--{if $list}-->
+		<ul id="magiclist" class="magic_list">
+		<!--{loop $list $key=>$value}-->
+			<li id="magic_$key">
+				<div class="magic_img">
+					<img src="image/magic/{$key}.gif" alt="$magics[$key][name]" />
+				</div>
+				<div class="magic_info">
+					<h3>$magics[$key][name]</h3>
+					<p class="gray">
+					$magics[$key][description]
+					</p>
+					<p>
+						<a id="a_present_$key" href="cp.php?ac=magic&op=present&mid=$key" onclick="ajaxmenu(event, this.id, 1)" class="m_button<!--{if $key=='license'}--> m_off<!--{/if}-->">Gifted </a>
+						 reamining <span id="magiccount_$key">$value[count]</span> ¸ö
+					</p>
+				</div>
+			</li>
+		<!--{/loop}-->
+		</ul>
+		<!--{else}-->
+		<p>You did not buy any props, <a href="cp.php?ac=magic&view=store"> Props might be you interested</a></p>
+		<!--{/if}-->
+	<!--{elseif $_GET['view'] == 'log'}-->
+
+		<div class="h_status">
+		Try: 
+		<a $types[in] href="cp.php?ac=magic&view=$_GET['view']&type=in">Props I like</a>
+		<span class="pipe">|</span>
+		<a $types[present] href="cp.php?ac=magic&view=$_GET['view']&type=present">Gifted</a>
+		<span class="pipe">|</span>
+		<a $types[out] href="cp.php?ac=magic&view=$_GET['view']&type=out">props in mind</a>
+		</div>
+
+		<!--{if $_GET[type] == 'in'}-->
+			<!--{if $list}-->
+			<ul class="line_list">
+				<!--{loop $list $value}-->
+				<li>
+					
+					<!--{if $value[type] == '3'}-->
+					Upgrade Level
+					<!--{elseif $value[type] == '2'}-->
+					Obtain
+					<!--{if $value[fromid]}-->
+					<a href="space.php?uid=$value[fromid]" target="_blank">$_SN[$value[fromid]]</a>
+					<!--{else}-->
+					Administrator
+					<!--{/if}-->
+					Gift
+					<!--{else}-->
+					Purchased
+					<!--{/if}-->
+					<a href="cp.php?ac=magic&view=store&mid=$value[mid]" target="_blank">
+						$_SGLOBAL[magic][$value[mid]]
+					</a>
+					$value[count]
+					¸ö
+					<span class="gray">(<!--{eval echo sgmdate('m-d H:i', $value[dateline], true)}-->)</span>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<div class="page">$multi</div>
+			<!--{else}-->
+			<p>Claim recent missed profit</p>
+			<!--{/if}-->
+		<!--{elseif $_GET[type] == 'present'}-->
+			<!--{if $list}-->
+			<ul class="line_list">
+				<!--{loop $list $value}-->
+				<li>
+					To 
+					<a href="space.php?uid=$value[uid]">$_SN[$value[uid]]</a>
+					gifted
+					<a href="cp.php?ac=magic&view=store&mid=$value[mid]" target="_blank">
+						$_SGLOBAL[magic][$value[mid]]
+					</a>
+					<span class="gray">(<!--{eval echo sgmdate('m-d H:i', $value[dateline], true)}-->)</span>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<div class="page">$multi</div>
+			<!--{else}-->
+			<p>Recently, You did not gift any props to others</p>
+			<!--{/if}-->		
+		<!--{else}-->
+			<!--{if $list}-->
+			<ul class="line_list">
+				<!--{loop $list $value}-->
+				<li>
+					Using Chances 
+					<a href="cp.php?ac=magic&view=store&mid=$value[mid]" target="_blank">
+						$_SGLOBAL[magic][$value[mid]]
+					</a>
+					$value[count]
+				<!--{if $value['mid'] == 'invisible'}-->
+					; &nbsp;Expired: <!--{eval echo sgmdate('m-d H:i', $value[expire])}-->
+				<!--{elseif $value['mid'] == 'gift'}-->
+					; &nbsp;Remaining points: $value[data][left]
+				<!--{elseif $value['mid'] == 'superstar'}-->
+					; &nbsp;Remaining: <!--{eval echo sgmdate('m-d H:i', $value[expire])}-->
+				<!--{/if}-->
+					<span class="gray">(<!--{eval echo sgmdate('m-d H:i', $value[dateline], true)}-->)</span>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<div class="page">$multi</div>
+			<!--{else}-->
+			<p>No props recently you used,</p>
+			<!--{/if}-->
+		<!--{/if}-->
+
+	<!--{else}-->
+		<div class="h_status">
+		ÅÅÐò£º
+		<a $orders['default'] href="cp.php?ac=magic&view=$view&order=defalut">Default</a>
+		<span class="pipe">|</span>
+		<a $orders['hot'] href="cp.php?ac=magic&view=$view&order=hot">Top</a>
+		</div>
+
+		<!--{if $mid}-->
+		<p class="notice">
+			Only Showing you, the current trace of the important props, 
+			<a href="cp.php?ac=magic&view=$_GET[view]">Click here to view the all props</a>
+		</p>
+		<p>&nbsp;</p>
+		<!--{/if}-->
+
+		<ul id="magiclist" class="magic_list">
+		<!--{loop $list $key=>$value}-->
+			<li id="magic_$key">
+				<div class="magic_img">
+					<a id="a_i_buy_$key" href="cp.php?ac=magic&op=buy&mid=$key" onclick="ajaxmenu(event, this.id, 1)">
+					<img src="image/magic/{$key}.gif" alt="$magics[$key][name]" />
+					</a>
+				</div>
+				<div class="magic_info">
+					<h3>
+						$magics[$key][name]
+						<!--{if $_GET[order] == 'hot'}-->
+						<small class="gray" style="margin-left:10px;">Sold $value[sellcount] </small>
+						<!--{/if}-->
+					</h3>
+					<p class="gray">$magics[$key][description]</p>
+					<p>
+						<!--{if in_array($space[groupid], $magics[$key][forbiddengid]) || in_array($mid, $blacklist)}-->
+						<a id="a_buy_$key" href="cp.php?ac=magic&op=buy&mid=$key" onclick="ajaxmenu(event, this.id, 1)" class="m_button m_off">out of limit </a><span>$magics[$key][charge]</span> points
+						<!--{else}-->
+						<a id="a_buy_$key" href="cp.php?ac=magic&op=buy&mid=$key" onclick="ajaxmenu(event, this.id, 1)" class="m_button">Buy</a><span>$magics[$key][charge]</span> points
+						<!--{/if}-->
+					</p>
+				</div>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	<!--{/if}-->
+
+	</div><!--//<div id="content" style="float:none;width:690px;">//-->
+	<script type="text/javascript">
+	<!--
+	function magicBought(id, result) {
+		var ids = explode('_', id);
+		var mid = ids[1];
+		if($('a_buy_'+mid)) {
+			$('a_buy_'+mid).innerHTML = 'Continue to shopping';
+		}
+	}
+	function magicPresent(id, result) {
+		var ids = explode('_', id);
+		var mid = ids[1];
+		if($('a_present_'+mid)) {
+			$('a_present_'+mid).innerHTML = 'Continue to gift';
+		}
+		if($('magiccount_'+mid)) {
+			$('magiccount_'+mid).innerHTML = parseInt($('magiccount_'+mid).innerHTML) - 1;
+		}
+	}
+	-->
+	</script>
+
+<!--{/if}-->
+
+<!--{template footer}-->

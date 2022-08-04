@@ -1,0 +1,154 @@
+<!--{eval $_TPL['titles'] = array('Bowling - Home');}-->
+<!--{template header}-->
+<!--{template blq/view/fgame_header}-->
+<div class=div_layout>
+		<div class=left>
+			<div>
+				<div overflow="hidden" height="500" width="560">
+					<object>
+						<embed src="blq/view/blq.swf" width="560" height="500" />
+					</object>
+				</div>			
+			</div>
+			
+			<br>	
+			<div class=mycar>
+				<div class=title>		
+				     Instructions 	  
+				</div>
+				<div class=info>
+				Hold down the left-Hold bowling, move the mouse to move fast and quickly release the left-out of the ball, the mouse can not slide the game interface.<br />
+					<font color="red">After get high marks, do not forget the point of "submit" button to submit your scores, so as to chart oh:)</font>				</div>
+
+		  </div>
+
+
+			<div>
+				<!--{if $reArr}-->
+				<br>
+				<div class="parkmenu">
+						<ul>
+						  <LI>Who has recently played</LI>
+						</ul>
+				</div>
+					<div class="box">
+						<ul class="avatar_list s_clear">
+							<!--{loop $reArr $key $value}-->
+							<li>
+								<div class="avatar48"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+								<p><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></p>
+							</li>
+							<!--{/loop}-->	
+									
+							<li>
+								
+								<p></p>
+							</li>
+										  
+						</ul>
+					</div>
+				<!--{/if}-->
+			</div>
+		</div>
+
+		<div id="blqbar">
+
+			<div class="sidebox">
+				<h2 class="title">
+					<p class="r_option">
+						
+					</p>
+					My info
+				</h2>
+				<ul class="blq_list">
+
+					<li>My ranking: <!--{$myrk}--> / <!--{$allrk}--></li>
+				
+					<li>My highest score: <!--{$score}--></li>
+
+
+				</ul>
+			</div>
+
+
+
+			<!--{if $dayrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Last 24 hours Top
+				</h2>
+				<ul class="blq_list">
+					<table width="220" align="center"><!--{loop $dayrktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}--> point</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+
+
+
+			<!--{if $weekrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Week Top
+				</h2>
+				<ul class="blq_list">
+					<table width="220" align="center">
+					<!--{loop $weekrktopArr $key $value}-->	
+					<tr>
+						<td style="padding-right:6px;"><!--{$key}--></td>
+						<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+						<td><!--{$value[score]}--> point</td>
+					</tr>
+					<!--{/loop}-->
+					</table>
+				</ul>
+			</div>
+			<!--{/if}-->
+
+
+			<!--{if $mrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Total Ranking the top 3
+				</h2>
+				<ul class="blq_list">
+					<table width="220" align="center"><!--{loop $aarktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}--> point</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+	    </div>
+</div>	
+
+<div class="IND_lwide" valign="left">
+	<div class="wdL"></div>
+	<p align="right"><font color="#808080">
+	<span class="fl" valign="left">"Bowling" single games UCH 2.0 GBK</span>	
+	</font></p>
+	<p align="right"><font color="#808080">
+	<span class="fl" valign="left">Translate to English by Davize Nguyen</span>	
+	</font></p>
+	<p align="right"><font color="#808080">
+	<span class="fl" valign="left">Y!M: davize_nguyen</span>	
+	</font></p>
+	<div class="wdR" valign="left">
+		<p align="right"></div>	
+	<p align="right">	
+	<span class="fr" valign="left"><font color="#808080">Page Design: </font> <a href="http://home.elfbbs.net">
+	<font color="#808080">Wizard space</font></a><font color="#808080">&copy;2009
+	</font> </span>		
+ 
+</div>
+</div>
+
+<!--{template footer}-->

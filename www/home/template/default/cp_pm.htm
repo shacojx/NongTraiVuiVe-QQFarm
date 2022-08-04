@@ -1,0 +1,104 @@
+<!--{template header}-->
+
+
+<!--{if $_GET['op'] == 'delete'}-->
+
+<h1>Delete PM</h1>
+<a href="javascript:hideMenu();" class="float_del" title="Close">Close</a>
+<div class="popupmenu_inner" id="$pmid">
+<form id="pmform" name="pmform" method="post" action="cp.php?ac=pm&op=delete&folder=$folder&pmid=$pmid">
+	<p>Are you sure do you want to delete this PM?</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+		<input type="hidden" name="deletesubmit" value="true" />
+		<input type="submit" name="deletesubmit" value="Delete" class="submit" />
+	</p>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{else}-->
+
+<!--{if !$_SGLOBAL[inajax]}-->
+
+	<h2 class="title"><img src="image/icon/pm.gif">PM</h2>
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li class="active"><a href="cp.php?ac=pm"><span>Send PM</span></a></li>
+			<li><a href="space.php?do=pm&view=inbox"><span>Back To Inbox</span></a></li>
+		</ul>
+	</div>
+
+<!--{else}-->
+
+	<h1>Send PM</h1>
+	<a href="javascript:hideMenu();" title="Close" class="float_del">Close</a>
+
+<!--{/if}-->
+
+<div class="popupmenu_inner" id="__pmform_{$pmid}">
+	<form id="pmform_{$pmid}" name="pmform_{$pmid}" method="post" action="cp.php?ac=pm&op=send&touid=$touid&pmid=$pmid" class="ajaxshowdiv">
+	<table cellspacing="0" cellpadding="3">
+	<!--{if !$touid}-->
+	<tr>
+		<th><label for="username">To</label></th>
+		<td>
+			<script type="text/javascript" src="source/script_autocomplete.js"></script>
+			<input type="text" id="username" name="username" value="" style="width: 396px;" class="t_input" tabindex="1" <!--{if $friends}--> onclick="auc.handleEvent(this.value ,event);" onkeyup="auc.handleEvent(this.value ,event);" onkeydown="closeOpt(username,event);inputKeyDown(event);" autocomplete="off" <!--{/if}--> />
+			<!--{if $friends}-->
+			<div id="username_menu" class="ajax_selector" onclick="$('username_menu').style.display='none';" style="display:none">
+				<div class="ajax_selector_option" style="width: 396px; height: 100px;">
+					<a href="javascript:;" onclick="$('username_menu').style.display='none';" class="float_del" style="margin-right: 5px;">a</a>
+					<ul id="friendlist" class="blocklink">
+						<!--{loop $friends $key $value}-->
+							<!--{eval $fs[] = $value['username'];}-->
+							<li>$value[username]</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+			</div>
+			<!--{eval $friendstr = implode(',', $fs);}-->
+			<script type="text/javascript">
+				var close = true;
+				var auc = new sAutoComplete("auc", "username_menu", "friendlist", "username");
+				auc.addItem('$friendstr');
+				function closeOpt(key,evt) {
+					if(evt.keyCode==9) {
+						$('username_menu').style.display='none';
+					}
+				}
+				function inputKeyDown(event) {
+					if(event.keyCode == 13){
+						doane(event);
+					}
+				}
+			</script>
+
+			<!--{/if}-->
+		</td>
+	</tr>
+
+	<!--{/if}-->
+	<tr>
+		<th style="vertical-align: top;"><label for="message">Message</label></th>
+		<td><textarea id="message" name="message" cols="40" rows="4" style="width: 400px; height: 150px;" onkeydown="ctrlEnter(event, 'pmsubmit_btn');"></textarea></td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+		<input type="hidden" name="pmsubmit" value="true" />
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="button" name="pmsubmit_btn" id="pmsubmit_btn" value="Send" class="submit" onclick="ajaxpost('pmform_{$pmid}','',2000)" />
+		<!--{else}-->
+		<input type="submit" name="pmsubmit_btn" id="pmsubmit_btn" value="Send" class="submit" />
+		<!--{/if}-->
+		</td>
+	</tr>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<!--{/if}-->
+<!--{template footer}-->

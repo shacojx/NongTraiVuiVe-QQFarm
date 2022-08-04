@@ -1,0 +1,20 @@
+InnoDB: The log sequence number in ibdata files does not match
+InnoDB: the log sequence number in the ib_logfiles!
+100222  9:11:29  InnoDB: Database was not shut down normally!
+InnoDB: Starting crash recovery.
+InnoDB: Reading tablespace information from the .ibd files...
+InnoDB: Restoring possible half-written data pages from the doublewrite
+InnoDB: buffer...
+100222  9:11:29  InnoDB: Started; log sequence number 0 43655
+100222  9:11:29 [Note] C:\Program Files\VertrigoServ\mysql\bin\v_mysqld.exe: ready for connections.
+Version: '5.0.51b-community'  socket: ''  port: 3306  MySQL Community Edition (GPL)
+InnoDB: The log sequence number in ibdata files does not match
+InnoDB: the log sequence number in the ib_logfiles!
+100222 10:06:13  InnoDB: Database was not shut down normally!
+InnoDB: Starting crash recovery.
+InnoDB: Reading tablespace information from the .ibd files...
+InnoDB: Restoring possible half-written data pages from the doublewrite
+InnoDB: buffer...
+100222 10:06:13  InnoDB: Started; log sequence number 0 43655
+100222 10:06:13 [Note] C:\Program Files\VertrigoServ\mysql\bin\v_mysqld.exe: ready for connections.
+Version: '5.0.51b-community'  socket: ''  port: 3306  MySQL Community Edition (GPL)

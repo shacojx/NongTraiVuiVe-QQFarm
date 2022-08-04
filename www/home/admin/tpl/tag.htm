@@ -1,0 +1,102 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		
+		<table cellspacing="3" cellpadding="3">
+		<tr><th>Label name *</th><td><input type="text" name="tagname" value="$_GET[tagname]"></td>
+			<th>Whether the lock -</th><td>
+			<select name="close">
+			<option value="">Unlimited</option>
+			<option value="1"<!--{if $_GET[close]==1}--> selected<!--{/if}-->>Lock</option>
+			</select>
+			</td>
+		</tr>
+		<tr><th>Created</th><td colspan="3">
+			<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+			<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		<tr><th>Log Number</th><td colspan="3">
+			<input type="text" name="blognum1" value="$_GET[blognum1]" size="10"> ~
+			<input type="text" name="blognum2" value="$_GET[blognum2]" size="10">
+			</td>
+		</tr>
+	
+		<tr><th>Sorting</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">Default Sort</option>
+		<option value="dateline"$orderby[dateline]>Created</option>
+		<option value="blognum"$orderby[blognum]>Blog Number</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>Decreasing</option>
+		<option value="asc"$ordersc[asc]>Incremental</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>20 per page</option>
+		<option value="50"$perpages[50]>50 per page</option>
+		<option value="100"$perpages[100]>100 per page</option>
+		</select>
+		<input type="hidden" name="ac" value="tag">
+		<input type="submit" name="searchsubmit" value="Search" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+	<form method="post" action="admincp.php?ac=tag">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th>Label name</th>
+		<th width="80">Log Number</th>
+		<th width="100">Time</th>
+	</tr>
+	<!--{loop $list $value}-->
+	<tr>
+		<td><input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[tagid]">
+		<a href="space.php?uid=$space[uid]&do=tag&id=$value[tagid]" target="_blank">$value[tagname]</a><!--{if $value[close]}-->(<a href="admincp.php?ac=tag&close=$value[close]">Lock</a>)<!--{/if}--></td>
+		<td>$value[blognum]</td>
+		<td><!--{date('Y-m-d', $value[dateline])}--></td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<!--{if $allowbatch}-->
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select
+		<!--{/if}-->
+		<input type="radio" name="optype" value="delete"> Remove
+		<input type="radio" name="optype" value="merge"> Merged into a new label:<input type="text" name="newtagname" value="" size="5">
+		<input type="radio" name="optype" value="close"> Lock
+		<input type="radio" name="optype" value="open"> Open
+		<input type="submit" name="opsubmit" value="Implementation of the action" onclick="return confirm('This action can not be restored, to confirm to continue?');" class="submit">
+		
+		<div class="pages">$multi</div>
+	</div>
+	
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

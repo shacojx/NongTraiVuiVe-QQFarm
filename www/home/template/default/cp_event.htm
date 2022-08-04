@@ -1,0 +1,861 @@
+<!--{template header}-->
+
+<!--{if empty($topic) && in_array($op,array("edit", "pic", "thread", "members", "comment", "invite", "eventinvite"))}-->
+<!--//管理页页头//-->
+<style type="text/css">
+	.poster_pre{
+		max-width: 80px; max-height: 104px;}
+	.poster{
+		max-width: 200px; max-height: 260px;}
+</style>
+<div id="mainarea">
+    <h2 class="title"><img src="image/app/event.gif" />Event<!--{if $eventid}-->- <a href="space.php?do=event&id=$event[eventid]">$event[title]</a><!--{/if}--></h2>
+    <div class="tabs_header">
+        <ul class="tabs">
+			<!--{if $eventid}-->
+				<!--{if $allowmanage}-->
+	            <li $menus[edit]><a href="cp.php?ac=event&op=edit&id=$eventid"><span>Edit Event</span></a></li>
+				<!--{/if}-->
+				<!--{if $_SGLOBAL[supe_userevent][status] > 1 && ($_SGLOBAL[supe_userevent][status] >= 3 || $event[allowinvite])}-->
+				<li $menus[invite]><a href="cp.php?ac=event&op=invite&id=$eventid"><span>Invite friends</span></a></li>
+				<!--{/if}-->
+				<!--{if  $_SGLOBAL[supe_userevent][status] >= 3}-->
+				<li $menus[members]><a href="cp.php?ac=event&op=members&id=$eventid"><span>Attending</span></a></li>
+				<!--{/if}-->
+				<!--{if $allowmanage}-->
+				<li $menus[pic]><a href="cp.php?ac=event&op=pic&id=$eventid"><span>Event's Photos</span></a></li>
+					<!--{if $event[tagid]}-->
+				<li $menus[thread]><a href="cp.php?ac=event&op=thread&id=$eventid"><span>Event's Disussion</span></a></li>
+					<!--{/if}-->
+				<!--{/if}-->
+			<!--{else}-->
+				<!--{if "eventinvite"==$op}-->
+				<li class="active"><a href="cp.php?ac=event&op=eventinvite"><span>Event Invitations</span></a></li>
+				<!--{else}-->
+				<li class="active"><a href="cp.php?ac=event"><span>My Events</span></a></li>
+				<!--{/if}-->
+			<!--{/if}-->
+			<li><a href="space.php?do=event&id=$eventid"><span>Back to Event Page</span></a></li>
+        </ul>
+        <!--{if $menus[members]}-->
+        <form action="cp.php" method="get" id="searchform" name="searchform">
+		<div style="margin: 0pt 6px 5px 0pt; float: right;">
+		<table cellspacing="0" cellpadding="0">
+		<tbody>
+		<tr>
+		<td style="padding: 0pt;"><input type="text" style="border-right: medium none; width: 160px;" tabindex="1" class="t_input" onfocus="if(this.value=='Search members')this.value='';" value="Search members" name="key" id="key"/></td>
+		<td style="padding: 0pt;"><a href="javascript:$('searchform').submit();"><img alt="Search" src="image/search_btn.gif"/></a></td>
+		</tr>
+		</tbody>
+		</table>
+		</div>
+		<input type="hidden" value="event" name="ac"/>
+		<input type="hidden" value="$eventid" name="id"/>
+		<input type="hidden" value="members" name="op"/>
+		<input type="hidden" value="$_GET[status]" name="status"/>
+		<input type="hidden" value="<!--{eval echo formhash();}-->" name="formhash"/>
+		</form>
+        <!--{/if}-->
+    </div>
+<!--{/if}-->
+
+<!--{if "join"==$op}-->
+	<!--{if $event[allowfellow] || $event[template]}-->
+	<div>
+		<h1>Complete Registration</h1>
+		<form action="cp.php?ac=event&op=join&id=$event[eventid]" method="post" style="padding: 5px 10px;">
+			<!--{if $event[allowfellow]}-->
+			<p>
+				<span>Can Bring Friends</span>
+				<input name="fellow" type="text" size="4" value="<!--{if  empty($_SGLOBAL[supe_userevent][fellow])}-->0<!--{else}-->$_SGLOBAL[supe_userevent][fellow]<!--{/if}-->" />
+				<span class="tiptext">（For this event, you can bring your friends）</span>
+			</p>
+			<!--{/if}-->
+			<!--{if $event[template]}-->
+			<p>
+				<span>Registration</span><span class="tiptext">（*For this event you need to fill this registration form, Requested by sponsors）</span><br />
+				<textarea name="template" rows="4" style="width: 320px;"><!--{if  empty($_SGLOBAL[supe_userevent][template])}-->$event[template]<!--{else}-->$_SGLOBAL[supe_userevent][template]<!--{/if}--></textarea>
+			</p>
+			<!--{/if}-->
+			<p class="btn_line"><br />
+				<input type="submit" class="submit" name="joinsubmit" value="Join" />
+				<input type="button" class="button" value="Canel" onclick="hideMenu()" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+	<!--{else}-->
+	<div>
+		<form method="post" name="eventform" action="cp.php?ac=event&op=join&id=$eventid">
+			<h1>Are you sure<!--{if $event[verify]}--> Join <!--{else}--> to attend <!--{/if}--> this event?</h1>
+			<p class="btn_line"><br />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+				<input type="submit" name="joinsubmit" value="Join" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+	<!--{/if}-->
+<!--{elseif $op == "follow"}-->
+	<div>
+		<form method="post" name="eventform" action="cp.php?ac=event&op=follow&id=$eventid">
+			<h1>Are you interested in this Event?</h1>
+			<p class="btn_line"><br />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+				<input type="submit" name="followsubmit" value="Follow" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->">
+		</form>
+	</div>
+<!--{elseif $op == "cancelfollow"}-->
+	<div>
+		<form method="post" name="eventform" action="cp.php?ac=event&op=cancelfollow&id=$eventid">
+			<h1>Are you sure you cancel this event?</h1>
+			<p class="btn_line"><br />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+				<input type="submit" name="cancelfollowsubmit" value="Stop Follow" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+<!--{elseif $op == "quit"}-->
+	<div>
+		<form method="post" name="eventform" action="cp.php?ac=event&op=quit&id=$eventid">
+			<h1>Are you sure you withdraw from this event?</h1>
+			<p class="btn_line"><br />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+				<input type="submit" name="quitsubmit" value="Quit" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+<!--{elseif $op == "delete"}-->
+	<div>
+		<form method="post" name="eventform" action="cp.php?ac=event&op=delete&id=$eventid">
+			<h1>Are you sure you cancel the event?</h1>
+			<p>Cancel Event, This action will delete the relevant information<br />This action can not be to restore!</p>
+			<p class="btn_line"><br />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+				<input type="submit" name="deletesubmit" value="Delete" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+<!--{elseif $op == "member"}-->
+	<div id="memberevent">
+		<div><a class="float_del" title="Close" href="javascript:hideMenu();">Close</a></div>
+		<br clear="both" />
+		<form method="post" name="eventform" id="eventmember_$uid" action="cp.php?ac=event&op=member&id=$eventid">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+			<input type="hidden" name="uid" value="$userevent[uid]">
+			<p>
+				Set:
+				<select name="status">
+					<option value="2">Public</option>
+					<!--{if $_SGLOBAL[supe_uid]==$event[uid]}-->
+					<option value="3">Orgnizers</option>
+					<!--{/if}-->
+					<!--{if $event[verify]}-->
+					<option value="0">Pending</option>
+					<!--{/if}-->
+					<option value="-1">Ban People</option>
+				</select> &nbsp;
+				<input type="submit" name="membersubmit" value="Submit" class="submit" />
+			</p>
+		</form>
+	</div>
+<!--{elseif $op == "print"}-->
+	<div>
+		<div><a class="float_del" title="Close" href="javascript:hideMenu();">Close</a></div>
+		<br clear="both" />
+		<form method="post" target="_blank" name="eventform" action="cp.php?ac=event&op=print&id=$eventid">
+			<h2>Printing Setting</h2>
+			<p>Content:
+				<!--input type="checkbox" id="ckavatarbig" name="avatarbig" /> <lable for="ckavatarbig">Title</lable-->
+				<input type="checkbox" id="ckavatarbig" name="avatarsmall" checked="checked" /> <lable for="ckavatarsmall">Subject</lable>
+				<input type="checkbox" id="ckusername" name="username" checked="checked" /> <lable for="ckusername">Name</lable>
+				<!--{if $event[allowfellow]}-->
+				<input type="checkbox" id="ckfellow" name="fellow" checked="checked" /> <lable for="ckfellow">Number of Peoples</lable>
+				<!--{/if}-->
+				<!--{if $event[template]}-->
+				<input type="checkbox" id="cktemplate" name="template" checked="checked" /> <lable for="cktemplate">Registration Form</lable>
+				<!--{/if}-->
+			</p>
+			<p>Options:
+				<input type="checkbox" id="ckadmin" name="admin" /> <lable for="ckadmin">Partner</lable>
+			</p>
+			<p class="btn_line">
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+				<input type="submit" name="printsubmit" value="Print" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+<!--{elseif $op == "close"}-->
+	<div>
+		<form method="post" name="eventform" action="cp.php?ac=event&op=close&id=$eventid">
+			<h1>Are you sure, do you want to close this event?</h1>
+			<p>After this action, Event will only can be browse/view, but no one can join</p>
+			<p class="btn_line"><br />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+				<input type="submit" name="closesubmit" value="Close" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+<!--{elseif $op == "open"}-->
+	<div>
+		<form method="post" name="eventform" action="cp.php?ac=event&op=open&id=$eventid">
+			<h1>Are you sure do you want to re-open this event?</h1>
+			<p class="btn_line"><br />
+				<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+				<input type="submit" name="opensubmit" value="Open" class="submit" />
+				<input type="button" name="btnclose" value="Cancel" onclick="hideMenu();" class="button" />
+			</p>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+<!--{elseif $op == "calendar"}-->	
+	<div class="calendar">
+		<div id="calendar_pre" class="floatleft"><a href="#" onclick="showcalendar('$premonth'); this.blur(); return false;">&lt;&lt;</a></div>
+		<div id="calendar_next" class="floatright"><a href="#" onclick="showcalendar('$nextmonth'); this.blur(); return false;">&gt;&gt;</a></div>
+<span id="thecalendar_month">$month_name</span> ,<span id="thecalendar_year">$year</span>
+		<ul>
+			<li class="calendarli calendarweek">Sun</li>
+			<li class="calendarli calendarweek">Mon</li>
+			<li class="calendarli calendarweek">Tue</li>
+			<li class="calendarli calendarweek">Wed</li>
+			<li class="calendarli calendarweek">Thu</li>
+			<li class="calendarli calendarweek">Fri</li>
+			<li class="calendarli calendarweek">Sat</li>
+			<!--{eval echo str_repeat('<li class="calendarblank">&nbsp;</li>', $week)}-->
+			<!--{loop $days $key $value}-->		
+				<!--{if $value[count]}-->		
+			<li class="calendarli $value[class]" onmouseover="$('day_$key').style.display='block';" onmouseout="$('day_$key').style.display='none';">
+				<a href="$url&date=$year-$month-$key">$key</a>
+				<div class="dayevents" id="day_$key" style="display:none;">
+					<ul class="news_list">
+					<!--{loop $value[events] $event}-->
+						<li class="dayeventsli"><a href="space.php?do=event&id=$event[eventid]">$event[title]</a></li>
+					<!--{/loop}-->
+					</ul>
+				</div>
+			</li>
+				<!--{else}-->
+			<li class="calendarli">$key</li>
+				<!--{/if}-->
+			<!--{/loop}-->
+		</ol>
+	</div>
+<!--{elseif $op == "invite"}-->
+	<!--{if $event[grade] == -2}-->
+	<div id="content">
+		<p>Event has been closed. You can not invite friends</p>
+	</div>
+	<!--{elseif $event[grade] <= 0}-->	
+	<div id="content">
+		<p>Your Approval is pending, So you can not invite friends.</p>
+	</div>
+	<!--{elseif $_SGLOBAL[timestamp] > $event[deadline]}-->
+	<div id="content">
+		<p>You can not invite, because the deadline has been passed.</p>
+	</div>
+	<!--{elseif $event[limitnum]>0 && $event[limitnum]<=$event[membernum]}-->
+	<div id="content">
+		<p>No more people can join this event,because number of people exceed.</p>
+	</div>
+	<!--{else}-->
+	<div id="content" style="width: 640px;">
+		<form id="edit_form" name="edit_form" class="c_form" method="post" action="cp.php?ac=event&op=invite&id=$event[eventid]&group=$_GET[group]&page=$page">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<div class="h_status">
+				Sorry, You can not join this event!
+			</div>
+			<div class="h_status">
+				<!--{if $list}-->
+				<ul class="avatar_list">
+				<!--{loop $list $value}-->
+					<li><div class="avatar48"><a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}"><!--{avatar($value[fuid],small)}--></a></div>
+						<p>
+						<a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}">{$_SN[$value[fuid]]}</a>
+						</p>
+						<p><!--{if empty($joins[$value[fuid]])}--><input type="hidden" name="names[]" value="$value[fusername]"><input type="checkbox" name="ids[]" value="$value[fuid]">Selected<!--{else}-->have been invited<!--{/if}--></p>
+					</li>
+				<!--{/loop}-->
+				</ul>
+				<div class="page">$multi</div>
+				<!--{else}-->
+				<div class="c_form">Not friends. </div>
+				<!--{/if}-->
+			</div>
+			<p>
+				<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')"><label for="chkall">Select All</label> &nbsp;
+				<input type="hidden" name="invitesubmit" value="1" />
+				<input type="submit" name="bnt_invitesubmit" value="Ivite" class="submit" />
+			</p>
+		</form>
+	</div>
+	<div id="sidebar" style="width: 150px;">
+		<div class="cat">
+			<h3>Friends Category</h3>
+			<ul class="post_list line_list">
+				<li<!--{if $_GET[group]==-1}--> class="current"<!--{/if}-->><a href="cp.php?ac=event&id=$eventid&op=invite&group=-1">All Friends</a></li>
+				<!--{loop $groups $key $value}-->
+				<li<!--{if $_GET[group]==$key}--> class="current"<!--{/if}-->><a href="cp.php?ac=event&id=$eventid&op=invite&group=$key">$value</a></li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<!--{/if}-->
+<!--{elseif $op == "members"}-->
+	<div id="content" style="width: 640px;">
+		<form id="edit_form" name="edit_form" class="c_form" method="post" action="cp.php?ac=event&op=members&status=$_GET[status]&id=$event[eventid]">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />	
+			<div class="h_status">
+				Select the suitable users, Change user status.
+				<!--{if $event[limitnum]}--><span style="color:#f00">Coming up <!--{eval echo $event[limitnum]-$event[membernum]}-->  Finshed Event</span><!--{/if}-->
+			</div>	
+			<div class="h_status">
+				<!--{if $list}-->
+				<table >
+					<tbody>
+					<!--{loop $list $value}-->
+					<tr>
+						<td width="40"><input type="checkbox" name="ids[]" value="$value[uid]"></td>
+						<td width="80">
+							<div><a href="space.php?uid=$value[uid]" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+							<p><a href="space.php?uid=$value[uid]">$_SN[$value[uid]]</a></p>
+						</td>
+						<td>
+							<!--{if $event[allowfellow]}--><h2>Number of attendees：<!--{eval echo intval($value[fellow])}--></h2><!--{/if}-->
+							<!--{if $event[template]}-->
+							<h2>Registration Information </h2>
+							<p><!--{eval echo nl2br(htmlspecialchars($value[template]))}--></p>
+							<!--{/if}-->
+						</td>
+					</tr>
+					<!--{/loop}-->
+					</tbody>
+				</table>
+				<div class="page">$multi</div>
+				<!--{else}-->
+				<div class="c_form">Pending Members</div>
+				<!--{/if}-->
+			</div>
+			<p>
+				<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')"><label for="chkall">Select All</label> &nbsp;
+				Set:
+				<select name="status">
+					<option value="2">Public</option>
+					<!--{if $_SGLOBAL[supe_uid]==$event[uid]}-->
+					<option value="3">Organizers</option>
+					<!--{/if}-->
+					<!--{if $event[verify]}-->
+					<option value="0">Pending</option>
+					<!--{/if}-->
+					<option value="-1">Ban People</option>
+				</select>
+				<input type="submit" name="memberssubmit" value="Submit" class="submit" />
+			</p>
+		</form>
+	</div>
+	
+	<div id="sidebar" style="width: 150px;">
+		<div class="cat">
+			<h3>Members Status</h3>
+			<ul class="post_list line_list">
+				<li<!--{if $_GET[status]==0}--> class="current"<!--{/if}-->><a href="cp.php?ac=event&op=members&id=$eventid&status=0">Pending</a></li>
+				<li<!--{if $_GET[status]==2}--> class="current"<!--{/if}-->><a href="cp.php?ac=event&op=members&id=$eventid&status=2">Public</a></li>
+				<li<!--{if $_GET[status]==3}--> class="current"<!--{/if}-->><a href="cp.php?ac=event&op=members&id=$eventid&status=3">Organizers</a></li>
+			</ul>
+		</div>
+	</div>
+<!--{elseif $op == "thread"}-->
+	<div id="d_edit_form">
+		<form id="edit_form" name="edit_form" class="c_form" method="post" action="cp.php?ac=event&op=thread&id=$event[eventid]" onsubmit="return confirm('This action can not be restored, Are you sure?')">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<!--{if $threadlist}-->
+			<div class="topic_list">
+				<table cellspacing="0" cellpadding="0">
+					<thead>
+						<tr>
+							<td width="30">Select</td>
+							<td class="subject">Subject</td>
+							<td class="author">Creator (Reply/Reading)</td>
+							<td class="lastpost">Last Update</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!--{loop $threadlist $key $value}-->
+						<tr <!--{if $key%2==1}-->class="alt"<!--{/if}-->>
+							<td>
+								<input type="checkbox" name="ids[]" value="$value[tid]" />
+							</td>
+							<td class="subject">
+							<a href="space.php?uid=$value[uid]&do=thread&id=$value[tid]&eventid=$eventid">$value[subject]</a>
+							</td>
+							<td class="author"><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a><br><em>$value[replynum]/$value[viewnum]</em></td>
+							<td class="lastpost"><a href="space.php?uid=$value[lastauthorid]" title="{$_SN[$value[lastauthorid]]}">{$_SN[$value[lastauthorid]]}</a><br><!--{date('m-d H:i',$value[lastpost],1)}--></td>
+						</tr>
+						<!--{/loop}-->
+					</tbody>
+				</table>
+				<p>
+					<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')"><label for="chkall">Select All</label> &nbsp;
+					<input type="submit" name="delthreadsubmit" value="Remove" class="submit" />
+				</p>
+			</div>
+			<!--{else}-->
+			<div class="c_form" style="text-align:center;">Not related to the topic.</div>
+			<!--{/if}-->
+		</form>
+	</div>
+		
+<!--{elseif $op == 'edithot'}-->
+
+<h1>Alter Hot Value</h1>
+<a href="javascript:hideMenu();" class="float_del" title="Close">Close</a>
+<div class="popupmenu_inner">
+	<form method="post" action="cp.php?ac=event&op=edithot&id=$eventid">
+		<p class="btn_line">
+			New Value:<input type="text" name="hot" value="$event[hot]" size="5">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+			<input type="hidden" name="hotsubmit" value="true" />
+			<input type="submit" name="btnsubmit" value="Submit" class="submit" />
+		</p>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<!--{elseif $op == "pic"}-->
+	<div id="d_edit_form">
+		<form id="edit_form" name="edit_form" class="c_form" method="post" action="cp.php?ac=event&op=pic&id=$event[eventid]" onsubmit="return confirm('This operation cannot restore, Are you sure?')">
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<div id="album" class="article">
+				<!--{if sizeof($photolist) > 0}-->
+				<table width="100%" cellspacing="6" cellpadding="0" class="photo_list">
+					<tbody>
+						<tr>
+						<!--{loop $photolist $key $value}-->
+							<td>
+								<a href="space.php?do=event&id=$eventid&view=pic&picid=$value[picid]"><img src="$value[pic]" alt="$value[title]" /></a>
+								<br />
+								<input type="checkbox" value="$value[picid]" name="ids[]"/>Selected
+							</td>
+							<!--{if $key%4==3}--></tr><tr><!--{/if}-->
+						<!--{/loop}-->
+						</tr>
+					</tbody>
+				</table>
+				<div class="page">$multi</div>
+				<p>
+					<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')"><label for="chkall">Select All</label> &nbsp;
+					<input type="submit" name="deletepicsubmit" value="Delete Sected" class="submit" />
+				</p>
+				<!--{else}-->
+				<p align="center">This Event has no photos</p>
+				<!--{/if}-->
+				</div>
+		</form>
+	</div>
+<!--{elseif $op == "eventinvite"}-->
+	<div class="h_status">
+		Invite Your friends to join this Event
+		<!--{if !empty($eventinvites)}-->
+			<span class="pipe">|</span>
+			<a href="cp.php?ac=event&op=eventinvite&&r=1"><span>Ignore invitation</span></a>
+		<!--{/if}-->
+	</div>
+	
+	<div class="c_form">
+		<!--{if !empty($eventinvites)}-->
+		<table cellspacing="4" cellpadding="4" class="formtable">
+		<!--{loop $eventinvites $value}-->
+		<tr>
+			<td width="100px">
+				<div>
+					<a href="space.php?do=event&id=$value[eventid]" target="_blank">
+						<img src="$value[pic]" alt="$value[title]" class="poster_pre">
+					</a>
+				</div>
+			</td>
+			<td class="h_status">
+				<p><a href="space.php?do=event&id=$value[eventid]" target="_blank" style="font-size:14px;font-weight:bold;">
+				$value[title]</a></p>
+				<br>Event Time:<!--{eval echo sgmdate("n Month d Day G:i", $value[starttime])}--> - <!--{eval echo sgmdate("n Month d Day G:i", $value[endtime])}-->
+							<!--{if $value[endtime]<$_SGLOBAL[timestamp]}-->
+							<span class="event_state"> has finished</span>
+							<!--{elseif $value[deadline]<$_SGLOBAL[timestamp]}-->
+							<span class="event_state">Registration deadline: </span>
+							<!--{/if}-->
+				<br>Event Location: $value[province] - $value[city] $value[location]
+				<br>Organizer: <a href="space.php?uid=$value[uid]">$_SN[$value[uid]]</a>
+				<div id="eventinvite_$value[eventid]" style="padding:0.5em 0 0.5em 0;">
+					Friends invited: <a href="space.php?uid=$value[uid]" target="_blank">{$_SN[$value[uid]]}</a>
+					<br>Time: <!--{eval echo sgmdate('Y-m-d H:i', $value[invitetime], 1)}-->
+					<p style="padding:1em 0 0 0;">
+						<a id="a_accept" href="cp.php?ac=event&op=acceptinvite&id=$value[eventid]" class="submit" onclick="ajaxget(this.href, 'eventinvite_$value[eventid]'); return false;">Accept</a>
+						<a href="cp.php?ac=event&op=eventinvite&id=$value[eventid]&r=1" class="button">Decline</a>
+					</p>
+				</div>
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+		<!--{else}-->
+		No new event invitations.
+		<!--{/if}-->
+	</div>
+<!--{else}-->
+
+	<!--{if $topic}-->
+		<!--{template cp_topic_menu}-->
+	<!--{/if}-->
+
+	<div class="c_form">
+		<form id="edit_form" name="edit_form" method="post" enctype="multipart/form-data" action="cp.php?ac=event&op=edit&id=$eventid">
+			<table class="infotable" width="100%" cellspacing="4" cellpadding="4">				
+				<tbody>					
+					<tr>
+						<th>Event Title *</th>
+						<td>
+							<input class="t_input" id="title" name="title" value="$event[title]" size="56" type="text" maxlength="80">
+						</td>
+					</tr>
+					<tr>
+						<th>Event City *</th>
+						<td id="citybox">
+							<script type="text/javascript" src="source/script_city.js" charset="$_SC[charset]"></script>
+                            <script type="text/javascript" charset="$_SC[charset]">
+								showprovince('province', 'city', '$event[province]', 'citybox');
+                                showcity('city', '$event[city]', 'province', 'citybox');
+                            </script>
+						</td>
+					</tr>
+					<tr>
+						<th>Event Type</th>
+						<td>
+							<input class="t_input" id="location" name="location" value="$event[location]" size="56" type="text" maxlength="80">
+						</td>
+					</tr>
+					<tr>
+						<th>Event Time *</th>
+						<td>
+							<script type="text/javascript" src="source/script_calendar.js" charset="$_SC[charset]"></script>
+							<input type="text" name="starttime" id="starttime" value="<!--{eval echo sgmdate('Y-m-d H:i', $event[starttime])}-->"  onclick="showcalendar(event,this,1,'<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp])}-->', '<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp] + 3600 * 24 * 60)}-->')" />
+						 To
+							<input type="text" name="endtime" id="endtime" value="<!--{eval echo sgmdate('Y-m-d H:i', $event[endtime])}-->"  onclick="showcalendar(event,this,1,'<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp])}-->', '<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp] + 3600 * 24 * 60)}-->')" />
+						</td>
+					</tr>
+					<tr>
+						<th>Enrolment deadline*</th>
+						<td>
+							<input type="text" name="deadline" id="deadline" value="<!--{eval echo sgmdate('Y-m-d H:i', $event[deadline])}-->"  onclick="showcalendar(event,this,1,'<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp])}-->', '<!--{eval echo sgmdate('Y-m-d H:i', $_SGLOBAL[timestamp] + 3600 * 24 * 60)}-->')" />
+						</td>
+					</tr>
+					<tr>
+						<th width="100" style="vertical-align: top;">Category*</th>
+						<td>
+							<select name="classid" id="classid" onchange="reset_eventclass(this.value)">
+								<option value="-1">
+									Please select the activity Category
+								</option>
+								<!--{loop $_SGLOBAL[eventclass] $key $value}-->
+								<option value="$key" <!--{if $event[classid] == $key}--> selected<!--{/if}--> >$value[classname]</option>
+								<!--{/loop}-->
+							</select>
+							<div id="classid_info"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+						<a id="doodleBox" href="magic.php?mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor" style="display:none"></a>
+						<textarea class="userData" name="detail" id="uchome-ttHtmlEditor" style="height:100%;width:100%;display:none;border:0px">$event[detail]</textarea>
+						<iframe src="editor.php?charset=$_SC[charset]&allowhtml=0&doodle=<!--{if isset($_SGLOBAL[magic][doodle])}-->1<!--{/if}-->" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:100%;border: 1px solid #C5C5C5;" height="400"></iframe></td>
+					</tr>
+					<tr>
+						<th style="vertical-align: top;">Event Image/Poster</th>
+						<td>
+							<input type="file" name="poster" /> Upload Image from your PC, or it will use default image<br />
+							<input type="checkbox" id="sharepic" name="sharepic" value="1" />
+							<label for="sharepic">Share this image with your friends</label>
+						</td>
+					</tr>
+					<!--{if $mtags}-->
+					<tr>
+						<th>Related group</th>
+						<td>
+							<select name="tagid">
+							<option value="">Select the Related Group</option>
+							<!--{loop $mtags $value}-->
+							<option value="$value[tagid]" <!--{if $value[tagid]==$event[tagid]}-->selected<!--{/if}--> >$value[tagname]</option>
+							<!--{/loop}-->
+							</select>
+							Must create your own group, So topic related to this event will be synchronized to that group.
+						</td>
+					</tr>
+					<!--{/if}-->
+				</tbody>
+			</table>
+			<table class="infotable" width="100%" cellspacing="4" cellpadding="4">
+				<tbody>
+				<tr>
+					<td colspan="2">
+						<a id="toggle_advanced" href="#" onclick="toggle_advanced(); this.blur(); return false;">
+						Expand Advanced Settings</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<table id="advanced_info" class="infotable" width="100%" cellspacing="4" cellpadding="4" style="display:none">
+				<tbody>
+					<tr>
+						<th width="100">Max. Number of Participant</th>
+						<td>
+							<input name="limitnum" value="$event[limitnum]" id="limitnum" type="text" size="4" maxlength="8">
+                            <span class="tiptext">
+                                For unlimited Participant, Set the value 0
+                            </span>
+						</td>
+					</tr>
+					<tr>
+						<th width="100" style="vertical-align: top;">Event Privacy</th>
+						<td>
+							<select name="public" id="public">
+								<option <!--{if $event[public]==2}-->selected="selected"<!--{/if}--> value="2">Public Event, any one can join</option>
+								<option <!--{if $event[public]==1}-->selected="selected"<!--{/if}--> value="1">Semi-public, Invited people can join but anyone can see</option>
+								<option <!--{if $event[public]==0}-->selected="selected"<!--{/if}--> value="0">Private: Only invited people can join and see details</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th width="100" style="vertical-align: top;">Event Options</th>
+						<td>
+							<input name="allowinvite" id="allowinvite" value="1" type="checkbox"<!--{if $event[allowinvite]}--> checked="checked"<!--{/if}-->>
+                            <label for="allowinvite">
+                               Allow participants can invite friends to join the Event
+                            </label>
+                            <br>
+							<input name="allowpic" id="allowpic" value="1" type="checkbox"<!--{if $event[allowpic]}--> checked="checked"<!--{/if}-->>
+                            <label for="allowpic">
+                                Participants can share/upload the photos
+                            </label>
+                            <br>
+							<input name="allowpost" id="allowpost" value="1" type="checkbox"<!--{if $event[allowpost]}--> checked="checked"<!--{/if}-->>
+                            <label for="allowpost">
+                                Allow Participants Comment and send Message.
+                            </label>
+                            <br>
+                            <input name="verify" id="verify" value="1" type="checkbox"<!--{if $event[verify]}--> checked="checked"<!--{/if}-->>
+                            <label for="verify">
+                                Participants need approval!
+                            </label>
+							<br>
+                            <input name="allowfellow" id="allowfellow" value="1" type="checkbox"<!--{if $event[allowfellow]}--> checked="checked"<!--{/if}-->>
+                            <label for="allowfellow">
+                                Allow participants to bring friends,
+                            </label>
+						</td>
+					</tr>
+					<tr>
+						<th width="100" style="vertical-align: top;">Registration Information</th>
+						<td>
+							If participants complete the registration form (max char 255), Fill in the blanks not required <br />
+                            <textarea id="template" name="template" rows="4" cols="72">$event[template]</textarea>
+						</td>
+					</tr>
+					</tr>
+				</tbody>
+			</table>
+			<!--{if checkperm('seccode')}-->
+			<table class="infotable" width="100%" cellspacing="4" cellpadding="4">
+				<tbody>
+				<!--{if $_SCONFIG['questionmode']}-->
+				<tr>
+					<th width="100" style="vertical-align: top;">Answer the question for verification</th>
+					<td>
+						<p><!--{eval question();}--></p>
+						<input type="text" id="seccode" name="seccode" value="" size="15" class="t_input" />
+					</td>
+				</tr>
+				<!--{else}-->
+				<tr>
+					<th width="100" style="vertical-align: top;">Please type verification the code</th>
+					<td>
+						<script type="text/javascript" charset="$_SC[charset]">seccode();</script>
+						<p>Please type above 4 character, if can not read <a href="javascript:updateseccode()"> Click here for new</a></p>
+						<input type="text" id="seccode" name="seccode" value="" size="15" class="t_input" />
+					</td>
+				</tr>
+				<!--{/if}-->
+				</tbody>
+			</table>
+			<!--{/if}-->
+			<table class="infotable" width="100%" cellspacing="4" cellpadding="4">
+				<tbody>
+					<!--{if empty($eventid)}-->
+					<tr>
+						<th width="100">Dynamic Option</th>
+						<td>
+							<input type="checkbox" name="makefeed" id="makefeed" value="1"<!--{if ckprivacy('event', 1)}--> checked<!--{/if}-->> Include Dynamic (<a href="cp.php?ac=privacy#feed" target="_blank">Edit Default setting</a>)
+						</td>
+					</tr>
+					<!--{/if}-->
+					<tr>
+						<th width="100">&nbsp;</th>
+						<td>
+							<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+                            <input type="hidden" name="topicid" value="$topicid" />
+                            <input type="hidden" name="eventsubmit" value="1" />
+                            <input class="submit" value="<!--{if $_GET[id]}-->Save<!--{else}-->Apply<!--{/if}-->" type="button" onclick="check_eventpost()"/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+	<script type="text/javascript" src="image/editor/editor_function.js" charset="$_SC[charset]"></script>
+	<script type="text/javascript" charset="$_SC[charset]">
+		//活动分类
+		var eventclass = [];
+		<!--{loop $_SGLOBAL[eventclass] $key $value}-->
+		eventclass["$key"] = {};
+		<!--{loop $value $k $v}-->
+			eventclass["$key"]["$k"] = '<!--{eval echo str_replace(array("\r\n","\r","\n"), "<br>", $v)}-->';
+		<!--{/loop}-->
+		<!--{/loop}-->
+		function reset_eventclass(classid){
+			var selclass = eventclass[classid];
+			var o = $("uchome-ifrHtmlEditor").contentWindow.document.getElementById("HtmlEditor").contentWindow.document.body;
+			var append =false;// 是否添加
+			if(selclass && selclass['template'] && (trim(o.innerHTML.replace(/<br[ \/]*>|<div><\/div>/img, '')) == "" || confirm("Please use one of the default Event template？"))){
+				append = true;
+			}
+			if (append){
+				o.innerHTML = selclass['template'] + "<br/>" + o.innerHTML;				
+				$("classid_info").innerHTML = "Please use default template for the registration form, which we have provided!";
+			}
+		}
+		
+		//展开高级设置
+		function toggle_advanced(){
+			var el = $("advanced_info");
+			if (el.style.display == "none"){
+				el.style.display = "";
+				$("toggle_advanced").innerHTML = "Hide Advanced Settings";
+			} else {
+				el.style.display = "none";
+				$("toggle_advanced").innerHTML = "Expand Advanced Settings";
+			}
+		}
+		
+		//检查提交
+		function check_eventpost(){			
+			// 活动类型
+			if (parseInt($("classid").value) < 0){
+				alert("Please Select Type/Category of event");
+				$("classid").focus();
+				return false;
+			}	
+			// 标题
+			var val = trim($("title").value);
+			if ( val == "" ){
+				alert("The Event Name/Title can not be empty!");
+				$("title").focus();
+				return false;
+			} else if (val.replace(/[^\x00-\xff]/g, "**").length > 80){
+				alert("Event Name/Title can not be more then 80 characters!");
+				$("title").focus();
+				return false;
+			}	
+			// 活动地点
+			if($('city').value == ""){
+				alert("Event host city can not be empty.");
+				$("city").focus();
+				return false;
+			}			
+			// 报名时间，起始-结束时间
+			var deadline = parsedate($("deadline").value).getTime();
+			var starttime = parsedate($("starttime").value).getTime();
+			var endtime = parsedate($("endtime").value).getTime();
+			<!--{if !$eventid}-->
+			var nowtime = new Date().getTime();
+			if (starttime < nowtime){
+				alert("The Event beginning time cannot be earlier than the present. it should be greater then current time");
+				$("starttime").focus();
+				return false;
+			}
+			<!--{/if}-->
+			if (endtime - deadline < 0){
+				alert("Deadlin time can not be greater then Event last date/close time");
+				$("deadline").focus();
+				return false;
+			}
+			if (endtime - starttime < 0){
+				alert("The Evet closing time could not be earlier than the beginning time.");
+				$("endtime").focus();
+				return false;
+			}
+			if (endtime - starttime > 60 * 24 * 3600 * 1000){
+				alert("Activity duration should not exceed 60 days.");
+				$("endtime").focus();
+				return false;
+			}
+			// 限制人数
+			if (! /^[0-9]{1,8}$/.test($("limitnum").value)){
+				alert("The number of participant, incorrect! it should be numberic at least 0 ");
+				$("limitnum").focus();
+				return false;
+			}
+			
+		    var makefeed = $('makefeed');
+		    if(makefeed) {
+		    	if(makefeed.checked == false) {
+		    		if(!confirm("Friendly reminder: Are you sure you do not have the Feed/Dynamic release it?, Feed/Dynamic will provide the real time update to your friends feed")) {
+		    			return false;
+		    		}
+		    	}
+		    }
+		    
+		    // 编辑器内容同步
+			edit_save();
+			// 活动描述，默认可能有一个<br/>或<div></div>，需要去掉再判断
+			val = trim($("uchome-ttHtmlEditor").value.replace(/<br[ \/]*>|<div><\/div>/img,''));
+			if (val == ""){
+				alert("Event description can not be empty.");
+				return false;
+			}						
+			//验证码
+			if($('seccode')) {
+				var code = $('seccode').value;
+				var x = new Ajax();
+				x.get('cp.php?ac=common&op=seccode&code=' + code, function(s){
+					s = trim(s);
+					if(s.indexOf('succeed') == -1) {
+						alert(s);
+						$('seccode').focus();
+		           		return false;
+					} else {
+						$("edit_form").submit();
+					}
+				});
+		    } else {
+		    	$("edit_form").submit();
+		    }
+		}
+	</script>
+<!--{/if}-->
+<!--{if in_array($op,array("edit", "pic", "thread", "members", "comment", "invite", "eventinvite"))}-->
+<!--//管理页面页尾//-->
+</div>
+<!--{/if}-->
+<!--{template footer}-->

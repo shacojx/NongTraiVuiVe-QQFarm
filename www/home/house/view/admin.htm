@@ -1,0 +1,245 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<link href="house/view/default.css" rel="stylesheet" type="text/css" />
+<script src="house/view/base.js" type="text/javascript"></script>
+<script type="text/javascript">
+function show_pic(obj, url)
+{
+	var pos = fetchOffset(obj);
+	$('show_pic_img').src = url;
+	$('show_pic').style.left = pos.left + 20 + 'px';
+	$('show_pic').style.top = pos.top - 100 + 'px';
+	$('show_pic').style.display = 'block';
+};
+function hidden_pic()
+{
+	$('show_pic').style.display = 'none';
+};
+function delLove(id)
+{
+	AJAX.request('house.php?ac=admin&op=love&id='+id,{method: 'POST',parameters:'myFormAc=update',onComplete: function(resp){
+		$('id_'+id).parentNode.removeChild($('id_'+id));
+	}});
+}
+</script>
+<style>
+.img{background:#FFFFFF none repeat scroll 0 0;border:1px solid #CCCCCC;padding:3px;}
+.side_right .narrow { float: right; margin-top: 10px; margin-right: 0px; padding: 0; width: 248px; display: inline; }
+.mtag_side .active { background-color: #FFF; border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; }
+.mtag_side li { padding: 8px 0 8px 15px; font-size: 14px; }
+.my_table tr td {background-color:#F5FAFE;border-bottom:1px solid #CAD9EA;color:#666666;height:31px;padding:5px;}
+.rem{width:80px;display:block;float:left;text-align:right;margin-right:10px;}
+</style>
+<div id="show_pic" style="background:#FFFCCD none repeat scroll 0 0;position:absolute;top:0px;left:0px;visibility:visible;z-index:9999;padding:5px;display:none;"><img id="show_pic_img" src="about:blank;" alt="load hình" /></div>
+<table width="100%" cellspacing="0" border="0"  id="my_menu">
+	<tr>
+		<td align=center><img src="house/view/img/top.jpg" /></td>
+		<td valign=bottom>
+			<p class="l"><img src="house/view/img/description.jpg"></p><p><span> [<a href="house.php?ac=help">hướng dẫn</a>] </span></p>
+			<p class="l"><img src="house/view/img/join.gif"></p><p><span> [Gọi bạn cứu]</span></p>
+			<!--{if ADMIN_UID == $_SGLOBAL['supe_uid']}--><p><span> [<a href="house.php?ac=admin">Quản lý</a>]</span></p><!--{/if}-->
+		</td>
+	</tr>
+</table>
+<div class="tabs_header" style="padding-top: 10px;">
+	<ul class="tabs">
+		<li{$ops['index']}><a href="house.php?ac=admin&op=index"><span>Cài đặt hệ thống</span></a></li>
+		<li{$ops['gift']}><a href="house.php?ac=admin&op=gift"><span>Quản lý quà tặng</span></a></li>
+		<li{$ops['house']}><a href="house.php?ac=admin&op=house"><span>Quản lý nhà ở</span></a></li>  
+		<li{$ops['action']}><a href="house.php?ac=admin&op=action"><span>Hành động sống chung</span></a></li> 
+		<li{$ops['love']}><a href="house.php?ac=admin&op=love"><span>Quản lý tờ khai</span></a></li>  
+		<li><a href="house.php?ac=index"><span>Trang chủ sống chung</span></a></li>
+	</ul>
+</div>
+<div class="side_right">
+	<div class="wide" style='width:100%;margin:0px;'>
+		<div class="justify_list">
+			<ul class="line_list l_text" style="padding:0px; background-color:#FFFFFF;">
+<!--{if $op == 'action'}-->
+				<table width="100%" border="0" class='my_table' cellpadding=0 cellspacing=0>
+					<form action="house.php?ac=ajax&op=admin&do={$op}" method="post" name="form_0" id="form_0" >
+						<tr>
+							<td colspan=4 align=center id="action_title">Thêm hành động</td>
+						</tr>
+						<tr>
+							<td><label class="rem">Tên Hành động</label><input type="text" style="height:17px;" value="" name="name" /></td>
+							<td><label class="rem">Còn giới thiệu</label><input type="text" style="height:17px;width:140px;" value="" name="w_l" /></td>
+							<td><label class="rem">Trên quyền giới thiệu</label><input type="text" style="height:17px;width:140px;" value="" name="w_r" /></td>
+							<td><input type="hidden" value="0" name="id" /><input type="hidden" name="curl"  id="curl_0" value="add" /><input type="button" value="Gửi" class="submit" id="action_submit" onclick="return Form.submitDo('form_0');" /></td>
+						</tr>
+					</form>
+				</table>
+
+				<table width="100%" border="0" class='my_table' cellpadding=0 cellspacing=0>
+					<tr>
+						<td  align=center width=35>Số</td>
+						<td width=80  align=center>Hành động</td>
+						<td width=200  align=center>Còn giới thiệu</td>
+						<td width=200  align=center>Trên quyền giới thiệu</td>
+						<td width=80  align=center>Điều hành</td>
+					</tr>
+				<!--{loop $data $val}-->
+				<form name="form_{$val['id']}" id="form_{$val['id']}" method="post" action="house.php?ac=ajax&op=admin&do={$op}">
+					<tr id="id_{$val['id']}">
+						<td  align=center>{$val['id']}</td>
+						<td align=left><input type="text" style="height:17px;" value="{$val['name']}" name="name" /><input type="hidden" name="id"  value="{$val['id']}" /><input type="hidden" name="curl"  id="curl_{$val['id']}" value="modify" /></td>
+						<td align=left><input type="text" style="width: 200px;height:17px;" value="{$val['w_l']}" name="w_l" /></td>
+						<td align=left><input type="text" style="width: 200px;height:17px;"  value="{$val['w_r']}" name="w_r" /></td>
+						<td align=center><a href="#" onclick="$('curl_{$val['id']}').value='modify';return Form.submitDo('form_{$val['id']}');">Sửa đổi</a> | <a href='#' onclick="$('curl_{$val['id']}').value='delete';return Form.submitDo('form_{$val['id']}');">Xóa</a></td>
+					</tr>
+				</form>
+				<!--{/loop}-->
+				</table>
+<!--{elseif $op == 'gift'}-->
+				<table width="100%" border="0" class='my_table' cellpadding=0 cellspacing=0>
+					<form action="house.php?ac=ajax&op=admin&do={$op}" method="post" name="form_0" id="form_0" >
+						<tr>
+							<td colspan=5 align=center id="action_title">Thêm một món quà</td>
+						</tr>
+						<tr>
+							<td><label class="rem">Tên</label><input type="text" style="height:17px;width:80px;" value="" name="name" /></td>
+							<td><label class="rem">Giá</label><input type="text" style="height:17px;width:40px;" value="" name="price" /></td>
+							<td><label class="rem">Sự giao thông</label><input type="text" style="height:17px;width:100px;" value="" name="thick" /></td>
+							<td><label class="rem">Đơn vị</label><input type="text" style="height:17px;width:100px;" value="" name="msg" /></td>
+							<td><input type="hidden" name="curl"  id="curl_0" value="add" /><input type="button" value="Gửi" class="submit" id="action_submit" onclick="return Form.submitDo('form_0');" /></td>
+						</tr>
+					</form>
+				</table>
+
+				<table width="100%" border="0" class='my_table' cellpadding=0 cellspacing=0>
+					<tr>
+						<td  align=center width=35>Số</td>
+						<td width=80  align=center>Tên</td>
+						<td width=20  align=center>Ảnh</td>
+						<td width=100  align=center>Giá</td>
+						<td width=100  align=center>Sự giao thông</td>
+						<td width=100  align=center>Đơn vị</td>
+						<td width=80  align=center>Điều hành</td>
+					</tr>
+				<!--{loop $data $val}-->
+				<form name="form_{$val['gid']}" id="form_{$val['gid']}" method="post" action="house.php?ac=ajax&op=admin&do={$op}">
+					<tr id="id_{$val['gid']}">
+						<td  align=center>{$val['gid']}</td>
+						<td align=left><input type="text" style="height:17px;" value="{$val['name']}" name="name"  /><input type="hidden" name="gid"  value="{$val['gid']}" /><input type="hidden" name="curl"  id="curl_{$val['gid']}" value="modify" /></td>
+						<td width=20  align=center><img src='house/view/img/img.gif' onmouseover="return show_pic(this, 'house/view/gift/{$val['gid']}.jpg');"  onmouseout="return hidden_pic();" /></td>
+						<td align=left><input type="text" style="width: 100px;height:17px;" value="{$val['price']}" name="price"/></td>
+						<td align=left><input type="text" style="width: 100px;height:17px;"  value="{$val['thick']}" name="thick" /></td>
+						<td align=left><input type="text" style="width: 100px;height:17px;"  value="{$val['msg']}" name="msg" /></td>
+						<td align=center><a href="#" onclick="$('curl_{$val['gid']}').value='modify';return Form.submitDo('form_{$val['gid']}');">Sửa đổi</a> | <a href='#' onclick="$('curl_{$val['gid']}').value='delete';return Form.submitDo('form_{$val['gid']}');">Xóa</a></td>
+					</tr>
+				</form>
+				<!--{/loop}-->
+				</table>
+<!--{elseif $op == 'house'}-->
+				<table width="100%" border="0" class='my_table' cellpadding=0 cellspacing=0>
+					<form action="house.php?ac=ajax&op=admin&do={$op}" method="post" name="form_0" id="form_0" >
+						<tr>
+							<td colspan=4 align=center id="action_title">Thêm các loại nhà ở</td>
+						</tr>
+						<tr>
+							<td><label class="rem">Tên</label><input type="text" style="height:17px;width:100px;" value="" name="title" /></td>
+							<td><label class="rem">Giá</label><input type="text" style="height:17px;width:40px;" value="" name="buy" /></td>
+							<td><label class="rem">Chi phí sở hữu</label><input type="text" style="height:17px;width:100px;" value="" name="goods_money" /></td>
+							<td><input type="hidden" name="curl"  id="curl_0" value="add" /><input type="button" value="Gửi" class="submit" id="action_submit" onclick="return Form.submitDo('form_0');" /></td>
+						</tr>
+					</form>
+				</table>
+
+				<table width="100%" border="0" class='my_table' cellpadding=0 cellspacing=0>
+					<tr>
+						<td  align=center width=35>Số</td>
+						<td width=80  align=center>Tên</td>
+						<td width=20  align=center>Ảnh</td>
+						<td width=100  align=center>Giá</td>
+						<td width=100  align=center>chi phí/ngày</td>
+						<td width=80  align=center>Điều hành</td>
+					</tr>
+				<!--{loop $data $val}-->
+				<form name="form_{$val['cid']}" id="form_{$val['cid']}" method="post" action="house.php?ac=ajax&op=admin&do={$op}">
+					<tr id="id_{$val['cid']}">
+						<td  align=center>{$val['cid']}</td>
+						<td align=left><input type="text" style="height:17px;" value="{$val['title']}" name="title" /><input type="hidden" name="cid"  value="{$val['cid']}" /><input type="hidden" name="curl"  id="curl_{$val['cid']}" value="modify" /></td>
+						<td width=20  align=center><img src='house/view/img/img.gif' onmouseover="return show_pic(this, 'house/view/house/{$val['cid']}.jpg');"  onmouseout="return hidden_pic();" /></td>
+						<td align=left><input type="text" style="width: 180px;height:17px;" name="buy" value="{$val['buy']}" /></td>
+						<td align=left><input type="text" style="width: 180px;height:17px;"  name="goods_money" value="{$val['goods_money']}" /></td>
+						<td align=center><a href="#" onclick="$('curl_{$val['cid']}').value='modify';return Form.submitDo('form_{$val['cid']}');">Sửa đổi</a> | <a href='#' onclick="$('curl_{$val['cid']}').value='delete';return Form.submitDo('form_{$val['cid']}');">Xóa</a></td>
+					</tr>
+				</form>
+				<!--{/loop}-->
+				</table>
+<!--{elseif $op == 'love'}-->
+
+				<table width="100%" border="0" class='my_table' cellpadding=0 cellspacing=0>
+					<tr>
+						<td  align=center width=35>Số</td>
+						<td width=50  align=center>Tác giả</td>
+						<td width=120  align=center>Chủ đề</td>
+						<td width=300  align=center>Nội dung</td>
+						<td width=100  align=center>Thời gian</td>
+						<td width=40  align=center>Điều hành
+</td>
+					</tr>
+				<!--{loop $data $val}-->
+					<tr id="id_{$val['id']}">
+						<td  align=center>{$val['id']}</td>
+						<td align=left><a href="space.php?uid={$val['uid']}" target=_blank>{$val['name']}</a></td>
+						<td align=left>{$val['title']}</td>
+						<td align=left>{$val['message']}</td>
+						<td align=left>{$val['dateline']}</td>
+						<td align=center><a href='#' onclick="return delLove('{$val['id']}');">Xóa</a></td>
+					</tr>
+				<!--{/loop}-->
+					<tr>
+						<td  align=center colspan=6><div class="page" style="padding-top: 12px;">{$pagehtml}</div></td>
+					</tr>
+				</table>
+
+<!--{elseif $op == 'index'}-->
+				<table width="100%" border="0"  class='my_table'  cellpadding=0 cellspacing=0>
+					<form action="house.php?ac=admin&op={$op}" method="post">
+						<tr>
+							<td colspan=2 align=center><H1>Cài đặt hệ thống</H1></td>
+						</tr>
+						<tr>
+							<td width=250 align=right style="padding-right:20px;">Lần đầu tiên đăng nhập, người sử dụng các trò chơi giải thưởng</td>
+							<td align=left><input type="text" value="{$house_config['money']}" name="house_config[money]" style="height:18px;"/> Tiền xu vàng</td>
+						</tr>
+						<tr>
+							<td width=250 align=right style="padding-right:20px;">Người mua hàng / người mua suất</td>
+							<td align=left><input type="text" value="{$house_config['tax']}" name="house_config[tax]"  style="height:18px;"/> %</td>
+						</tr>
+						<tr>
+							<td width=250 align=right style="padding-right:20px;">Để có được người nộp</td>
+							<td align=left><input type="text" value="{$house_config['focus']}" name="house_config[focus]"  style="height:18px;"/> Tiền xu vàng</td>
+						</tr>
+						<tr>
+							<td width=250 align=right style="padding-right:20px;">Đá trả</td>
+							<td align=left><input type="text" value="{$house_config['push']}" name="house_config[push]"  style="height:18px;" /> Tiền xu vàng</td>
+						</tr>
+						<tr>
+							<td width=250 align=right style="padding-right:20px;">Mua lại vàng<br />Một số lượng không tách rời của chuyển đổi vàng</td>
+							<td align=left><input type="text" value="{$house_config['credit_money']}" name="house_config[credit_money]"  style="height:18px;" /> Nếu bạn tắt điền 0</td>
+						</tr>
+						<tr>
+							<td width=250 align=right style="padding-right:20px;">Trao đổi tiền vàng<br />Một số lượng không tách rời của chuyển đổi vàng</td>
+							<td align=left><input type="text" value="{$house_config['money_credit']}" name="house_config[money_credit]"  style="height:18px;" />  Nếu bạn tắt điền 0</td>
+						</tr>
+						<tr>
+							<td width=250 align=right style="padding-right:20px;">Mã ủy quyền</td>
+							<td align=left><input type="text" value="{$house_config['license']}" name="house_config[license]"  style="height:18px;"/> Không thể thay đổi (trên thư mục dữ liệu có thể không. bị xóa)</td>
+						</tr>
+						<tr>
+							<td></td><td align=left><input type="hidden" name="myFormAc" value="update" /><input type="submit" value=" Xác định " class="submit" /> </td>
+						</tr>
+					</form>
+				</table>
+<!--{/if}-->
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

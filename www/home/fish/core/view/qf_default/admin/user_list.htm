@@ -1,0 +1,51 @@
+<!--{tpl admin/header}-->
+
+<!--{if $user_list}-->
+<div class="user_list">
+	<table width="100%" cellpadding=5 cellspacing=0>
+		<tr>
+			<th>用户名(UID)</th>
+			<th>Y币数量</th>
+			<th>金币数量</th>
+			<th>鱼塘经验</th>
+			<th>鱼塘块数</th>
+			<th>鱼塘级别</th>
+			<th>最后登陆时间</th>
+			<th>执行操作</th>
+		</tr>
+		<!--{foreach $user_list as $key=>$value}-->
+		<tr>
+			<td>{:$value[username]}({:$value[uid]})</td>
+			<td>{:$value[yb]}</td>
+			<td>{:$value[money]}</td>
+			<td>{:$value[exp]}</td>
+			<td>{:$value[reclaim]}</td>
+			<td>{:$value[level]}级</td>
+			<td>{:$value[visittime]}</td>
+			<td>
+				<a href="admin.php?mod=user_edit&id={:$value[uid]}">编辑</a>
+				&nbsp;
+				<a href='javascript:delUser("{:$value[uid]}","确定要删除 {:$value[username]} 的农牧场吗?");'>删除</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+</div>
+<div id="pages" class="multiPage"></div>
+<!--{else}-->
+<div class="no_hpinfo">暂时没有用户信息！</div>
+<!--{/if}-->
+
+<script type="text/javascript">
+	$('#pages').innerHTML = multiPage({pid:"{:$pid}",purl:"{:$purl}",psize:"{:$psize}",count:"{:$count}"});
+	function delUser(uid, msg) {
+		if(confirm(msg)) {
+			request(
+				'admin.php?mod=user_delete&id='+uid, null, null, 
+				function(data){ alert(data[1]); }
+			);
+		}
+	}
+</script>
+
+<!--{tpl admin/footer}-->

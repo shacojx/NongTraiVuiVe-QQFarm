@@ -1,0 +1,17 @@
+InnoDB: The first specified data file .\ibdata1 did not exist:
+InnoDB: a new database to be created!
+100221 15:57:30  InnoDB: Setting file .\ibdata1 size to 10 MB
+InnoDB: Database physically writes the file full: wait...
+100221 15:57:30  InnoDB: Log file .\ib_logfile0 did not exist: new to be created
+InnoDB: Setting log file .\ib_logfile0 size to 5 MB
+InnoDB: Database physically writes the file full: wait...
+100221 15:57:30  InnoDB: Log file .\ib_logfile1 did not exist: new to be created
+InnoDB: Setting log file .\ib_logfile1 size to 5 MB
+InnoDB: Database physically writes the file full: wait...
+InnoDB: Doublewrite buffer not found: creating new
+InnoDB: Doublewrite buffer created
+InnoDB: Creating foreign key constraint system tables
+InnoDB: Foreign key constraint system tables created
+100221 15:57:31  InnoDB: Started; log sequence number 0 0
+100221 15:57:32 [Note] C:\Program Files\VertrigoServ\mysql\bin\v_mysqld.exe: ready for connections.
+Version: '5.0.51b-community'  socket: ''  port: 3306  MySQL Community Edition (GPL)

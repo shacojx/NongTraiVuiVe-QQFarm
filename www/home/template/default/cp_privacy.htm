@@ -1,0 +1,417 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<div class="l_status c_form">
+	<a href="cp.php?ac=privacy"$cat_actives[base]>Privacy settings</a><span class="pipe">|</span>
+	<a href="cp.php?ac=privacy&op=view"$cat_actives[view]>Feed filter</a>
+</div>
+
+
+<form method="post" action="cp.php?ac=privacy" class="c_form">
+
+<!--{if empty($_GET['op'])}-->
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>Privacy Settings</h2>
+			<p>You can completely control, who can see what! e.g. your profile your personal info, your blog, your image, your groups, also here you can set what should be Public, and what should not </p>
+		</caption>
+		<tr>
+			<th width="150">Home Page</th>
+			<td><select name="privacy[view][index]">
+				<option value="0"$sels[view][index][0]>Public- All Users</option>
+				<option value="1"$sels[view][index][1]>Only Friends</option>
+				<option value="2"$sels[view][index][2]>Just Me</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Friends List</th>
+			<td><select name="privacy[view][friend]">
+				<option value="0"$sels[view][friend][0]>Public- All Users</option>
+				<option value="1"$sels[view][friend][1]>Only Friends</option>
+				<option value="2"$sels[view][friend][2]>Just Me</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Comment Wall</th>
+			<td><select name="privacy[view][wall]">
+				<option value="0"$sels[view][wall][0]>Public- All Users</option>
+				<option value="1"$sels[view][wall][1]>Only Friends</option>
+				<option value="2"$sels[view][wall][2]>Just Me</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>My Feed</th>
+			<td><select name="privacy[view][feed]">
+				<option value="0"$sels[view][feed][0]>Public- All Users</option>
+				<option value="1"$sels[view][feed][1]>Only Friends</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Doing/Status</th>
+			<td><select name="privacy[view][doing]">
+				<option value="0"$sels[view][doing][0]>Public- All Users</option>
+				<option value="1"$sels[view][doing][1]>Only Friends</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td class="gray">
+				This privacy setting just effectual when others visit your page<br>You Doing/status will show in website status list!</td>
+			</td>
+		</tr>
+		<tr>
+			<th>Blog</th>
+			<td><select name="privacy[view][blog]">
+				<option value="0"$sels[view][blog][0]>Public- All Users</option>
+				<option value="1"$sels[view][blog][1]>Only Friends</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td class="gray">This privacy setting just effectual when others visit your page；
+				<br>You must set independently privacy for each blog while when you publish new blog.
+				</td>
+		</tr>
+		<tr>
+			<th>Album</th>
+			<td><select name="privacy[view][album]">
+				<option value="0"$sels[view][album][0]>Public- All Users</option>
+				<option value="1"$sels[view][album][1]>Only Friends</option>
+				</select>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td class="gray">This privacy setting just effectual when others visit your page；
+				<br>You must set independently permissions for each album, then it will be efficacious.</td>
+		</tr>
+		<tr>
+			<th>Share</th>
+			<td><select name="privacy[view][share]">
+				<option value="0"$sels[view][share][0]>Public- All Users</option>
+				<option value="1"$sels[view][share][1]>Only Friends</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td class="gray">
+				this privacy setting just effective when others visit your page；
+				<br>Your share will show in website share list!
+			</td>
+		</tr>
+		<tr>
+			<th>Event</th>
+			<td><select name="privacy[view][event]">
+				<option value="0"$sels[view][event][0]>Public- All Users</option>
+				<option value="1"$sels[view][event][1]>Only Friends</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td class="gray">
+				this privacy setting just effective when others visit your page；
+			</td>
+		</tr>
+		<tr>
+			<th>Poll</th>
+			<td><select name="privacy[view][poll]">
+				<option value="0"$sels[view][poll][0]>Public- All Users</option>
+				<option value="1"$sels[view][poll][1]>Only Friends</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td class="gray">
+				this privacy setting just effective when others visit your page；
+			</td>
+		</tr>
+		<tr>
+			<th>群组</th>
+			<td><select name="privacy[view][mtag]">
+				<option value="0"$sels[view][mtag][0]>Public- All Users</option>
+				<option value="1"$sels[view][mtag][1]>Only Friends</option>
+				<option value="2"$sels[view][mtag][2]>Just Me</option>
+				</select></td>
+		</tr>
+		<!--{if $_SCONFIG[videophoto] && $space[videostatus]}-->
+		<tr>
+			<th></th>
+			<td><img src="image/videophoto.gif" align="absmiddle"> if You had certification via WebCam，The WebCam didn't pass the authentication of users, you can set the following permissions：</td>
+		</tr>
+		<tr>
+			<th>View my authentication photo</th>
+			<td><select name="privacy[view][videoviewphoto]">
+				<option value="0"$sels[view][videoviewphoto][0]>Site default settings</option>
+				<option value="1"$sels[view][videoviewphoto][1]>Allow</option>
+				<option value="2"$sels[view][videoviewphoto][2]>Ban</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Friend from Game/Apps</th>
+			<td><select name="privacy[view][videofriend]">
+				<option value="0"$sels[view][videofriend][0]>Site default settings</option>
+				<option value="1"$sels[view][videofriend][1]>Allow</option>
+				<option value="2"$sels[view][videofriend][2]>Ban</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>向我打招呼</th>
+			<td><select name="privacy[view][videopoke]">
+				<option value="0"$sels[view][videopoke][0]>Site default settings</option>
+				<option value="1"$sels[view][videopoke][1]>Allow</option>
+				<option value="2"$sels[view][videopoke][2]>Ban</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Comment Wall</th>
+			<td><select name="privacy[view][videowall]">
+				<option value="0"$sels[view][videowall][0]>Site default settings</option>
+				<option value="1"$sels[view][videowall][1]>Allow</option>
+				<option value="2"$sels[view][videowall][2]>Ban</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Comment for my info</th>
+			<td><select name="privacy[view][videocomment]">
+				<option value="0"$sels[view][videocomment][0]>Site default settings</option>
+				<option value="1"$sels[view][videocomment][1]>Allow</option>
+				<option value="2"$sels[view][videocomment][2]>Ban</option>
+				</select></td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="submit" name="privacysubmit" value="Save settings" class="submit"></td>
+		</tr>
+	</table>
+	
+	<table cellspacing="0" cellpadding="0" class="formtable" id="feed">
+		<caption>
+			<h2>Personal RSS Feed settings</h2>
+			<p>System will show your actions in your personal RSS Feed,friends can easily see your Feed.<br>When the following action occurs you can control what to publish in your Feed or who can see your Feed</p>
+		</caption>
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][doing]" value="1"$sels[feed][doing]>Doing</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][blog]" value="1"$sels[feed][blog]>New Blog</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][upload]" value="1"$sels[feed][upload]>Upload picture</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][share]" value="1"$sels[feed][share]>Add share</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][poll]" value="1"$sels[feed][poll]>Create Poll</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][joinpoll]" value="1"$sels[feed][joinpoll]>My vote</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][thread]" value="1"$sels[feed][thread]>Create Discussion</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][post]" value="1"$sels[feed][post]>Reply to Topic</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][mtag]" value="1"$sels[feed][mtag]>Join Group</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][event]" value="1"$sels[feed][event]>New Events Activity</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][join]" value="1"$sels[feed][join]>My Events</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][friend]" value="1"$sels[feed][friend]>Add friend</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][comment]" value="1"$sels[feed][comment]>Comment</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][show]" value="1"$sels[feed][show]>Bidding rank</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][credit]" value="1"$sels[feed][credit]>Consumption points</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][invite]" value="1"$sels[feed][invite]>Invite friends</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][task]" value="1"$sels[feed][task]>Complete task</td>
+		</tr>				
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][profile]" value="1"$sels[feed][profile]>Update profile</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][click]" value="1"$sels[feed][click]>Express our own attitudes on this blog/picture/topic</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="submit" name="privacysubmit" value="Save settings" class="submit"></td>
+		</tr>
+	</table>
+	
+<!--{else}-->
+	<!--{eval
+			$iconnames['activity'] = 'Blog';
+			$iconnames['album'] = 'Album';
+			$iconnames['blog'] = 'Blog';
+			$iconnames['comment'] = 'Comment';
+			$iconnames['blogcomment'] = 'Blog comments';
+			$iconnames['clickblog'] = 'Express attitudes for blog ';
+			$iconnames['clickpic'] = 'Express attitudes for picture';
+			$iconnames['clickthread'] = 'Express attitudes for topics';
+			$iconnames['piccomment'] = 'Photo comments';
+			$iconnames['sharecomment'] = 'Share comments';
+			$iconnames['debate'] = 'Forum debate';
+			$iconnames['discuz'] = 'Forum';
+			$iconnames['doing'] = 'Doing';
+			$iconnames['friend'] = 'Friends';
+			$iconnames['goods'] = 'Goods';
+			$iconnames['mood'] = 'Mood';
+			$iconnames['mtag'] = 'Group';
+			$iconnames['event'] = 'Event';
+			$iconnames['eventcomment'] = 'Event comments';
+			$iconnames['eventmember'] = 'Attending Event';
+			$iconnames['eventmemberstatus'] = 'Event status';
+			$iconnames['network'] = 'Browse';
+			$iconnames['poll'] = 'Forum vote';
+			$iconnames['post'] = 'Forum posted';
+			$iconnames['profile'] = 'Update profile';
+			$iconnames['reward'] = 'Forum reward';
+			$iconnames['share'] = 'Share';
+			$iconnames['sharenotice'] = 'Share notification';
+			$iconnames['show'] = 'Top';
+			$iconnames['task'] = 'Encouraging task';
+			$iconnames['thread'] = 'Topic';
+			$iconnames['post'] = 'Reply to topic';
+			$iconnames['video'] = 'Video/WebCam';
+			$iconnames['wall'] = 'Leave comments';
+			$iconnames['credit'] = 'Present bid Auction';
+			$iconnames['poll'] = 'Poll';
+			$iconnames['pollcomment'] = 'Poll comments';
+			$iconnames['pollinvite'] = 'Poll invite';
+		}-->
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>Filter rule 1：you can ignore desire whole user group Feed</h2>
+			<p>You can decide which group Feed you want to ignore, all of members Feed will be ignore who within that user group.</p>
+		</caption>
+		<!--{loop $groups $key $value}-->
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td><input type="checkbox" name="privacy[filter_gid][$key]" value="$key"<!--{if isset($space['privacy']['filter_gid'][$key])}--> checked<!--{/if}-->>
+				$value</td>
+		</tr>
+		<!--{/loop}-->
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+			<input type="submit" name="privacy2submit" value="Save Settings" class="submit">
+			<br>You can arrange the friend in various groups, then you can decide which group you do not want to feed list or share your personal feed,  <a href="space.php?do=friend">Open Friends list</a>, and then you can categorized
+			</td>
+		</tr>
+	</table>
+	<br>
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>Filter rule 2：Specify criteria to ignoring for specific friend</h2>
+			<p>Clicking that feed logo under the friends feed list on the home page, then you can set what should be display or what should hide and as well as for the future<br>The following is a list of RSS Feed type which you have been already done from your homepage</p>
+		</caption>
+		<!--{if $icons}-->
+		
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td>
+			<ul>
+			<!--{loop $icons $key $icon}-->
+			<!--{eval $uid = $uids[$key];$icon_uid="$icon|$uid";}-->
+			<li>
+			<!--{if is_numeric($icon)}-->
+				<img src="http://appicon.manyou.com/icons/{$icon}" align="absmiddle">
+			<!--{else}-->
+				<img src="image/icon/{$icon}.gif" align="absmiddle">
+			<!--{/if}-->
+				<input type="checkbox" name="privacy[filter_icon][$icon_uid]" value="1" checked> 
+				<span class="type_$icon"> <!--{if isset($iconnames[$icon])}-->$iconnames[$icon]<!--{else}-->$icon<!--{/if}--> (<!--{if $users[$uid]}--><a href="space.php?uid=$uid" target="_blank">$users[$uid]</a><!--{else}-->All friends<!--{/if}-->)</span>
+			</li>
+			<!--{/loop}-->
+			</ul>
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+			<input type="submit" name="privacy2submit" value="Save settings" class="submit">
+			</td>
+		</tr>
+		<!--{else}-->
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td>No RSS Feed have been ignored</td>
+		</tr>
+		<!--{/if}-->
+	</table>
+	<br>
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>Select rule 3：Ignore the Particular Notice from some specific friend</h2>
+			<p>Click behind  notice list ignore icon,then you can rejct some of friend specific the type of notice<br>The following is a list that notification type and friends name had been ignored, you can remove them from ignore list.</p>
+		</caption>
+		<!--{if $types}-->
+		
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td>
+				<ul>
+				<!--{loop $types $key $type}-->
+				<!--{eval $uid = $uids[$key];$type_uid="$type|$uid";}-->
+					<li>
+						<input type="checkbox" name="privacy[filter_note][$type_uid]" value="1" checked>
+						<span class="type_$type"> <!--{if isset($iconnames[$type])}-->$iconnames[$type]<!--{else}-->$type<!--{/if}--> (<!--{if $users[$uid]}--><a href="space.php?uid=$uid" target="_blank">$users[$uid]</a><!--{else}-->All friends<!--{/if}-->)</span>
+					</li>
+				<!--{/loop}-->
+				</ul>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+			<input type="submit" name="privacy2submit" value="Save settings" class="submit">
+			</td>
+		</tr>
+		<!--{else}-->
+		<tr>
+			<th width="150">&nbsp;</th>
+			<td>No dynamic type had shielded.</td>
+		</tr>
+		<!--{/if}-->
+	</table>
+<!--{/if}-->
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+
+
+<!--{template footer}-->

@@ -1,0 +1,233 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[all]><a href="admincp.php?ac=$ac"><span>View All Users</span></a></li>
+			<!--{if checkperm('managename')}-->
+			<li$actives[0]><a href="admincp.php?ac=$ac&perpage=20&namestatus=0&searchsubmit=1&tab=0"><span>Real name is not certified</span></a></li>
+			<li$actives[1]><a href="admincp.php?ac=$ac&perpage=20&namestatus=1&searchsubmit=1&tab=1"><span>Real name has been certified</span></a></li>
+			<!--{/if}-->
+			<li$actives[2]><a href="admincp.php?ac=$ac&perpage=20&videostatus=0&searchsubmit=1&tab=2"><span>Video is not certified</span></a></li>
+			<li$actives[3]><a href="admincp.php?ac=$ac&perpage=20&videostatus=1&searchsubmit=1&tab=3"><span>Video has been certified</span></a></li>
+		</ul>
+	</div>
+
+	
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+			<th>User UID</th><td><input type="text" name="uid" value="$_GET[uid]" size="10"></td>
+			<th>Username</th><td><input type="text" name="username" value="$_GET[username]"></td>
+		</tr>
+		<tr>
+			<th>Name *</th><td><input type="text" name="name" value="$_GET[name]"></td>
+			<th>Picture</th><td>
+			<select name="avatar">
+			<option value="">Open</option>
+			<option value="1"<!--{if $_GET[avatar] == '1'}--> selected<!--{/if}-->>Upload picture</option>
+			<option value="0"<!--{if $_GET[avatar] == '0'}--> selected<!--{/if}-->>No picture</option>
+			</select></td>
+		</tr>
+		<tr>
+			<th>Real-name authentication</th><td>
+			<select name="namestatus">
+			<option value="">Open</option>
+			<option value="1"<!--{if $_GET[namestatus] == '1'}--> selected<!--{/if}-->>Certified</option>
+			<option value="0"<!--{if $_GET[namestatus] == '0'}--> selected<!--{/if}-->>Not certified</option>
+			</select></td>
+			<th>Video Certification</th><td>
+			<select name="videostatus">
+			<option value="">Open</option>
+			<option value="1"<!--{if $_GET[videostatus] == '1'}--> selected<!--{/if}-->>Certified</option>
+			<option value="0"<!--{if $_GET[videostatus] == '0'}--> selected<!--{/if}-->>Not certified</option>
+			</select></td>
+		</tr>
+		<tr>
+			<th>User Groups</th><td>
+			<select name="groupid">
+			<option value="">Unlimited</option>
+			<!--{loop $usergroups $groups}-->
+			<!--{loop $groups $gid $value}-->
+			<option value="$value[gid]"<!--{if $_GET[groupid] == $value[gid]}--> selected<!--{/if}-->>$value[grouptitle]</option>
+			<!--{/loop}-->
+			<!--{/loop}-->
+			</select>
+			</td>
+			<th>User State</th><td>
+			<select name="flag">
+			<option value="">Open</option>
+			<option value="1"<!--{if $_GET[flag] == '1'}--> selected<!--{/if}-->>Protect users</option>
+			<option value="0"<!--{if $_GET[flag] == '0'}--> selected<!--{/if}-->>Normal user</option>
+			<option value="-1"<!--{if $_GET[flag] == '-1'}--> selected<!--{/if}-->>Lock User</option>
+			</select>
+			</td>
+		</tr>
+		<tr>
+			<th>The value of user experience</th><td>
+			<input type="text" name="experience1" value="$_GET[experience1]" size="10"> ~
+			<input type="text" name="experience2" value="$_GET[experience2]" size="10">
+			</td>
+		</tr>
+		<tr>
+			<th>User Points</th><td>
+			<input type="text" name="credit1" value="$_GET[credit1]" size="10"> ~
+			<input type="text" name="credit2" value="$_GET[credit2]" size="10">
+			</td>
+		</tr>
+		<tr><th>Space Created</th><td colspan="3">
+			<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+			<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		<tr><th>Last Update Time</th><td colspan="3">
+			<input type="text" name="updatetime1" value="$_GET[updatetime1]" size="10"> ~
+			<input type="text" name="updatetime2" value="$_GET[updatetime2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		
+		<tr><th>Last visit</th><td colspan="3">
+			<input type="text" name="lastlogin1" value="$_GET[lastlogin1]" size="10"> ~
+			<input type="text" name="lastlogin2" value="$_GET[lastlogin2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		<tr><th>Last time sent messages</th><td colspan="3">
+			<input type="text" name="lastpost1" value="$_GET[lastpost1]" size="10"> ~
+			<input type="text" name="lastpost2" value="$_GET[lastpost2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		<tr><th>Sorting</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">Default Sort</option>
+		<option value="dateline"$orderby[dateline]>Created</option>
+		<option value="updatetime"$orderby[updatetime]>Updated</option>
+		<option value="viewnum"$orderby[viewnum]>Visits</option>
+		<option value="experience"$orderby[experience]>EXP</option>
+		<option value="credit"$orderby[credit]>Number of points</option>
+		<option value="friendnum"$orderby[friendnum]>Friends Number</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>Decreasing</option>
+		<option value="asc"$ordersc[asc]>Incremental</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>20 per page</option>
+		<option value="50"$perpages[50]>50 per page</option>
+		<option value="100"$perpages[100]>100 per page</option>
+		</select>
+		<input type="hidden" name="ac" value="$ac">
+		<!--{if isset($_GET[tab])}-->
+		<input type="hidden" name="tab" value="$_GET[tab]">
+		<!--{/if}-->
+		<input type="submit" name="searchsubmit" value="Search" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+
+	<!--{eval 
+	$flagarr = array(
+		'-1' => '<span style="color:blue;">Lock</span>',
+		'0' => 'Normal',
+		'1' => '<span style="color:red;">Protection</span>'
+	);
+	}-->
+	<div class="bdrcontent">
+	
+	<form method="post" action="admincp.php?ac=$ac&perpage=$perpage&page=$page">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<table cellspacing="2" cellpadding="2" class="listtable">
+		<tr class="line">
+			<th width="30">Choose</th>
+			<th width="55">Users</th>
+			<th>User name / last name</th>
+			<th>User Groups</th>
+			<th>Experience / integral / Friends</th>
+			<th>Accessories</th>
+			<th>Registration / Update</th>
+			<th>State</th>
+			<th>Operation</th>
+		</tr>
+		<!--{loop $list $key $value}-->
+			<tr<!--{if $key%2==1}--> class="line"<!--{/if}-->>
+			<td>
+				<input type="checkbox" name="uids[]" value="$value[uid]">
+			</td>
+			<td>
+				<a href="space.php?uid=$value[uid]" target="_blank"><!--{avatar($value[uid],small)}--></a>
+			</td>
+			<td>
+				<a href="space.php?uid=$value[uid]">$value[username]</a>
+				<!--{if $value[name]}-->
+					<!--{if $value[namestatus]}-->
+					<p style="color:red;">$value[name]</p>
+					<!--{else}-->
+					<p class="gray">$value[name]</p>
+					<!--{/if}-->
+				<!--{/if}-->
+			</td>
+			<td>
+				$value[grouptitle]
+				<!--{if $fusers[$value[uid]]}-->
+				<p>Duration:{$fusers[$value[uid]][expiration]}</p>
+				<p>Operation:<a href="space.php?uid={$fusers[$value[uid]][opuid]}">{$fusers[$value[uid]][opusername]}</a></p>
+				<!--{/if}-->
+			</td>
+			<td class="gray">
+				$value[experience] / $value[credit] / $value[friendnum]</td>
+			<td>$value[attachsize]</td>
+			<td>
+				<!--{date('Y-m-d H:i', $value[dateline])}--><br>
+				<!--{if $value[updatetime]}--><!--{date('Y-m-d H:i', $value[updatetime])}--><!--{else}-->-<!--{/if}-->
+			</td>
+			<td>
+				{$flagarr[$value[flag]]}
+			</td>
+			<td><a href="admincp.php?ac=space&op=manage&uid=$value[uid]">Management</a><br></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'uids')">Select &nbsp;&nbsp;
+		<!--{if checkperm('managename')}-->
+		<input type="radio" name="optype" value="1"> Through the real-name
+		<input type="radio" name="optype" value="2"> Cancel real name
+		<input type="radio" name="optype" value="3"> Clear Real Name
+		<!--{/if}-->
+
+		<!--{if $managespacenote}-->
+		<input type="radio" name="optype" value="4"> Send e-mail
+		<input type="radio" name="optype" value="5"> Hello
+		<!--{/if}-->
+		<!--{if checkperm('manageconfig')}-->
+		<input type="radio" name="optype" value="7"> Gift props
+		<!--{/if}-->
+		<!--{if $managespaceinfo}-->
+		<input type="radio" name="optype" value="6"> CSS clean-up
+		<!--{/if}-->
+		
+		<input type="submit" name="listsubmit" value="Submit" class="submit">
+		<div class="pages">$multi</div>
+	</div>
+
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

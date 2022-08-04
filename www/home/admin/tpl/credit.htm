@@ -1,0 +1,157 @@
+﻿<!--{template admin/tpl/header}-->
+<!--{eval
+	$_TPL['rewardtype'] = array(
+		'0' => 'Points',
+		'1' => 'Extra points'
+	);
+	$_TPL['cycletype'] = array(
+		'0' => 'Disposable',
+		'1' => 'Daily',
+		'2' => 'The whole point of',
+		'3' => 'Interval minutes',
+		'4' => 'Open Cycle'
+	);
+	$_TPL['norepeat'] = array(
+		'1' => 'Information to re -',
+		'2' => 'People to re -',
+		'3' => 'Application to the re -'
+	);
+}-->
+<div class="mainarea">
+	<div class="maininner">
+		<div class="tabs_header">
+			<ul class="tabs">
+				<li$actives[1]><a href="admincp.php?ac=credit&rewardtype=1"><span>Award Rules</span></a></li>
+				<li$actives[0]><a href="admincp.php?ac=credit&rewardtype=0"><span>Punishment rules</span></a></li>
+			</ul>
+		</div>
+		<!--{if $_GET[op]=='edit'}-->
+		<div class="bdrcontent">
+			<form method="post" action="admincp.php?ac=credit">
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				<div class="title">
+					<h3>Rule Set</h3>
+				</div>
+				<table cellspacing="0" cellpadding="0" class="formtable">
+					<tr>
+						<th style="width:10em;">Rule name</th>
+						<td>$rule[rulename]</td>
+					</tr>
+					<tr>
+						<td>Reward</td>
+						<td>
+							$_TPL[rewardtype][$rule[rewardtype]]
+						</td>
+					</tr>
+					<tbody id="otherrule" <!--{if $rule[rewardtype] == 0}--> style="display:none"<!--{/if}-->>
+						<tr>
+							<td style="width:10em;">Award Cycle</td>
+							<td>
+								<!--{loop $_TPL[cycletype] $key $desc}-->
+								<input type="radio" name="cycletype" value="$key" onclick="showoption($key);" <!--{if $key == $rule[cycletype]}-->checked<!--{/if}-->>$desc 
+								<!--{/loop}-->
+							</td>
+						</tr>
+						<tr id="cycletimetr" <!--{if in_array($rule[cycletype], array(0, 1, 4))}--> style="display:none"<!--{/if}-->>
+							<td>Interval</td>
+							<td><input type="text" name="cycletime" value="$rule[cycletime]"></td>
+						</tr>
+						<tr id="rewardnumtr"<!--{if $rule[cycletype] == 0}--> style="display:none"<!--{/if}-->>
+							<td>Award number</td>
+							<td>
+								<input type="text" name="rewardnum" value="$rule[rewardnum]">0 is unlimited
+							</td>
+						</tr>
+					</tbody>
+					<tr>
+						<td><!--{if $rule[rewardtype]}-->Awards<!--{else}-->Deduction<!--{/if}-->Integral value</td>
+						<td><input type="text" name="credit" value="$rule[credit]"></td>
+					</tr>
+					<tr>
+						<td><!--{if $rule[rewardtype]}-->Awards<!--{else}-->Deduction<!--{/if}-->EXP</td>
+						<td><input type="text" name="experience" value="$rule[experience]"></td>
+					</tr>
+					<!--{if $rule[norepeat]}-->
+					<tr>
+						<td>To re-award</td>
+						<td>
+							<!--{if $rule[norepeat]==1}-->
+							The rule for the information to weight, to prevent all comments awards to such a message
+							<!--{elseif $rule[norepeat]==2}-->
+							The rule for the people to weight, for example, the same person in one cycle, only one incentive opportunity
+							<!--{else}-->
+							The rule for the application of de-emphasis, for example, a single cycle for the first time the opportunity to use the application to the award
+							<!--{/if}-->
+						</td>
+					</tr>
+					<!--{/if}-->
+				</table>
+				<br/>
+				<input type="submit" name="creditsubmit" value="Submit" class="submit">
+				<input type="hidden" name="rid" value="$_GET[rid]" />
+				<script type="text/javascript">
+					function showoption(id) {
+						switch(id) {
+							case 0:
+								$('cycletimetr').style.display = "none";
+								$('rewardnumtr').style.display = "none";
+								break;
+							case 1:
+							case 4:
+								$('cycletimetr').style.display = "none";
+								$('rewardnumtr').style.display = "";
+								break;
+							case 2:
+							case 3:
+								$('cycletimetr').style.display = "";
+								$('rewardnumtr').style.display = "";
+								break;
+						}
+					}
+				</script>
+			</form>
+		</div>
+		<!--{else}-->
+		<div class="bdrcontent">
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th>Action Name</th>
+					<!--{if $_GET[rewardtype]!='0'}-->
+					<th width="80">Award Cycle</th>
+					<th width="80">Award number</th>
+					<th width="80">Reward</th>
+					<!--{/if}-->
+					<th width="80"><!--{if $_GET[rewardtype]=='0'}-->Points deducted<!--{else}-->Points<!--{/if}--></th>
+					<th width="80"><!--{if $_GET[rewardtype]=='0'}-->Deducting the value of experience<!--{else}-->Gain experience value<!--{/if}--></th>
+					<th width="50">Operation</th>
+				</tr>
+				<!--{if $list}-->
+				<!--{loop $list $value}-->
+				<tr>
+					<td>$value[rulename]</td>
+					<!--{if $_GET[rewardtype]!='0'}-->
+					<td>$_TPL[cycletype][$value[cycletype]]</td>
+					<td><!--{if $value[rewardnum]=='0'}-->Unlimited<!--{else}-->$value[rewardnum]<!--{/if}--></td>
+					<td>$_TPL[rewardtype][$value[rewardtype]]</td>
+					<!--{/if}-->
+					<td>$value[credit]</td>
+					<td>$value[experience]</td>
+					<td><a href="admincp.php?ac=credit&op=edit&rid=$value[rid]">Edit</a></td>
+				</tr>
+				<!--{/loop}-->
+				<!--{else}-->
+				<tr>
+					<td colspan="6">No rules of the relevant points</td>
+				</tr>
+				<!--{/if}-->
+			</table>
+		</div>
+		<!--{/if}-->
+	</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

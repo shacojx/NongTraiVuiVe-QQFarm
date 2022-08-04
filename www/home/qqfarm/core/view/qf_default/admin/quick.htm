@@ -1,0 +1,93 @@
+<!--{tpl admin/inc_header}-->
+
+<div class="clearfix">
+	<div style="float:left;margin-right:15px;">
+		<table>
+		<tr><th colspan="2">Quản lý nhanh</th></tr>
+		<tr>
+			<td><span style="color:red">Xóa bộ nhớ Cache + Reset phông nền trang trí</span></td>
+			<td><input type="button" onclick='request("admin.php?mod=quick&go=cache_clean", "cache_clean_msg");' value="OK" /><span id="cache_clean_msg"></span></td>
+		</tr>
+		<tr>
+		<td>Xóa hết nhật ký ghi chép</td>
+			<td><input type="button" onclick='request("admin.php?mod=quick&go=exchange_clean", "exchange_clean_msg");' value="OK" /><span id="exchange_clean_msg"></span></td>
+		</tr>
+		<tr>
+			<td>Dọn sạch tất cả Phân + Muỗi</td>
+			<td><input type="button" onclick='request("admin.php?mod=quick&go=mc_clean", "mc_clean_msg");' value="OK"/><span id="mc_clean_msg"></span></td>
+		</tr>
+		<tr>
+			<td>Cập nhật lại dữ liệu</td>
+			<td><input type="button" onclick='request("admin.php?mod=quick&go=repertory_clean", "repertory_clean_msg");' value="OK" /><span id="repertory_clean_msg"></span></td>
+		</tr>
+		<tr>
+			<td>Sửa chữa các tham số</td>
+			<td><input type="button" onclick='request("admin.php?mod=quick&go=farmland", "farmland_msg");' value="OK" /><span id="farmland_msg"></span></td>
+		</tr>
+		<tr>
+			<td>Cập nhật chế độ bảo vệ VIP</td>
+			<td><input type="button" onclick='request("admin.php?mod=quick&go=healthmode", "healthmode_msg");' value="OK" /><span id="healthmode_msg"></span></td>
+		</tr>
+		<tr>
+			<td colspan="2">UID Người chơi:<input type="text" id="user_id" style="width:30px;"/> <input type="button" onclick='searchUser("user_id");' value="Truy vấn" /></td>
+		</tr>
+		<tr>
+			<td colspan="2">Tặng Vàng cho mọi người:<input type="text" id='add_yb' style="width:104px;"/> 
+				<input type="button" onclick='request("admin.php?mod=quick&go=add_yb&yb="+$("#add_yb").value, "add_money_msg");' value="OK" />
+				<span id="add_yb_msg"></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Tặng Xu cho mọi người:<input type="text" id='add_money' style="width:104px;"/> 
+				<input type="button" onclick='request("admin.php?mod=quick&go=add_money&money="+$("#add_money").value, "add_money_msg");' value="OK" />
+				<span id="add_money_msg"></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Tặng EXP cho mọi người:
+				Trồng trọt <input type="text" id='add_exp_nc' style="width:30px;"/> 
+				Chăn nuôi <input type="text" id='add_exp_mc' style="width:30px;"/>
+				<input type="button" onclick='request("admin.php?mod=quick&go=add_exp&nc="+$("#add_exp_nc").value+"&mc="+$("#add_exp_mc").value, "add_exp_msg");' value="OK" />
+				<span id="add_exp_msg"></span>
+			</td>
+		</tr>
+		</table>
+	</div>
+	<div>
+		<!--{tpl admin/quick_gfit}-->
+	</div>
+</div>
+<br /><br />
+<div class="clearfix">
+	<table>
+	<tr><th colspan="2">Quản lý tin nhắn</th></tr>
+	<tr>
+		<td>Người gửi: </td>
+		<td><input type="text" id='sendmsg_name' style="width:90px;"/></td>
+	</tr>
+	<tr>
+		<td>Nội dung tin nhắn: </td>
+		<td><textarea id="sendmsg_text" style="width:300px;height:100px;"></textarea></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="button" onclick='request("admin.php?mod=quick&go=sendmsg&name="+$("#sendmsg_name").value, "delmsg_state", "msg="+$("#sendmsg_text").value);' value="Gửi tin nhắn đến tất cả mọi người" /></td>
+	</tr>
+	<tr>
+		<td>Xóa hết tin nhắn của: </td>
+		<td><input type="text" id='delmsg_name' style="width:90px;"/> <input type="button" onclick='request("admin.php?mod=quick&go=delmsg&name="+$("#delmsg_name").value, "delmsg_state");' value="Xóa hết" /><span id="delmsg_state"></span></td>
+	</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+	function searchUser(inputId) {
+		var uid = parseInt($('#'+inputId).value);
+		if(uid > 0) {
+			var url = "admin.php?mod=user_edit&id=" + uid;
+			location.assign(url);
+		}
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

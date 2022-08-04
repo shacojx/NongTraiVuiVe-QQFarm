@@ -1,0 +1,73 @@
+<!--{tpl admin/inc_header}-->
+<style>
+.cspan{color:blue;cursor:hand}
+</style>
+
+<table class="list">
+<th>Cấu hình TX Nông trại</th>
+<th>Cấu hình thuộc tính nông trại</th>
+<th>Cấu hình YE Trang trại</th>
+<tr>
+<td>
+<span onClick="submits('nc_crop','{:$value['nc_module']}','module/ui/x.swf','1')" title="GET" class="cspan">
+{:preg_replace($replace_ncword,'',$value['nc_module'])} 
+</span><br>
+<!--{foreach $value['nc_material'] as $floder=>$curl}-->
+<span onClick="submits('nc_crop','{:$curl}','{:$floder}','')" title="GET" class="cspan">{:$floder}</span><br>
+<!--{/foreach}-->
+</td>
+<td>
+<span onClick="submitback('nc_crop','{:$value['d_nc_module']}')" class="cspan" title="BACKUP">{:$value['d_nc_module']}</span><br>
+<!--{foreach $value['d_nc_material'] as $dfloder=>$curl}-->
+<span onClick="submitback('nc_crop','{:$floder}')" class="cspan" title="BACKUP">{:$dfloder}</span><br>
+<!--{/foreach}-->
+</td>
+<td>
+<span onClick="submits('nc_crop','{:$p_ncswf}','module/ui/x.swf','')" title="GET" class="cspan">{:preg_replace($replace_ncword,'',$value['nc_module'])} </span>
+</td>
+</tr>
+<th>Cấu hình TX Nông trang</th>
+<th>Cấu hình thuộc tính nông trang</th>
+<th>Cấu hình YE Trang trại</th>
+</tr>
+<tr>
+<td>
+<!--{foreach $value['mc_module'] as $floder=>$curl}-->
+<span onClick="submits('mc_module','{:$curl}','{:$floder}','')" title="GET" class="cspan">{:$floder}</span><br>
+<!--{/foreach}-->
+<!--{foreach $value['mc_material'] as $floder=>$curl}-->
+<span onClick="submits('mc_animal','{:$curl}','{:$floder}','')" title="GET" class="cspan">{:$floder}</span><br>
+<!--{/foreach}-->
+</td>
+<td>
+<!--{foreach $value['d_mc_module'] as $floder=>$curl}-->
+<span onClick="submitback('mc_animal','{:$floder}')" class="cspan" title="BACKUP">{:$floder}</span><br>
+<!--{/foreach}-->
+<!--{foreach $value['d_mc_material'] as $floder=>$curl}-->
+<span onClick="submitback('mc_animal','{:$floder}')" class="cspan" title="BACKUP">{:$floder}</span><br>
+<!--{/foreach}-->
+</td>
+<td>
+<!--{foreach $value['mc_module'] as $floder=>$curl}-->
+<span onClick="submits('mc_module','{:$p_mcswf}','module/mc/x.swf','')" title="GET" class="cspan">{:$floder}</span><br>
+<!--{php break}-->
+<!--{/foreach}-->
+</td>
+</tr>
+<tr>
+<td></td>
+<td><span id="stat"></span></td>
+<td></td>
+</tr>
+</table>
+<script type="text/javascript">
+	function submits(type,updown,path,dot) {
+		request('admin.php?mod=syncdata&sync='+type+'&dot='+dot+'&updown='+updown+'&path='+path,'stat');
+		return false;
+	}
+	function submitback(type,file) {
+		request('admin.php?mod=syncdata&sync='+type+'&back='+file,'stat');
+		return false;
+	}
+</script>
+<!--{tpl admin/inc_footer}-->

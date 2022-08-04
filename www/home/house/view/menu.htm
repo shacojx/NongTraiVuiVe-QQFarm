@@ -1,0 +1,50 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<link href="house/view/default.css?20081105" rel="stylesheet" type="text/css" />
+<script  type="text/javascript">var v = "{$verify}";</script>
+<script src="house/view/base.js?20081105" type="text/javascript"></script>
+<script type="text/javascript">
+house.credit = function(){
+	base.showResult('Mua lại', 'house.php?ac=ajax&op=credit');
+	return false;
+}
+</script>
+<table width="100%" cellspacing="0" border="0" id="my_menu">
+	<tr>
+		<td align=center><img src="house/view/img/top.jpg" /></td>
+		<td valign=bottom>
+			<p class="l"><img src="house/view/img/description.jpg"></p><p><span> [<a href="house.php?ac=help">hướng dẫn</a>] </span></p>
+			<p class="l"><img src="house/view/img/join.gif"></p><p><span> [<a href="#" onclick="return house.invite();">gọi bạn cứu</a>]</span></p>
+			<p><span> [<a href="#" onclick="return house.credit();">Mua lại</a>]</span></p>
+			<!--{if ADMIN_UID == $_SGLOBAL['supe_uid']}--><p style='width: 40px;'><span> [<a href="house.php?ac=admin">Quản lý</a>]</span></p><!--{/if}-->
+		</td>
+	</tr>
+</table>
+<table width="100%" cellspacing="0" border="0" align=center style="padding-left: 22px; margin-top: 5px;border-bottom: 1px solid  #cccccc;"">
+	<tr>
+		<td style="padding:0px;text-align:center;"><a href="house.php"><img src="house/view/img/menu_index{$actives['index']}.jpg"/></a></td>
+		<td style="margin-left: 5px;padding:0px;text-align:center;"><a href="house.php?ac=house"><img src="house/view/img/menu_my_house{$actives['house']}.jpg"/></a></td>
+		<td style="margin-left: 5px;padding:0px;text-align:center;"><a href="house.php?ac=intimate"><img src="house/view/img/menu_my_best{$actives['intimate']}.jpg"/></a></td>
+		<td style="margin-left: 5px;padding:0px;text-align:center;"><a href="house.php?ac=work"><img src="house/view/img/menu_work{$actives['work']}.jpg"/></a></td>
+		<td style="margin-left: 5px;padding:0px;text-align:center;"><a href="house.php?ac=buyhouse"><img src="house/view/img/menu_mark{$actives['buyhouse']}.jpg"/></a></td>
+		<td style="margin-left: 5px;padding:0px;text-align:center;"><a href="house.php?ac=order"><img src="house/view/img/menu_order{$actives['order']}.jpg"/></a></td>
+		<td style="margin-left: 5px;padding:0px;text-align:center;"><a href="house.php?ac=news"><img src="house/view/img/menu_news{$actives['news']}.jpg"/></a></td>
+		<td style="margin-left: 5px;padding:0px;text-align:center;"><a href="house.php?ac=love"><img src="house/view/img/menu_love{$actives['love']}.jpg"/></a></td>
+	</tr>
+</table>
+<div class="s_clear">
+	<div  id="menu_status">
+		<div>
+			<b>Người sử dụng hiện tại：</b>{$_SN[$status['uid']]} 
+			<b>Số tiền：</b>{$status['money']} Vàng
+			<b>Tổng số nhà：</b> {$status['house_num']} Đặt
+			<b>Tộng số sống chung：</b> {$status['love_num']} Times 
+		</div>
+		<div>
+			<b>Hiện cư trú：</b>{$status['live_status_desc']}
+			<b>Tình trạng sống chung：</b><!--{if $status['user_status']}-->Và <a href="house.php?ac=house&uid={$status['live_with_uid']}">{$_SN[$status['live_with_uid']]}</a> Sống chung trong<!--{else}-->Hiện nay đơn<!--{/if}-->
+			<b>Làm việc nhà nước：</b>{$status['work_status_desc']}
+		</div>
+	</div>
+</div>

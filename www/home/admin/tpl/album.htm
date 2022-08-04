@@ -1,0 +1,132 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+
+		<form method="get" action="admincp.php">
+		<div class="block style4">
+			<table cellspacing="3" cellpadding="3">
+				<tr>
+					<th>Album Name</th>
+					<td><input type="text" name="albumname" value="$_GET[albumname]" /></td>
+					<th>View Permissions</th>
+					<td>
+						<select name="friend">
+						<option value="">Open</option>
+						<option value="0"<!--{if $_GET[friend] == '0'}--> selected<!--{/if}-->>Users can see the whole station</option>
+						<option value="1"<!--{if $_GET[friend] == '1'}--> selected<!--{/if}-->>All friends can see that</option>
+						<option value="2"<!--{if $_GET[friend] == '2'}--> selected<!--{/if}-->>Only designated friends can be seen</option>
+						<option value="3"<!--{if $_GET[friend] == '3'}--> selected<!--{/if}-->>Itself can be seen only</option>
+						<option value="4"<!--{if $_GET[friend] == '4'}--> selected<!--{/if}-->>View with a password</option>
+						</select>	
+					</td>
+				</tr>
+				<tr>
+					<th>Album ID</th>
+					<td colspan="3">
+						<input type="text" name="albumid" value="$_GET[albumid]" />
+					</td>
+				</tr>
+				<!--{if $allowmanage}-->
+				<tr>
+					<th>By UID</th>
+					<td><input type="text" name="uid" value="$_GET[uid]" /></td>
+					<th>By Name</th>
+					<td><input type="text" name="username" value="$_GET[username]" /></td>
+				</tr>
+				<!--{/if}-->
+				<tr>
+					<th>Created</th>
+					<td colspan="3">
+						<input type="text" name="dateline1" value="$_GET[dateline1]" size="10" /> ~
+						<input type="text" name="dateline2" value="$_GET[dateline2]" size="10" />
+						(YYYY-MM-DD)
+					</td>
+				</tr>
+	
+				<tr>
+					<th>Sorting</th>
+					<td colspan="3">
+						<select name="orderby">
+						<option value="">Sort Results Default Sort</option>
+						<option value="dateline"$orderby[dateline]>Created</option>
+						<option value="updatetime"$orderby[updatetime]>Updated</option>
+						<option value="picnum"$orderby[picnum]>Picture Number</option>
+						</select>
+						<select name="ordersc">
+						<option value="desc"$ordersc[desc]>Decreasing</option>
+						<option value="asc"$ordersc[asc]>Incremental</option>
+						</select>
+						<select name="perpage">
+						<option value="20"$perpages[20]>20 per page</option>
+						<option value="50"$perpages[50]>50 per page</option>
+						<option value="100"$perpages[100]>100 per page</option>
+						<option value="1000"$perpages[1000]>One dealing with 1000</option>
+						</select>
+						<input type="hidden" name="ac" value="album" />
+						<input type="submit" name="searchsubmit" value="Search" class="submit" />
+					</td>
+				</tr>
+			</table>
+			</div>
+		</form>
+
+	
+		<!--{if $list}-->
+		<form method="post" action="admincp.php?ac=album">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<div class="bdrcontent">
+
+<!--{if $perpage>100}-->
+			<p>A total of data to meet the conditions<strong>$count</strong> 个</p>
+			<!--{loop $list $value}-->
+			<input type="hidden" name="ids[]" value="$value[albumid]">
+			<!--{/loop}-->
+		
+<!--{else}-->
+			<table cellspacing="0" cellpadding="0" class="formtable">
+
+			<tr>
+			<!--{loop $list $key $value}-->
+				<td width="105">
+					<a href="space.php?uid=$value[uid]&do=album&id=$value[albumid]" target="_blank"><img src="$value[pic]" alt="$value[albumname]" width="100" height="90"></a>
+					<input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[albumid]"> Choose
+				</td>
+				<td>
+				<a href="admincp.php?ac=pic&albumid=$value[albumid]">$value[albumname]</a>
+				<!--{if $allowmanage}-->
+				<br />Author: <a href="admincp.php?ac=album&uid=$value[uid]">$value[username]</a>
+				<!--{/if}-->
+				<br />Time: <!--{date('Y-m-d',$value[dateline])}-->
+				<!--{if $value[friend]}--><br />Permissions: [<a href="admincp.php?ac=album&friend=$value[friend]">$value[friend]</a>]<!--{/if}-->
+				<br /><a href="admincp.php?ac=pic&albumid=$value[albumid]">Manage pictures($value[picnum])</a>
+				</td>
+			<!--{if $key%2==1}--></tr><tr><!--{/if}-->
+			<!--{/loop}-->
+			</tr>
+			
+			</table>
+<!--{/if}-->
+		</div>
+			
+		<div class="footactions">
+			<!--{if $allowbatch && $perpage<=100}--><input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select<!--{/if}-->
+			<input type="hidden" name="mpurl" value="$mpurl">
+			<input type="submit" name="deletesubmit" value="Bulk Delete" onclick="return confirm('This action can not be restored, to confirm the deletion?');" class="submit">
+			<div class="pages">$multi</div>
+		</div>
+		</form>
+		
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+	</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

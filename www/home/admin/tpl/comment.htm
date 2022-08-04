@@ -1,0 +1,121 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+			<th>Comment Type</th>
+			<td>
+				<select name="idtype">
+					<option value="">All</option>
+					<option value="uid"$idtype[uid]>Message</option>
+					<option value="blogid"$idtype[blogid]>Log</option>
+					<option value="picid"$idtype[picid]>Picture</option>
+					<option value="eventid"$idtype[eventid]>Activities</option>
+					<option value="sid"$idtype[sid]>Share</option>
+				</select>
+			<th>Comment ID</th><td><input type="text" name="id" value="$_GET[id]"></td>
+		</tr>
+		<tr><th>Comments UID</th><td><input type="text" name="authorid" value="$_GET[authorid]"></td>
+			<th>Reviewer</th><td><input type="text" name="author" value="$_GET[author]"></td>
+		</tr>
+		<!--{if $allowmanage}-->
+		<tr><th>Post, UID</th><td colspan="3"><input type="text" name="uid" value="$_GET[uid]"></td></tr>
+		<!--{/if}-->
+		<tr><th>Published</th><td colspan="3">
+			<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+			<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		<tr><th>Content *</th><td><input type="text" name="message" value="$_GET[message]"></td>
+			<th>Release IP</th><td><input type="text" name="ip" value="$_GET[ip]"></td>
+		</tr>
+
+		<tr><th>Sorting</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">Default Sort</option>
+		<option value="dateline"$orderby[dateline]>Comment Time</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>Decreasing</option>
+		<option value="asc"$ordersc[asc]>incremental</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>20 per page</option>
+		<option value="50"$perpages[50]>50 per page</option>
+		<option value="100"$perpages[100]>100 per page</option>
+		<option value="1000"$perpages[1000]>One dealing with 1000</option>
+		</select>
+		<input type="hidden" name="ac" value="comment">
+		<input type="submit" name="searchsubmit" value="Search" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+	<form method="post" action="admincp.php?ac=comment">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+
+<!--{if $perpage>100}-->
+	<p>A total of data to meet the conditions<strong>$count</strong> 个</p>
+	<!--{loop $list $value}-->
+	<input type="hidden" name="ids[]" value="$value[cid]">
+	<!--{/loop}-->
+
+<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<!--{loop $list $value}-->
+	<tr>
+		<td width="25"><input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[cid]"></td>
+		<td>
+		$value[message] <!--{if $wheresql == 1 }--><a href="admincp.php?ac=comment&cid=$value[cid]">...</a><!--{/if}-->
+
+		<p>
+		<!--{if $value[author]}-->
+		Author:<a href="admincp.php?ac=comment&author=$value[author]">$_SN[$value[authorid]]</a>
+		<!--{else}-->
+		Author:<a href="space.php?uid=$value[authorid]" target="_blank">Anonymous</a>
+		<!--{/if}-->
+		Post, object: <a href="admincp.php?ac=comment&id=$value[id]&idtype=$value[idtype]">{$value[idtype]}-$value[id]</a>
+		<!--{if $value[idtype] == 'uid'}-->
+		(<a href="space.php?uid=$value[id]&do=wall" target="_blank">Access</a>)
+		<!--{/if}-->
+		IP: <a href="admincp.php?ac=comment&ip=$value[ip]">$value[ip]</a>
+		<!--{date('Y-m-d H:i',$value[dateline])}-->
+		</p>
+		</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+<!--{/if}-->
+	</div>
+
+	<div class="footactions">
+		<!--{if $allowbatch && $perpage<=100}--><input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select<!--{/if}-->
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<input type="submit" name="deletesubmit" value="Bulk Delete" onclick="return confirm('This action can not be restored, to confirm the deletion?');" class="submit">
+		<div class="pages">$multi</div>
+	</div>
+
+	</form>
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,44 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<!--{tpl tools/market_menu}-->
+	<!--{if $fruit}-->
+	<table class="list">
+		<tr>
+			<th width="40">ID</th>
+			<th width="100">Tên</th>
+			<th width="70">Hình dáng</th>
+			<th width="40">Cấp</th>
+			<th width="100">Giá gốc</th>
+			<th width="100">Số lượng</th>
+			<th width="100">Giá bán</th>
+			<th width="100"></th>
+		</tr>
+		<!--{foreach $fruit as $key => $value}-->
+		<!--{if $key != 1506 }-->
+		<tr>
+			<td>{:$key}</td>
+			<td><!--{if $key > 10000 }-->{:$animaltype[$key-10000]['cName']}<!--{else}-->{:$animaltype[$key]['bName']}<!--{/if}--></td>
+			<!--{if $key > 10000}-->
+			<td><img src="module/mc/farm/icon/a{:$key-10000}.png" height="24px" /></td> 
+			<!--{else}-->
+			<td><img src="module/mc/farm/icon/p{:$key}.png" height="24px" /></td>
+			<!--{/if}-->
+			<td><!--{if $key > 10000 }-->{:$animaltype[$key-10000]['cLevel']}<!--{else}-->{:$animaltype[$key]['cLevel']}<!--{/if}--></td>
+			<td><!--{if $key > 10000 }-->{:$animaltype[$key-10000]['productprice']}<!--{else}-->{:$animaltype[$key]['byproductprice']}<!--{/if}--></td>
+			<td><input type='text' id='number{:$key}' size='10' value="{:$value}"/></td>
+			<td><input type='text' id='price{:$key}' size='15' value="<!--{if $key > 10000 }-->{:$animaltype[$key-10000]['productprice']}<!--{else}-->{:$animaltype[$key]['byproductprice']}<!--{/if}-->"/></td>
+			<td>
+				<input type="button" onclick='request("tools.php?mod=market&act=mc&type=saleitem&mclass=4&cid={:$key}&number="+$("#number{:$key}").value+"&price="+$("#price{:$key}").value, "state{:$key}");' value='Bán' /><span id="state{:$key}"></span> 
+			</td>
+		</tr>
+		<!--{/if}-->
+		<!--{/foreach}-->
+	</table>
+	<div id="pages" class="multiPage"></div>
+	<!--{else}-->
+	<div class="no_hpinfo">Chưa có</div>
+	<!--{/if}-->
+</div>
+
+<!--{tpl inc_footer}-->

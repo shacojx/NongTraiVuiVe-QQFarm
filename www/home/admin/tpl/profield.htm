@@ -1,0 +1,147 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--{eval 
+	$_TPL['formtypes'] = array('text'=>'Text Input', 'select'=>'Radio List', 'multi'=>'Multi-Select List');
+}-->
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[view]><a href="admincp.php?ac=profield"><span>Browse column</span></a></li>
+		<li class="null"><a href="admincp.php?ac=profield&op=add">Add a new group section</a></li>
+	</ul>
+</div>
+
+<!--{if $_GET['op'] == 'delete'}-->
+	<form method="post" action="admincp.php?ac=profield&op=delete&fieldid=$_GET[fieldid]">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	<div class="topactions">
+		The column removed, select the column has been following the group will be classified to that new section.
+	</div>
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th width="150">New groups are classified under the heading</th>
+		<td>
+		<select name="newfieldid">
+		<!--{loop $newfield $value}-->
+		<option value="$value[fieldid]">$value[title]</option>
+		<!--{/loop}-->
+		</select>
+		</td>
+	</tr>
+	</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="submit" name="deletesubmit" value="To confirm the deletion" class="submit">
+	</div>
+
+<!--{else}-->
+
+	<form method="post" action="admincp.php?ac=profield&fieldid=$thevalue[fieldid]">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+
+<!--{if empty($thevalue)}-->
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th>Column</th>
+			<th>Fill Type</th>
+			<th>Display order</th>
+			<th width="80">Operation</th>
+		</tr>
+		<!--{loop $list $value}-->
+		<tr>
+			<th>$value[title]</th>
+			<td>{$_TPL[formtypes][$value[formtype]]}</td>
+			<td><input type="text" name="displayorder[{$value[fieldid]}]" value="$value[displayorder]" size="5"></td>
+			<td width="80">
+			<a href="admincp.php?ac=profield&op=edit&fieldid=$value[fieldid]">Edit</a> | 
+			<a href="admincp.php?ac=profield&op=delete&fieldid=$value[fieldid]">Remove</a></td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="submit" name="ordersubmit" value="Update Sort" class="submit">
+	</div>
+	
+	</form>
+	
+<!--{else}-->
+
+	<script language="javascript">
+		function formtypeShow(value) {
+			if(value != 'select') {
+				$('tb_inputnum').style.display = '';
+				$('tb_choice').style.display = (value=='text'?'none':'');
+			} else {
+				$('tb_inputnum').style.display = 'none';
+				$('tb_choice').style.display = '';
+			}
+		}
+	</script>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:15em;">Column name</th><td><input type="text" name="title" value="$thevalue[title]"></td></tr>
+		<tr><th>Brief</th><td><input type="text" name="note" value="$thevalue[note]" size="60"></td></tr>
+		<tr><th>Add a form type group</th><td>
+			<select name="formtype" onchange="formtypeShow(this.value)">
+			<option value="text"$formtypearr[text]>Text Input Box</option>
+			<option value="select"$formtypearr[select]>Radio Listbox</option>
+			<option value="multi"$formtypearr[multi]>Multi-selection list box</option>
+			</select>
+		</td></tr>
+
+		<tbody id="tb_inputnum"<!--{if $thevalue[formtype]=='select'}--> style="display:none;"<!--{/if}-->>
+		<tr><th>Users can join the group up to the number of</th><td><input type="text" name="inputnum" value="$thevalue[inputnum]" size="5"></td></tr>
+		</tbody>
+	
+		<tbody id="tb_choice"<!--{if $thevalue[formtype]=='text'}--> style="display:none;"<!--{/if}-->>
+		<tr><th>Optional Value</th><td><textarea name="choice" rows="5" cols="20">$thevalue[choice]</textarea>
+			<br />A value per line, for example, enter:<br />Beijing<br />Shanghai</td></tr>
+		</tbody>
+	
+		<tr>
+			<th>Minimum number of Group Discussion</th>
+			<td><input type="text" name="mtagminnum" value="$thevalue[mtagminnum]" size="5"> When the group members had reached that number only when it allows members to the group from within topics and Replies.</td>
+		</tr>
+		<tr>
+			<th>Manually specify the primary group of group</th>
+			<td>
+				<input type="radio" name="manualmoderator" value="1"<!--{if $thevalue[manualmoderator] == 1}--> checked<!--{/if}-->>Hand
+				<input type="radio" name="manualmoderator" value="0"<!--{if $thevalue[manualmoderator] != '1'}--> checked<!--{/if}-->>Automatic
+				<br>If you choose not manually specified, the system will automatically will be the first to use a certain group of users as a group of owners.</td>
+		</tr>
+		<tr>
+			<th>Group members could be the main control group</th>
+			<td>
+				<input type="radio" name="manualmember" value="1"<!--{if $thevalue[manualmember] == 1}--> checked<!--{/if}-->>Group owners can control the
+				<input type="radio" name="manualmember" value="0"<!--{if $thevalue[manualmember] != '1'}--> checked<!--{/if}-->>Members are free to join
+				<br>Group owners can control, then the owners have the right to set the group to allow group members to join means to control the join the group members.</td>
+		</tr>
+		<tr><th>Display order</th><td><input type="text" name="displayorder" value="$thevalue[displayorder]" size="5"></td></tr>
+		</table>
+	</div>
+		
+	<div class="footactions">
+		<input type="submit" name="fieldsubmit" value="Submit" class="submit">
+	</div>
+	
+	</form>
+<!--{/if}-->
+
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

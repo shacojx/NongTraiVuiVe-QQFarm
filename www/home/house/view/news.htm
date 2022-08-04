@@ -1,0 +1,42 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 25px;">
+			<div id="news_menu">
+				<ul>
+					<a href="#ding_0">Tin tức sống chung</a>
+					<a href="#ding_1">Tín hiệu đau khổ</a>
+					<a href="#ding_2">Sự kiện sống chung</a>
+					<a href="#ding_3">Sự kiện tặng quà</a>
+					<a href="#ding_4">Tuyên ngôn tình yêu</a>
+					<a href="#ding_5">Tin tức mua nhà</a>
+					<a href="#ding_6">Làm việc để kiếm tiền</a>
+					<a href="#ding_7">Các sự kiện</a>
+				<ul>
+			</div>
+<!--{loop $mapping $key $val}-->
+			<a name="ding_{$key}"></a>
+			<div id="tongjunews" class="news_title">
+			{$val}
+			</div>
+			<div  class="news_message">
+				<table width="100%" cellspacing="0" cellpadding="0">
+					<tbody>
+					<!--{loop $data[$key] $k $val}-->
+						<tr<!--{if $k%2 == 0}--> class='light'<!--{/if}-->><td width=80%>{$val['html']}</td><td>{$val['dateline']}</td></tr>
+					<!--{/loop}-->
+					</tbody>
+				</table>
+			</div>
+<!--{/loop}-->
+
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

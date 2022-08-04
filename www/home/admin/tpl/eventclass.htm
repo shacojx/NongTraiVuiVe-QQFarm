@@ -1,0 +1,130 @@
+<!--{template admin/tpl/header}-->
+<style type="text/css">
+	.poster{
+	max-width: 240px; max-height: 180px;}
+</style>
+
+<div class="mainarea">
+<div class="maininner">
+
+	<div class="tabs_header">
+		<ul class="tabs">
+			<li$actives[view]><a href="admincp.php?ac=eventclass"><span>View All Categories</span></a></li>
+			<li class="null"><a href="admincp.php?ac=eventclass&op=add">Add a new activity classification</a></li>
+		</ul>
+	</div>
+		
+	<form method="post" action="admincp.php?ac=eventclass" enctype="multipart/form-data">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="bdrcontent">
+
+<!--{if "add" == $_GET['op'] || "edit" == $_GET['op']}-->
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th style="width:15em;">Category Name</th>
+				<td><input type="text" name="classname" value="$thevalue[classname]"></td>
+			</tr>
+			<tr>
+				<th>Default Poster</th>
+				<td>
+					Activities initiated by the initiator of this type of activity if the poster did not upload the default to use this poster<br />
+					<img id="posterview" class="poster" src="$thevalue[poster]?v=$_SGLOBAL[timestamp]" alt="Default Poster" onerror="this.src='image/event/default.jpg'" />
+					<a href="#" onclick="$('posterview').src='image/event/default.jpg'; $('delposter').value='1'; return false;">Remove</a>
+					<br />
+					<input type="hidden" id="delposter" name="delposter" value="0" />
+					<input type="file" name="poster" value="">
+				</td>
+			</tr>
+			<tr>
+				<th>Default template</th>
+				<td>
+					Proposed activities initiated by the initiator of this type of activities here to fill in the content of the template Activities<br />
+					<textarea name="template" rows="8" cols="80">$thevalue[template]</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>Display order</th>
+				<td>
+					<input type="text" name="displayorder" value="$thevalue[displayorder]" />
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="classid" value="$thevalue[classid]" />
+		<input type="submit" name="eventclasssubmit" value="Submit" class="submit">
+	</div>
+
+	</form>
+
+<!--{elseif "delete" == $_GET['op']}-->
+
+		<div class="topactions">
+			The event category is deleted, please select the event category has the following activities will be grouped into that new activity classification.
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th width="150">Activity classifications under the new classification</th>
+				<td>
+				<select name="newclassid">
+				<!--{loop $list $key $value}-->
+					<!--{if $value}-->
+					<option value="$value[classid]">$value[classname]</option>
+					<!--{/if}-->
+				<!--{/loop}-->
+				</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="hidden" name="classid" value="$thevalue[classid]" />
+		<input type="submit" name="deletesubmit" value="Confirmation" class="submit">
+	</div>
+
+	</form>
+
+<!--{else}-->
+
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th>Name</th>
+				<th>Set Poster</th>
+				<th>Set Template</th>
+				<th>Display order</th>
+				<th width="80">Operation</th>
+			</tr>
+			<!--{loop $list $key=>$value}-->
+			<tr>
+				<th>$value[classname]</th>
+				<td><!--{if $value[poster]=='image/event/default.jpg'}-->No<!--{else}-->Yes<!--{/if}--></td>
+				<td><!--{if empty($value[template])}-->No<!--{else}-->Yes<!--{/if}--></td>
+				<td><input type="text" name="displayorder[$key]" value="$value[displayorder]" size="5"></td>
+				<td width="80">
+				<a href="admincp.php?ac=eventclass&op=edit&classid=$key">Edit</a> |
+				<a onclick="return confirm('To confirm the deletion?');" href="admincp.php?ac=eventclass&op=delete&classid=$key">Remove</a></td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+
+	<div class="footactions">
+		<input type="submit" name="ordersubmit" value="Update Sort" class="submit">
+	</div>
+
+	</form>
+
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,394 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<!--{if $uid}-->
+	<form method="post" action="admincp.php?ac=space&uid=$uid" enctype="multipart/form-data">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>$member[username] Basic Information</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:12em;">Username</th>
+			<td><a href="space.php?uid=$member[uid]" target="_blank">$member[username]</a></td></tr>
+		
+		
+		<tr><th>Open Time</th><td><!--{date('Y-m-d H:i',$member[dateline])}--></td></tr>
+		<tr><th>Updated</th><td><!--{if $member[updatetime]}--><!--{date('Y-m-d H:i',$member[updatetime])}--><!--{else}-->-<!--{/if}--></td></tr>
+		<tr><th>Last login</th><td><!--{date('Y-m-d H:i',$member[lastlogin])}--></td></tr>
+		<tr><th>Registration IP</th><td>$member[regip]</td></tr>
+		<tr><th>Friends Number</th><td>$member[friendnum]</td></tr>
+		<tr><th>View the number of</th><td>$member[viewnum]</td></tr>
+		<tr><th>Batch Management</th>
+			<td>
+			<a href="admincp.php?ac=blog&uid=$member[uid]&searchsubmit=1" target="_blank">Blog($member[blognum])</a> | 
+			<a href="admincp.php?ac=album&uid=$member[uid]&searchsubmit=1" target="_blank">Album($member[albumnum])</a> | 
+			<a href="admincp.php?ac=thread&uid=$member[uid]&searchsubmit=1" target="_blank">Topics($member[threadnum])</a> | 
+			<a href="admincp.php?ac=poll&uid=$member[uid]&searchsubmit=1" target="_blank">Vote($member[pollnum])</a> | 
+			<a href="admincp.php?ac=event&uid=$member[uid]&searchsubmit=1" target="_blank">Activities($member[eventnum])</a> | 
+			<a href="admincp.php?ac=doing&uid=$member[uid]&searchsubmit=1" target="_blank">Record($member[doingnum])</a> | 
+			<a href="admincp.php?ac=share&uid=$member[uid]&searchsubmit=1" target="_blank">Share($member[sharenum])</a> | 
+			<a href="admincp.php?ac=feed&uid=$member[uid]&searchsubmit=1" target="_blank">Matter</a> | 
+			<a href="admincp.php?ac=pic&uid=$member[uid]&searchsubmit=1" target="_blank">Picture</a> | 
+			<a href="admincp.php?ac=comment&authorid=$member[uid]&searchsubmit=1" target="_blank">Comments</a> | 
+			<a href="admincp.php?ac=post&uid=$member[uid]&searchsubmit=1" target="_blank">Replies</a>
+		</td></tr>
+		
+		<tr><th>&nbsp;</th>
+			<td>
+			
+			<!--{if $member['flag'] != 1 && checkperm('managedelspace')}-->
+				<a href="admincp.php?ac=space&op=close&uid=$member[uid]" <!--{if $member[flag]!=-1}--> onclick="return confirm('Locked after the space will be prohibited access, confirm lock do?');" <!--{/if}--> class="submit"><!--{if $member[flag]!=-1}-->Lock space (does not delete data)<!--{else}-->Unlock<!--{/if}--></a> &nbsp;
+				<a href="admincp.php?ac=space&op=delete&uid=$member[uid]" onclick="return confirm('Danger, which will delete the user all the data, and this action can not be restored, to confirm the deletion?');">Delete the user (delete the data are not recoverable)</a>&nbsp;&nbsp;&nbsp;
+			<!--{else}-->
+				The user is protected, can not be deleted, can not be locked
+			<!--{/if}-->
+			</td>
+		</tr>
+		
+		</table>
+	</div>
+	<!--{if $managespaceinfo}-->
+	<br>
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>$member[username] Profile</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:12em;">Picture</th><td><a href="space.php?uid=$member[uid]" target="_blank"><!--{avatar($member[uid],big)}--></a>
+		<br>[<a href="admincp.php?ac=space&op=deleteavatar&uid=$uid">Remove avatar</a>]
+		</td></tr>
+		
+		<!--{if $_SCONFIG['videophoto']}-->
+		<tr><th>Video Certification</th><td>
+			<p>
+				<input type="radio" name="videostatus" value="0"$videostatusarr[0]>Did not pass
+				<input type="radio" name="videostatus" value="1"$videostatusarr[1]>Passed
+			</p>
+			<!--{if $videopic}--><img src="$videopic" width="400"><br><!--{/if}-->
+			Upload a photo of the user to update video authentication photos:<br>
+			<input type="file" name="newvideopic" value="">
+		</td></tr>
+		<!--{/if}-->
+		
+		<tr>
+			<th style="width:12em;">Common E-mail</th>
+			<td>
+				<input type="text" id="email" class="t_input" name="email" value="$member[email]" />
+				<input type="radio" name="emailcheck" value="0"<!--{if $member[emailcheck]==0}--> checked<!--{/if}-->> Inactive
+				<input type="radio" name="emailcheck" value="1"<!--{if $member[emailcheck]==1}--> checked<!--{/if}-->> Have verified that activated
+			</td>
+		</tr>
+		<!--{if $_SCONFIG['allowdomain'] && $_SCONFIG['domainroot']}-->
+		<tr><th style="width:12em;">2 domain</th><td><input type="text" class="t_input" name="domain" value="$member[domain]" size="10">.{$_SCONFIG[domainroot]}</td></tr>
+		<!--{/if}-->
+		<tr><th style="width:12em;">Number of additional friends</th><td><input type="text" class="t_input" name="addfriend" value="$member[addfriend]" size="10"> </td></tr>
+		
+		
+		<tr><th>Empty Custom CSS</th><td>
+			<input type="radio" name="clearcss" value="0" checked> Does not deal with
+			<input type="radio" name="clearcss" value="1"> Empty
+			<p>User-defined CSS if there is malicious code, you can choose Empty.</p>
+		</td></tr>
+		
+		<tr>
+			<th>Gender</th>
+			<td>
+				<label for="sexm"><input id="sexm" type="radio" value="1" name="sex"$sexarr[1] />Male</label> 
+				<label for="sexw"><input id="sexw" type="radio" value="2" name="sex"$sexarr[2] />Female</label>
+			</td>
+		</tr>
+		<tr>
+			<th>Marriage Status</th>
+			<td>
+				<select id="marry" name="marry">
+					<option value="0">Without</option>
+					<option value="1"$marryarr[1]>Single</option>
+					<option value="2"$marryarr[2]>Non-single</option>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<th>Birthday</th>
+			<td>
+				<select id="birthyear" name="birthyear">
+					<option value="0">Without</option>
+					$birthyeayhtml
+				</select> Year 
+				<select id="birthmonth" name="birthmonth">
+					<option value="0">Without</option>
+					$birthmonthhtml
+				</select> Months 
+				<select id="birthday" name="birthday">
+					<option value="0">Without</option>
+					$birthdayhtml
+				</select> Day
+			</td>
+		</tr>
+		<tr>
+			<th>Blood</th>
+			<td>
+				<select id="blood" name="blood">
+					<option value="">Privacy</option>
+					$bloodhtml
+				</select>
+			</td>
+		</tr>
+	
+		<tr>
+			<th>Home</th>
+			<td id="birthcitybox">
+				<script type="text/javascript" src="source/script_city.js"></script>
+				<script type="text/javascript">
+				<!--
+				showprovince('birthprovince', 'birthcity', '$member[birthprovince]', 'birthcitybox');
+				showcity('birthcity', '$member[birthcity]', 'birthprovince', 'birthcitybox');
+				
+				//-->
+				</script>
+			</td>
+		</tr>
+		<tr>
+			<th>Residence</th>
+			<td id="residecitybox">
+				<script type="text/javascript">
+				<!--
+				showprovince('resideprovince', 'residecity', '$member[resideprovince]', 'residecitybox');
+				showcity('residecity', '$member[residecity]', 'resideprovince', 'residecitybox');
+				//-->
+				</script>
+			</td>
+		</tr>
+		<tr>
+			<th>QQ</th>
+			<td>
+				<input type="text" class="t_input" name="qq" value="$member[qq]" /> 
+			</td>
+		</tr>
+		<tr>
+			<th>MSN</th>
+			<td>
+				<input type="text" class="t_input" name="msn" value="$member[msn]" /> 
+			</td>
+		</tr>	
+
+		<!--{loop $profilefields $value}-->
+		<tr>
+			<th>$value[title]<!--{if $value[required]}-->*<!--{/if}--></th>
+			<td>
+				$value[formhtml]
+				<!--{if $value[note]}--><br>$value[note]<!--{/if}-->
+			</td>
+		</tr>
+		<!--{/loop}-->
+		
+		
+			
+		</table>
+	</div>
+	<!--{/if}-->
+	<!--{if $managename}-->
+	<br>
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>$member[username] Real-name authentication</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:12em;">Name</th><td><input type="text" class="t_input" name="name" value="$member[name]">
+			<input type="radio" name="namestatus" value="0"<!--{if $member[namestatus]==0}--> checked<!--{/if}-->> Authentication failure
+			<input type="radio" name="namestatus" value="1"<!--{if $member[namestatus]==1}--> checked<!--{/if}-->> Certification
+		</td></tr>
+		</table>
+	</div>
+	<!--{/if}-->
+	<!--{if $managespacecredit}-->
+	<br>
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>$member[username] Points, experience, value, and space management</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:12em;">Additional space</th><td><input type="text" class="t_input" name="addsize" value="$member[addsize]" size="10"> M</td></tr>
+		<tr><th>Number of points</th><td><input type="text" name="credit" class="t_input" value="$member[credit]" size="10"></td></tr>
+		<tr><th>EXP</th><td><input type="text" class="t_input" name="experience" value="$member[experience]" size="10"></td></tr>
+		</table>
+	</div>
+	<!--{/if}-->
+	<!--{if $managespacegroup}-->
+	<br>
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>$member[username] Protection Information</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		
+		<tr><th style="width:12em;">User Groups</th><td>
+		<select name="groupid" onchange="showDateSet(this.value);">
+		<option value="0">Normal User Group</option>
+		<!--{eval $show=true;}-->
+		<!--{loop $usergroups $value}-->
+			<!--{if $groupidarr[$value['gid']]}--><!--{eval $show=false;}--><!--{/if}-->
+		<option value="$value[gid]"{$groupidarr[$value[gid]]}>$value[grouptitle]</option>
+		<!--{/loop}-->
+		</select>
+		<p>Normal user group, will be automatically based on the user experience, the number of the number of automatic promotion / demotion<br>The system user group, the identity of the user experience of the value is not affected</p></td></tr>
+		<tr id="expirationtr" <!--{if $show}-->style="display:none;"<!--{/if}-->><th>User Groups expiration time</th><td>
+			<input type="text" class="t_input" name="expiration" value="$member[expiration]" size="20">(Format:2009-8-8 00:00)
+			<p>Is empty then a permanent and effective</p>
+		</td></tr>
+		<tr><th>Remove protection</th><td>
+			<input type="radio" name="flag" value="0"<!--{if $member[flag]==0}--> checked<!--{/if}-->> Does not protect
+			<input type="radio" name="flag" value="1"<!--{if $member[flag]==1}--> checked<!--{/if}-->> Protection
+			<p>Protection of state, the user will not be able to UCenter, as well as the application to delete。</p>
+			</td></tr>
+		</td></tr>
+		</table>
+		<script type="text/javascript">
+			function showDateSet(val) {
+				var expObj = $("expirationtr");
+				expObj.style.display = parseInt(val) ? '' : 'none';
+			}
+		</script>
+	</div>
+	<!--{/if}-->
+
+	<div class="footactions">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<input type="submit" name="usergroupsubmit" value="Submit" class="submit">
+	</div>
+	</form>
+<!--{elseif $_POST['optype'] == 4}-->
+
+	<form method="post" action="$url">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Bulk email</h3>
+			<p>You can select users to send bulk e-mail. Note that this operation will increase the server load.</p>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th style="width:8em;">Recipient (UID)</th>
+			<td><input type="text" name="uids" value="$uids" size="60"> To devote more than UID "," separated</td>
+		</tr>
+		<tr>
+			<th>E-mail header</th>
+			<td><input type="text" name="subject" value="" size="60"></td>
+		</tr>
+		<tr>
+			<th>Message content</th>
+			<td><textarea name="message" cols="80" rows="10"></textarea><br>Message content to support html code</td>
+		</tr>
+		</table>
+	</div>
+	
+	<div class="footactions">		
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<input type="submit" name="sendemailsubmit" value="Send e-mail" class="submit">
+	</div>
+	</form>
+	
+<!--{elseif $_POST['optype'] == 5}-->
+
+	<form method="post" action="$url">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Batch hello</h3>
+			<p>You can batch of selected users say hello to his brief description of something. Note that this operation will increase the server load.</p>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th style="width:8em;">Recipient (UID)</th>
+			<td><input type="text" name="uids" value="$uids" size="60"> To devote more than UID "," separated</td>
+		</tr>
+		<tr>
+			<th>Hello content</th>
+			<td><input type="text" name="note" value="" size="60"> （Do not exceed 50 characters）</td>
+		</tr>
+		</table>
+	</div>
+	
+	<div class="footactions">		
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<input type="submit" name="pokesubmit" value="Hello" class="submit">
+	</div>
+	</form>	
+	
+<!--{elseif $_POST['optype'] == 7}-->
+
+	<form method="post" action="$url" onsubmit="return checkPresent()">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>Batch gift props</h3>
+			<p>You can give selected users to bulk gift props. Note that this operation will increase the server load.</p>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th style="width:8em;">Recipient (UID)</th>
+			<td><input type="text" name="uids" value="$uids" size="60"> To devote more than UID "," separated</td>
+		</tr>
+		<tr>
+			<th>Gift props</th>
+			<td>
+				<select id="newmagicaward">
+					<!--{loop $_SGLOBAL['magic'] $key $value}-->
+					<option value="$key">$value</option>
+					<!--{/loop}-->
+				</select>
+				<input type="text" id="newmagicawardnum" value="1" />
+				<input class="button" type="button" onclick="addMagicAward()" value="Add" />
+				<ul id="magicawards"></ul>
+				<script type="text/javascript">
+				function addMagicAward(){
+					var mid = $('newmagicaward').value;
+					var id = "magicaward_" + mid;
+					var num = $('newmagicawardnum').value;
+					var name = $('newmagicaward').options[$('newmagicaward').selectedIndex].text;
+					if($(id)) {
+						removeMagicAward($(id).getElementsByTagName("a")[0]);
+					}
+					var s = '<li id="' + id + '">';
+					s += '<input type="hidden" name="magicaward[]" value="' + mid + ',' + num + '" />';
+					s += name + ' &nbsp;&nbsp;' + "\n";
+					s += num + ' &nbsp;&nbsp;' + "\n";
+					s += '<a href="#" onclick="removeMagicAward(this);return false;">Remove</a>';
+					s += '</li>';
+					$('magicawards').innerHTML += s;
+				}
+				function removeMagicAward(o) {
+					$('magicawards').removeChild(o.parentNode);
+				}
+				function checkPresent(){
+					if($('magicawards').getElementsByTagName("li").length) {
+						return true;
+					} else {
+						alert('Please select at least one kinds of props and click the Add button');
+						return false;
+					}
+				}
+				</script>
+			</td>
+		</tr>
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<input type="submit" name="magicsubmit" value="Gift props" class="submit">
+	</div>
+	</form>
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,230 @@
+<!--{template header}-->
+
+<h2 class="title"><img src="image/icon/task.gif">Task rewards</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[task]><a href="cp.php?ac=task"><span>Pending Task</span></a></li>
+		<li$actives[done]><a href="cp.php?ac=task&view=done"><span>Completed</span></a></li>
+		<!--{if $task}-->
+		<li$actives[do]><a href="cp.php?ac=task&taskid=$task[taskid]"><span>View Tasks</span></a></li>
+		<!--{/if}-->
+	</ul>
+</div>
+
+<!--{if $task}-->
+
+<!--{if $_GET['view']=='member'}-->
+
+	<div class="h_status">
+		Users have been completed the task
+	</div>
+	<!--{template space_list}-->
+
+<!--{else}-->
+
+<div id="content">
+	<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<table cellspacing="0" cellpadding="0" width="100%" class="task_notice">
+			<tr>
+				<td width="70"><img src="$task[image]" width="64" height="64" alt="Icon" /></td>
+				<td>
+					<h3>Credit & Task $task[name]</h3>
+					<!--{if $task[starttime]}--><p>Starting: <!--{date('d-m-Y H:i',$task[starttime])}--></p><!--{/if}-->
+					<!--{if $task[endtime]}--><p>Ending: <!--{date('d-m-Y H:i',$task[endtime])}--></p><!--{/if}-->
+					<p>$task[note]</p>
+					<!--{if $task[credit]}--><p>Reward Points: <strong class="num">$task[credit]</strong></p><!--{/if}-->
+				</td>
+			</tr>
+		</table>
+	</div></div></div></div>
+				
+	<div style="padding-top:20px;">
+	<!--{if $task['done']}-->
+		
+		
+
+		<!--{if $task['ignore']}-->
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<caption>
+					<h2>Tasks cancelled</h2>
+					<p>This task is cancelled, no any more rewards for this.</p>
+				</caption>
+				<tr>
+					<td><a href="cp.php?ac=task&taskid=$task[taskid]&op=redo" class="submit">Re-join</a></td>
+				</tr>
+			</table>
+		<!--{elseif $_SGLOBAL['task_maxnum']}-->
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<caption>
+					<h2>To participate quota is full</h2>
+					<p>Oops you are late to participate for this task because quota is full, but there is more... to coming and going on join then and get the credit.!</p>
+				</caption>
+				<tr>
+					<td><a href="cp.php?ac=task" class="submit">Join other tasks</a></td>
+				</tr>
+			</table>
+		<!--{elseif $_SGLOBAL['task_available']}-->
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<caption>
+					<h2>Task failure</h2>
+					<p>The Task rewards have been stopped.</p>
+				</caption>
+				<tr>
+					<td><a href="cp.php?ac=task" class="submit">Join the other tasks</a></td>
+				</tr>
+			</table>
+		<!--{else}-->
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<caption>
+					<h2>Completed Task</h2>
+					<p>Congratulations! You have completed this task successfuly, enjoy your credits</p>
+				</caption>
+				<tr>
+					<td>
+					<!--{if $task[credit]}--><p style="color:red;font-size:14px;padding:0 0 5px 0;font-weight:bold;">Reward points $task[credit]，You now have $space[credit] Points of it! </p><!--{/if}-->
+					<p>Completion Time: <!--{date('d-m H:i',$task[dateline],1)}--></p>
+					<p>Participation of people:<a href="cp.php?ac=task&taskid=$task[taskid]&view=member">$task[num]</a></p>
+					</td>
+				</tr>
+			</table>
+			<!--{if $task[result]}-->
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<caption>
+					<h2>Task Bonus</h2>
+				</caption>
+				<tr>
+					<td>$task[result]</td>
+				</tr>
+			</table>
+			<!--{/if}-->
+		<!--{/if}-->
+	<!--{else}-->
+			
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<caption>
+					<h2>The steps for this task </h2>
+					<p>Please carefully read the following steps to participate in the task. <b>Note:</b> Complete the Task as per instructions to receive awards.</p>
+				</caption>
+				<tr>
+					<td class="article l_status">$task[guide]</td>
+				</tr>
+			</table><br>
+			
+			<!--{if $_GET['view']=='result'}-->
+			<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+				<div class="task_notice">NOTE: Please follow the above  instructions to complete the task and then click the link to receive incentives.</div>
+			</div></div></div></div>
+			<!--{/if}-->
+				
+			<div style="text-align:center;padding:10px;">
+				<a href="cp.php?ac=task&taskid=$task[taskid]&view=result" class="submit">Receive awards</a>
+				<a href="cp.php?ac=task&taskid=$task[taskid]&op=ignore" class="button">Temporarily abandoned</a>
+			</div>
+			
+	<!--{/if}-->
+	</div>
+	
+</div>
+
+<div id="sidebar">
+	<div class="sidebox">
+		<h2 class="title">
+			<a href="cp.php?ac=task&taskid=$taskid&view=member" class="r_option">View All</a>
+			 has just finished task
+		</h2>
+		<ul class="avatar_list">
+			<!--{loop $taskspacelist $key $value}-->
+			<li>
+				<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><!--{date('j日n月',$value[dateline],1)}--></p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+
+<!--{/if}-->
+
+<!--{else}-->
+
+<div id="content">
+
+	<div class="h_status">
+		Sorted by task priority to participate in the task, let us begin!
+	</div>
+
+
+	<!--{if $_GET['view'] != 'done'}-->
+	<div class="task_percent">
+		<div class="percent" style="width: {$done_per}%;">&nbsp;</div>
+		<div class="label">I completed the task {$done_per}%</div>
+	</div>
+	<!--{/if}-->
+		
+	<!--{if empty($tasklist)}-->
+		<div class="c_form">You have not any new task</div>
+	<!--{else}-->
+		<!--{loop $tasklist $value}-->
+		<div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+			<table cellspacing="0" cellpadding="0" width="100%" class="task_notice">
+				<tr>
+					<td width="70"><img src="$value[image]" width="64" height="64" alt="Icon" class="icon" /></td>
+					<td>
+						<h3><a href="cp.php?ac=task&taskid=$value[taskid]">$value[name]</a></h3>
+						<!--{if $value[num]}-->
+							<p>
+								<a href="cp.php?ac=task&taskid=$value[taskid]&view=member">View Participant $value[num]</a>
+								<!--{if $value[maxnum]}-->
+								/ This task can also be involved in <!--{eval echo $value[maxnum]-$value[num];}--> Views
+								<!--{/if}-->
+							</p>
+						<!--{/if}-->
+						<!--{if $value[starttime]}--><p>Starting: <!--{date('d-m-Y H:i',$value[starttime])}--></p><!--{/if}-->
+						<!--{if $value[endtime]}--><p>Ending: <!--{date('m-d-Y H:i',$value[endtime])}--></p><!--{/if}-->
+						$value[note]
+					</td>
+					<td width="150" style="text-align:right;">
+						<!--{if $value['done']}-->
+							<!--{if $value['ignore']}-->
+								has given up the task<br>
+								You can select <a href="cp.php?ac=task&taskid=$value[taskid]&op=redo"> redo, comlete the task</a>
+							<!--{else}-->
+								<!--{if $value[credit]}--><p>Access points: <strong class="num">$value[credit]</strong></p><!--{/if}-->
+								<a href="cp.php?ac=task&taskid=$value[taskid]">View Tasks</a>
+							<!--{/if}-->
+						<!--{else}-->
+							<!--{if $value[credit]}--><p>Available points: <strong class="num">$value[credit]</strong></p><!--{/if}-->
+							<a href="cp.php?ac=task&op=do&taskid=$value[taskid]"><img src="image/start_task.gif" alt="Join ASAP" /></a>
+						<!--{/if}-->
+					</td>
+				</tr>
+			</table>
+		</div></div></div></div><br>
+		<!--{/loop}-->
+	<!--{/if}-->
+
+</div>
+
+<div id="sidebar">
+
+	<div class="sidebox">
+		<h2 class="title">
+			Just friend has completed tasks
+		</h2>
+		<ul class="avatar_list">
+			<!--{loop $taskspacelist $key $value}-->
+			<li>
+				<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+				<p class="gray"><!--{date('j日n月',$value[dateline],1)}--></p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	
+</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

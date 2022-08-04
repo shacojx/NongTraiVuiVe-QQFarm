@@ -1,0 +1,145 @@
+﻿<!--{eval $_TPL['titles'] = array('Chơi game Audition, mạng xã hội, chia sẽ KetNoiTeenViet.Net');}-->
+<!--{template header}-->
+<!--{template clxj/view/fgame_header}-->
+<div class=div_layout>
+		<div class=left>
+			<div>
+				<div overflow="hidden" height="500" width="560">
+					<object>
+						<embed src="clxj/view/clxj.swf" width="560" height="500" />
+					</object>
+				</div>			
+			</div>
+			
+			<br>	
+			<div class=mycar>
+				<div class=title>		
+				     Hướng dẫn 	  
+				</div>
+				<div class=info>
+				Game Audition đơn giản và thú vị! Dùng các phím mũi tên để nhảy Audition. Dùng nút SPACE khi bấm xong các mũi tên.</br>
+					<font color="red">Sau khi chơi xong, đừng quên lưu điểm lại nhé!</font>				</div>
+
+		  </div>
+
+
+			<div>
+				<!--{if $reArr}-->
+				<br>
+				<div class="parkmenu">
+						<ul>
+						  <LI>Game Audition tạm đóng cửa</LI>
+						</ul>
+				</div>
+					<div class="box">
+						<ul class="avatar_list s_clear">
+							<!--{loop $reArr $key $value}-->
+							<li>
+								<div class="avatar48"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+								<p><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></p>
+							</li>
+							<!--{/loop}-->	
+									
+							<li>
+								
+								<p></p>
+							</li>
+										  
+						</ul>
+					</div>
+				<!--{/if}-->
+			</div>
+		</div>
+
+		<div id="clxjbar">
+
+			<div class="sidebox">
+				<h2 class="title">
+					<p class="r_option">
+						
+					</p>
+					Thông tin của tôi
+				</h2>
+				<ul class="clxj_list">
+
+					<li>Xếp hạng <!--{$myrk}--> / <!--{$allrk}--></li>
+				
+					<li>Điểm cao nhất của tôi: <!--{$score}--> điểm</li>
+
+
+				</ul>
+			</div>
+
+
+
+			<!--{if $dayrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top 24h qua
+				</h2>
+				<ul class="clxj_list">
+					<table width="220" align="center"><!--{loop $dayrktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}--> điểm</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+
+
+
+			<!--{if $weekrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top tuần
+				</h2>
+				<ul class="clxj_list">
+					<table width="220" align="center">
+					<!--{loop $weekrktopArr $key $value}-->	
+					<tr>
+						<td style="padding-right:6px;"><!--{$key}--></td>
+						<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+						<td><!--{$value[score]}--> điểm</td>
+					</tr>
+					<!--{/loop}-->
+					</table>
+				</ul>
+			</div>
+			<!--{/if}-->
+
+
+			<!--{if $mrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top 3
+				</h2>
+				<ul class="clxj_list">
+					<table width="220" align="center"><!--{loop $aarktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}--> điểm</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+	    </div>
+</div>	
+
+<div class="IND_lwide" valign="left">
+	<div class="wdL"></div>
+	<p align="right"><font color="#808080">
+	<span class="fl" valign="left"><a href="http://www.ketnoiteenviet.info" target="_blank">Game Audition cho Uenter Home 2.0 việt hóa bởi KetNoiTeenViet.Info</a></span>	
+	</font></p>
+	<div class="wdR" valign="left">
+		<p align="right"></div>	
+	<p align="right">	
+	 
+</div>
+</div>
+
+<!--{template footer}-->

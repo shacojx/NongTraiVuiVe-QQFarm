@@ -1,0 +1,148 @@
+<!--{eval $_TPL['titles'] = array('Chơi game Đào vàng trên  Mạng xã hội DHCSND');}-->
+<!--{template header}-->
+<!--{template daovang/view/fgame_header}-->
+<div class=div_layout>
+		<div class=left>
+			<div>
+				<div overflow="hidden" height="500" width="560">
+					<object>
+						<embed src="daovang/view/daovang.swf" width="560" height="500" />
+					</object>
+				</div>			
+			</div>
+			
+			<br>	
+			<div class=mycar>
+				<div class=title>		
+				     Hướng dẫn	 	  
+				</div>
+				<div class=info>
+								Kết thúc game, nhớ lưu lại điểm số để có cơ hội lên Top bảng xếp hạng.
+					</div>
+
+		  </div>
+
+
+			<div>
+				<!--{if $reArr}-->
+				<br>
+				<div class="parkmenu">
+						<ul>
+						  <LI>Thành viên đã chơi game Đào vàng</LI>
+						</ul>
+				</div>
+					<div class="box">
+						<ul class="avatar_list s_clear">
+							<!--{loop $reArr $key $value}-->
+							<li>
+								<div class="avatar48"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}" target="_blank"><!--{avatar($value[uid],small)}--></a></div>
+								<p><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></p>
+							</li>
+							<!--{/loop}-->	
+									
+							<li>
+								
+								<p></p>
+							</li>
+										  
+						</ul>
+					</div>
+				<!--{/if}-->
+			</div>
+		</div>
+
+		<div id="daovangbar">
+
+			<div class="sidebox">
+				<h2 class="title">
+					<p class="r_option">
+						
+					</p>
+					Thông tin của tôi
+				</h2>
+				<ul class="daovang_list">
+
+					<li>Xếp hạng <!--{$myrk}--> / <!--{$allrk}--></li>
+				
+					<li>Điểm cao nhất của tôi: <!--{$score}--> điểm</li>
+
+
+				</ul>
+			</div>
+
+
+
+			<!--{if $dayrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top 24h qua
+				</h2>
+				<ul class="daovang_list">
+					<table width="220" align="center"><!--{loop $dayrktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}--> điểm</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+
+
+
+			<!--{if $weekrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top tuần
+				</h2>
+				<ul class="daovang_list">
+					<table width="220" align="center">
+					<!--{loop $weekrktopArr $key $value}-->	
+					<tr>
+						<td style="padding-right:6px;"><!--{$key}--></td>
+						<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+						<td><!--{$value[score]}--> điểm</td>
+					</tr>
+					<!--{/loop}-->
+					</table>
+				</ul>
+			</div>
+			<!--{/if}-->
+
+
+			<!--{if $mrktopArr}-->	
+			<div class="sidebox">
+				<h2 class="title">
+					Top 3
+				</h2>
+				<ul class="daovang_list">
+					<table width="220" align="center"><!--{loop $aarktopArr $key $value}-->	
+						<tr>
+							<td style="padding-right:6px;"><!--{$key}--></td>
+							<td style="padding-right:6px;"><a href="space.php?uid={$value[uid]}" target="_blank">{$value[username]}</a></td>
+							<td><!--{$value[score]}--> điểm</td>
+						</tr><!--{/loop}-->
+					</table>
+				</ul>
+			  </div>
+			<!--{/if}-->
+	    </div>
+</div>	
+
+<div class="IND_lwide" valign="left">
+	<div class="wdL"></div>
+	<p align="right"><font color="#808080">
+	<span class="fl" valign="left">Game Đào vàng cho <a href="http://www.Me.Dhcsnd/forum/index.php?gid=172">Mạng xã hội DHCSND</a></span>	
+	</font></p>
+	<div class="wdR" valign="left">
+		<p align="right"></div>	
+	<p align="right">	
+	<span class="fr" valign="left"><font color="#808080">Phát triển bởi </font> <a href="http://Me.Dhcsnd">
+	<font color="#808080">T48</font></a><font color="#808080"> &copy; 2010
+	</font> </span>		
+ 
+</div>
+</div>
+
+<!--{template footer}-->

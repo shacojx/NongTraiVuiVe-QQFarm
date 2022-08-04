@@ -1,0 +1,210 @@
+<!--{template header}-->
+<!--Translated by Saokim999 & kienngohik, Vào www.traitimyenbai.net Để cập nhập lang việt, tem và ứng dụng.-->
+<!--{if $_GET['op'] == 'resend'}-->
+
+<h1>Gửi email mời bạn bè tham gia</h1>
+<a href="javascript:hideMenu();" class="float_del" title="Close">Đóng</a>
+<div class="popupmenu_inner" id="__resendform_{$id}">
+<form method="post" id="resendform_{$id}" name="resendform_{$id}" action="cp.php?ac=invite&op=resend&id=$id">
+	<p>Xác định thư để gửi tới bạn bè</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="resendsubmit" value="true" />
+		<button name="resendsubmit_btn" type="button" class="submit" value="true" onclick="ajaxpost('resendform_{$id}', 'resend_mail', 2000)">Gửi lại</button>
+		<!--{else}-->
+		<button name="resendsubmit" type="submit" class="submit" value="true">Ok</button>
+		<!--{/if}-->
+	</p>
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{elseif $_GET['op'] == 'delete'}-->
+
+<h1>Xóa các bản ghi</h1>
+<a href="javascript:hideMenu();" class="float_del" title="Close">Đóng</a>
+<div class="popupmenu_inner" id="__deleteform_{$id}">
+<form method="post" id="deleteform_{$id}" name="deleteform_{$id}" action="cp.php?ac=invite&op=delete&id=$id">
+	<p>Bạn có chắc muốn xóa bản ghi các lời mời</p>
+	<p>Xóa các lời, bạn bè sẽ không thể sử dụng. <br/>Records link to the original invitation to register as your friend!</p>
+	<p class="btn_line">
+		<input type="hidden" name="refer" value="$_SGLOBAL[refer]">
+		<!--{if $_SGLOBAL[inajax]}-->
+		<input type="hidden" name="deletesubmit" value="true" />
+		<button name="deletesubmit_btn" type="button" class="submit" value="true" onclick="ajaxpost('deleteform_{$id}', 'resend_mail', 2000)">Xóa</button>
+		<!--{else}-->
+		<button name="deletesubmit" type="submit" class="submit" value="true">Xóa</button>
+		<!--{/if}-->
+	</p>
+	
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+</div>
+
+<!--{else}-->
+
+<h2 class="title"><img src="image/icon/friend.gif">Mời bạn bè đăng ký tham gia</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li><a href="space.php?uid=$space[uid]&do=friend"><span>Danh sách bạn</span></a></li>
+		<li><a href="cp.php?ac=friend&op=search"><span>Tìm bạn mới</span></a></li>
+		<li><a href="cp.php?ac=friend&op=find"><span>Có thể bạn biết</span></a></li>
+		<li class="active"><a href="cp.php?ac=invite"><span>Mời bạn bè</span></a></li>
+		<li><a href="cp.php?ac=friend&op=request"><span>Yêu cầu kết bạn</span></a></li>
+		<li><a href="space.php?do=top"><span>Danh sách nổi tiếng</span></a></li>
+	</ul>
+</div>
+
+<div id="content">	
+	<form method="post" action="cp.php?ac=invite&appid=$appid&ref" class="c_form">
+		<!--{if $get_invite}-->
+		<div class="c_mgs"><div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+			Mỗi lời mời đăng ký thành công bạn sẽ nhận được <strong>$get_invite</strong> điểm thưởng.
+		</div></div></div></div></div>
+		<!--{/if}-->
+		<table cellspacing="0" cellpadding="0" class="formtable" width="100%">
+			<caption>
+				<h2><!--{if $appid}-->Bạn bè có thể chơi cùng $appinfo[appname]<!--{else}-->Mời qua liên kết Link<!--{/if}--></h2>
+				<p>
+				<div class="composer_header">
+					<!--{if $appid}-->
+					<div class="ar_r_t"><div class="ar_l_t"><div class="ar_r_b"><div class="ar_l_b"><img src="http://appicon.manyou.com/logos/{$appid}" alt="{$appinfo[appname]}" /></div></div></div></div>
+					<!--{/if}-->
+					<p>
+						Qua IM, Email, Send Link hay PM gửi tới bạn bè liên kết dưới đây để mời họ tham gia
+						<table cellspacing="0" cellpadding="0" >
+						<!--{if $reward['credit']}-->
+							<!--{if $list_str}-->
+							<tr>
+								<td>Link liên kết. Mỗi link chỉ sử dụng được một lần<br/><textarea name="invite_urls" rows="4" style="width:98%;">$list_str</textarea></td>
+							</tr>
+							<!--{else}-->
+							<tr><td>Không phải mã mời</td></tr>
+							<!--{/if}-->
+							<tr>
+								<td><img src="image/credit.gif" align="absmiddle"> Mỗi lần sẽ có một mã mời khác nhau<strong>Điểm khẩu trừ $reward[credit] chiếc/một</strong>, bây giờ bạn có số điểm: <a href="cp.php?ac=credit">$space[credit]</a> tháng</td>
+							</tr>
+							<tr class="notice">
+								<td>Nhận mã mời (Tối đa $maxinvitenum lời mời):<input type="text" name="invitenum" value="1" size="5" class="t_input" /> <input type="submit" name="invitesubmit" value="Lấy lời mời" class=">OK<" /></td>
+							</tr>
+						<!--{else}-->
+							<tr><td style="font-size:14px;font-weight:bold;"><a onclick="javascript:setCopy('$mailvar[4]');return false;" href="$mailvar[4]">$mailvar[4]</a></td></tr>
+						<!--{/if}-->
+						</table>
+					</p>
+				</div>
+				
+				</p>
+			</caption>
+			
+			
+		</table>
+		
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+	<script type="text/javascript" src="http://widgets.manyou.com/misc/scripts/ab.js" charset="utf-8"></script>
+	<form method="post" action="cp.php?ac=invite&type=mail&appid=$appid&ref" class="c_form">
+		<table cellspacing="0" cellpadding="0" class="formtable" width="100%">
+			<caption>
+				<h2>Gửi lời mời tham gia vào Email bạn bè<!--{if $appid}--> Mời chơi $appinfo[appname]<!--{/if}--></h2>
+				<p>Email sẽ được gửi từ hệ thống tới cho bạn bè<br>Có thể điền nhiều email, cách nhau bởi dấu "," </p>
+				<!--{if $pay[invite]}-->
+				<p>
+					<img src="image/credit.gif" align="absmiddle"> Sự cần thiết gửi Email<strong> Phí mời $pay[invite] 1 người/Chiếc</strong> Hiện tại bạn có: <a href="cp.php?ac=credit">$space[credit]</a> tiền
+				</p>
+				<!--{/if}-->
+			</caption>
+			<tr>
+				<td>
+					
+					<div class="r_option"><a href="#"  onclick="MYABC.showChooser('email', '{$uri}api/getmaillist.htm', null, false, false, null); return false"><img src="image/saokim999.gif" style="margin: 5px 0 0;" alt="Lấy địa chỉ từ hộp thư của bạn" /></a></div><div><br />Lấy địa chỉ từ Email của bạn qua ứng dụng Manyou</div>
+					<textarea name="email" id="email" rows="5" style="width:99%;"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Lời mời kèm theo thư<br/>
+					<input type="text" name="saymsg" id="saymsg" onkeyup="showPreview(this.value, 'sayPreview')" class="t_input" style="width:98%;">
+				</td>
+			</tr>
+			<tr>
+				<td><input type="submit" name="emailinvite" value="Mời tham gia" class="submit"></td>
+			</tr>
+			<tr>
+				<td>
+					<div class="title" style="margin: 10px 0;">Xem trước lời mời</div>
+					<div class="c_mgs"><div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+						<table border="0">
+						<tr>
+						<td valign="top">$mailvar[0]</td>
+						<td valign="top">
+						<!--{if $appid}-->
+						<h3>Chào bạn, tôi {$mailvar[1]} trong {$mailvar[2]} chơi {$appinfo[appname]}. Bạn bạn đăng ký tham gia chơi
+						<!--{else}-->
+						<h3>Chào bạn, tôi {$mailvar[1]} trong {$mailvar[2]} lập một trang cá nhân. Mời kết bạn với tôi nhé</h3><br>
+						Hãy kết bạn với tôi. Bạn có thể thông qua trang chủ biết được hoạt động của tôi, nhưng tin tức, hình ảnh mới nhất. Luôn luôn kết nối  <br>
+						<!--{/if}-->
+						<br>
+						Link tham gia đăng ký kết bạn:<br>
+						<span id="sayPreview">{$mailvar[3]}</span>
+						<br><br>
+						<strong>Mời click vào link để nhận lời mời kết bạn<!--{if $appid}-->Chơi $appinfo[appname]<!--{/if}-->:</strong><br>
+						{$mailvar[4]}<br>
+						<br>
+						<strong>Nếu bạn đã có tài khoản tại {$mailvar[2]} .Mời bạn  bấm vào link liên kết để ghé thăm trang của tôi.</strong><br>
+						{$mailvar[5]}<br>
+						</td></tr></table>
+					</div></div></div></div></div>
+				</td>
+			</tr>
+		</table>
+		
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+
+<div id="sidebar">
+		
+		<div class="sidebox">
+			<h2 class="title">Danh sách đã được gửi lời mời</h2>
+			<!--{if count($flist) < 24}-->
+			<ul class="avatar_list">
+				<!--{loop $flist $key $value}-->
+				<li>
+					<div class="avatar48"><a href="space.php?uid=$value[fuid]&do=doing"><!--{avatar($value[fuid],small)}--></a></div>
+					<p><a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}">{$_SN[$value[fuid]]}</a></p>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<!--{else}-->
+			<div>
+			<!--{eval $mod='';}-->
+			<!--{loop $flist $key $value}-->
+			$mod<a href="space.php?uid=$value[fuid]" title="{$_SN[$value[fuid]]}">{$_SN[$value[fuid]]}</a>
+			<!--{eval $mod=',';}-->
+			<!--{/loop}-->
+			</div>
+			<!--{/if}-->
+		</div>
+
+		<!--{if $maillist}-->
+		<div class="sidebox">
+			<h2 class="title">Danh sách các lời mời chưa thành công</h2>
+			<ul class="sendmail">
+				<!--{loop $maillist $key $value}-->
+				<li id="sendmail_$value[id]_li">
+					<a href="cp.php?ac=invite&op=resend&id=$value[id]" id="mail_invite_$value[id]" class="c_resend" onclick="ajaxmenu(event, this.id)" title="Retransmission">Gửi lại</a>
+					<a href="javascript:;" title="Link" class="c_link" onclick="javascript:setCopy('$value[url]');return false;">Link</a>
+					<a href="cp.php?ac=invite&op=delete&id=$value[id]" id="del_invite_$value[id]" class="c_delete" onclick="ajaxmenu(event, this.id)" title="Remove">Xóa</a>
+					$value[email]
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<!--{/if}-->
+</div>
+
+<!--{/if}-->
+<!--{template footer}-->

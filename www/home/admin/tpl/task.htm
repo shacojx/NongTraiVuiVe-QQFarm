@@ -1,0 +1,147 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[view]><a href="admincp.php?ac=task"><span>View All Tasks</span></a></li>
+		<li class="null"><a href="admincp.php?ac=task&op=add">Add a new task</a></li>
+	</ul>
+</div>
+
+	<form method="post" action="admincp.php?ac=task&taskid=$taskid">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		Through prize task, you can implement to guide the new station to better improve their own avatar, information and publication of information; can also be used to send points to the user during the festive season; users on a regular basis points to receive a red envelope and other various tasks. Prizes tasks can lead users to more easily integrate into the atmosphere within the station to.
+	</div>
+	<br>
+
+	<div class="bdrcontent">
+		
+<!--{if $_GET['op']=='edit' || $_GET['op']=='add'}-->
+	
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th style="width:12em;">Prizes task name</th>
+		<td><input size="25" name="name" value="$thevalue[name]" type="text">
+		</td>
+	</tr>
+	<tr>
+		<th>Prizes tasks picture</th>
+		<td><input size="100" name="image" value="$thevalue[image]" type="text"><br>Enter the URL address of prizes mission pictures, not too large, the proposed long-60px, width 60px small picture
+		</td>
+	</tr>
+	<tr>
+		<th>Mission statement prizes</th>
+		<td><textarea name="note" rows="8" style="width:90%;">$thevalue[note]</textarea>
+		<br>Support html code, text wrap, use the <br> labels.
+		</td></tr>
+	<tr>
+		<th>Task prizes reward points</th>
+		<td><input type="text" name="credit" value="$thevalue[credit]" size="10">
+		<br>Set the user after the completion of the task prizes available to reward points. Is 0, no bonus points.
+		</td>
+	</tr>
+	<tr>
+		<th>Limits the number of prizes task is completed</th>
+		<td><input type="text" name="maxnum" value="$thevalue[maxnum]" size="10">
+		<br>Set up the prizes to be completed by the number of trips up to the task. Excess of the passengers later, the prizes the task will automatically lapse. Is 0, no restrictions.
+		<!--{if $thevalue[num]}--><br><b>At present the prizes mission has been accomplished $thevalue[num] Trips</b>。<!--{/if}-->
+		</td>
+	</tr>
+	<tr>
+		<th>Prizes task processing PHP scripts</th>
+		<td>./source/task/<input size="25" name="filename" value="$thevalue[filename]" type="text">
+			<br>Can not contain paths, script must be stored in the ./source/task/ Directory
+			<br>This feature is for advanced applications, the task prizes script writing, require you to understand some PHP knowledge.
+			<br>Please refer to the system comes with a script task prizes./source/task/sample.php The instructions to write.
+		</td></tr>
+	<tr>
+		<th>Validity</th>
+		<td><input type="radio" name="available" value="1"$availables[1]>Effective <input type="radio" name="available" value="0"$availables[0]>Invalid
+		</td>
+	</tr>
+	<tr>
+		<th>Start Date</th>
+		<td><input type="text" name="starttime" value="$thevalue[starttime]" size="25"> (Format: 2008-08-08 00:00:00)
+		<br>The task set the prizes start date. Empty for immediate start.
+		</td>
+	</tr>
+	<tr>
+		<th>End Date</th>
+		<td><input type="text" name="endtime" value="$thevalue[endtime]" size="25"> (Format: 2008-08-08 23:59:59)
+		<br>Set the date of termination of the mandate of the prizes. Empty for the permanent.
+		</td>
+	</tr>
+	<tr>
+		<th>Repeat the cycle of the user</th>
+		<td>
+		<select name="nexttype" onchange="show_nexttime(this.value);">
+		<option value="">Not repeat</option>
+		<option value="day"$nexttypearr[day]>Daily</option>
+		<option value="hour"$nexttypearr[hour]>The whole point of</option>
+		<option value="time"$nexttypearr[time]>A specified time interval</option>
+		</select>
+		<span id="nexttime" style="display:{$nextimestyle};">
+			Interval<input type="text" name="nexttime" value="$thevalue[nexttime]" size="10"> Seconds after repeated
+		</span>
+		
+		<script>
+		function show_nexttime(type) {
+			if(type == 'time') {
+				$('nexttime').style.display ='';
+			} else {
+				$('nexttime').style.display ='none';
+			}
+		}
+		</script>
+		</td>
+	</tr>
+	<tr>
+		<th>Priority</th>
+		<td><input type="text" name="displayorder" value="$thevalue[displayorder]" size="10"><br>The smaller the number, sorting the more up front, the higher the priority
+		</td>
+	</tr>
+	</table>
+	
+	</div>
+	<div class="footactions">
+	<input type="submit" name="tasksubmit" value="Submit" class="submit">
+	
+	
+<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th width="80">Picture</th>
+		<th>Prizes the task name / tasks script prizes</th>
+		<th>Integral Award</th>
+		<th>Validity</th>
+		<th>Operation</th>
+	</tr>
+	<!--{loop $list $task}-->
+	<tr>
+		<td><img src="$task[image]" width="60" height="60"></td>
+		<td>$task[name]<br>$task[filename]</td>
+		<td>$task[credit]</td>
+		<td><!--{if $task[available]}-->$task[starttime]<br>$task[endtime]<!--{else}-->Invalid<!--{/if}--></td>
+		<td><a href="admincp.php?ac=task&op=edit&taskid=$task[taskid]">Edit</a>
+		&nbsp;|&nbsp;<a href="admincp.php?ac=task&op=delete&taskid=$task[taskid]">Remove</a>
+		</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+	
+<!--{/if}-->
+
+	</div>
+	</form>
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

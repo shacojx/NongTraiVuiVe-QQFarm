@@ -1,0 +1,72 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<!--{tpl tools/market_menu}-->
+	<table class="list">
+		<tr>
+			<th width="80">Mã số</th>
+			<th width="50">Loại</th>
+			<th width="80">Tên</th>
+			<th width="30">Hình dáng</th>
+			<th width="40">Cấp</th>
+			<th width="100">Đơn vị</th>
+			<th width="100">Giá bán</th>
+			<th width="70">Số lượng</th>
+			<th width="80">Người bán</th>
+			<th width="100">Đã bán</th>
+			<th width="100"></th>
+			<th width="100"><font color="#ff0000">So giá</font></th>
+		</tr>
+		<!--{foreach $list as $key=>$value}-->
+		<tr>
+			<td>{:$value[id]}</td>
+			<td><!--{if $value[cid] > 10000}--><font color="#0000ff">Tất cả</font><!--{else}--><font color="#ff00ff"><b>Nông sản</b></font><!--{/if}--></td>
+			<td><!--{if $value[cid] > 10000 }-->{:$animaltype[$value[cid]-10000]['cName']}<!--{else}-->{:$animaltype[$value[cid]]['bName']}<!--{/if}--></td>
+			<!--{if $value[cid] > 10000}-->
+			<td><img src="module/mc/farm/icon/a{:$value[cid]-10000}.png" height="24px" /></td> 
+			<!--{else}-->
+			<td><img src="module/mc/farm/icon/p{:$value[cid]}.png" height="24px" /></td>
+			<!--{/if}-->
+			<td><!--{if $value[cid] > 10000 }-->{:$animaltype[$value[cid]-10000]['cLevel']}<!--{else}-->{:$animaltype[$value[cid]]['cLevel']}<!--{/if}--></td>
+			<td><!--{if $value[cid] > 10000 }-->{:$animaltype[$value[cid]-10000]['productprice']} Xu<!--{else}-->{:$animaltype[$value[cid]]['byproductprice']} Xu<!--{/if}--></td>
+			<td><font color="#ff0000">{:$value[cprice]}</font> Xu</td>
+			<td><font color="#ff00ff">{:$value[cnumber]}</font></td>
+			<td><font color="#0000ff">{:$value[username]}</font></td>
+			<td><input type='text' id='number{:$value[id]}' size='10' value="{:$value[cnumber]}"/></td>
+			<!--{if $_QFG['uid'] == $value[selluid]}-->
+			<td><input type="button" onclick='request("tools.php?mod=market&act=mc&type=cancelitem&id={:$value[id]}", "state{:$value[id]}");' value='Hủy bỏ' /><span id="state{:$value[id]}"></span></td>
+			<!--{else}-->
+			<td><input type="button" onclick='request("tools.php?mod=market&act=mc&type=buyitem&id={:$value[id]}&number="+$("#number{:$value[id]}").value, "state{:$value[id]}");' value='Mua' /><span id="state{:$value[id]}"></span></td>
+			<!--{/if}-->
+			<!--{if $value[cid] > 10000 }-->
+			<!--{if $animaltype[$value[cid]-10000]['productprice']-$value[cprice]<>0}-->
+			<!--{if $animaltype[$value[cid]-10000]['productprice']-$value[cprice]>0}-->
+			<td>Rẻ hơn <font color=#0000ff>{:$animaltype[$value[cid]-10000]['productprice']-$value[cprice]}</font> Xu</td> 
+			<!--{else}-->
+			<td>Đắt hơn  <font color="#ff0000">{:$value[cprice]-$animaltype[$value[cid]-10000]['productprice']}</font> Xu</td>
+			<!--{/if}-->
+			<!--{else}-->
+			<td><font color="#ff00ff">Cùng giá</font></td> 
+			<!--{/if}-->
+			<!--{else}-->
+			<!--{if $animaltype[$value[cid]]['byproductprice']-$value[cprice]<>0}-->
+			<!--{if $animaltype[$value[cid]]['byproductprice']-$value[cprice]>0}-->
+			<td>Rẻ hơn <font color="#0000ff">{:$animaltype[$value[cid]]['byproductprice']-$value[cprice]}</font> Xu</td> 
+			<!--{else}-->
+			<td>Đắt hơn  <font color="#ff0000">{:$value[cprice]-$animaltype[$value[cid]]['byproductprice']}</font> Xu</td> 
+			<!--{/if}-->
+			<!--{else}-->
+			<td><font color="#ff00ff">Cùng giá</font></td> 
+			<!--{/if}-->
+			<!--{/if}-->
+		</tr>
+		<!--{/foreach}-->
+	</table>
+	<div id="pages" class="multiPage"></div>
+</div>
+
+<script type="text/javascript">
+	$('#pages').innerHTML = multiPage({pid:"{:$pid}",purl:"{:$purl}",psize:"{:$psize}",count:"{:$count}"});
+</script>
+
+<!--{tpl inc_footer}-->

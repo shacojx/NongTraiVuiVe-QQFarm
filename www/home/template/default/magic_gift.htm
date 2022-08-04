@@ -1,0 +1,47 @@
+﻿<!--{template header}-->
+
+<!--{if $op == "use"}-->
+
+	<!--{if !$frombuy}-->
+	<h1>Gift of visitor</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<!--{/if}-->
+	<div class="toolly popupmenu_inner" id="__magicuse_form_$mid">
+		<form method="post" id="magicuse_form_$mid" action="magic.php?mid=$mid&idtype=$idtype&id=$id">
+			<div class="magic_img">
+				<img src="image/magic/{$mid}.gif" alt="$magic[name]" />
+			</div>
+			<div class="magic_info">
+				<h3>$magic[name]</h3>
+				<p class="gray">$magic[description]</p>
+				<p>Còn lại: $usermagic[count]</p>
+				<div>
+					<h4>Credit Setting</h4>
+					<p>
+						Hiện tại số tiền của bạn là $space[credit]
+					</p>
+					<label for="credit">Tổng số tiền sẽ tặng.</label>
+					<input type="text" name="credit" id="credit" size="4" maxlength="4">
+					<br />
+					<label for="chunk">Số tiền tặng mỗi lần</label>
+					<input type="text" name="chunk" id="chunk" size="4" maxlength="3">
+					<font class="gray">hào phóng chút nghen($magic[custom][maxchunk])</font>
+					<!--{if $leftcredit}-->
+					<p style="color:#00663A; font-size:11px; padding:10px 0;">
+						Notice£ºYour buried/missing packet still have $leftcredit credit£¬after this stting you will get back the credits
+					</p>
+					<!--{/if}-->
+				</div>
+				<p class="btn_line">
+					<input type="hidden" name="formhash" value="<!--{eval echo formhash()}-->" />
+					<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+					<input type="hidden" name="usesubmit" value="1" />
+					<input type="button" name="usesubmit_btn" value="Sử dụng" class="submit" onclick="ajaxpost('magicuse_form_$mid', '', 1000)" />
+				</p>
+			</div>
+		</form>
+	</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

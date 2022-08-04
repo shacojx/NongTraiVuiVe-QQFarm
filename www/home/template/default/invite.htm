@@ -1,0 +1,75 @@
+<!--{template header}-->
+
+<h2 class="title"><img src="image/icon/friend.gif">Mời bạn bè đăng ký thành viên<!--{if $userapp}--> để cùng tham gia $userapp[appname]<!--{/if}--></h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li class="active"><a href="$theurl"><span>Lời mời tham gia</span></a></li>
+		<li><a href="space.php?$url_plus" target="_blank"><span>Thông tin người mời</span></a></li>
+	</ul>
+</div>
+
+<div id="content">
+
+	<div class="c_mgs"><div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+	<table cellpadding="2" cellspacing="2" width="100%">
+	<tr>
+	<td>
+		<strong>Chào bạn, mình là <a href="space.php?$url_plus" target="_blank">{$_SN[$space[uid]]}</a>! Bạn hãy tham gia Mạng xã hội với tôi nhé ^^<!--{if $userapp}--> để tham gia các hoạt động thú vị với nhau $userapp[appname]<!--{/if}-->.</strong>
+		<br>Tham gia cộng đồng TTYB bạn có thể cùng thảo luận với các thành viên khác, cùng tham gia các trò chơi thú vị $userapp[appname] ...
+		<br>Bạn có thể nhanh chóng và dễ dàng viết blog, Upload ảnh và chia sẻ mọi thứ với tất cả bạn bè
+		<br>Tất cả hoàn toàn miễn phí! Vậy, Bạn còn chờ gì nữa? Hãy đăng ký và mời tất cả bạn bè của mình cùng tham gia! <img src=http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/6.gif>
+	</td>
+	<!--{if $userapp}--><td><img src="http://appicon.manyou.com/logos/{$userapp[appid]}" alt="{$userapp[appname]}" /></td><!--{/if}-->
+	</tr>
+	</table>
+	</div></div></div></div></div>
+
+
+	<table cellpadding="2" cellspacing="2">
+		<tr>
+			<td>
+			<div class="ar_r_t"><div class="ar_l_t"><div class="ar_r_b"><div class="ar_l_b">
+			<a href="space.php?$url_plus" class="avatarlink"><!--{avatar($space[uid],middle)}--></a>
+			</div></div></div></div>
+			</td>
+			<td>
+				<h6 class="l_status"><a href="space.php?$url_plus">{$_SN[$space[uid]]}</a></h6>
+				<p>Đến từ $space[resideprovince] $space[residecity]</p>
+				<p>Hiện có $space[friendnum] người bạn, $albumnum Albums, $doingnum Lời nhắn, $blognum Blogs, $threadnum Chủ đề, $tagspacenum Nhóm</p>
+				<!--{if $space[note]}--><div class="quote"><span id="quote" class="q">$space[note]</span></div><!--{/if}-->
+				<p style="padding-top:1em;">
+			<!--{if $_SGLOBAL['supe_uid']}-->
+				<form method="post" name="commentform" action="$theurl">
+				<input type="hidden" name="invitesubmit" value="1">
+				<input type="submit" name="invitesubmit_submit" value="Submit" class="submit" />
+				<a href="space.php" class="button">Bỏ qua lời mời</a>
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				</form>
+			<!--{else}-->
+				<!--{if empty($_SCONFIG['closeinvite'])}-->
+				<a href="do.php?ac=$_SCONFIG[register_action]&$url_plus" class="submit">Đồng ý lời mời đăng ký.</a>
+				<!--{/if}-->
+				<a href="do.php?ac=$_SCONFIG[login_action]&$url_plus" class="submit">Đăng nhập</a>
+			<!--{/if}-->
+				</p>
+			</td>
+		</tr>
+	</table>
+
+</div>
+
+<div id="sidebar">
+	<div class="sidebox">
+		<h2 class="title">Bạn của {$_SN[$space[uid]]}</h2>
+		<ul class="avatar_list">
+			<!--{loop $flist $key $value}-->
+			<li>
+				<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<p><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a></p>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+
+<!--{template footer}-->

@@ -1,0 +1,41 @@
+<!--{eval $_TPL['titles'] = array($space['username'], '农场庄园');}-->
+<!--{template header}-->
+
+<!--提示: 此文件继承UCH模板中加载的CSS定义-->
+
+
+<!--附加CSS样式表-->
+<link rel="stylesheet" type="text/css" href="$qf_root/static/style.css" />
+
+<!--QF主框架区域-->
+<div id="qfbody">
+	<iframe id="myfarm" name="myfarm" src="$qf_root/core/nmc.php?type=nc" frameborder="0" scrolling="no" width="800px" height="620px"></iframe>
+	<div id="qfplayer">
+		<div id="qfplayer_main"></div>
+		<div id="qfplayer_ctrl">
+			<input class="button" type="button" value=Tắt phát nhạc" onclick="loadPlayer(0);" />
+			<input class="button" type="button" value="Mini Player" onclick="loadPlayer(48);" />
+			<input class="button" type="button" value="Hiển thị lời bài hát" onclick="loadPlayer(83);" />
+			<input class="button" type="button" value="Show Playlist" onclick="loadPlayer(230);" />
+		</div>
+	</div>
+	<script type="text/javascript" src="$qf_root/core/script.php?swfobject"></script>
+	<div id="qfversion"></div>
+</div>
+
+<!--QF大窗口模式-->
+<div id="dlBox1_main" class="dlBox_main">
+	<div id="dlBox1_head" class="dlBox_head">
+		<h1>Trại chăn nuôi</h1>
+		<a onclick="return dlBox1_Hide();" href="#" title="Đóng">&nbsp;</a>
+	</div>
+	<div id="dlBox1_body" class="dlBox_body">
+		<iframe id="myfarm_full" name="myfarm_full" src="about:blank" frameborder="0" scrolling="no" width="900px" height="560px"></iframe>
+	</div>
+</div>
+
+
+<!--附加JS脚本-->
+<script type="text/javascript" charset="utf-8" src="$qf_root/core/script.php?json&squery&dialog&main"></script>
+
+<!--{template footer}-->

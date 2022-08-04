@@ -1,0 +1,61 @@
+<!--{tpl inc_header}-->
+
+<div id="main_nmc"><div id="flashMain"></div></div>
+<!--{tpl inc_footer}-->
+<script type="text/javascript" src="script.php?qzfl_lite&appclientlib&c1"></script>
+<script type="text/javascript">
+	var APP_ID = 358; //Current APPID
+	var NO_FLASH = 0; //If you do not show flash, set to 1
+	var HIGH_LIGHT = 1; //Highlight the current tag
+	C.config.setFullFlag(false); //Whether a large window to set the current
+	C.config.setTitle('Xứ sở thần tiên'); //Set Title
+	
+	//Need to canvas the output
+	var FLASH_VARS = {
+		config_url_xy:"{:$xml}mc_main_{:FARM_DAY}.xml",
+		animalConfig_url_xy:"{:$xml}mc_data_{:FARM_DAY}.xml",
+		cardConfig_url_xy:"{:$xml}mc_card_{:FARM_DAY}.xml",
+		pasture_friend_list_mod_xy:"1000",
+		pasture_friend_list_xy:"1001-1002",
+		resolve_url:"",
+		snowslide:"3",
+		loadingUrl:"module/loading2_v_1.swf",
+		//mill:"appid=376",
+		//millLimitYDLevel:8,
+		pasture_enter:"1000",
+		pasture_enter_mod:"1000",
+		pasture_steal:"1000",
+		pasture_steal_mod:"1000",
+		pasture_steal_tips:"",
+		pasture_friend_list_tips:"",
+		pasture_enter_tips:"Xứ sở thần tiên tạm ngưng hoạt động để tiến hành nâng cấp & bảo trì!",
+		qixiPrepareTime:"2010-9-19 00:00:00",
+		qixiBeginTime:"2010-9-19 23:35:00",
+		qixiEndTime:"2010-9-26 00:05:00",
+		missionPrepareTime:"2010-9-8 02:00:00",
+		missionAutumnBeginTime:"2010-9-20 00:00:00",
+		missionNationalBeginTime:"2010-9-26 00:00:00",
+		missionEndTime:"2010-10-9 00:10:00",
+		filterUrl:"",
+		addon:"",
+		useflag:"11111111",
+		usercheck:"587440f4bc889bfaf96150160b95ac73"
+	};
+	
+	FLASH_VARS.mode = SwfAppLib.platform.isQzone ? 1 : 2;
+		
+	//@dante Part of the need to canvas cgi output
+	var FLASH_PARAMS = {
+        id:"swfAppObject",
+		width:"100%",
+		height:"560",
+		menu:"false",
+		scale:"noScale",
+		allowFullscreen:"true",
+		allowScriptAccess:"always",
+		bgcolor:"#FFFFFF",
+		wmode:"opaque",
+		src:"module/mcloader_v_0.swf"	
+            ,flashvars: C.util.convertFlashVars(FLASH_VARS)
+	};
+</script>

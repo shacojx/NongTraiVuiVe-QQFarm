@@ -1,0 +1,38 @@
+<!--{eval $_TPL['titles'] = array($tag['tagname'], 'Tags');}-->
+<!--{template header}-->
+
+<h2 class="title">Tags - $tag[tagname] ($tag[blognum] kết quả)</h2>
+<div class="tabs_header">
+	<a href="cp.php?ac=share&type=tag&id=$tag[tagid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)" class="a_share">Share</a>
+	<ul class="tabs">
+		<li class="active"><a href="space.php?do=tag&id=$tag[tagid]"><span>Danh sách Blogs</span></a></li>
+		<li><a href="space.php?do=tag"><span>Quay lại danh sách Tag</span></a></li>
+	</ul>
+</div>
+
+<div class="topic_list">
+	<table cellspacing="0" cellpadding="0" class="infotable">
+		<thead>
+			<tr>
+				<td class="subject">Tiêu đề</td>
+				<td class="author">Tác giả (Trả lời)</td>
+				<td class="lastpost">Được đăng</td>
+			</tr>
+		</thead>
+		<!--{loop $list $key $value}-->
+		<tr<!--{if $key%2==1}--> class="alt"<!--{/if}-->>
+			<td class="subject"><a href="space.php?uid=$value[uid]&do=blog&id=$value[blogid]" target="_blank">$value[subject]</a></td>
+			<td class="author"><a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a><em>($value[replynum])</em></td>
+			<td class="lastpost"><!--{date('m-d H:i',$value[dateline],1)}--></td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	
+	<!--{if $prinum}-->
+	<div class="notice">Trang này đã $prinum Chương nhật ký các ẩn do cài đặt bảo mật</div>
+	<!--{/if}-->
+	
+	<div class="page">$multi</div>
+</div>
+
+<!--{template footer}-->

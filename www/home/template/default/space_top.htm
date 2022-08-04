@@ -1,0 +1,115 @@
+<!--{eval $_TPL['titles'] = array('Rank');}-->
+<!--{template header}-->
+
+<div class="searchbar floatright">
+<form method="get" action="cp.php">
+	<input name="searchkey" value="" size="15" class="t_input" type="text">
+	<input name="searchsubmit" value="Find people" class="submit" type="submit">
+	<input type="hidden" name="searchmode" value="1" />
+	<input type="hidden" name="ac" value="friend" />
+	<input type="hidden" name="op" value="search" />
+</form>
+</div>
+<h2 class="title"><img src="image/icon/show.gif" />Các thành viên nổi tiếng</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[show]><a href="space.php?do=top"><span>Đấu giá</span></a>
+		<li$actives[mm]><a href="space.php?do=top&view=mm"><span>Top Girl</span></a>
+		<li$actives[gg]><a href="space.php?do=top&view=gg"><span>Top Boy</span></a>
+		<li$actives[experience]><a href="space.php?do=top&view=experience"><span>Nổi tiếng</span></a>
+		<li$actives[credit]><a href="space.php?do=top&view=credit"><span>Top điểm</span></a>
+				<li$actives[friendnum]><a href="space.php?do=top&view=friendnum"><span>Top kết bạn</span></a>
+		<li$actives[viewnum]><a href="space.php?do=top&view=viewnum"><span>Top ghé thăm</span></a>
+		<li$actives[online]><a href="space.php?do=top&view=online"><span>Now Online</span></a>
+		<li$actives[updatetime]><a href="space.php?do=top&view=updatetime"><span>Thành viên</span></a>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	function checkCredit(id) {
+		var maxCredit = parseInt($space[credit]);
+		var idval = parseInt($(id).value);
+		if(idval > maxCredit) {
+			alert("Your Current Score:"+maxCredit+",Please fill the Value less then that");
+			return false;
+		} else if(idval < 1) {
+			alert("should not be less then 1");
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<div class="c_form">
+	
+	<!--{if $now_pos >= 0}-->
+	<div style="padding-bottom:20px;">
+		<h3 class="l_status">Công bố danh sách thành viên tham gia đấu giá Top Star Member</h3>
+		<!--{if $_GET[view]=='show'}-->
+			<!--{if $space[showcredit]}-->
+			Tiền đấu giá hiện tại của bạn: $space[showcredit] Cấp độ: <span style="font-size:20px;color:red;">$now_pos</span> đang tăng lên!
+			<!--{else}-->
+			Bạn chưa có trong danh sách Star Member. Mời đặt giá tiền để hiển thị Bạn lên trang chủ có thế tăng truy cập, thêm bạn bè mới...
+			<!--{/if}-->
+			<br>Mời đặt giá tiền để hiển thị Bạn lên trang chủ có thế tăng truy cập, thêm bạn bè mới...
+<br><b>Khi đặt giá tiền vào đây sẽ được trừ vào quỹ điểm Credit của bạn. Và không được hoàn lại.
+		<!--{else}-->
+			<!--{if $_GET[view]=='credit'}-->
+			<a href="cp.php?ac=credit">Tiền hiện có: $space[credit]</a>
+			<!--{elseif $_GET[view]=='friendnum'}-->
+			<a href="space.php?do=friend">Số bạn bè hiện có:$space[friendnum]</a>
+			<!--{elseif $_GET[view]=='experience'}-->
+			Điểm kinh nghiệm: $space[experience]
+			<!--{else}-->
+			<a href="space.php">Lượt truy cập vào trang của bạn: $space[viewnum]</a>
+			<!--{/if}-->
+			 Thứ hạng hiện tại: <span style="font-size:20px;color:red;">$now_pos</span> đang tăng hơn nữa.
+		<!--{/if}-->
+		<!--{if $cache_mode}-->
+		<p>Danh sách Top 100 thành viên. Update mỗi lần sau $cache_time phút.</p>
+		<!--{/if}-->
+	</div>
+	<!--{/if}-->
+	
+	<!--{if $_GET['view']=='show'}-->
+	<div style="padding: 0 0 20px 0;">
+		<table width="100%">
+			<tr><td width="50%" valign="top">
+			<div class="l_status"><strong>Đưa bạn bè lên Star Member</strong></div>
+			<div class="content">
+				<form method="post" action="cp.php?ac=top" onsubmit="return checkCredit('stakecredit');">
+				<p>
+					Nickname của người bạn:<br />
+					<input type="text" name="fusername" value="" size="20" class="t_input" /><br />
+					Giúp đấu giá thứ hạng (<span class="gray">Số tiền của bạn:$space[credit]</span>)<br />
+					<input type="text" id="stakecredit" name="stakecredit" value="100" size="5" class="t_input" onblur="checkCredit('stakecredit');" /> <input type="submit" name="friend_submit" value="Ok" class="submit" />
+				</p>
+				<input type="hidden" name="friendsubmit" value="true" />
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+				</form>
+			</div>
+			</td>
+			<td width="50%" valign="top">
+			<div class="l_status"><strong>Tham gia vào danh sách đấu giá</strong></div>
+			<div class="content">
+				<form method="post" action="cp.php?ac=top" onsubmit="return checkCredit('showcredit');">
+				<p>
+					Câu nói: (<span class="gray">Tối đa 100 ký tự</span>)
+					<br />
+					<input type="text" name="note" value="" size="35" class="t_input" /><br />
+					Tiền đấu giá (<span class="gray">Không đặt cao hơn quá:$space[credit]</span>)<br />
+					<input type="text" id="showcredit" name="showcredit" value="100" size="5" class="t_input" onblur="checkCredit('showcredit');" /> <input type="submit" name="show_submit" value="Ok" class="submit" />
+				</p>
+				<input type="hidden" name="showsubmit" value="true" />
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></form>
+			</div>
+			</td>
+		</tr></table>
+	</div>
+	<!--{/if}-->
+
+	<!--{template space_list}-->
+	
+</div>
+
+<!--{template footer}-->

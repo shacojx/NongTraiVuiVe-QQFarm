@@ -1,0 +1,118 @@
+ï»¿<?php 
+//WWW.GoHooH.CoM
+
+include_once('./common.php');
+require_once './source/function_common.php';
+include_once(S_ROOT.'./source/function_cp.php');
+if(function_exists('xcache_set')){
+	include_once(S_ROOT . '/source/class.cache_xcache.php');
+}else{
+	include_once(S_ROOT . '/source/class_cache.php');
+}
+
+//»ñÈ¡µ±Ç°ÓÃ»§µÄ¿Õ¼äÐÅÏ¢
+$space = getspace($_SGLOBAL['supe_uid']);
+
+
+//¼ÓÔØÓÎÏ·
+//include_once(S_ROOT . '/data/daovang_config.php');
+//ÊÇ·ñ¹Ø±ÕÕ¾µã
+checkclose();
+//ÔÊÐíµÄ·½·¨
+$acs = array('index','discuss','share','help','order','save','friendorder');
+$ac = (!empty($_GET['ac']) && in_array($_GET['ac'], $acs)) ? $_GET['ac'] : 'index';
+foreach($acs as $v){
+	$actives[$v] = '';
+}
+
+$actives[$ac] = ' class=active';
+//Ìí¼Ó´°¿Ú
+
+$ac = (!empty($_GET['ac']) && in_array($_GET['ac'], $acs)) ? $_GET['ac'] : 'index';
+
+//¸üÐÂ»î¶¯session
+if($_SGLOBAL['supe_uid']) {
+        getmember(); //»ñÈ¡µ±Ç°ÓÃ»§ÐÅÏ¢
+		realname_set($_SGLOBAL['supe_uid'], $_SGLOBAL['supe_username']);
+        updatetable('session', array('lastactivity' => $_SGLOBAL['timestamp']), array('uid'=>$_SGLOBAL['supe_uid']));
+}
+
+$uid = $_SGLOBAL['member']['uid'];
+//»ñÈ¡ÅÅÐÐºÍ×î¸ß·Ö
+
+$query = $_SGLOBAL['db']->query("SELECT uid,score FROM ".tname('app_daovang')." ORDER BY score DESC,gtime ASC");//ÏÔÊ¾×îÐÂ¶¯Ì¬
+$allrk = 0;$myrk = 0;
+while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	$allrk++;
+	realname_set($value['uid'], $value['username']);
+	if($myrk == 0) $myrk = ($uid==$value['uid'])?$allrk:0;
+	if($uid==$value['uid']) $score = $value['score'];
+	
+}
+
+
+
+//---begin by baby5656.com 2008-12-4
+//»ñÈ¡24Ð¡Ê±ÅÅÐÐTOP10
+$dayrktopArr = array();
+$tmptime = $_SGLOBAL['timestamp']-(86400*1);
+
+$query = $_SGLOBAL['db']->query("SELECT w.uid,w.score,u.username FROM ".tname('app_daovang')." as w,".tname('space')." as u WHERE u.uid=w.uid and gtime>".$tmptime." ORDER BY score DESC,gtime ASC LIMIT 0 , 10");
+$i=1;
+while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	realname_set($value['uid'], $value['username']);
+	$dayrktopArr[$i] = $value;
+	$i++;
+}
+
+//»ñÈ¡±¾ÖÜÅÅÐÐTOP10
+$weekrktopArr = array();
+$tmptime = $_SGLOBAL['timestamp']-(86400*7);
+
+$query = $_SGLOBAL['db']->query("SELECT w.uid,w.score,u.username FROM ".tname('app_daovang')." as w,".tname('space')." as u WHERE u.uid=w.uid and gtime>".$tmptime." ORDER BY score DESC,gtime ASC LIMIT 0 , 10");
+$i=1;
+while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	realname_set($value['uid'], $value['username']);
+	$weekrktopArr[$i] = $value;
+	$i++;
+}
+//---end  
+
+
+//»ñÈ¡±¾ÔÂÅÅÐÐTOP10
+$mrktopArr = array();
+$tmptime = $_SGLOBAL['timestamp']-(86400*30);
+
+$query = $_SGLOBAL['db']->query("SELECT w.uid,w.score,u.username FROM ".tname('app_daovang')." as w,".tname('space')." as u WHERE u.uid=w.uid and gtime>".$tmptime." ORDER BY score DESC,gtime ASC LIMIT 0 , 10");
+$i=1;
+while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	realname_set($value['uid'], $value['username']);
+	$mrktopArr[$i] = $value;
+	$i++;
+}
+//È«²¿ÅÅÐÐTOP10
+$aarktopArr = array();
+$query = $_SGLOBAL['db']->query("SELECT w.uid,w.score,u.username FROM ".tname('app_daovang')." as w,".tname('space')." as u WHERE u.uid=w.uid ORDER BY score DESC,gtime ASC LIMIT 0 , 3");
+$i=1;
+while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	realname_set($value['uid'], $value['username']);
+	$aarktopArr[$i] = $value;
+	$i++;
+}
+
+//×î½üÍæ¹ýµÄÍæ¼Ò
+$reArr = array();
+//echo "SELECT w.uid,u.username FROM ".tname('app_daovang')." as w,".tname('feed')." as u WHERE u.uid=w.uid ORDER BY gtime ASC LIMIT 0 , 21";
+$query = $_SGLOBAL['db']->query("SELECT w.uid,u.username FROM ".tname('app_daovang')." as w,".tname('space')." as u WHERE u.uid=w.uid ORDER BY gtime DESC LIMIT 0 , 21");
+while ($value = $_SGLOBAL['db']->fetch_array($query)) {
+	realname_set($value['uid'],$value['nsername']);
+	$value['avatar'] = avatar($value['uid'], $size='small');
+	$reArr[] = $value;
+}
+
+realname_get();
+checklogin();
+include_once(S_ROOT."./daovang/{$ac}.php");
+
+
+?>

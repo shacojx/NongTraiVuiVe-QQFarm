@@ -1,0 +1,56 @@
+﻿<!--{template header}-->
+
+<!--{if $op == "use"}-->
+
+	<!--{if !$frombuy}-->
+	<h1>Vip Card</h1>
+	<a class="float_del" title="Close" href="javascript:hideMenu();">Close</a>
+	<!--{/if}-->
+	<div class="toolly" id="__magicuse_form_$mid">
+		<form method="post" id="magicuse_form_$mid" action="magic.php?mid=$mid&idtype=$idtype&id=$id">
+			<div class="magic_img">
+				<img src="image/magic/{$mid}.gif" alt="$magic[name]" />
+			</div>
+			<div class="magic_info">
+				<h3>$magic[name]</h3>
+				<p class="gray">$magic[description]</p>
+				<p>Còn lại: $usermagic[count]</p>
+				<div>
+					<h4>Chọn khung</h4>
+					<ul>
+						<li style="float:left; width:60px; margin:4px; cursor:pointer;" onclick="$('photo_pic').className = 'magicframe magicframe1';$('frame1').click();">
+							<div class="magicframe1" style="display:block; margin:0; width:50px; height:50px;" ></div>
+							<input id="frame1" type="radio" name="frame" value="1" checked />
+							Select
+						</li>
+						<li style="float:left; width:60px; margin:4px; cursor:pointer;" onclick="$('photo_pic').className = 'magicframe magicframe2';$('frame2').click();">
+							<div class="magicframe2" style="display:block; margin:0; width:50px; height:50px;" ></div>
+							<input id="frame2" type="radio" name="frame" value="2" />
+							Select
+						</li>
+						<li style="float:left; width:60px; margin:4px; cursor:pointer;" onclick="$('photo_pic').className = 'magicframe magicframe3';$('frame3').click();">
+							<div class="magicframe3" style="display:block; margin:0; width:50px; height:50px;" ></div>
+							<input id="frame3" type="radio" name="frame" value="3" />
+							Select
+						</li>
+						<li style="float:left; width:60px; margin:4px; cursor:pointer;" onclick="$('photo_pic').className = 'magicframe magicframe4';$('frame4').click();">
+							<div class="magicframe4" style="display:block; margin:0; width:50px; height:50px;" ></div>
+							<input id="frame4" type="radio" name="frame" value="4" />
+							Select
+						</li>
+					</ul>
+					<br style="clear:both;" />
+				</div>
+				<p class="btn_line">
+					<input type="hidden" name="formhash" value="<!--{eval echo formhash()}-->" />
+					<input type="hidden" name="refer" value="$_SGLOBAL[refer]"/>
+					<input type="hidden" name="usesubmit" value="1" />
+					<input type="submit" name="usesubmit_btn" value="Sử dụng" class="submit" />
+				</p>
+			</div>
+		</form>
+	</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

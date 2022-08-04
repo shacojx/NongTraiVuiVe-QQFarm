@@ -1,0 +1,22 @@
+<!--{tpl admin/header}-->
+
+<form id="notice" onsubmit="return submits();">
+	<dl>
+		<dt>滚动公告</dt>
+		<!--{for $i=0; $i<count($_NOTICE['main']); $i++}-->
+		<dd>文字:<input type="text" name="main_text_{:$i}" value="{:$_NOTICE['main'][$i]['text']}" style="width:522px;" /></dd>
+		<dd>链接:<input type="text" name="main_href_{:$i}" value="{:$_NOTICE['main'][$i]['href']}" style="width:522px;" /></dd>
+		<!--{/for}-->
+	</dl>
+	<input type="submit" value="提 交"><span id="state"></span>
+</form>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		param = $.getForm('#notice', 1);
+		request('admin.php?mod=notice&submit=1', 'state', param);
+		return false;
+	}
+</script>
+
+<!--{tpl admin/footer}-->

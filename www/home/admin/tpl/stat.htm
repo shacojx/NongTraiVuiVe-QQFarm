@@ -1,0 +1,55 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php">
+	
+	<div class="bdrcontent">
+	If you find some statistical problems with the site (for example, the number of logs that some people wrong) when we come to use this feature to conduct a recount. Statistics on the server load re-occupation of a serious, we recommend select the site to visit a smaller moment.
+	</div>
+	
+	<br />
+	<div class="bdrcontent">
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+		<th style="width:12em;">Choose to update statistics type</th>
+		<td>
+		<select name="counttype">
+		<option value="blog_replynum">blog Replies</option>
+		<option value="space_friendnum">Number of Space Friends</option>
+		<option value="space_friend">Space Friends Cache</option>
+		<option value="mtag_membernum">Group membership</option>
+		<option value="mtag_threadnum">Number of Groups Topics</option>
+		<option value="mtag_postnum">Groups return to Posts</option>
+		<option value="thread_replynum">Topic Replies</option>
+		<option value="album_picnum">Album Photo Number</option>
+		<option value="tag_blognum">Tag Blog Number</option>
+		</select>
+		</td>
+		</tr>
+		
+		<tr>
+		<th>Whenever the number of</th>
+		<td>
+		<input type="text" name="perpage" value="10" size="10">
+		</td>
+		</tr>
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="ac" value="stat">
+		<input type="submit" name="countsubmit" value="Statistics Update" class="submit">
+	</div>
+	</form>
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

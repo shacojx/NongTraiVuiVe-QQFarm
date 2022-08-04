@@ -1,0 +1,48 @@
+<!--{tpl admin/inc_header}-->
+
+<form id="myform" onsubmit="return submits();">
+	<table class="edit">
+		<tr>
+			<td width="80px">Vật nuôi</td>
+			<td>{:$animaltype_list['cName']}</td>
+		</tr>
+		<tr>
+			<td width="80px">Cấp độ</td>
+			<td><input type="text" name="cLevel" value="{:$animaltype_list['cLevel']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Giá mua</td>
+			<td><input type="text" name="byproductprice" value="{:$animaltype_list['byproductprice']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">EXP Thu hoạch</td>
+			<td><input type="text" name="harvestpExp" value="{:$animaltype_list['harvestpExp']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Exp Sinh sản</td>
+			<td><input type="text" name="harvestbExp" value="{:$animaltype_list['harvestbExp']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Sản lượng</td>
+			<td><input type="text" name="output" value="{:$animaltype_list['output']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Giá mua</td>
+			<td><input type="text" name="price" value="{:$animaltype_list['price']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Giá bán</td>
+			<td><input type="text" name="productprice" value="{:$animaltype_list['productprice']}" /></td>
+		</tr>
+	</table>
+	<input type="submit" value="Xác nhận" /><span id="state"></span>
+</form>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		request('admin.php?mod=animaltype_edit&submit=1&id={:$id}', 'state', $.getForm('#myform', 1));
+		return false;
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

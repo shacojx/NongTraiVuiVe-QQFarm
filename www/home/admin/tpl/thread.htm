@@ -1,0 +1,159 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="get" action="admincp.php">
+	<div class="block style4">
+		
+		<table cellspacing="3" cellpadding="3">
+		<tr><th>Groups ID</th><td><input type="text" name="tagid" value="$_GET[tagid]"></td>
+			<th>Title</th><td><input type="text" name="subject" value="$_GET[subject]"></td>
+		</tr>
+		<!--{if $allowmanage}-->
+		<tr><th>Author UID</th><td><input type="text" name="uid" value="$_GET[uid]"></td>
+			<th>By Name</th><td><input type="text" name="username" value="$_GET[username]"></td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<th>Specified topicID</th>
+			<td colspan="3">
+				<input type="text" name="tid" value="$_GET[tid]" />
+			</td>
+		</tr>
+		<tr><th>Published</th><td colspan="3">
+			<input type="text" name="dateline1" value="$_GET[dateline1]" size="10"> ~
+			<input type="text" name="dateline2" value="$_GET[dateline2]" size="10"> (YYYY-MM-DD)
+		</td></tr>
+		<tr><th>View the number of</th><td colspan="3">
+			<input type="text" name="viewnum1" value="$_GET[viewnum1]" size="10"> ~
+			<input type="text" name="viewnum2" value="$_GET[viewnum2]" size="10">
+		</td></tr>
+		<tr><th>Replies</th><td colspan="3">
+			<input type="text" name="replynum1" value="$_GET[replynum1]" size="10"> ~
+			<input type="text" name="replynum2" value="$_GET[replynum2]" size="10">
+		</td></tr>
+		<tr><th>Hot</th><td colspan="3">
+			<input type="text" name="hot1" value="$_GET[hot1]" size="10"> ~
+			<input type="text" name="hot2" value="$_GET[hot2]" size="10">
+		</td></tr>
+		<tr><th>Whether the essence</th><td colspan="3">
+			<select name="digest">
+			<option value="">Unlimited</option>
+			<option value="1"<!--{if $_GET[digest]==1}--> selected<!--{/if}-->>Essence quote</option>
+			</select>
+		</td></tr>
+	
+		<tr><th>Sorting</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">Default Sort</option>
+		<option value="dateline"$orderby[dateline]>Published</option>
+		<option value="lastpost"$orderby[lastpost]>Response time</option>
+		<option value="viewnum"$orderby[viewnum]>View the number of</option>
+		<option value="replynum"$orderby[replynum]>Replies</option>
+		<option value="hot"$orderby[hot]>Hot</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>Decreasing</option>
+		<option value="asc"$ordersc[asc]>Increasing</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>Display 20</option>
+		<option value="50"$perpages[50]>Display 50</option>
+		<option value="100"$perpages[100]>Display 100</option>
+		<option value="1000"$perpages[1000]>A deal 1000</option>
+		</select>
+		<input type="hidden" name="ac" value="thread">
+		<input type="submit" name="searchsubmit" value="Search" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+
+<!--{if $list}-->
+
+	<form method="post" action="admincp.php?ac=thread&tagid=$tagid">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+<!--{if $perpage>100}-->
+	<p>A total of data to meet the conditions <strong>$count</strong> </p>
+	<!--{loop $list $value}-->
+	<input type="hidden" name="ids[]" value="$value[tid]">
+	<!--{/loop}-->
+
+<!--{else}-->
+	
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th width="25">&nbsp;</th>
+		<th>Title</td>
+		<th width="50">View</th>
+		<th width="50">Reply</th>
+		<!--{if $allowmanage}--><th width="80">Author</th><!--{/if}-->
+		<th width="80">Time</th>
+	</tr>
+	<!--{loop $list $value}-->
+	<tr>
+		<td><input type="<!--{if $allowbatch}-->checkbox<!--{else}-->radio<!--{/if}-->" name="ids[]" value="$value[tid]"></td>
+		<td>[<a href="$mpurl&tagid=$value[tagid]">{$tags[$value[tagid]]}</a>] <a href="space.php?do=thread&id=$value[tid]" target="_blank">$value[subject]</a>
+		<!--{if $value[digest]}-->[<a href="$mpurl&digest=$value[digest]">Fine</a>]<!--{/if}-->
+		<!--{if $value[displayorder]}-->[<a href="$mpurl&displayorder=$value[displayorder]">顶</a>]<!--{/if}-->
+		<!--{if $value[hot]}--><span style="color:red;">Hot($value[hot])</span><!--{/if}-->
+		</td>
+		<td>$value[viewnum]</td>
+		<td><a href="admincp.php?ac=post&tid=$value[tid]">$value[replynum]</a></td>
+		<!--{if $allowmanage}--><td><a href="$mpurl&uid=$value[uid]">$value[username]</a></td><!--{/if}-->
+		<td><!--{date('Y-m-d',$value[dateline])}--></td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+
+<!--{/if}-->
+	</div>
+	
+	<div class="footactions">
+	<!--{if $perpage>100}-->
+		<input type="hidden" name="optype" value="delete">
+		<input type="submit" name="opsubmit" value="Bulk Delete" onclick="return confirm('This action can not be restored, to confirm the deletion?');" class="submit">
+	<!--{else}-->
+		<!--{if $allowbatch}-->
+		<input type="checkbox" id="chkall" name="chkall" onclick="checkAll(this.form, 'ids')">Select
+		<!--{/if}-->
+		<input type="radio" name="optype" value="delete" checked> Remove
+		<!--{if $_GET['tagid']}-->
+		<input type="radio" name="optype" value="digest"> Batch essence
+		<select name="digestv">
+		<option value="1">Make essence</option>
+		<option value="0">Cancel essence</option>
+		</select>
+		<input type="radio" name="optype" value="top"> Bulk Top
+		<select name="topv">
+		<option value="1">Sticky</option>
+		<option value="0">Cancel Top</option>
+		</select>
+		<!--{/if}-->
+		<input type="submit" name="opsubmit" value="Implementation of the action" onclick="return confirm('This action can not be restored, to confirm to continue?');" class="submit">
+	<!--{/if}-->
+		
+		<input type="hidden" name="mpurl" value="$mpurl">
+		<div class="pages">$multi</div>
+	</div>
+	
+	</form>
+
+<!--{else}-->
+	<div class="bdrcontent">
+		<p>No data under specified conditions</p>
+	</div>
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

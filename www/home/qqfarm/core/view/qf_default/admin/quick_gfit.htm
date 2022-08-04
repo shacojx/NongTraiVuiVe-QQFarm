@@ -1,0 +1,96 @@
+<form id="sendgift_form" onsubmit="return sendgift_submit();">
+	<table>
+	<tr><th colspan="2">Tặng quà cho tất cả người chơi</th></tr>
+	<tr>
+		<td>Nông phẩm</td>
+		<td>
+			<select name='add_ncfrid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $cropstype as $key=>$value}-->
+			<option value="{:$key}">{:$value['cName']}</option>
+			<!--{/foreach}-->
+			</select>Số lượng<input type="text" name='add_ncfrnum' style="width:50px;"/>
+		</td>
+	</tr>
+	<tr>
+		<td>Hạt giống</td>
+		<td>
+			<select name='add_ncpaid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $cropstype as $key=>$value}-->
+			<option value="{:$key}">{:$value['cName']}</option>
+			<!--{/foreach}-->
+			</select>Số lượng<input type="text" name='add_ncpanum' style="width:50px;"/>
+		</td>
+	</tr>
+	<tr>
+		<td>Tặng nông cụ</td>
+		<td>
+			<select name='add_nctlid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $toolstype as $key=>$value}-->
+			<!--{if !in_array($key,array(40001,40002,40003))}-->
+			<option value="{:$key}">{:$value['tName']}</option>
+			<!--{/if}-->
+			<!--{/foreach}-->
+			</select>Số lượng<input type="text" name='add_nctlnum' style="width:50px;"/>
+		</td>
+	</tr>
+	<tr>
+		<td>Item Trang trí nông trại</td>
+		<td>
+			<select name='add_nctlid2'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $nc_itemtype as $key=>$value}-->
+			<option value="{:$key}">{:$value['itemName']}</option>
+			<!--{/foreach}-->
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Con giống</td>
+		<td>
+			<select name='add_mcfrid'><option value="">---- Chọn ----</option>
+			<!--{foreach $animaltype as $key=>$value}-->
+			<option value="{:$key+10000}">{:$value['cName']}</option>
+			<!--{/foreach}-->
+			</select>Số lượng<input type="text" name='add_mcfrnum' style="width:50px;"/>
+		</td>
+	</tr>
+	<tr>
+		<td>Hộp thức ăn</td>
+		<td>
+			<select name='add_toolsid'><option value="">---- Chọn ----</option>
+			<option value="1">Loại vừa</option>
+			<option value="2">Loại lớn</option>
+			<option value="3">Cao cấp</option>
+			<option value="4">Loại nhỏ</option>
+			</select>Số lượng<input type="text" name='add_tools' style="width:50px;"/>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Set Trang trí nông trang</td>
+		<td>
+			<select name='add_mctlid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $mc_itemtype as $key=>$value}-->
+			<option value="{:$key}">{:$value['itemName']}</option>
+			<!--{/foreach}-->
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" value="Xác nhận" /><span id="sendgift_state"></span></td>
+	</tr>
+	</table>
+</form>
+
+<script type="text/javascript">
+	function sendgift_submit() {
+		var sendgift_data = $.getForm('#sendgift_form', 1);
+		request('admin.php?mod=quick&go=sendgift', 'sendgift_state', sendgift_data);
+		return false;
+	}
+</script>

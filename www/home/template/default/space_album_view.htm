@@ -1,0 +1,63 @@
+<!--{eval $_TPL['titles'] = array($album['albumname'], 'Albums');}-->
+<!--{eval $friendsname = array(1 => 'Only Friends',2 => 'Selected People',3 => 'Only Me',4 => 'Password Protected');}-->
+<!--{template header}-->
+
+<!--{if $space[self]}-->
+<div class="searchbar floatright">
+	<input name="key" value="" size="26" class="t_input" type="text">
+	<input name="searchsubmit" value="Search Image" class="submit" type="submit">
+</div>
+<h2 class="title"><img src="image/app/album.gif">Album - $album[albumname]</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li class="active"><a href="space.php?uid=$album[uid]&do=album&id=$album[albumid]"><span>Image List</span></a></li>
+		<li><a href="space.php?uid=$space[uid]&do=album&view=me"><span>My Album</span></a></li>
+		<li class="null"><a href="cp.php?ac=album&op=edit&albumid=$album[albumid]">Manage Album</a></li>
+		<li class="null"><a href="cp.php?ac=upload&albumid=$album[albumid]">Upload Image</a></li>
+	</ul>
+	<!--{if $_SGLOBAL[refer]}-->
+	<div class="r_option">
+		<a  href="$_SGLOBAL[refer]">&laquo; Prev Page</a>
+	</div>
+	<!--{/if}-->
+</div>
+<!--{else}-->
+<!--{eval
+	$_TPL['spacetitle'] = "Album - $album[albumname]";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=album&view=me\">Share to my wall</a>";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=album&id=$_GET[id]\">$album[albumname]</a>";
+}-->
+<!--{template space_menu}-->
+<!--{/if}-->
+
+<div class="h_status">
+	<a href="cp.php?ac=share&type=album&id=$album[albumid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)" class="a_share">Share</a>
+	<div class="r_option">
+		<!--{if $_SGLOBAL[supe_uid] == $album[uid] || checkperm('managealbum')}--><a href="admincp.php?ac=album&albumid=$album[albumid]" target="_blank">Manage</a><span class="pipe">|</span><!--{/if}-->
+		<a href="cp.php?ac=common&op=report&idtype=albumid&id=$album[albumid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">Abuse</a><span class="pipe">|</span>
+	</div>
+	$album[albumname] -
+	<!--{if $album[picnum]}-->There are total $album[picnum] iamges<!--{/if}-->
+	<!--{if $album['friend']}-->
+	<span class="locked gray">{$friendsname[$value[friend]]}</span>
+	<!--{/if}-->
+</div>
+
+
+<!--{if $list}-->
+<table cellspacing="6" cellpadding="0" width="100%" class="photo_list">
+	<tr>
+		<!--{loop $list $key $value}-->
+			<td align="center">
+				<a href="space.php?uid=$value[uid]&do=$do&picid=$value[picid]"><img src="$value[pic]" alt="" /></a>
+			</td>
+			<!--{if $key%4==3}--></tr><tr><!--{/if}-->
+		<!--{/loop}-->
+	</tr>
+</table>
+<div class="page">$multi</div>
+<!--{else}-->
+<div class="c_form">There is no image in this album.</div>
+<!--{/if}-->
+
+<!--{template footer}-->

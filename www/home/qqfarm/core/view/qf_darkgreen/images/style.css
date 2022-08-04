@@ -1,0 +1,153 @@
+/**
+ * reset.css
+ * version:1.4 | 20100206
+ * create by seaif@zealv.com
+ */
+
+html {color:#000;background:#fff;}
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,
+form,fieldset,legend,input,textarea,p,blockquote,th,td {margin:0;padding:0;}
+
+fieldset,img,abbr,acronym {border:0;}
+table {border-collapse:collapse;border-spacing:0;}
+
+ol,ul,dl {list-style:none;}
+
+
+/**
+ * base.css
+ * version:1.4 | 20100206
+ * create by seaif@zealv.com
+ */
+
+/*下划线&焦点虚线*/
+:link,:visited {text-decoration:none;}
+:focus {outline:0;}
+a {blr:expression(this.onFocus=this.blur());}
+
+/*清除浮动*/
+.clearfix:after {height:0;clear:both;content:".";display:block;visibility:hidden;}
+.clearfix {zoom:1;}
+
+
+/**
+ * farm.css
+ * version:1.2 | 20100606
+ */
+
+/*common*/
+
+body {
+	scrollbar-face-color:#EAF2F4;scrollbar-highlight-color:#FFFFFF;
+	scrollbar-3dlight-color:#EAF2F4;scrollbar-darkshadow-color:#EAF2F4;
+	scrollbar-Shadow-color:#808080;scrollbar-arrow-color:#000000;
+	scrollbar-track-color:#EAF2F4;
+}
+body {font:12px/1.5 tahoma, helvetica, arial, sans-serif;}
+div, span {overflow:hidden;}
+
+textarea {border:solid 1px #89BABA;font-size:12px;}
+select {width:120px;height:auto;border:1px solid #89BABA;}
+input {height:auto;margin-bottom:1px;font-size:12px;vertical-align:middle;}
+input[type="text"] {border:solid 1px #89BABA;background:#BDD9D9;}
+input[type="submit"] {width:auto;height:22px;border:1px ridge;background:#89BABA;color:#fff;text-align:center;}
+input[type="button"] {width:auto;height:22px;border:1px ridge;background:#89BABA;color:#fff;text-align:center;}
+
+
+#wrap {height:620px;}
+
+#tabs {height:29px;border-bottom:1px solid #99c3c3;padding-bottom:1px;}
+#tabs li {float:left;padding-right:3px;}
+#tabs ul a {position:relative;display:inline-block;padding-left:10px;background:#f4f8f9 url(sprite.gif) no-repeat left -1px;color:#3B5998;}
+#tabs ul a span {display:block;padding-right:10px;line-height:30px;background:#f4f8f9 url(sprite.gif) no-repeat right -32px;}
+#tabs ul a:hover,
+#tabs ul .active a {background:#f4f8f9 url(sprite.gif) no-repeat left -63px;}
+#tabs ul a:hover span,
+#tabs ul .active a span {background:#f4f8f9 url(sprite.gif) no-repeat right -95px;color:#000;}
+
+#info {height:30px;line-height:30px;}
+#info1 {float:left;padding-left:20px;background:url(../../qf_default/images/icon/msg.gif) no-repeat left center;}
+#info2 {float:right;}
+
+#main {height:560px;overflow:auto;}
+
+#main .menu {border-bottom:1px solid #99c3c3;margin-bottom:3px;}
+#main .menu a {display:inline-block;margin:0 3px 0 0;padding:2px 5px;background:#f4f8f9;color:#3B5998;}
+#main .menu a:hover,
+#main .menu .active {background:#b6d5d5 url(sprite.gif) no-repeat right -100px;color:#333;}
+
+.list {width:100%;border:solid 1px #89BABA;}
+.list th, .edit th {border:solid 1px #89BABA;background:#DDEAED;padding-left:5px;text-align:left;}
+.list td, .edit td {border:solid 1px #89BABA;padding:2px 5px 1px 5px;text-align:left;}
+
+.multiPage {margin:10px 0 0;padding:3px;text-align:right;}
+.multiPage a {margin:0 3px 0 0;padding:3px 5px;border:1px solid #99c3c3;background:#f4f8f9;color:#999;}
+.multiPage a:hover {background:#98c2c2;}
+.multiPage a.active {background:#98c2c2;color:#333;}
+
+
+/*nmc*/
+#main_nmc {width:100%;max-width:900px;height:560px;}
+
+
+/*admin*/
+
+#main_admin dl {padding:1px;}
+#main_admin dt {font-weight:bold;}
+#main_admin dd {padding-left:30px;}
+
+#main_admin ul li {padding:1px;}
+
+
+/*help*/
+
+#help_tabs {padding:3px 0;}
+#help_tabs span {margin:0 5px;}
+
+#help_content {;}
+#help_content dt a {background:url(../../qf_default/images/icon/read.gif) no-repeat left;padding-left:20px;}
+#help_content dd {padding-left:20px;}
+
+.help_show_icon {background:url(../../qf_default/images/icon/show.gif) no-repeat center;height:13px;}
+.help_hide_icon {background:url(../../qf_default/images/icon/hide.gif) no-repeat center;height:13px;}
+
+
+/*top*/
+
+#toplist {width:700px;margin: 0 auto;}
+#toplist .uname {padding-left:10px;}
+#toplist .uitem {text-align:right;padding-right:10px;}
+#toplist table {float:left;width:330px;margin:0 5px 10px 5px;border:solid 1px #b6d5d5;}
+#toplist th {height:30px;line-height:30px;background:#a2c8c8;border:solid 1px #b6d5d5;}
+
+
+/*vip*/
+
+#vip_pay {margin-top:10px;}
+#vip_pay dd {float:left;padding-right:20px;}
+#vip_pay .doPay {padding:30px 0 0 300px;}
+
+.vip_info {float:left;}
+.vip_info b {color:#8F1B00;}
+.vip_exp {float:right;width:506px;}
+.vip_exp_signs {position:relative;height:21px;margin-top:7px;}
+.vip_exp_signs span {position:absolute;top:-2px;left:20px;font-size:12px;font-weight:bold;color:#8F1B00;}
+.vip_exp_signs .item0 {position:absolute;top:0;background:url(../../qf_default/images/vip/bt.gif) no-repeat -40px 0;width:30px;height:21px;}
+.vip_exp_signs .item1 {position:absolute;top:0;background:url(../../qf_default/images/vip/bt.gif) no-repeat 0 0;width:30px;height:21px;}
+.vip_exp_signs .item2 {position:absolute;top:0;background:url(../../qf_default/images/vip/bt.gif) no-repeat 0 0;width:30px;height:21px;}
+.vip_exp_line {height:18px;overflow:hidden;}
+.vip_exp_line .l0 {float:left;background:url(../../qf_default/images/vip/line.gif) no-repeat 0 0;width:3px;height:8px;overflow:hidden;}
+.vip_exp_line .l1,
+.vip_exp_line .l2 {float:left;background:url(../../qf_default/images/vip/line.gif) no-repeat 0 -40px;width:3px;height:8px;overflow:hidden;}
+.vip_exp_line .c0 {float:left;background:url(../../qf_default/images/vip/line.gif) 0 -10px;width:500px;height:8px;overflow:hidden;}
+.vip_exp_line .c1,
+.vip_exp_line .c2 {float:left;background:url(../../qf_default/images/vip/line.gif) 0 -60px;width:500px;height:8px;overflow:hidden;}
+.vip_exp_line .m0 {float:left;background:url(../../qf_default/images/vip/line.gif) 0 -30px;height:8px;overflow:hidden;}
+.vip_exp_line .m1 {float:left;background:url(../../qf_default/images/vip/line.gif) 0 -50px;height:8px;overflow:hidden;}
+.vip_exp_line .m2 {float:left;background:url(../../qf_default/images/vip/line.gif) 0 -80px;height:8px;overflow:hidden;}
+.vip_exp_line .r0 {float:left;background:url(../../qf_default/images/vip/line.gif) no-repeat 0 -20px;width:3px;height:8px;overflow:hidden;}
+.vip_exp_line .r1,
+.vip_exp_line .r2 {float:left;background:url(../../qf_default/images/vip/line.gif) no-repeat 0 -70px;width:3px;height:8px;overflow:hidden;}
+
+.choose {background: url(../../qf_default/images/vip/bt.gif) no-repeat 0 -23px;padding:0 0 0 13px;line-height:23px;}

@@ -1,0 +1,210 @@
+<!--{tpl admin/inc_header}-->
+
+<form id="myform" onsubmit="return submits();">
+	<table class="edit">
+		<tr>
+			<td width="80px">Tài khoản</td>
+			<td>{:$value[username]}</td>
+		</tr>
+		<tr>
+			<td width="80px">EXP Trồng trọt</td>
+			<td><input type="text" name="nc_exp" value="{:$value[exp_nc]}" />  {:$value['level_nc']} cấp</td>
+		</tr>
+		<tr>
+			<td width="80px">EXP Chăn nuôi</td>
+			<td><input type="text" name="mc_exp" value="{:$value[exp_mc]}" />  {:$value['level_mc']} cấp</td>
+		</tr>
+		<tr>
+			<td width="80px">Số thửa đất</td>
+			<td><input type="text" name="nc_reclaim" value="{:$value[reclaim]}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Số đất đỏ</td>
+			<td><input type="text" name="nc_redland" value="{:$value[redland]}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Xu</td>
+			<td><input type="text" name="money" value="{:$value[money]}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Vàng</td>
+			<td><input type="text" name="yb" value="{:$value[yb]}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Exp VIP</td>
+			<td><input type="text" name="vip" value="{:$value[vip][exp]}" /> Cấp độ: {:$value[vip][level]} (Cấp1=0,Cấp2=300,Cấp3=700,Cấp4=1200,Cấp5=1800,Cấp6=2500,Cấp7=3300</td>
+		</tr>
+		<tr>
+			<td width="80px">Loại VIP</td>
+			<td><input type="text" name="vipstatus" value="{:$value[vip][status]}" /> -1=>Hết hạn,0=>Chưa mở, 1=>Theo tháng, 2=>Theo năm</td>
+		</tr>
+		<tr>
+			<td width="80px">Thời hạn VIP</td>
+			<td><input type="text" name="vipvalid" value="{:$value[vip][valid]}" /> Định dạng: yyyy-mm-dd</td>
+		</tr>
+	</table>
+	<input type="submit" value="Xác nhận" /><span id="state"></span>
+</form>
+<script type="text/javascript">
+	function submits(inputId) {
+		request('admin.php?mod=user_edit&submit=1&id={:$id}', 'state', $.getForm('#myform', 1));
+		return false;
+	}
+</script>
+
+<div>Thay đổi thông tin vật phẩm</div>
+<!--{if $package || $tools}-->
+<table class="list">
+	<tr style=" font-size:12px; height:20px">
+		<th width="40">ID</th>
+		<th width="50">Loại</th>
+		<th width="100">Tên</th>
+		 <th width="40">Cấp</th>
+		 <th width="80">Số lượng</th>
+		<th width="80">Giá trị mới</th>
+		<th width="100"></th>
+	</tr>
+	<!--{foreach $package as $key => $value}-->
+	<tr style=" font-size:12px; height:20px">
+		<td>{:$key}</td>
+		<td><font color="blue">Hạt giống</font></td>
+		<td>{:$cropstype[$key]['cName']}</td>
+					<td>{:$cropstype[$key]['cLevel']}</td>
+					<td>{:$value}</td>
+		<td><input type='text' id='number{:$key}' size='10' value="{:$value}"/></td>
+		<td>
+			<input type="button" onclick='request("admin.php?mod=user_edit&type=edititem&id={:$id}&mclass=1&cid={:$key}&number="+$("#number{:$key}").value, "state{:$key}");' value='Sửa' /><span id="state{:$key}"></span>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	<!--{foreach $tools as $key => $value}-->
+	<tr style=" font-size:12px; height:20px">
+		<td>{:$key}</td>
+		<td><font color="ff00ff"><b>Props</b></font></td>
+		<td>{:$toolstype[30000+$key]['tName']}</td>
+		<td>0</td>
+		<td>{:$value}</td>
+		<td><input type='text' id='number{:30000+$key}' size='10' value="{:$value}"/></td>
+		<td>
+			<input type="button" onclick='request("admin.php?mod=user_edit&type=edititem&id={:$id}&mclass=2&cid={:$key}&number="+$("#number{:$key+30000}").value, "state{:$key+30000}");' value='Sửa' /><span id="state{:$key+30000}"></span>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	<!--{foreach $fruit as $key => $value}-->
+	<tr style=" font-size:12px; height:20px">
+		<td>{:$key}</td>
+		<td><font color="ff0000">Sản phẩm</font></td>
+		<td>{:$cropstype[$key]['cName']}</td>
+		<td>{:$cropstype[$key]['cLevel']}</td>
+		<td>{:$value}</td>
+		<td><input type='text' id='number{:$key}' size='10' value="{:$value}"/></td>
+		<td>
+			<input type="button" onclick='request("admin.php?mod=user_edit&type=edititem&id={:$id}&mclass=3&cid={:$key}&number="+$("#number{:$key}").value, "state{:$key}");' value='Sửa' /><span id="state{:$key}"></span>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	<!--{foreach $fruit2 as $key => $value}-->
+	<!--{if $key != 1506 }-->
+	<tr style=" font-size:12px; height:20px">
+		<td>{:$key}</td>
+		<td><!--{if $key > 10000 }--><font color=black>Tất cả</font><!--{else}--><font color=blue>Sản phẩm</font><!--{/if}--></td>
+		<td><!--{if $key > 10000 }-->{:$animaltype[$key-10000]['cName']}<!--{else}-->{:$animaltype[$key]['bName']}<!--{/if}--></td>
+		<td><!--{if $key > 10000 }-->{:$animaltype[$key-10000]['cLevel']}<!--{else}-->{:$animaltype[$key]['cLevel']}<!--{/if}--></td>
+		<td>{:$value}</td>
+		<td>
+		<input type='text' id='number{:$key}' size='10' value="{:$value}"/>
+		</td>
+		<td>
+		<input type="button" onclick='request("admin.php?mod=user_edit&type=edititem&id={:$id}&mclass=4&cid={:$key}&number="+$("#number{:$key}").value, "state{:$key}");' value='Sửa' /><span id="state{:$key}"></span> 
+		</td>
+	</tr>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</table>
+<form id="myadd" onsubmit="return submits3();">
+<ul class="edit">
+	<li>
+		Giving the user farms:
+		<select name='add_ncfrid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $cropstype as $key=>$value}-->
+			<option value="{:$key}">{:$value['cName']}</option>
+			<!--{/foreach}-->
+		</select>
+		&nbsp;Số lượng<input type="text" name='add_ncfrnum' style="width:30px;" />
+	</li>
+	<li>
+		Tặng hạt giống
+		<select name='add_ncpaid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $cropstype as $key=>$value}-->
+			<option value="{:$key}">{:$value['cName']}</option>
+			<!--{/foreach}-->
+		</select>
+		&nbsp;Số lượng<input type="text" name='add_ncpanum' style="width:30px;" />
+	</li>
+	<li>
+		Tặng nông sản
+		<select name='add_nctlid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $toolstype as $key=>$value}-->
+			<!--{if !in_array($key,array(40001,40003))}-->
+			<option value="{:$key}">{:$value['tName']}</option>
+			<!--{/if}-->
+			<!--{/foreach}-->
+		</select>
+		&nbsp;Số lượng<input type="text" name='add_nctlnum' style="width:30px;" />
+	</li>
+	<li>Tặng sản phẩm chăn nuôi
+		<select name='add_mcfrid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $animaltype as $key=>$value}-->
+			<option value="{:$key+10000}">{:$value['cName']}</option>
+			<!--{/foreach}-->
+		</select>
+		&nbsp;Số lượng<input type="text" name='add_mcfrnum' style="width:30px;" />
+	</li> 
+	<li>Tặng con giống
+		<select name='add_mcbb'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $animaltype as $key=>$value}-->
+			<option value="{:$key}">{:$value['cName']}</option>
+			<!--{/foreach}-->
+		</select>
+		&nbsp;Số lượng<input type="text" name='add_mcbbnum' style="width:30px;" />
+	</li> 
+	<li>
+		Tặng bộ trang trí nông trại
+		<select name='add_nctlid2'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $nc_itemtype as $key=>$value}-->
+			<option value="{:$key}">{:$value['itemName']}</option>
+			<!--{/foreach}-->
+		</select>
+	</li>
+	<li>
+		Tặng bộ trang trí nông trang
+		<select name='add_mctlid'>
+			<option value="">---- Chọn ----</option>
+			<!--{foreach $mc_itemtype as $key=>$value}-->
+			<option value="{:$key}">{:$value['itemName']}</option>
+			<!--{/foreach}-->
+		</select>
+	</li>
+	<li>
+		<input type="submit" value="Xác nhận" /><span id="state3"></span>
+	</li>
+</ul>
+</form>
+<script type="text/javascript">
+	function submits3(inputId) {
+		request('admin.php?mod=user_edit&type=additem&submit=1&id={:$id}', 'state3', $.getForm('#myadd', 1));
+		return false;
+	}
+</script>
+<div id="pages" class="multiPage"></div>
+<!--{else}-->
+<div class="no_hpinfo">Chưa có</div>
+<!--{/if}-->
+
+<!--{tpl admin/inc_footer}-->

@@ -1,0 +1,36 @@
+<!--{eval $_TPL['titles'] = array($space['username'], 'Ao cá vui vẻ trên mạng xã hội Nhà Tui - GoHooH.CoM');}-->
+<!--{template header}-->
+
+<!--提示: 此文件继承UCH模板中加载的CSS定义-->
+
+
+<!--附加CSS样式表-->
+<link rel="stylesheet" type="text/css" href="$qf_root/static/style.css" />
+
+<div id="qfwrap">
+	<!--主框架区域-->
+	<div id="qfbody">
+		<div class="tabs_header clearfix">
+			<ul class="tabs">
+				<li id="tab0" class="active" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/index.php?type=ui"><span>Ao cá</span></a></li>
+				<li id="tab1" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/tools.php?mod=setting"><span>Cài đặt</span></a></li>
+				<li id="tab2" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/tools.php?mod=exchange"><span>Trao đổi</span></a></li>
+				<!--{if in_array($_SGLOBAL['supe_uid'], $_HSC['adminer'])}-->
+				<li id="tab5" onclick="qfMenli(this)"><a onclick="return qfMenu(this);" href="$qf_root/core/admin.php"><span>Admin</span></a></li>
+				<!--{/if}-->
+			</ul>
+		</div>
+		<div id="qfmain">
+			<iframe id="myfish" name="myfish" src="$qf_root/core/index.php?type=ui" frameborder="0" scrolling="no" width="800px" height="685px"></iframe>
+		</div>
+
+		<script type="text/javascript" src="$qf_root/core/script.php?swfobject"></script>
+		<div id="qfversion"></div>
+	</div>
+</div>
+
+<!--附加JS脚本-->
+<script type="text/javascript" charset="utf-8" src="$qf_root/core/script.php?squery"></script>
+<script type="text/javascript" charset="utf-8" src="$qf_root/static/main.js"></script>
+
+<!--{template footer}-->

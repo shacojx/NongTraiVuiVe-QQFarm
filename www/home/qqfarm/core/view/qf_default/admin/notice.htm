@@ -1,0 +1,26 @@
+<!--{tpl admin/inc_header}-->
+
+<form id="notice" onsubmit="return submits();">
+	<dl>
+		<dt>Thông báo</dt>
+		<!--{for $i=0; $i<count($_NOTICE['main']); $i++}-->
+		<dd>Nội dung:<input type="text" name="main_text_{:$i}" value="{:$_NOTICE['main'][$i]['text']}" style="width:522px;" /></dd>
+		<dd>Liên kết:<input type="text" name="main_href_{:$i}" value="{:$_NOTICE['main'][$i]['href']}" style="width:522px;" /></dd>
+		<!--{/for}-->
+		<dt>Nông trại</dt>
+		<dd><textarea name="nc" style="width:550px;height:100px;">{:$_NOTICE['nc']}</textarea></dd>
+		<dt>Nông trang</dt>
+		<dd><textarea name="mc" style="width:550px;height:100px;">{:$_NOTICE['mc']}</textarea></dd>
+	</dl>
+	<input type="submit" value="Xác nhận"><span id="state"></span>
+</form>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		param = $.getForm('#notice', 1);
+		request('admin.php?mod=notice&submit=1', 'state', param);
+		return false;
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

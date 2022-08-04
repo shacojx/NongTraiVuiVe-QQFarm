@@ -1,0 +1,108 @@
+<!--{tpl admin/inc_header}-->
+
+<table border='0' cellspacing='10'>
+<form id="system_config" onsubmit="return submits();">
+	<tr>
+		<td width=20% align="right"><b>Nhân viên quản lý</b></td>
+		<td><input type="text" name="adminer" value="{:implode($_QSC['adminer'], ',')}" style="width:300px;" /> [Định dạng: 1,2,3,4...]</td>
+	</tr>
+	<tr>
+		<td align="right"><b>Enable gzip</b></td><td><input type="radio" name="gzipcompress" value="1" {if $_QSC['gzipcompress']==1}checked="checked"{/if}/>Bật<input type="radio" name="gzipcompress" value="0" {if $_QSC['gzipcompress']==0}checked="checked"{/if}/>Tắt (Tạo XML)</td>
+	</tr>
+	<tr>
+		<td align="right"><b>Danh sách bạn bè</b></td><td><input type="radio" name="friendType" value="1" {if $_QSC['friendType']==1}checked="checked"{/if}/>Chỉ bạn bè <input type="radio" name="friendType" value="2" {if $_QSC['friendType']==2}checked="checked"{/if}/>Tất cả mọi người</td>
+	</tr>
+	<tr>
+		<td align="right"><b>Số bạn bè tối đa</b></td>
+		<td><input type="text" name="friendNumber" value="{:$_QSC['friendNumber']}" style="width:50px;" /> [Nên ít hơn 1000 người]</td>
+	</tr>
+	<tr>
+		<td align="right"><b>Loại tiền</b></td>
+		<td><input type="text" name="creditType" value="{:$_QSC['creditType']}" style="width:200px;" /> </td>
+	</tr>
+	<tr>
+		<td align="right"><b>Đổi tiền ngược</b></td><td><input type="radio" name="redeem" value="0" {if $_QSC['redeem']==0}checked="checked"{/if}/>Đóng<input type="radio" name="redeem" value="1" {if $_QSC['redeem']==1}checked="checked"{/if}/>Mở</td>
+	</tr>
+	<tr>
+		<td align="right"><b>Ăn trộm thức ăn VI</b></td><td><input type="radio" name="vip" value="0" {if $_QSC['vip']==0}checked="checked"{/if}/>Đóng<input type="radio" name="vip" value="1" {if $_QSC['vip']==1}checked="checked"{/if}/>Mở</td>
+	</tr>
+	<tr>
+		<td align="left"><b>Cấp độ tặng Set VIP</b></td>
+		<td><input type="text" name="diyLimitYDLevel" value="{:$_QSC['diyLimitYDLevel']}" style="width:50px;" /> VIP[1,2……7]</td>
+	</tr>
+	<tr>
+		<td align="left"><b>Avatar</b></td><td><input type="radio" name="avatarStatic" value="0" {if $_QSC['avatarStatic']==0}checked="checked"{/if}/>Động<input type="radio" name="avatarStatic" value="1" {if $_QSC['avatarStatic']==1}checked="checked"{/if}/>Tĩnh</td>
+	</tr>
+	<tr>
+		<td align="left"><b>Tổ chức sự kiện</b></td>
+		<td><input type="text" name="missionName" value="{:$_QSC['missionName']}" style="width:50px;" /> [Tham khảo QFarm/source/nc/mission/]</td>
+	</tr>
+	<tr>
+		<td align="right"><b>Giao diện</b></td>
+		<td>
+			<select name='view_tplId'>
+			<!--{foreach $views as $v}-->
+			<option value="{:$v}"{if $v==$_QSC['view']['tplId']} selected{/if}>{:$v}</option>
+			<!--{/foreach}-->
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td align="left"><b>Music Player</b></td>
+		<td><input type="radio" name="view_player" value="0" {if $_QSC['view']['player']==0}checked="checked"{/if}/>Tắt <input type="radio" name="view_player" value="1" {if $_QSC['view']['player']==1}checked="checked"{/if}/>Bật</td>
+	</tr>
+	<tr>
+		<td align="left"><b>Số xu ban đầu</b></td>
+		<td><input type="text" name="init_money" value="{:$_INIT['money']}" style="width:300px;" /></td>
+	</tr>
+	<tr>
+		<td align="left"><b>Số vàng ban đầu</b></td>
+		<td><input type="text" name="init_yb" value="{:$_INIT['yb']}" style="width:300px;" /></td>
+	</tr>
+	<tr>
+		<td align="left"><b>EXP Trồng trọt ban đầu</b></td>
+		<td><input type="text" name="init_nc_exp" value="{:$_INIT['nc_exp']}" style="width:300px;" /></td>
+	</tr>
+	<tr>
+		<td align="left"><b>EXP Chăn nuôi ban đầu</b></td>
+		<td><input type="text" name="init_mc_exp" value="{:$_INIT['mc_exp']}" style="width:300px;" /></td>
+	</tr>
+	<tr>
+		<td align="left"><b>Hạt giống ẩn</b><br>[Định dạng: 1,2,3,4...]</td>
+		<td><textarea name="hide_seed" style="width:500px;height:100px;">{:implode($_HIDE['seed'], ',')}</textarea> </td>
+	</tr>
+	<tr>
+		<td align="left"><b>Vật phẩm ẩn</b><br>[Định dạng: 1,2,3,4...]</td>
+		<td><textarea name="hide_item" style="width:500px;height:100px;">{:implode($_HIDE['item'], ',')}</textarea> </td>
+	</tr>
+	<tr>
+		<td align="left"><b>Con giống ẩn</b><br>[Định dạng: 1,2,3,4...]</td>
+		<td><textarea name="hide_animal" style="width:500px;height:100px;">{:implode($_HIDE['animal'], ',')}</textarea> </td>
+	</tr>
+	<tr>
+		<td align="left"><b>Item trang trí ẩn</b><br>[Định dạng: 1,2,3,4...]</td>
+		<td><textarea name="hide_mcitem" style="width:500px;height:100px;">{:implode($_HIDE['mcitem'], ',')}</textarea> </td>
+	</tr>
+	<tr>
+		<td align="left"><b>Tạm ngưng hoạt động</b></td>
+		<td><input type="radio" name="closefarm" value="0" {if $_QSC['closefarm']==0} checked="checked"{/if} />Đóng <input type="radio" name="closefarm" value="1" {if $_QSC['closefarm']==1} checked="checked"{/if}/>Mở</td>
+	</tr>
+	<tr>
+		<td align="left"><b>Thông báo tạm ngưng hoạt động</b></td>
+		<td><textarea name="closeinfo" style="width:500px;height:100px;">{:$_QSC['closeinfo'] }</textarea></td>
+	</tr>			
+	<tr>
+		<td colspan="2" align="center"><input type="submit" value="Xác nhận"><span id="state"></span></td>
+	</tr>
+</form>
+</table>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		param = $.getForm('#system_config', 1);
+		request('admin.php?mod=system&submit=1', 'state', param);
+		return false;
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

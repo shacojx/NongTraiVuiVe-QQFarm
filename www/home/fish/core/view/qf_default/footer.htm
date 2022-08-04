@@ -1,0 +1,19 @@
+</div>
+
+<script type="text/javascript">
+//尝试更新父窗口参数
+try {
+	//版本号
+	$('#qfversion', window.parent.document).style.display = 'block';
+	$('#qfversion', window.parent.document).innerHTML = 'HappyFish {:FISH_VERSION} <a href="http://www.gohooh.com/" target="blank">GoHooH</a>';
+	//播放器
+	var viewPlayer = "{:$_HSC['view']['player']}";
+	if(viewPlayer > 0) {
+		$('#qfplayer', window.parent.document).style.display = 'block';
+	}
+} catch(e) {
+}
+</script>
+
+</body>
+</html>

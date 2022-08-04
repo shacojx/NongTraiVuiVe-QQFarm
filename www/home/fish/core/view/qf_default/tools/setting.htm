@@ -1,0 +1,60 @@
+<!--{tpl header}-->
+
+<div id="main">
+	<strong>Tại đây bạn có thể sửa đổi mặc định của trò chơi</strong>
+	<ul>
+		<li>
+			<p>Nếu bạn được bạn bè giúp chữa trị cho cá của bạn, hãy để lại lời cảm ơn (40 từ)</p>
+			<input id="s_h" type="text" value="{:$Tips[s_h]}" size="50"  maxlength="40" />
+			<input type="button" onclick="setUpdate('s_h');" value="Xác nhận" />
+			<input type="button" onclick="setUpdate('s_h',1);" value="Xóa toàn bộ" />
+			<span id="state_s_h"></span>
+		</li>
+		<li>
+			<p>Nếu bạn được bạn bè giúp bắt cá mập, hãy để lại lời cảm ơn (40 từ)</p>
+			<input id="k_h" type="text" value="{:$Tips[k_h]}" size="50"  maxlength="40" />
+			<input type="button" onclick="setUpdate('k_h');" value="Xác nhận" />
+			<input type="button" onclick="setUpdate('k_h',1);" value="Xóa toàn bộ" />
+			<span id="state_k_h"></span>
+		</li>
+		<li>
+			<p>Nếu bạn được bạn bè giúp nhặt rác, hãy để lại lời cảm ơn (40 từ)</p>
+			<input id="r_h" type="text" value="{:$Tips[r_h]}" size="50"  maxlength="40" />
+			<input type="button" onclick="setUpdate('r_h');" value="Xác nhận" />
+			<input type="button" onclick="setUpdate('r_h',1);" value="Xóa toàn bộ" />
+			<span id="state_r_h"></span>
+		</li>
+		<li>
+			<p>Nếu bạn bị người khác thả cá mập vào ao，bạn sẽ nói gì? （40 từ）</p>
+			<input id="k_a" type="text" value="{:$Tips[k_a]}" size="50"  maxlength="40" />
+			<input type="button" onclick="setUpdate('k_a');" value="Xác nhận" />
+			<input type="button" onclick="setUpdate('k_a',1);" value="Xóa toàn bộ" />
+			<span id="state_k_a"></span>
+		</li>
+		<li>
+			<p>Nếu bạn của bạn để đưa rác thải trong ao của bạn, bạn sẽ nói gì? (40 từ)</p>
+			<input id="r_a" type="text" value="{:$Tips[r_a]}" size="50"  maxlength="40" />
+			<input type="button" onclick="setUpdate('r_a');" value="Xác nhận" />
+			<input type="button" onclick="setUpdate('r_a',1);" value="Xóa toàn bộ" />
+			<span id="state_r_a"></span>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+function setUpdate(type, reset) {
+	value = reset ? '' : $("#"+type).value;
+	request(
+		'tools.php?mod=setting&do=save', 'state_'+type,
+		'type='+type+'&value='+value,
+		function(data) {
+			if(data[0] == '1' && data[3]) {
+				//alert(data);
+				$("#"+type).value = data[3];
+			}
+		}
+	);
+}
+</script>
+
+<!--{tpl footer}-->

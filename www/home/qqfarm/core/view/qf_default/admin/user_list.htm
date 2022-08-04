@@ -1,0 +1,54 @@
+<!--{tpl admin/inc_header}-->
+
+<!--{if $user_list}-->
+<table class="list">
+	<tr style=" font-size:12px; height:20px">
+		<th>Tài khoản (UID)</th>
+		<th>Xu</th>
+		<th>Vàng</th>
+		<th>EXP VIP</th>
+		<th>Hội viên</th>
+		<th>Thửa đất</th>
+		<th>Đất đỏ</th>
+		<th>Trồng trọt</th>
+		<th>Chăn nuôi</th>
+		<th>Đăng nhập</th>
+		<th></th>
+	</tr>
+	<!--{foreach $user_list as $key=>$value}-->
+	<tr style=" font-size:12px; height:20px">
+		<td>{:$value[username]}({:$value[uid]})</td>
+		<td>{:$value[yb]}</td>
+		<td>{:$value[money]}</td>
+		<td>{:$value[vip][exp]}</td>
+		<td>Cấp {:$value[vip][level]}</td>
+		<td>{:$value[reclaim]}</td>
+		<td>{:$value[redland]}</td>
+		<td>Cấp {:$value[level_nc]}</td>
+		<td>Cấp {:$value[level_mc]}</td>
+		<td>{:$value[visittime]}</td>
+		<td>
+			<a href="admin.php?mod=user_edit&id={:$value[uid]}">Sửa</a>&nbsp;
+			<a href='javascript:delUser("{:$value[uid]}","Bạn có muốn xóa tài khoản {:$value[username]} không?");'>Xóa</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<div id="pages" class="multiPage"></div>
+<!--{else}-->
+<div class="no_hpinfo">Chưa có</div>
+<!--{/if}-->
+
+<script type="text/javascript">
+	$('#pages').innerHTML = multiPage({pid:"{:$pid}",purl:"{:$purl}",psize:"{:$psize}",count:"{:$count}"});
+	function delUser(uid, msg) {
+		if(confirm(msg)) {
+			request(
+				'admin.php?mod=user_delete&id='+uid, null, null, 
+				function(data){ alert(data[1]); }
+			);
+		}
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

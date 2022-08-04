@@ -1,0 +1,130 @@
+<!--{eval $_TPL['titles'] = array('Group topic');}-->
+<!--{template header}-->
+
+<!--{if !empty($_SGLOBAL[inajax])}-->
+	<div id="space_photo">
+		<h3 class="feed_header">
+			<a href="cp.php?ac=thread" class="r_option" target="_blank">Create Discussion</a>
+			Group Topic(Total $count)</h3>
+		<!--{if $list}-->
+		<ul class="line_list">
+		<!--{loop $list $key $value}-->
+			<li><a href="space.php?uid=$value[uid]&do=thread&id=$value[tid]" target="_blank">$value[subject]</a>
+			<span class="gray">&nbsp;<a href="space.php?do=mtag&tagid=$value[tagid]" target="_blank">$value[tagname]</a></span></li>
+		<!--{/loop}-->
+		</ul>
+		<div class="page">$multi</div>
+		<!--{else}-->
+		<div class="c_form">Oops! There is no topic exist! Why you don't create one!</div>
+		<!--{/if}-->
+	</div><br>
+<!--{else}-->
+
+<!--{if $space[self]}-->
+<div class="searchbar floatright">
+<form method="get" action="space.php">
+	<input name="searchkey" value="" size="15" class="t_input" type="text">
+	<input name="searchsubmit" value="Search Topics" class="submit" type="submit">
+	<input type="hidden" name="searchmode" value="1" />
+	<input type="hidden" name="do" value="thread" />
+	<input type="hidden" name="view" value="all" />
+</form>
+</div>
+<h2 class="title"><img src="image/app/mtag.gif">Group - Topic</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li class="active"><a href="space.php?uid=$space[uid]&do=thread"><span>Group Topics</span></a></li>
+		<li><a href="space.php?do=mtag&view=me"><span>My Group</span></a></li>
+		<li><a href="space.php?do=mtag&view=manage"><span>Owned</span></a></li>
+		<li><a href="space.php?do=mtag&view=hot"><span>Popular Groups</span></a></li>
+		<li><a href="space.php?do=mtag&view=recommend"><span>Proposed Group</span></a></li>
+		<li class="null"><a href="cp.php?ac=thread">Create New Topic</a></li>
+		<li class="null"><a href="cp.php?ac=mtag">Create Group</a></li>
+	</ul>
+</div>
+<div class="h_status">
+	<a href="space.php?uid=$space[uid]&do=thread&view=hot"$actives[hot]>Popular Topic</a><span class="pipe">|</span>
+	<a href="space.php?uid=$space[uid]&do=thread&view=new"$actives[new]>Topics-in-Demand</a><span class="pipe">|</span>
+	<a href="space.php?uid=$space[uid]&do=thread&view=me"$actives[me]>My Topics</a>
+</div>
+<!--{else}-->
+<!--{eval 
+	$_TPL['spacetitle'] = "Topic";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=thread&view=me\">Their all topics</a>";
+}-->
+<!--{template space_menu}-->
+<div class="h_status">Topics sort by time</div>
+<!--{/if}-->
+
+<!--{if $searchkey}-->
+<div class="h_status">The floowing topics are in your search<span style="color:red;font-weight:bold;">$searchkey</span>Search Results</div>
+<!--{/if}-->
+
+<!--{if $list}-->
+<div class="topic_list">
+	<table cellspacing="0" cellpadding="0">
+		<thead>
+			<tr>
+				<td class="subject">Topic</td>
+				<td class="mtag">Group</td>
+				<td class="author"><!--{if $_GET[view]!='me'}-->Author <!--{/if}-->(Reply/View)</td>
+				<td class="lastpost">Updated</td>
+			</tr>
+		</thead>
+		<tbody>
+		<!--{loop $list $key $value}-->
+			<!--{eval $magicegg = ""}-->							
+			<!--{eval if($value[magicegg]) for($i=0; $i<$value[magicegg]; $i++) $magicegg .= '<img src="image/magic/egg/'.mt_rand(1,6).'.gif" />';}-->
+			<tr<!--{if $key%2==1}--> class="alt"<!--{/if}-->>
+				<td class="subject">
+					$magicegg <a href="space.php?uid=$value[uid]&do=thread&id=$value[tid]" <!--{if $value[magiccolor]}--> class="magiccolor$value[magiccolor]"<!--{/if}-->>$value[subject]</a>
+					<!--{if $value[hot]}-->
+					<br><span class="gray">$value[hot] In-Demand</span>
+					<!--{/if}-->
+				</td>
+				<td><a href="space.php?do=mtag&tagid=$value[tagid]">$value[tagname]</a></td>
+				<td class="author"><a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}">{$_SN[$value[uid]]}</a><br><em>$value[replynum]/$value[viewnum]</em></td>
+				<td class="lastpost"><a href="space.php?uid=$value[lastauthorid]" title="{$_SN[$value[lastauthorid]]}">{$_SN[$value[lastauthorid]]}</a><br><!--{date('m-d H:i',$value[lastpost],1)}--></td>
+			</tr>
+		<!--{/loop}-->
+		</tbody>
+	</table>
+	<div class="page">$multi</div>
+</div>
+<!--{else}-->
+<div class="c_form">Oops! No Topics,Sometime it happened, Why you don't create one, and let other know, you're Unique</div>
+<!--{/if}-->
+
+
+<!--{if $rlist}-->
+	<div style="padding-bottom:10px;">
+		<h3 class="l_status">
+			<div class="r_option"><a href="space.php?do=mtag&view=hot">View More</a></div>
+			Popular Group
+		</h3>
+		<ul class="thread_list">
+		<!--{loop $rlist $value}-->
+			<li>
+			<table width="100%">
+				<tr>
+				<td width="80">
+					<div class="threadimg60"><a href="space.php?do=mtag&tagid=$value[tagid]"><img src="$value[pic]" style="width:60px;"></a></div>
+				</td>
+				<td>
+					<a href="space.php?do=mtag&tagid=$value[tagid]" style="font-weight:bold;">$value[tagname]</a>
+					<div class="gray">$value[title]</div>
+					<span class="num">$value[membernum]</span> Members Joined
+					<div class="gray">
+						Topic: $value[threadnum], Comment: $value[postnum]
+					</div>
+				</td>
+				</tr></table>
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+<!--{/if}-->
+
+<!--{/if}-->
+
+<!--{template footer}-->

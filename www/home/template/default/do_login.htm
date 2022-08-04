@@ -1,0 +1,124 @@
+<!--{eval $_TPL['nosidebar']=1;}-->
+<!--{template header}-->
+
+<form id="loginform" name="loginform" action="do.php?ac=$_SCONFIG[login_action]&$url_plus&ref" method="post" class="c_form">
+<table cellpadding="0" cellspacing="0" class="formtable">
+	<caption>
+		<h2>Xin vui lòng</h2>
+		<p>Nếu bạn đã có một tài khoản của trang web, hãy sử dụng thông tin tài khoản hiện tại có thể đăng nhập trực tiếp, không trùng lặp đăng ký.</p>
+	</caption>
+	<!--{if $invitearr}-->
+	<tr>
+		<th width="100">Mời bạn bè tham gia</th>
+		<td>
+			<a href="space.php?$url_plus" target="_blank"><!--{avatar($invitearr[uid],small)}--></a>
+			<a href="space.php?$url_plus" target="_blank">{$_SN[$invitearr[uid]]}</a>
+		</td>
+	</tr>
+	<!--{/if}-->
+	
+	<!--{if $_SCONFIG['seccode_login']}-->
+	<!--{if $_SGLOBAL['input_seccode']}-->
+	<tr>
+		<th width="100">&nbsp;</th>
+		<td>
+		Xin vui lòn xác nhận, và tiếp tục
+		</td>
+	</tr>
+	<!--{/if}-->
+	<!--{if $_SCONFIG['questionmode']}-->
+	<tr>
+		<th width="100" style="vertical-align: top;">Hãy trả lời câu hỏi</th>
+		<td>
+			<p><!--{eval question();}--></p>
+			<input type="text" id="seccode" name="seccode" value="" tabindex="1" class="t_input"<!--{if empty($_SGLOBAL['input_seccode'])}--> onBlur="checkSeccode()"<!--{/if}--> />&nbsp;<span id="checkseccode">&nbsp;</span>
+		</td>
+	</tr>
+	<!--{else}-->
+	<tr>
+		<th width="100" style="vertical-align: top;">Mã số</th>
+		<td>
+			<script>seccode();</script>
+			<p>Hãy nhập 4 ký tự để <a href="javascript:updateseccode()">thay thế một</a></p>
+			<input type="text" id="seccode" name="seccode" value="" tabindex="1" class="t_input"<!--{if empty($_SGLOBAL['input_seccode'])}--> onBlur="checkSeccode()"<!--{/if}--> />&nbsp;<span id="checkseccode">&nbsp;</span>
+		</td>
+	</tr>
+	<!--{/if}-->
+	<!--{/if}-->
+	
+	<tbody style="display:<!--{if $_SGLOBAL['input_seccode']}-->none<!--{/if}-->;">
+	<tr><th width="100"><label for="username">Tên đăng nhập</label></th><td><input type="text" name="username" id="username" class="t_input" value="$membername" tabindex="2" /></td></tr>
+	<tr><th width="100"><label for="password">Mật khẩu</label></th><td><input type="password" name="password" id="password" class="t_input" tabindex="3" value="$password" /></td></tr>
+	<tr>
+		<th width="100">&nbsp;</th>
+		<td>
+			<input type="checkbox" id="cookietime" name="cookietime" value="315360000" $cookiecheck style="margin-bottom: -2px;"><label for="cookietime">Lưu mật khẩu</label>
+		</td>
+	</tr>
+	</tbody>
+	<tr><th width="100">&nbsp;</th><td>
+		<input type="hidden" name="refer" value="$refer" />
+		<input type="submit" id="loginsubmit" name="loginsubmit" value="Đăng nhập" class="submit" tabindex="5" />
+		<a href="do.php?ac=lostpasswd">Bạn quên mật khẩu?</a>
+	</td></tr>
+</table>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" /></form>
+
+<script type="text/javascript">
+	var lastSecCode = '';
+	function checkSeccode() {
+		var seccodeVerify = $('seccode').value;
+		if(seccodeVerify == lastSecCode) {
+			return;
+		} else {
+			lastSecCode = seccodeVerify;
+		}
+		ajaxresponse('checkseccode', 'op=checkseccode&seccode=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(seccodeVerify) : seccodeVerify));
+	}
+	function ajaxresponse(objname, data) {
+		var x = new Ajax('XML', objname);
+		x.get('do.php?ac=$_SCONFIG[register_action]&' + data, function(s){
+			var obj = $(objname);
+			s = trim(s);
+			if(s.indexOf('succeed') > -1) {
+				obj.style.display = '';
+				obj.innerHTML = '<img src="image/check_right.gif" width="13" height="13">';
+				obj.className = "warning";
+			} else {
+				warning(obj, s);
+			}
+		});
+	}
+	function warning(obj, msg) {
+		if((ton = obj.id.substr(5, obj.id.length)) != 'password2') {
+			$(ton).select();
+		}
+		obj.style.display = '';
+		obj.innerHTML = '<img src="image/check_error.gif" width="13" height="13"> &nbsp; ' + msg;
+		obj.className = "warning";
+	}
+
+</script>
+
+<!--{if $_SGLOBAL['input_seccode']}-->
+<script>
+$('seccode').style.background = '#FFFFCC';
+$('seccode').focus();
+</script>
+<!--{/if}-->
+
+
+<div class="c_form">
+<table cellpadding="0" cellspacing="0" class="formtable">
+	<caption>
+		<h2>Chưa đăng ký?</h2>
+		<p>Nếu bạn chưa có tài khoản trang web , hãy đăng ký một tài khoản cho mình.</p>
+	</caption>
+	<tr>
+		<td>
+		<a href="do.php?ac=$_SCONFIG[register_action]" style="display: block; margin: 0 110px 2em; width: 100px; border: 1px solid #486B26; background: #76A14F; line-height: 30px; font-size: 14px; text-align: center; text-decoration: none;"><strong style="display: block; border-top: 1px solid #9EBC84; color: #FFF; padding: 0 0.5em;">Đăng ký</strong></a>
+		</td>
+	</tr>
+</table>
+</div>
+<!--{template footer}-->

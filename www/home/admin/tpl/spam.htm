@@ -1,0 +1,127 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="post" action="admincp.php?ac=spam">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="bdrcontent">
+	<div class="title">
+		<h3>Anti-spam settings</h3>
+		<p>You can choose a number of measures to increase the irrigation machine interference, to avoid the large amount of garbage generated advertising messages, but it will also affect the new user experience.</p>
+	</div>
+	
+	<table class="formtable">
+	<tr>
+		<th style="width:15em;">Custom login identification name</th>
+		<td>
+			<input type="text" name="config[login_action]" value="$configs[login_action]" size="10"> (Must be in English letters)<br>
+			To the login page to set personal names, irrigation can increase the difficulty of automatic log on, if necessary, you can change the look from time to time.
+		</td>
+	</tr>
+	<tr>
+		<th>Custom registration identification name</th>
+		<td>
+			<input type="text" name="config[register_action]" value="$configs[register_action]" size="10"> (Must be in English letters)<br>
+			To the registration page to set personal name. Note that the log can not be identified with the same name.
+		</td>
+	</tr>
+	<tr>
+		<th>Open the code function of the page</th>
+		<td>
+			<input type="checkbox" name="config[seccode_login]" value="1"<!--{if $configs[seccode_login]}--> checked<!--{/if}-->>Login page
+			<input type="checkbox" name="config[seccode_register]" value="1"<!--{if $configs[seccode_register]}--> checked<!--{/if}-->>Registration Page
+			<br>Description:<br>The log and other publishing operations for publishing code is open, you need to<a href="admincp.php?ac=usergroup">User Group Management</a>In different groups of users to open settings.
+		</td>
+	</tr>
+	<tr>
+		<th>Code model using individual questions</th>
+		<td>
+			<input type="radio" name="config[questionmode]" value="1"<!--{if $configs[questionmode] == 1}--> checked<!--{/if}-->>Yes, using my custom Q&A (recommended, good results)
+			<input type="radio" name="config[questionmode]" value="0"<!--{if $configs[questionmode] != '1'}--> checked<!--{/if}-->>No, using the system code picture
+		</td>
+	</tr>
+	<tr>
+		<th>Set individual questions and answers</th>
+		<td id="q_td">
+			<!--{loop $datas[question] $key $value}-->
+			<div style="margin-bottom:0.5em;">
+				Question:<input type="text" name="data[question][]" value="{$datas[question][$key]}" size="20">&nbsp;
+				Answer:<input type="text" name="data[answer][]" value="{$datas[answer][$key]}" size="20">
+			</div>
+			<!--{/loop}-->
+			<a href="javascript:;" onclick="new_q();">Add a new Q\A</a> (Fill in the answer can not be 0 or a null value)
+			<div id="new_div" style="margin-bottom:0.5em;margin-top:0.5em;">
+				Question:<input type="text" name="data[question][]" value="" size="20">&nbsp;
+				Answer:<input type="text" name="data[answer][]" value="" size="20">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th>The requirement that new user authentication to activate E-mail</th>
+		<td>
+			<input type="radio" name="config[need_email]" value="1"<!--{if $configs[need_email] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[need_email]" value="0"<!--{if $configs[need_email] != '1'}--> checked<!--{/if}-->>No
+			<br>Select Yes, then the user must verify your e-mail to activate only after a post operation.
+		</td>
+	</tr>
+	<tr>
+		<th>Verify uniqueness of activation E-mail</th>
+		<td>
+			<input type="radio" name="config[uniqueemail]" value="1"<!--{if $configs[uniqueemail] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[uniqueemail]" value="0"<!--{if $configs[uniqueemail] != '1'}--> checked<!--{/if}-->>No
+			<br>Choice is the case, verify activation e-mail will be unique, not allowed to repeat.
+		</td>
+	</tr>	
+	<tr>
+		<th>Probationary time a new user</th>
+		<td>
+			<input type="text" name="config[newusertime]" value="$configs[newusertime]" size="10"> Hours
+			<br>Setting up new registered users must wait before they can publish the number of hours operation.
+		</td>
+	</tr>
+	<tr>
+		<th>Force users to upload a new avatar</th>
+		<td>
+			<input type="radio" name="config[need_avatar]" value="1"<!--{if $configs[need_avatar] == 1}--> checked<!--{/if}-->>Yes
+			<input type="radio" name="config[need_avatar]" value="0"<!--{if $configs[need_avatar] != '1'}--> checked<!--{/if}-->>No
+			<br>Choice is the case, the user must set up your own picture to be released after the operation.
+		</td>
+	</tr>
+	<tr>
+		<th>Compulsory New User Friends Number</th>
+		<td>
+			<input type="text" name="config[need_friendnum]" value="$configs[need_friendnum]" size="10">
+			<br>Set the user must have the number of friends, before we can publish operation.
+		</td>
+	</tr>
+	<tr>
+		<th>Anti-irrigation set up a number of other measures to</th>
+		<td>
+			1. You can<a href="admincp.php?ac=config">Site Settings</a>Close the site registration feature to allow only friends to invite registration feature.<br>
+			2. You can<a href="admincp.php?ac=privacy">Privacy Settings</a>Close open to visitors browsing.<br>
+		</td>
+	</tr>
+	</table>
+	</div>
+
+	<div class="footactions">
+		<input type="submit" name="spamsubmit" value="Submit" class="submit">
+	</div>
+
+	</form>
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<script>
+function new_q() {
+	$('q_td').innerHTML += '<div style="margin-bottom:0.5em;">'+$('new_div').innerHTML+'</div>';
+}
+</script>
+
+<!--{template admin/tpl/footer}-->

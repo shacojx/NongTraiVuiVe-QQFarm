@@ -1,0 +1,37 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+<br />
+	<p>
+		<p><FONT COLOR="#FF0000"><b>10 GP</b></FONT> có thể đổi lấy <FONT COLOR="#FF0000"><b>1 Vàng</b></FONT></p>
+		Tôi muốn đổi lấy <input type='text' id='yb' size='15' /> <b>Vàng</b>
+		<input type="button" onclick='request("tools.php?mod=exchange&do=save&type=yb&number="+$("#yb").value, "state1");' value='Quy đổi' />
+		<span id="state1"></span>
+	</p>
+	<br />
+	<p>
+		<p><FONT COLOR="#FF0000"><b>1 GP</b></FONT> có thể đổi lấy <FONT COLOR="#FF0000"><b>100 Xu</b></FONT></p>
+		Tôi muốn đổi lấy <input type='text' id='jb' size='15' /> <b>x100 Xu</b>
+		<input type="button" onclick='request("tools.php?mod=exchange&do=save&type=jb&number="+$("#jb").value, "state2");' value='Quy đổi' />
+		<span id="state2"></span>
+	</p>
+	
+	<!--{if $_QSC[redeem]==1}-->	
+	<br />
+	<p>
+		<p><FONT COLOR="#FF0000"><b>1 Vàng</b></FONT> có thể đổi lấy <FONT COLOR="#FF0000"><b>8 GP</b></FONT></p>
+		Tôi muốn đổi lấy <input type='text' id='enyb' size='15' /> <b>x8 GP</b>
+		<input type="button" onclick='request("tools.php?mod=exchange&do=save&type=enyb&number="+$("#enyb").value, "state3");' value='Quy đổi' />
+		<span id="state3"></span>
+	</p>
+	<br />
+	<p>
+		<p><FONT COLOR="#FF0000"><b>120 Xu</b></FONT> có thể đổi lấy <FONT COLOR="#FF0000"><b>1 GP</b></FONT> </p>
+		Tôi muốn đổi lấy <input type='text' id='enjb' size='15' /> <b>GP</b>
+		<input type="button" onclick='request("tools.php?mod=exchange&do=save&type=enjb&number="+$("#enjb").value, "state4");' value='Quy đổi' />
+		<span id="state4"></span>
+	</p>
+	<!--{/if}-->
+</div>
+
+<!--{tpl inc_footer}-->

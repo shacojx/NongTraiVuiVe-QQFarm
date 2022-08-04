@@ -1,0 +1,54 @@
+<!--{eval $_TPL['titles'] = array('Popular');}-->
+<!--{template header}-->
+
+<h2 class="title"><img src="image/app/topic.gif" />Popular</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[new]><a href="space.php?do=topic&view=new"><span>Latest in demand</span></a></li>
+		<li$actives[hot]><a href="space.php?do=topic&view=hot"><span>Hottest in demand</span></a></li>
+		<li$actives[me]><a href="space.php?do=topic&view=me"><span>My Hot</span></a></li>
+		<!--{if checkperm('allowtopic')}-->
+		<li class="null"><a href="cp.php?ac=topic">Add new hot topic</a></li>
+		<!--{/if}-->
+	</ul>
+	<!--{if $_SGLOBAL[refer]}-->
+	<div class="r_option">
+		<a  href="$_SGLOBAL[refer]">&laquo; Back to prev</a>
+	</div>
+	<!--{/if}-->
+</div>
+
+<!--{if $list}-->
+<div class="event_list">
+<ol>
+<!--{loop $list $key $value}-->
+<li>
+	<div class="event_icon">
+		<a href="space.php?do=topic&topicid=$value[topicid]"><img src="$value[pic]"></a>
+	</div>
+	
+	<div class="hotspot">
+		<a href="space.php?do=topic&topicid=$value[topicid]">$value[joinnum]</a>
+	</div>
+	
+	<div class="event_content">
+		<h4 class="event_title">
+			<a href="space.php?do=topic&topicid=$value[topicid]">$value[subject]</a>
+		</h4>
+		<ul>
+			<li>$value[message] ...</li>
+			<li class="gray">Author: <a href="space.php?uid=$value[uid]">{$_SN[$value[uid]]}</a></li>
+			<li class="gray">Start Date: $value[dateline]</li>
+			<!--{if $value[endtime]}--><li class="gray">Expire on: $value[endtime]</li><!--{/if}-->
+			<li class="gray">Last Join: $value[lastpost]</li>
+		</ul>
+	</div>
+</li>
+<!--{/loop}-->
+</ol>
+</div>
+<!--{else}-->
+	<div class="c_form">At present there is no hot popular list, it is empty</div>
+<!--{/if}-->
+
+<!--{template footer}-->

@@ -1,0 +1,36 @@
+<!--{tpl admin/header}-->
+
+<form id="myform" onsubmit="return submits();" class="user_edit">
+	<table width="100%" cellpadding=5 cellspacing=0>
+		<tr>
+			<td width="80px">用户名称</td>
+			<td>{:$value[username]}</td>
+		</tr>
+		<tr>
+			<td width="80px">鱼塘经验</td>
+			<td><input type="text" name="exp" value="{:$value[exp]}" />  {:$value['level']} 级</td>
+		</tr>
+		<tr>
+			<td width="80px">鱼塘块数</td>
+			<td><input type="text" name="reclaim" value="{:$value[reclaim]}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">金币数量</td>
+			<td><input type="text" name="money" value="{:$value[money]}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Y币数量</td>
+			<td><input type="text" name="yb" value="{:$value[yb]}" /></td>
+		</tr>
+	</table>
+	<input type="submit" value="提 交" /><span id="state"></span>
+</form>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		request('admin.php?mod=user_edit&submit=1&id={:$id}', 'state', $.getForm('#myform', 1));
+		return false;
+	}
+</script>
+
+<!--{tpl admin/footer}-->

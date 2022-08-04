@@ -1,0 +1,52 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<!--{tpl tools/market_menu}-->
+	<!--{if $package || $tools}-->
+	<table class="list">
+		<tr>
+			<th width="40">ID</th>
+			<th width="100">Tên</th>
+			<th width="70">Hình dáng</th>
+			<th width="40">Cấp</th>
+			<th width="100">Giá gốc</th>
+			<th width="100">Số lượng</th>
+			<th width="100">Giá bán</th>
+			<th width="100"></th>
+		</tr>
+		<!--{foreach $package as $key => $value}-->
+		<tr>
+			<td>{:$key}</td>
+			<td>{:$cropstype[$key]['cName']}</td>
+			<td><img src="module/ui/farm/icon/{:$key}.png" height="24px" /></td> 
+			<td>{:$cropstype[$key]['cLevel']}</td>
+			<td><font color=red>{:$cropstype[$key]['price']}</font> Xu</td>
+			<td><input type='text' id='number{:$key}' size='10' value="{:$value}"/></td>
+			<td><input type='text' id='price{:$key}' size='15' value="{:$cropstype[$key]['price']}"/></td>
+			<td>
+				<input type="button" onclick='request("tools.php?mod=market&act=nc&type=saleitem&mclass=1&cid={:$key}&number="+$("#number{:$key}").value+"&price="+$("#price{:$key}").value, "state{:$key}");' value='Bán' /><span id="state{:$key}"></span>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		<!--{foreach $tools as $key => $value}-->
+		<tr style=" font-size:12px; height:20px">
+			<td>{:$key}</td>
+			<td>{:$toolstype[30000+$key]['tName']}</td>
+			<td><img src="module/ui/farm/icon/{:$key+30000}.png"/></td> 
+			<td>-</td>
+			<td><font color=blue>{:$toolstype[30000+$key]['pe']}</font> Xu</td>
+			<td><input type='text' id='number{:30000+$key}' size='10' value="{:$value}"/></td>
+			<td><input type='text' id='price{:30000+$key}' size='15' value="{:$toolstype[30000+$key]['pe']}"/></td>
+			<td>
+				<input type="button" onclick='request("tools.php?mod=market&act=nc&type=saleitem&mclass=2&cid={:$key}&number="+$("#number{:30000+$key}").value+"&price="+$("#price{:30000+$key}").value, "state{:30000+$key}");' value='Bán' /><span id="state{:30000+$key}"></span>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+	<div id="pages" class="multiPage"></div>
+	<!--{else}-->
+	<div class="no_hpinfo">Chưa có</div>
+	<!--{/if}-->
+</div>
+
+<!--{tpl inc_footer}-->

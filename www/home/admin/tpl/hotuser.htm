@@ -1,0 +1,57 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+	
+		<form method="post" action="admincp.php?ac=$ac">
+			<div class="bdrcontent">
+				<table cellspacing="0" cellpadding="0" class="formtable">
+					<tr>
+						<td colspan="2">
+							<!--{if $ac == 'defaultuser'}-->
+							<textarea name="config[defaultfusername]" style="width:98%;" rows="12">$configs[defaultfusername]</textarea>
+							<!--{else}-->
+							<textarea name="config[spacebarusername]" style="width:98%;" rows="12">$configs[spacebarusername]</textarea>
+							<!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							Add a format:<br />
+							Please enter a user name, user name per line.
+							<br>For example:
+							<br>admin
+							<br>webmaster
+							<!--{if $ac == 'defaultuser'}-->
+							<br>These users will automatically add new users as friends to play with and say hello. 
+                                                  Note that several of the specified users to view their own home may be the large increase in the number of its friends server load.
+							<!--{else}-->
+							<br>These users will be randomly displayed in the casual look at the page webmaster recommendation section.							<!--{/if}-->
+						</td>
+					</tr>
+					
+				</table>
+				<!--{if $ac == 'defaultuser'}-->
+				<table cellspacing="0" cellpadding="0" class="formtable">
+					<tr>
+						<th style="width:10em;">The contents of the default greeting</th>
+						<td><input type="text" class="t_input" name="config[defaultpoke]" value="$configs[defaultpoke]" size="50"> (Not more than 25 characters)
+							<br>Automatic friend to greet new content.
+						</td>
+					</tr>
+				</table>
+				<!--{/if}-->
+			</div>
+			<div class="footactions">
+				<input type="submit" name="thevaluesubmit" value="Submit" class="submit">
+			</div>
+			<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

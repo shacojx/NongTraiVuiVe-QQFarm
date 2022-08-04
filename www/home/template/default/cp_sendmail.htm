@@ -1,0 +1,78 @@
+<!--{template header}-->
+
+<!--{template cp_header}-->
+<form action="cp.php?ac=sendmail&ref" method="post" class="c_form" >
+<!--{if empty($space['emailcheck']) }-->
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<caption>
+				<h2>First of all you need to activate your e-mail</h2>
+<p><b>Most important</b>: Please fill your E-mail id which frequently you use, then system will send you an email with activation link, Click on the link and follow the step, if link can not open then please copy the activation link and paste it in your browser, 
+<br<br>
+This email should be in your inbox, in case it is not in your email box please check your spam folder and add the email sender in to you email address book, so in future you will not miss any email</p>
+			</caption>
+			<tr>
+				<td><a href="cp.php?ac=profile&op=contact">点这里验证激活我的邮箱 $space[email]</a></td>
+			</tr>
+		</table>
+<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>E-mail alert settings</h2>
+			<p>System will send you an email if you will not login in to your account $_SCONFIG[sendmailday] days.
+<br><br>
+Select Below which email alerts you want to see in your inbox.</p>
+		</caption>
+		<tr>
+			<td>
+				<div><b>My Freinds </b> </div>
+				<div ><input type="checkbox" name="sendmail[friend_pm]" value="1" $sendmail[friend_pm]<!--{if !$sendmail}-->checked<!--{/if}--> />Send me PM</div>
+				<div ><input type="checkbox" name="sendmail[comment_friend]" value="1" $sendmail[comment_friend]<!--{if !$sendmail}-->checked<!--{/if}--> />Comments to my profile</div>
+				<div ><input type="checkbox" name="sendmail[comment_friend_reply]" value="1" $sendmail[comment_friend_reply]<!--{if !$sendmail}-->checked<!--{/if}--> />Reply to my comments</div>
+				<div ><input type="checkbox" name="sendmail[poke]" value="1" $sendmail[poke]<!--{if !$sendmail}-->checked<!--{/if}--> />My friend POKE me</div>
+				<div ><input type="checkbox" name="sendmail[friend_add]" value="1" $sendmail[friend_add]<!--{if !$sendmail}-->checked<!--{/if}--> />Add Freind Request</div>
+				<br />
+				<div><b>Blog</b></div>
+				<div ><input type="checkbox" name="sendmail[blog_comment]"  value="1" $sendmail[blog_comment]<!--{if !$sendmail}-->checked<!--{/if}--> />Comment on blog</div>
+				<div ><input type="checkbox" name="sendmail[blog_comment_reply]"  value="1" $sendmail[blog_comment_reply]<!--{if !$sendmail}-->checked<!--{/if}--> />Reply to my blog comment</div>
+				<br />
+				<div><b>Album</b></div>
+				<div ><input type="checkbox" name="sendmail[photo_comment]"  value="1" $sendmail[photo_comment]<!--{if !$sendmail}-->checked<!--{/if}--> />New Comment to my Album</div>
+				<div ><input type="checkbox" name="sendmail[photo_comment_reply]"  value="1" $sendmail[photo_comment_reply]<!--{if !$sendmail}-->checked<!--{/if}--> />Comment on photo</div>
+				<br />
+				<div><b>Share</b></div>
+				<div ><input type="checkbox" name="sendmail[share_comment]"  value="1" $sendmail[share_comment]<!--{if !$sendmail}-->checked<!--{/if}--> />Comment to my Share</div>
+				<div ><input type="checkbox" name="sendmail[share_comment_reply]"  value="1" $sendmail[share_comment_reply]<!--{if !$sendmail}-->checked<!--{/if}--> />Reply my comment to share</div>
+				<br />
+				<div><b>Topics</b></div>
+				<div ><input type="checkbox" name="sendmail[mtag_reply]"  value="1" $sendmail[mtag_reply]<!--{if !$sendmail}-->checked<!--{/if}--> />Reply to my Discussion</div>				<br />
+				<div><b>Event</b></div>
+				<div ><input type="checkbox" name="sendmail[event]"  value="1" $sendmail[event]<!--{if !$sendmail}-->checked<!--{/if}--> />Approval for new joinee to my Event</div>						
+				<br />
+				<div><b>Vote</b></div>
+				<div ><input type="checkbox" name="sendmail[poll_comment]"  value="1" $sendmail[poll_comment]<!--{if !$sendmail}-->checked<!--{/if}--> />New Comment to my Poll</div>
+				<div ><input type="checkbox" name="sendmail[poll_comment_reply]"  value="1" $sendmail[poll_comment_reply]<!--{if !$sendmail}-->checked<!--{/if}--> />Poll comment Reply</div>
+				<br />
+				<div>E-mail Freaqency
+				<select name="sendmail[frequency]">
+				<option value="0">Send me real time based email</option>
+				<option value="86400" $sendmail[frequency][86400]>Send me daily Digest</option>
+				<option value="604800" $sendmail[frequency][604800] <!--{if !$sendmail}-->selected<!--{/if}-->>Send me Weekly</option>
+				</select>
+				</div>
+				<br />
+			</td>
+		</tr>
+		<tr><td>
+			<input type="submit" name="setsendemailsubmit" value="Save" class="submit" />
+			<div class="gray">
+				Email reminder will send you to your $space[email] inbox.
+				(<a href="cp.php?ac=profile&op=contact">Update E-mail</a>)
+			</div>
+		</td></tr>
+	</table>
+<!--{/if}-->
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+
+
+<!--{template footer}-->

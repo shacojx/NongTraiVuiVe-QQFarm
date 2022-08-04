@@ -1,0 +1,29 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<form method="post" action="admincp.php" class="c_form">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2>Quản lý cấp cao</h2>
+		<p>Với quyền Admin, bạn có thể quản lý thành viên, Log, Nhóm, Ảnh hay toàn bộ thông tin UCH vv.<br>Để giúp bảo vệ dữ liệu bảo mật của bạn, xin vui lòng nhập lại mật khẩu tài khoản của bạn để đăng nhập vào trang quản lý.</p>
+	</caption>
+	<tr>
+		<th width="120">Tên đăng nhập</th>
+		<td>$_SGLOBAL[username] (<a href="cp.php?ac=common&op=logout">Exit</a>)</td>
+	</tr>
+	<tr>
+		<th>Mật khẩu</th>
+		<td><input type="password" name="password" class="t_input" /></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<input type="hidden" name="loginsubmit" value="true" />
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+			<input type="submit" name="btnsubmit" value="Đăng Nhập" class="submit" />
+		</td>
+	</tr>
+</table>
+</form>
+<!--{template footer}-->

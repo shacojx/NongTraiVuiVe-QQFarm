@@ -1,0 +1,56 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{eval $_TPL['titles'] = array('Game Ngôi nhà hạnh phúc - Kết Nối trẻ Group');}-->
+<!--{template header}-->
+<script type="text/javascript">
+function check()
+{
+	var obj = $('gift_list').getElementsByTagName('input');
+	for(var i=0; i<obj.length;i++){
+		if(obj[i].type != 'radio') continue;
+		if(obj[i].checked == true) return true;
+	}
+	alert('Hãy lựa chọn những món quà bạn muốn');
+	return false;
+}
+</script>
+<!--{template house/view/menu}-->
+<div class="s_clear">
+	<div style="background-color: #FFFFFF; line-height: 25px;">
+		<div style="border: 5px solid rgb(229, 235, 243); padding: 20px;">
+						<div style="border: 1px solid rgb(238, 238, 238); padding-left: 5px; margin-left: 10px; padding-right: 5px; margin-top: 10px; padding-bottom: 10px;background-color: rgb(243, 255, 236); width:auto;">
+							<div style="font-weight: bold;">Kế Guan, cung cấp các cửa hàng quà tặng sau, cung cấp đầy đủ, giá cả phải chăng, xin vui lòng thưởng thức mua sắm.</div>
+							<form action="house.php?ac=gift&touid={$touid}" method="post" onsubmit="return check();">
+								<div id="gift_list">
+									<ul>
+									<!--{loop $data $val}-->
+										<li>
+											<div class="img"><label for="gift_{$val['gid']}"><img src="house/view/gift/{$val['gid']}.jpg"/></label></div>
+											<div class="desc">
+											{$val['name']}<br/>
+											Tiêu {$val['price']} Vàng<br/>
+											Sự giao thông + {$val['thick']} <br/>
+											<input type="radio" name="gid" value="{$val['gid']}" id="gift_{$val['gid']}"/>
+											</div>
+										</li>
+									<!--{/loop}-->
+									</ul>
+								</div>
+								<div style="clear:both;"></div>
+								<div id="gift_buy">
+									<ul>
+										<li class="top">Hãy chọn một món quà cho </li>
+										<li><div class="avatar48" style="text-align:left"><a target="_blank" href="space.php?uid={$user['uid']}" title="{$_SN[$user['uid']]}"><img src="<!--{avatar($user['uid'],'small')}--></a></div> </li>
+										<li><input type="hidden" name="myFormAc" value="update" /><input type="submit" class="submit" value="Gửi"/></li>
+										<li>Mô tả: sống chung với những món quà khác để tăng sự gắn kết chung sống, hoặc không tăng</li>
+									</ul>
+								</div>
+								<div style="clear:both;"></div>
+							</form>
+						</div>
+		</div>
+	</div>
+</div>
+
+<!--{template footer}-->

@@ -1,0 +1,45 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+	
+		<form method="post" action="$turl">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		
+		<div class="bdrcontent">
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th style="width:8em;">Select Type</th>
+					<td>
+						<p><input type="checkbox" id="cachetype1" name="cachetype[]" value="tpl" checked /> <label for="cachetype1" style="font-weight:bold;">Template File Cache</label></p>
+						<p>When you upload via FTP or online editing operations modify the site template, if there is no time to display the page shows the revised results, you can manually update the stencil buffer for immediate operation</p>
+						<br />
+						<p><input type="checkbox" id="cachetype2" name="cachetype[]" value="block" checked /> <label for="cachetype2" style="font-weight:bold;">Module Data Cache</label></p>
+						<p>Site open module data cache feature, the site displays the data block (such as the latest logs, the latest album to block data) will be cached to significantly improve the site, access speed, reducing server load<br />
+						Usually, the data cache module in accordance with their code to set the update interval automatically updated without manual update<br />
+						If you want to immediately update all of the modules data cache, you can choose this option<br />
+						Note: Empty data cache, due to the site need to re-generate the various blocks of the cache, it will be great within a short time on the server load, so<strong>Please select the number of visitors with less time to conduct this operation</p>
+						<br />
+						<p><input type="checkbox" id="cachetype3" name="cachetype[]" value="database" checked /> <label for="cachetype3" style="font-weight:bold;">System Configuration Cache</label></p>
+						<p>Under normal circumstances the system configuration cache will modify settings in the background, automatically updating the general do not need to manually update. If your site is running in error, you can try to update the cache</p>
+						<br />
+						<p><input type="checkbox" id="cachetype4" name="cachetype[]" value="network" checked /> <label for="cachetype4" style="font-weight:bold;">Other Cache</label></p>
+						<p>Including the casual look at the data cache, the user list of the cache, data cache and so on the home page.</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="footactions">
+			<input type="submit" name="cachesubmit" value="Cache Update" class="submit" />
+		</div>
+
+		</form>
+		
+	</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

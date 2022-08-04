@@ -1,0 +1,98 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+	<form method="post" action="admincp.php?ac=app">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	<p>Listed below are the UCenter already installed all the product applications.</p>
+	<p>When you install a new UCenter-based applications, you need to be configured in this page changes and submit the update, the newly installed application can be displayed in the UCenter Home.</p>
+	<p>If you find incorrect information in an application, please go to UCenter management platform for application parameters amendments.</p>
+	</div>
+	<br>
+	
+	<!--{loop $applist $data}-->
+	<!--{eval $template = stripslashes(htmlspecialchars($relatedtag['data'][$data[appid]]['template'] != '' ? $relatedtag['data'][$data[appid]]['template'] : $data['tagtemplates']['template']));}-->
+	<!--{eval $name = stripslashes(htmlspecialchars($relatedtag['data'][$data[appid]]['name'] != '' ? $relatedtag['data'][$data[appid]]['name'] : $data['name']));}-->
+	<!--{eval $openarr = !isset($relatedtag['data'][$data[appid]][open]) || intval($relatedtag['data'][$data[appid]][open]) > 0 ? array('', 'checked') : array('checked', '');}-->
+	<div class="bdrcontent">
+	<div class="title">
+		<h3>$data[name]</h3>
+	</div>
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th style="width: 200px;">Display Name:</th>
+		<td><input type="text" name="relatedtag[data][{$data[appid]}][name]" value="$name"></td>
+	</tr>
+	<tr>
+		<th>Access address:</th>
+		<td>
+		<a href="$data[url]" target="_blank">$data[url]</a>
+		<input type="hidden" name="relatedtag[data][{$data[appid]}][url]" value="$data[url]" size="50"></td>
+	</tr>
+	<tr>
+		<th>Navigation is displayed:</th>
+		<td>
+		<!--{if $data['appid'] == UC_APPID}-->
+		<input type="hidden" name="relatedtag[data][{$data[appid]}][open]" value="0">The current product, not just selected
+		<!--{else}-->
+		<input type="radio" name="relatedtag[data][{$data[appid]}][open]" value="1" $openarr[1]>Yes
+		<input type="radio" name="relatedtag[data][{$data[appid]}][open]" value="0" $openarr[0]>No
+		<!--{/if}-->
+		</td>
+	</tr>
+	<tr>
+		<th>Tags related to display of a few:</th>
+		<td><input type="text" size="4" name="relatedtag[limit][{$data[appid]}]" value="<!--{eval echo intval($relatedtag['limit'][$data[appid]]);}-->" />
+			Is set to 0, no display labels related to this product.</td>
+	</tr>
+	<tr>
+		<th>Tags related to a single template:<br>
+		<!--{if is_array($data[tagtemplates][fields])}-->
+		<!--{loop $data[tagtemplates][fields] $field $memo}-->
+			<a onclick="insertunit('{{$field}}', 'jstemplate_$data[appid]')" href="javascript:;">{{$field}}</a> Representative $memo<br />
+		<!--{/loop}-->
+		<!--{/if}-->
+		</th>
+		<td><img src="image/zoomin.gif" onmouseover="this.style.cursor='pointer'" onclick="zoomTextarea('jstemplate_$data[appid]', 1)">
+			<img src="image/zoomout.gif" onmouseover="this.style.cursor='pointer'" onclick="zoomTextarea('jstemplate_$data[appid]', 0)"><br />
+			<textarea cols="100" rows="5" id="jstemplate_$data[appid]" name="relatedtag[data][{$data[appid]}][template]" style="width: 95%;">$template</textarea>
+			<input type="hidden" name="relatedtag[data][{$data[appid]}][type]" value="$data[type]">
+		</td>
+	</tr>
+	</table>
+	</div>
+	<div class="footactions">
+	<input type="submit" name="appsubmit" value="Submit an updated" class="submit">
+	</div>
+
+	<br>
+	<!--{/loop}-->
+
+	</form>
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<script type="text/javascript">
+function insertunit(text, obj) {
+	if(!obj) {
+		obj = 'jstemplate';
+	}
+	$(obj).focus();
+	if(!isUndefined($(obj).selectionStart)) {
+		var opn = $(obj).selectionStart + 0;
+		$(obj).value = $(obj).value.substr(0, $(obj).selectionStart) + text + $(obj).value.substr($(obj).selectionEnd);
+	} else if(document.selection && document.selection.createRange) {
+		var sel = document.selection.createRange();
+		sel.text = text.replace(/\r?\n/g, '\r\n');
+		sel.moveStart('character', -strlen(text));
+	} else {
+		$(obj).value += text;
+	}
+}
+</script>
+<!--{template admin/tpl/footer}-->

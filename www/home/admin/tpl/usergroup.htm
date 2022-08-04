@@ -1,0 +1,806 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[view]><a href="admincp.php?ac=usergroup"><span>View User Group</span></a></li>
+		<li class="null"><a href="admincp.php?ac=usergroup&op=add">Add a new user group</a></li>
+	</ul>
+</div>
+
+<!--{if $list }-->
+	<form method="post" action="admincp.php?ac=usergroup">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+
+	<div class="title">
+	<h3>Normal User Group</h3>
+	<p>Ordinary users in the group level, with the changes in the value of their experience automatically upgrade or downgrade</p>
+	</div>
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+	<th>Section title</th>
+	<td>Experience value is greater than</td>
+	<td width="100">Operation</td>
+	</tr>
+	<!--{loop $list[0] $value}-->
+	<tr>
+	<th><span<!--{eval g_color($value[gid]);}-->>$value[grouptitle]</span><!--{eval g_icon($value[gid]);}--></th>
+	<!--{if $value['explower'] == -999999999}-->
+	<td><input type="text" size="15" value="$value[explower]" name="explower[{$value[gid]}]" readonly></td>
+	<!--{else}-->
+	<td><input type="text" size="15" value="$value[explower]" name="explower[{$value[gid]}]"></td>
+	<!--{/if}-->
+	<td width="100">
+	<a href="admincp.php?ac=usergroup&op=edit&gid=$value[gid]">Edit</a>
+	<a href="admincp.php?ac=usergroup&op=copy&gid=$value[gid]">Copy</a>
+	<a href="admincp.php?ac=usergroup&op=delete&gid=$value[gid]">Remove</a>
+	</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+	</div>
+	<div class="footactions">
+		<input type="submit" name="updatesubmit" value="Submit an updated" class="submit">
+	</div>
+	</form>
+
+	<div class="bdrcontent">
+	<br />
+	<div class="title">
+	<h3>Special user group</h3>
+	<p>Attributable to specific users in the group-level identity, from experience, values, and always maintain the same</p>
+	</div>
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<!--{loop $list[1] $value}-->
+	<tr>
+	<th><span<!--{eval g_color($value[gid]);}-->>$value[grouptitle]</span><!--{eval g_icon($value[gid]);}--></th>
+	<td width="100">
+	<a href="admincp.php?ac=usergroup&op=edit&gid=$value[gid]">Edit</a>
+	<a href="admincp.php?ac=usergroup&op=copy&gid=$value[gid]">Copy</a>
+	<a href="admincp.php?ac=usergroup&op=delete&gid=$value[gid]">Delete</a>
+	</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+
+	<br />
+	<div class="title">
+	<h3>Systems User Group</h3>
+	<p>System, built-in, the user group can not be edited or deleted; user-level identity, free from effects of changes in the value of experience</p>
+	</div>
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<!--{loop $list[-1] $value}-->
+	<tr>
+	<th><span<!--{eval g_color($value[gid]);}-->>$value[grouptitle]</span><!--{eval g_icon($value[gid]);}--></th>
+	<td width="80">
+	<a href="admincp.php?ac=usergroup&op=edit&gid=$value[gid]">Edit</a> |
+	<a href="admincp.php?ac=usergroup&op=copy&gid=$value[gid]">Copy</a>
+	</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+	</div>
+
+
+<!--{/if}-->
+<!--{if $_GET[op]=='copy'}-->
+	<form method="post" action="admincp.php?ac=usergroup&gid=$gid">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		<div class="bdrcontent">
+
+			<div class="title">
+				<h3>Permission to copy</h3>
+				<p>Here you can target user group permissions apply to the selected user group</p>
+			</div>
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<th style="width:12em;">Source User Group</th>
+					<td>$from</td>
+				</tr>
+				<tr>
+					<th>Target user group</th>
+					<td>
+						<select name="aimgroup[]" size="10" multiple="multiple" style="width: 80%">
+							<!--{loop $grouparr $key $value}-->
+							<option value="$value[gid]">$value[grouptitle]</option>
+							<!--{/loop}-->
+						</select>
+						<p>Select the user group permission to copy the source to which the target user group, you can hold down the CTRL multiple-choice</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="footactions">
+		<input type="hidden" name="gid" value="$gid">
+		<input type="submit" name="copysubmit" value="Submit" class="submit">
+		</div>
+
+	</form>
+<!--{/if}-->
+<!--{if $thevalue}-->
+	<script type="text/javascript">
+	function credisshow(value) {
+		if(value=='0') {
+			document.getElementById('tr_credit').style.display = '';
+		} else {
+			document.getElementById('tr_credit').style.display = 'none';
+		}
+	}
+	</script>
+<!--{eval
+	$_TPL['discount'] = array(
+		'0' => 'No discount',
+		'1' => '1 Fold',
+		'2' => '2 Fold',
+		'3' => '3 Fold',
+		'4' => '4 Fold',
+		'5' => '5 Fold',
+		'6' => '6 Fold',
+		'7' => '7 Fold',
+		'8' => '8 Fold',
+		'9' => '9 Fold',
+	);
+}-->
+	<form method="post" action="admincp.php?ac=usergroup&gid=$thevalue[gid]">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="bdrcontent">
+
+	<div class="title">
+		<h3>$thevalue[grouptitle] Space Permissions</h3>
+		<p>Here set the user group members for their permission to license the operation of personal space</p>
+	</div>
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr><th style="width:12em;">名称</th><td><input type="text" name="set[grouptitle]" value="$thevalue[grouptitle]"></td></tr>
+
+	<!--{if !isset($thevalue['system'])}-->
+	<tr>
+		<th>User Group Types</th>
+		<td>
+			<input type="radio" name="set[system]" value="0" onclick="credisshow(0)" checked> Normal User Group
+			<input type="radio" name="set[system]" value="1" onclick="credisshow(1)"> Special user group (not experience the value of limit)
+		</td>
+	</tr>
+	<!--{/if}-->
+	<tr>
+		<th>Forbidden</th>
+		<td>
+			<input type="radio" name="set[banvisit]" value="0"<!--{if $thevalue['banvisit']!=1}--> checked<!--{/if}-->> Allow Access
+			<input type="radio" name="set[banvisit]" value="1"<!--{if $thevalue['banvisit']==1}--> checked<!--{/if}-->> Forbidden
+		</td>
+	</tr>
+	<!--{if empty($thevalue['system'])}-->
+	<tr id="tr_credit"><th>Experience the value of lower limit</th><td>
+	<!--{if $thevalue['explower'] > -999999999}-->
+	<input type="text" name="set[explower]" value="$thevalue[explower]" size="20">
+	<!--{else}-->
+	<input type="hidden" name="set[explower]" value="$thevalue[explower]" size="20">
+	$thevalue[explower] (System default minimum points, can not be changed)
+	<!--{/if}-->
+	Become a user group the lowest points</td></tr>
+	<!--{/if}-->
+
+	<tr><th>User Name Display Color</th><td><input type="text" name="set[color]" value="$thevalue[color]" size="10"> For example: #FF0000</td></tr>
+	<tr><th>Subscriber Identity Icon</th><td><input type="text" name="set[icon]" value="$thevalue[icon]" size="40"> Fill in URL addresses, the size of 20*20 The best will be displayed in the user name back, as the identification</td></tr>
+
+	<tr><th>Upload space</th><td><input type="text" name="set[maxattachsize]" value="$thevalue[maxattachsize]" size="10"> Unit: M, 0 for unlimited</td></tr>
+	<tr><th>Up to a few friends</th><td><input type="text" name="set[maxfriendnum]" value="$thevalue[maxfriendnum]" size="10"> 0 Unlimited</td></tr>
+	<tr>
+		<th>The two post operation interval</th>
+		<td><input type="text" name="set[postinterval]" value="$thevalue[postinterval]" size="10"> Unit: seconds, 0 for no restrictions, including the log / comments / comments / topics / Replies and other distribution operations</td>
+	</tr>
+	<tr>
+		<th>Operation denotes compulsory code released</th>
+		<td>
+			<input type="radio" name="set[seccode]" value="0"<!--{if $thevalue['seccode']!=1}--> checked<!--{/if}-->> Do not need to code
+			<input type="radio" name="set[seccode]" value="1"<!--{if $thevalue['seccode']==1}--> checked<!--{/if}-->> Fill in code
+			<br>Including records / logs / topics / Share the release operation, open the code can prevent irrigation machines, but will increase the degree of user action to use.
+		</td>
+	</tr>
+	<tr>
+		<th>Interval of the two search operation</th>
+		<td><input type="text" name="set[searchinterval]" value="$thevalue[searchinterval]" size="10"> Unit: seconds, 0 for no restrictions on</td>
+	</tr>
+	<tr>
+		<th>Does Free Search</th>
+		<td>
+			<input type="radio" name="set[searchignore]" value="1"<!--{if $thevalue['searchignore']==1}--> checked<!--{/if}-->> Free Search
+			<input type="radio" name="set[searchignore]" value="0"<!--{if $thevalue['searchignore']!=1}--> checked<!--{/if}-->> Search To Button points
+		</td>
+	</tr>
+	
+	<tr>
+		<th>The shortest length of the two domain names</th>
+		<td><input type="text" name="set[domainlength]" value="$thevalue[domainlength]" size="10">0 to prohibit the use of two domain names, domain names on the site to open two valid</td>
+	</tr>
+	<tr>
+		<th>Anti-irrigation restrictions</th>
+		<td>
+			<input type="radio" name="set[spamignore]" value="0"<!--{if $thevalue['spamignore']!=1}--> checked<!--{/if}-->> Anti-irrigation restrictions on restricted
+			<input type="radio" name="set[spamignore]" value="1"<!--{if $thevalue['spamignore']==1}--> checked<!--{/if}-->> Not subject to restrictions on irrigation
+		</td>
+	</tr>
+	
+	<tr>
+		<th>Published records</th>
+		<td>
+			<input type="radio" name="set[allowdoing]" value="1"<!--{if $thevalue['allowdoing']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowdoing]" value="0"<!--{if $thevalue['allowdoing']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Log on</th>
+		<td>
+			<input type="radio" name="set[allowblog]" value="1"<!--{if $thevalue['allowblog']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowblog]" value="0"<!--{if $thevalue['allowblog']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Upload pictures</th>
+		<td>
+			<input type="radio" name="set[allowupload]" value="1"<!--{if $thevalue['allowupload']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowupload]" value="0"<!--{if $thevalue['allowupload']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Post Share</th>
+		<td>
+			<input type="radio" name="set[allowshare]" value="1"<!--{if $thevalue['allowshare']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowshare]" value="0"<!--{if $thevalue['allowshare']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Delivered a message / comment</th>
+		<td>
+			<input type="radio" name="set[allowcomment]" value="1"<!--{if $thevalue['allowcomment']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowcomment]" value="0"<!--{if $thevalue['allowcomment']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Allowed to stand</th>
+		<td>
+			<input type="radio" name="set[allowclick]" value="1"<!--{if $thevalue['allowclick']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowclick]" value="0"<!--{if $thevalue['allowclick']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Create a new group</th>
+		<td>
+			<input type="radio" name="set[allowmtag]" value="1"<!--{if $thevalue['allowmtag']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowmtag]" value="0"<!--{if $thevalue['allowmtag']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>On group topic</th>
+		<td>
+			<input type="radio" name="set[allowthread]" value="1"<!--{if $thevalue['allowthread']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowthread]" value="0"<!--{if $thevalue['allowthread']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Edit Additional editing records Topic</th>
+		<td>
+			<input type="radio" name="set[edittrail]" value="1"<!--{if $thevalue['edittrail']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[edittrail]" value="0"<!--{if $thevalue['edittrail']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Published groups Replies</th>
+		<td>
+			<input type="radio" name="set[allowpost]" value="1"<!--{if $thevalue['allowpost']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowpost]" value="0"<!--{if $thevalue['allowpost']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Vote launched</th>
+		<td>
+			<input type="radio" name="set[allowpoll]" value="1"<!--{if $thevalue['allowpoll']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowpoll]" value="0"<!--{if $thevalue['allowpoll']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Release Activities</th>
+		<td>
+			<input type="radio" name="set[allowevent]" value="1"<!--{if $thevalue['allowevent']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowevent]" value="0"<!--{if $thevalue['allowevent']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Activities need to review published</th>
+		<td>
+			<input type="radio" name="set[verifyevent]" value="1"<!--{if $thevalue['verifyevent']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[verifyevent]" value="0"<!--{if $thevalue['verifyevent']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Allow Faduanxiaoxi</th>
+		<td>
+			<input type="radio" name="set[allowpm]" value="1"<!--{if $thevalue['allowpm']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowpm]" value="0"<!--{if $thevalue['allowpm']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Allowed to say hello</th>
+		<td>
+			<input type="radio" name="set[allowpoke]" value="1"<!--{if $thevalue['allowpoke']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowpoke]" value="0"<!--{if $thevalue['allowpoke']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Allowed to add friends</th>
+		<td>
+			<input type="radio" name="set[allowfriend]" value="1"<!--{if $thevalue['allowfriend']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowfriend]" value="0"<!--{if $thevalue['allowfriend']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Video Authentication restrictions</th>
+		<td>
+			<input type="radio" name="set[videophotoignore]" value="1"<!--{if $thevalue['videophotoignore']==1}--> checked<!--{/if}-->> Not subject to restrictions on video authentication
+			<input type="radio" name="set[videophotoignore]" value="0"<!--{if $thevalue['videophotoignore']!=1}--> checked<!--{/if}-->> Restricted
+		</td>
+	</tr>
+	<tr>
+		<th>Allowed to view a video certification</th>
+		<td>
+			<input type="radio" name="set[allowviewvideopic]" value="1"<!--{if $thevalue['allowviewvideopic']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowviewvideopic]" value="0"<!--{if $thevalue['allowviewvideopic']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Allows the use of application</th>
+		<td>
+			<input type="radio" name="set[allowmyop]" value="1"<!--{if $thevalue['allowmyop']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowmyop]" value="0"<!--{if $thevalue['allowmyop']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Allows the use of props</th>
+		<td>
+			<input type="radio" name="set[allowmagic]" value="1"<!--{if $thevalue['allowmagic']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowmagic]" value="0"<!--{if $thevalue['allowmagic']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+	<tr>
+		<th>Buy Discount props</th>
+		<td>
+			<select name="set[magicdiscount]">
+				<!--{loop $_TPL[discount] $key $val}-->
+				<option value="$key" <!--{if $thevalue['magicdiscount'] == $key}--> selected<!--{/if}-->>$val</option>
+				<!--{/loop}-->
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>Add a new excitement</th>
+		<td>
+			<input type="radio" name="set[allowtopic]" value="1"<!--{if $thevalue['allowtopic']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowtopic]" value="0"<!--{if $thevalue['allowtopic']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+
+	<tr>
+		<th>Allow custom CSS</th>
+		<td>
+			<input type="radio" name="set[allowcss]" value="1"<!--{if $thevalue['allowcss']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowcss]" value="0"<!--{if $thevalue['allowcss']!=1}--> checked<!--{/if}-->> No
+			&nbsp;Prudent to allow to allow custom CSS may cause insecurity caused by javascript script
+		</td>
+	</tr>
+	<tr>
+		<th>Log all HTML tags support</th>
+		<td>
+			<input type="radio" name="set[allowhtml]" value="1"<!--{if $thevalue['allowhtml']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowhtml]" value="0"<!--{if $thevalue['allowhtml']!=1}--> checked<!--{/if}-->> No
+			&nbsp;Prudent to allow and support all html tags javascript script may cause insecurity caused by
+		</td>
+	</tr>
+
+	<tr>
+		<th>Allowed to look for trends Statistics</th>
+		<td>
+			<input type="radio" name="set[allowstat]" value="1"<!--{if $thevalue['allowstat']==1}--> checked<!--{/if}-->> Yes
+			<input type="radio" name="set[allowstat]" value="0"<!--{if $thevalue['allowstat']!=1}--> checked<!--{/if}-->> No
+		</td>
+	</tr>
+
+	<tr>
+		<th>Site closure and IP mask</th>
+		<td>
+			<input type="radio" name="set[closeignore]" value="1"<!--{if $thevalue['closeignore']==1}--> checked<!--{/if}-->> IP shielded from site closures and restrictions on
+			<input type="radio" name="set[closeignore]" value="0"<!--{if $thevalue['closeignore']!=1}--> checked<!--{/if}-->> Restricted
+		</td>
+	</tr>
+	<tr>
+		<th>Upgrade award props</th>
+		<td>
+			<select id="newmagicaward">
+				<!--{loop $_SGLOBAL['magic'] $key $value}-->
+				<option value="$key">$value</option>
+				<!--{/loop}-->				
+			</select>
+			<input type="text" id="newmagicawardnum" value="1" />
+			<input class="button" type="button" onclick="addMagicAward()" value="Add" />
+			<ul id="magicawards">
+			<!--{loop $thevalue[magicaward] $value}-->
+			<li id="magicaward_$value[mid]">
+				<input type="hidden" name="magicaward[]" value="$value[mid],$value[num]">
+				$_SGLOBAL[magic][$value[mid]] &nbsp;&nbsp; 
+				$value[num] &nbsp;&nbsp; 
+				<a href="#" onclick="removeMagicAward(this);return false;">Remove</a>
+			</li>
+			<!--{/loop}-->
+			</ul>
+			<script type="text/javascript">
+			function addMagicAward(){
+				var mid = $('newmagicaward').value;
+				var id = "magicaward_" + mid;
+				var num = $('newmagicawardnum').value;
+				var name = $('newmagicaward').options[$('newmagicaward').selectedIndex].text;
+				if($(id)) {
+					removeMagicAward($(id).getElementsByTagName("a")[0]);
+				}
+				var s = '<li id="' + id + '">';
+				s += '<input type="hidden" name="magicaward[]" value="' + mid + ',' + num + '" />';
+				s += name + ' &nbsp;&nbsp;' + "\n";
+				s += num + ' &nbsp;&nbsp;' + "\n";
+				s += '<a href="#" onclick="removeMagicAward(this);return false;">Remove</a>';
+				s += '</li>';
+				$('magicawards').innerHTML += s;
+			}
+			function removeMagicAward(o) {
+				$('magicawards').removeChild(o.parentNode);
+			}
+			</script>
+		</td>
+	</tr>
+	</table>
+
+	<!--{if $thevalue[system]}-->
+	<br />
+	<div class="title">
+	<h3>$thevalue[grouptitle] Management authority</h3>
+	<p>Set whether the user group members have the site management authority, which may affect the site, data security, please choose carefully</p>
+	</div>
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr>
+		<th style="width:12em;">Administrator</th>
+		<td>
+			<input type="radio" name="set[manageconfig]" value="1"<!--{if $thevalue['manageconfig']==1}--> checked<!--{/if}-->> Have administrator
+			<input type="radio" name="set[manageconfig]" value="0"<!--{if $thevalue['manageconfig']!=1}--> checked<!--{/if}-->> Prohibition
+			<br>Note that the user group members have an administrator, it will no longer be subject to the following permissions are set, will automatically have full access
+		</td>
+	</tr>
+	<tr>
+		<th>Batch management operations</th>
+		<td>
+			<input type="radio" name="set[managebatch]" value="1"<!--{if $thevalue['managebatch']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managebatch]" value="0"<!--{if $thevalue['managebatch']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Tags</th>
+		<td>
+			<input type="radio" name="set[managetag]" value="1"<!--{if $thevalue['managetag']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managetag]" value="0"<!--{if $thevalue['managetag']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Groups</th>
+		<td>
+			<input type="radio" name="set[managemtag]" value="1"<!--{if $thevalue['managemtag']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managemtag]" value="0"<!--{if $thevalue['managemtag']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Activities</th>
+		<td>
+			<input type="radio" name="set[manageevent]" value="1"<!--{if $thevalue['manageevent']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageevent]" value="0"<!--{if $thevalue['manageevent']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>News(feed)</th>
+		<td>
+			<input type="radio" name="set[managefeed]" value="1"<!--{if $thevalue['managefeed']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managefeed]" value="0"<!--{if $thevalue['managefeed']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Record</th>
+		<td>
+			<input type="radio" name="set[managedoing]" value="1"<!--{if $thevalue['managedoing']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managedoing]" value="0"<!--{if $thevalue['managedoing']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Share</th>
+		<td>
+			<input type="radio" name="set[manageshare]" value="1"<!--{if $thevalue['manageshare']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageshare]" value="0"<!--{if $thevalue['manageshare']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Log</th>
+		<td>
+			<input type="radio" name="set[manageblog]" value="1"<!--{if $thevalue['manageblog']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageblog]" value="0"<!--{if $thevalue['manageblog']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Album</th>
+		<td>
+			<input type="radio" name="set[managealbum]" value="1"<!--{if $thevalue['managealbum']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managealbum]" value="0"<!--{if $thevalue['managealbum']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Comments</th>
+		<td>
+			<input type="radio" name="set[managecomment]" value="1"<!--{if $thevalue['managecomment']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managecomment]" value="0"<!--{if $thevalue['managecomment']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Topics</th>
+		<td>
+			<input type="radio" name="set[managethread]" value="1"<!--{if $thevalue['managethread']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managethread]" value="0"<!--{if $thevalue['managethread']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Vote</th>
+		<td>
+			<input type="radio" name="set[managepoll]" value="1"<!--{if $thevalue['managepoll']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managepoll]" value="0"<!--{if $thevalue['managepoll']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Props Records</th>
+		<td>
+			<input type="radio" name="set[managemagiclog]" value="1"<!--{if $thevalue['managemagiclog']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managemagiclog]" value="0"<!--{if $thevalue['managemagiclog']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Casual look at</th>
+		<td>
+			<input type="radio" name="set[managenetwork]" value="1"<!--{if $thevalue['managenetwork']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managenetwork]" value="0"<!--{if $thevalue['managenetwork']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>User Groups</th>
+		<td>
+			<input type="radio" name="set[manageusergroup]" value="1"<!--{if $thevalue['manageusergroup']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageusergroup]" value="0"<!--{if $thevalue['manageusergroup']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Integral Rules</th>
+		<td>
+			<input type="radio" name="set[managecredit]" value="1"<!--{if $thevalue['managecredit']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managecredit]" value="0"<!--{if $thevalue['managecredit']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>User section</th>
+		<td>
+			<input type="radio" name="set[manageprofilefield]" value="1"<!--{if $thevalue['manageprofilefield']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageprofilefield]" value="0"<!--{if $thevalue['manageprofilefield']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Group columns</th>
+		<td>
+			<input type="radio" name="set[manageprofield]" value="1"<!--{if $thevalue['manageprofield']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageprofield]" value="0"<!--{if $thevalue['manageprofield']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Activity classifications</th>
+		<td>
+			<input type="radio" name="set[manageeventclass]" value="1"<!--{if $thevalue['manageeventclass']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageeventclass]" value="0"<!--{if $thevalue['manageeventclass']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Words shielding</th>
+		<td>
+			<input type="radio" name="set[managecensor]" value="1"<!--{if $thevalue['managecensor']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managecensor]" value="0"<!--{if $thevalue['managecensor']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Ad Settings</th>
+		<td>
+			<input type="radio" name="set[managead]" value="1"<!--{if $thevalue['managead']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managead]" value="0"<!--{if $thevalue['managead']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Report Management</th>
+		<td>
+			<input type="radio" name="set[managereport]" value="1"<!--{if $thevalue['managereport']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managereport]" value="0"<!--{if $thevalue['managereport']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Cache Update</th>
+		<td>
+			<input type="radio" name="set[managecache]" value="1"<!--{if $thevalue['managecache']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managecache]" value="0"<!--{if $thevalue['managecache']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Multi-product / application</th>
+		<td>
+			<input type="radio" name="set[manageapp]" value="1"<!--{if $thevalue['manageapp']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageapp]" value="0"<!--{if $thevalue['manageapp']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Data Call</th>
+		<td>
+			<input type="radio" name="set[manageblock]" value="1"<!--{if $thevalue['manageblock']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageblock]" value="0"<!--{if $thevalue['manageblock']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Template Editor</th>
+		<td>
+			<input type="radio" name="set[managetemplate]" value="1"<!--{if $thevalue['managetemplate']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managetemplate]" value="0"<!--{if $thevalue['managetemplate']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Backup</th>
+		<td>
+			<input type="radio" name="set[managebackup]" value="1"<!--{if $thevalue['managebackup']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managebackup]" value="0"<!--{if $thevalue['managebackup']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Statistics Update</th>
+		<td>
+			<input type="radio" name="set[managestat]" value="1"<!--{if $thevalue['managestat']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managestat]" value="0"<!--{if $thevalue['managestat']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Scheduled Tasks</th>
+		<td>
+			<input type="radio" name="set[managecron]" value="1"<!--{if $thevalue['managecron']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managecron]" value="0"<!--{if $thevalue['managecron']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>IP Settings</th>
+		<td>
+			<input type="radio" name="set[manageip]" value="1"<!--{if $thevalue['manageip']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageip]" value="0"<!--{if $thevalue['manageip']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Recommend members of the Set</th>
+		<td>
+			<input type="radio" name="set[managehotuser]" value="1"<!--{if $thevalue['managehotuser']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managehotuser]" value="0"<!--{if $thevalue['managehotuser']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Friends set up the default</th>
+		<td>
+			<input type="radio" name="set[managedefaultuser]" value="1"<!--{if $thevalue['managedefaultuser']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managedefaultuser]" value="0"<!--{if $thevalue['managedefaultuser']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Delete User</th>
+		<td>
+			<input type="radio" name="set[managedelspace]" value="1"<!--{if $thevalue['managedelspace']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managedelspace]" value="0"<!--{if $thevalue['managedelspace']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Real-name authentication</th>
+		<td>
+			<input type="radio" name="set[managename]" value="1"<!--{if $thevalue['managename']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managename]" value="0"<!--{if $thevalue['managename']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Video Certification</th>
+		<td>
+			<input type="radio" name="set[managevideophoto]" value="1"<!--{if $thevalue['managevideophoto']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managevideophoto]" value="0"<!--{if $thevalue['managevideophoto']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Users protect their information</th>
+		<td>
+			<input type="radio" name="set[managespacegroup]" value="1"<!--{if $thevalue['managespacegroup']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managespacegroup]" value="0"<!--{if $thevalue['managespacegroup']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>User Basic Information</th>
+		<td>
+			<input type="radio" name="set[managespaceinfo]" value="1"<!--{if $thevalue['managespaceinfo']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managespaceinfo]" value="0"<!--{if $thevalue['managespaceinfo']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>User Points</th>
+		<td>
+			<input type="radio" name="set[managespacecredit]" value="1"<!--{if $thevalue['managespacecredit']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managespacecredit]" value="0"<!--{if $thevalue['managespacecredit']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Notice to the user</th>
+		<td>
+			<input type="radio" name="set[managespacenote]" value="1"<!--{if $thevalue['managespacenote']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managespacenote]" value="0"<!--{if $thevalue['managespacenote']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Prizes tasks</th>
+		<td>
+			<input type="radio" name="set[managetask]" value="1"<!--{if $thevalue['managetask']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managetask]" value="0"<!--{if $thevalue['managetask']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Props Set</th>
+		<td>
+			<input type="radio" name="set[managemagic]" value="1"<!--{if $thevalue['managemagic']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managemagic]" value="0"<!--{if $thevalue['managemagic']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Action Set statement</th>
+		<td>
+			<input type="radio" name="set[manageclick]" value="1"<!--{if $thevalue['manageclick']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[manageclick]" value="0"<!--{if $thevalue['manageclick']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+	<tr>
+		<th>Excitement Management</th>
+		<td>
+			<input type="radio" name="set[managetopic]" value="1"<!--{if $thevalue['managetopic']==1}--> checked<!--{/if}-->> Manageable
+			<input type="radio" name="set[managetopic]" value="0"<!--{if $thevalue['managetopic']!=1}--> checked<!--{/if}-->> Prohibition
+		</td>
+	</tr>
+
+	</table>
+	<!--{/if}-->
+
+	</div>
+
+	<div class="footactions">
+	<input type="hidden" name="set[gid]" value="$thevalue[gid]">
+	<input type="submit" name="thevaluesubmit" value="Submit" class="submit">
+	</div>
+
+	</form>
+
+<!--{/if}-->
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

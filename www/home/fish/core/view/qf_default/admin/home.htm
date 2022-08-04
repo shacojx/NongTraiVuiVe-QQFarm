@@ -1,0 +1,36 @@
+<!--{tpl admin/header}-->
+
+<div>
+	<strong>服务器参数</strong>
+	<ul>
+		<!--{foreach $fishTest as $key=>$value}-->
+		<!--{php is_bool($value[0]) && $value[0] =  $value[0] ? '支持' : '不支持';}-->
+		<!--{php $value[1] =  $value[1] ? '<span>('.$value[1].')</span>' : '';}-->
+		<li>
+			{:$key} : {:$value[0]} {:$value[1]}
+		</li>
+		<!--{/foreach}-->
+	<ul>
+<div>
+
+<script type="text/javascript">
+	var hf_stable_version, hf_development_version;
+	var JsURL = "http://version.phpye.com/?p=HFish&v={:FISH_VERSION}&" + Math.random();
+	document.write(unescape("%3Cscript src='" + JsURL + "' type='text/javascript'%3E%3C/script%3E"));
+	function check_version() {
+		try {
+			var msg = '';
+			if(qf_stable_version) {
+				msg += '当前稳定版:' + hf_stable_version + '\r\n';
+			}
+			if(qf_development_version) {
+				msg += '当前开发版:' + hf_development_version + '\r\n';
+			}
+			alert(msg || '版本号获取异常');
+		} catch(e) {
+			alert('未知错误');
+		}
+	}
+</script>
+
+<!--{tpl admin/footer}-->

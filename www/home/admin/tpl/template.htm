@@ -1,0 +1,65 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+<!--{if empty($_GET['op'])}-->
+
+	<div class="bdrcontent">
+	
+	<!--{if $tpls}-->
+		<!--{loop $tpls $key $value}-->
+		
+		<div class="title">
+			<h3>$key</h3>
+		</div>
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th>Template file name</th><th width="80">Operation</th></tr>
+		<!--{loop $value $subvalue}-->
+		<tr><td>$subvalue[0]</td><td><a href="$turl&op=edit&filename=$subvalue[0]">Edit</a> 
+		<!--{if $subvalue[1]}-->
+		<a href="$turl&op=repair&filename=$subvalue[0]">Recovery</a>
+		<!--{/if}-->
+		</td></tr>
+		<!--{/loop}-->
+		</table>
+		<br />
+		<!--{/loop}-->
+	<!--{else}-->
+		<div class="c_form">The current template directory, there is no editable template files</div>
+	<!--{/if}-->
+	</div>
+
+<!--{elseif $_GET['op'] == 'edit'}-->
+
+	<form method="post" action="$turl">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+	
+		<div class="title">
+			<h3>Edit Template: $filename</h3>
+		</div>
+		
+		<table cellspacing="0" cellpadding="0" width="100%">
+		<tr><td>
+		<textarea name="content" style="width:98%;font-size:11px;" rows="30">$content</textarea>
+		</td></tr>
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="filename" value="$filename">
+		<input type="submit" name="editsubmit" value="Submit" class="submit">
+	</div>
+	
+	</form>
+
+<!--{/if}-->
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

@@ -1,0 +1,162 @@
+<!--{template header}-->
+
+<h3 class="feed_header">
+	<a href="space.php?uid=$space[uid]" class="r_option">Homepage</a>
+	My Profile
+</h3>
+<br>
+<table cellspacing="0" cellpadding="0" class="infotable">
+
+	<tr>
+		<th width="120">Level:</th>
+		<td>$space[experience] $space[star]</td>
+	</tr>
+	<tr>
+		<th>Usergroup:</th>
+		<td>{$_SGLOBAL[grouptitle][$space[groupid]][grouptitle]} <!--{eval g_icon($space[groupid]);}--></td>
+	</tr>
+	<tr>
+		<th>Points:</th>
+		<td>$space[credit]</td>
+	</tr>
+	<tr>
+		<th>Hits:</th>
+		<td>$space[viewnum]</td>
+	</tr>
+	<tr>
+		<th>Member Since:</th>
+		<td><!--{date('d-m-Y',$space[dateline],1)}--></td>
+	</tr>
+	<tr>
+		<th>Last Login:</th>
+		<td><!--{if $space[lastlogin]}--><!--{date('d-m-Y',$space[lastlogin],1)}--><!--{/if}--></td>
+	</tr>
+	<!--{if $isonline}-->
+	<tr style="color:red;">
+		<th>Status:</th>
+		<td>$isonline (Online Now)</td>
+	</tr>
+	<!--{/if}-->
+
+<!--{if $space[profile_base]}-->
+	<tr>
+		<td class="td_title" colspan="2">Basic Info</td>
+	</tr>
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+<!--{/if}-->
+<!--{if $space[sex]}-->
+	<tr><th>Sex:</th><td>$space[sex]</td></tr>
+<!--{/if}-->
+<!--{if $space[birth]}-->
+	<tr><th>DOB:</th><td>$space[birth]</td></tr>
+<!--{/if}-->
+<!--{if $space[blood]}-->
+	<tr><th>Blood Type:</th><td>$space[blood]</td></tr>
+<!--{/if}-->
+<!--{if $space[marry]}-->
+	<tr><th>Marital Status:</th><td>$space[marry]</td></tr>
+<!--{/if}-->
+<!--{if $space[residecity]}-->
+	<tr><th>Location:</th><td>$space[residecity]</td></tr>
+<!--{/if}-->
+<!--{if $space[birthcity]}-->
+	<tr><th>HomeTown:</th><td>$space[birthcity]</td></tr>
+<!--{/if}-->
+
+<!--{loop $fields $fieldid $value}-->
+<!--{if $space["field_$fieldid"] && empty($value['invisible'])}-->
+<!--{eval $fieldvalue = $space["field_$fieldid"]; $urlvalue = rawurlencode($fieldvalue);}-->
+	<tr><th>$value[title]:</th><td><!--{if $value[allowsearch]}-->
+	<a href="cp.php?ac=friend&op=search&field_$fieldid=$urlvalue&searchmode=1">$fieldvalue</a>
+	<!--{else}-->$fieldvalue<!--{/if}--></td></tr>
+<!--{/if}-->
+<!--{/loop}-->
+
+<!--{if $space[profile_contact]}-->
+	<tr>
+		<td class="td_title" colspan="2">Contact</td>
+	</tr>
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+<!--{/if}-->
+<!--{if $space[mobile]}-->
+	<tr><th>Mobile:</th><td>$space[mobile]</td></tr>
+<!--{/if}-->
+<!--{if $space[msn]}-->
+	<tr><th>MSN:</th><td>$space[msn]</td></tr>
+<!--{/if}-->
+<!--{if $space[qq]}-->
+	<tr><th>QQ:</th><td>$space[qq]</td></tr>
+<!--{/if}-->
+
+<!--{if $space[edu]}-->
+	<tr>
+		<td class="td_title" colspan="2">Education</td>
+	</tr>
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+
+	<tr><th>School/College:</th><td>
+		<!--{loop $space[edu] $value}-->
+		<!--{eval $title_url = urlencode($value[title]);$subtitle_url = urlencode($value[subtitle]);}-->
+		<p><a href="space.php?do=mtag&tagname=$title_url">$value[title]</a> <a href="space.php?do=mtag&tagname=$subtitle_url">$value[subtitle]</a> <span class="gray">($value[startyear] Yr)</span></p>
+		<!--{/loop}-->
+	</td></tr>
+<!--{/if}-->
+
+<!--{if $space[work]}-->
+	<tr>
+		<td class="td_title" colspan="2">Work</td>
+	</tr>
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+
+	<tr><th>Organization</th><td>
+	<!--{loop $space[work] $value}-->
+	<!--{eval $title_url = urlencode($value[title]);$subtitle_url = urlencode($value[subtitle]);}-->
+		<p><a href="space.php?do=mtag&tagname=$title_url">$value[title]</a> <a href="space.php?do=mtag&tagname=$subtitle_url">$value[subtitle]</a> <span class="gray">({$value[startyear]}From {$value[startmonth]} to
+			<!--{if $value[endyear]}-->{$value[endyear]}Yr<!--{/if}-->
+			<!--{if $value[endmonth]}-->{$value[endmonth]}Month<!--{/if}-->
+			<!--{if !$value[endyear] && !$value[endmonth]}-->Now<!--{/if}-->)</span></p>
+	<!--{/loop}-->
+			</td></tr>
+<!--{/if}-->
+
+<!--{if $space[info]}-->
+<!--{eval 
+$infoarr = array(
+	'trainwith' => 'I am looking for',
+	'interest' => 'Hobbies',
+	'book' => 'Favorite Books',
+	'movie' => 'Favorite movies',
+	'tv' => 'Favorite TV show',
+	'music' => 'Favorite Music',
+	'game' => 'Favorite Games',
+	'sport' => 'Sports',
+	'idol' => 'My Idol',
+	'motto' => 'My Fev Quote',
+	'wish' => 'Wishlist',
+	'intro' => 'About Me'
+);
+}-->
+	<tr>
+		<td class="td_title" colspan="2">About Me</td>
+	</tr>
+	<tr>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+<!--{loop $space[info] $value}-->
+<!--{if $value[title]}-->
+	<tr><th>{$infoarr[$value[subtype]]}:</th><td>$value[title]
+	</td></tr>
+<!--{/if}-->
+<!--{/loop}-->
+<!--{/if}-->
+
+</table><br>
+<!--{template footer}-->

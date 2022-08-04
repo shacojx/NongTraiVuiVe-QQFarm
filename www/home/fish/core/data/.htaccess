@@ -1,0 +1,5 @@
+# deny access
+# create by seaif@zealv.com
+
+Order deny,allow
+Deny from all

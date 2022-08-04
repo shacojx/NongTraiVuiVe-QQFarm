@@ -1,0 +1,245 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<div class="l_status c_form">
+	<a href="cp.php?ac=credit"$cat_actives[base]>Credits</a><span class="pipe">|</span>
+	<a href="cp.php?ac=credit&op=rule"$cat_actives[rule]>Credits Rule</a><span class="pipe">|</span>
+	<a href="cp.php?ac=credit&op=usergroup"$cat_actives[usergroup]>Credits System</a><span class="pipe">|</span>
+	<a href="cp.php?ac=credit&op=exchange"$cat_actives[exchange]>Exchange Points</a>
+</div>
+
+<!--{eval
+	$_TPL['cycletype'] = array(
+		'0' => 'Once',
+		'1' => 'Daily',
+		'2' => 'Random',
+		'3' => 'Hourly',
+		'4' => 'Unlimted'
+	);
+}-->
+
+<div class="c_form">
+<!--{if empty($_GET['op'])}-->	
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th width="150">My Status</th>
+			<td><span style="color:green;font-size:14px;">$space[experience]</span> <!--{eval echo getstar($space[experience]);}--></td>
+		</tr>
+		<tr><th width="150">&nbsp;</th><td class="gray">
+			After each <strong>$_SCONFIG[starcredit]</strong> points，it will add one <img src="image/star_level1.gif" align="absmiddle"><br>
+			After each <strong>$_SCONFIG[starlevelnum]</strong> icons of the same level,you will get <strong>1</strong> level-up icon <br>
+			Level Icons are：<!--{eval for($i=1;$i<11;$i++){}--><img src="image/star_level{$i}.gif"><!--{eval }}--></td></tr>
+		<tr>
+			<th width="150">User Group</th>
+			<td>
+				<span<!--{eval g_color($space[groupid]);}-->>$space[grouptitle]</span>
+				<!--{eval g_icon($space[groupid]);}-->
+			</td>
+		</tr>
+		<tr>
+			<th width="150">Caredit</th>
+			<td>
+			<img src="image/credit.gif">
+			<span style="color:red;font-size:14px;">$space[credit]</span>
+			<span class="gray">(<a href="space.php?do=top&view=credit">Ranking</a>)</span>
+			</td>
+		</tr>
+		<tr><th>Visits:</th>
+			<td>$space[viewnum] 
+			<span class="gray">(<a href="space.php?do=top&view=viewnum">查看排名</a>)</span>
+			</td></tr>
+		<tr><th>Created:</th><td><!--{date('Y-m-d',$space[dateline],1)}--></td></tr>
+		<tr><th>Last Logged:</th><td><!--{date('Y-m-d',$space[lastlogin],1)}--></td></tr>
+		<tr><th>Last Updated:</th><td><!--{date('Y-m-d',$space[updatetime],1)}--></td></tr>
+
+		<tr>
+			<th>Space Range:</th>
+			<td> Total Space $maxattachsize, $space[attachsize] is already used ({$percent}%)</td>
+		</tr>
+		<!--{if $space[haveattachsize]}--><tr><th>Remaining space::</th><td>$space[haveattachsize]</td></tr><!--{/if}-->
+	</table>
+	<br>
+
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<caption>
+			<h2>Credits & Award Center</h2>
+			<p>Award and Credit History and Below actions will help you to earn credits, increase your levels:</p>
+		</caption>
+		<thead>
+		<tr class="title">
+			<td>Action Name</td>
+			<td align="center">Number of Log-in</td>
+			<td align="center">Periodicity</td>
+			<td align="center">Each module point</td>
+			<td align="center">Each module Credit</td>
+			<td align="center">Last Scored</td>
+		</tr>
+		</thead>
+		<!--{if $list}-->
+		<!--{loop $list $key $value}-->
+		<tr<!--{if $key%2==0}--> class="line"<!--{/if}-->>
+			<td><a href="cp.php?ac=credit&op=rule&rid=$value[rid]">$value[rulename]</a></td>
+			<td align="center">$value[total]</td>
+			<td align="center">$value[cyclenum]</td>
+			<td align="center">$value[credit]</td>
+			<td align="center">$value[experience]</td>
+			<td align="center"><!--{date('m-d H:i',$value[dateline])}--></td>
+		</tr>
+		<!--{/loop}-->
+		<!--{else}-->
+		<tr>
+			<td colspan="6">You do not have scored any credit!</td>
+		</tr>
+		<!--{/if}-->
+		<!--{if $multi}-->
+		<tr>
+			<td colspan="6"><div class="page">$multi</div></td>
+		</tr>
+		<!--{/if}-->
+	</table>
+
+<!--{elseif $_GET['op'] == 'exchange'}-->
+
+	<form method="post" action="cp.php?ac=credit&op=exchange">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<caption>
+		<h2>Exchange/Transfer cradit</h2>
+		<p>Exchange/transfer your credits to other applications in the community (e.g. forum).</p>
+	</caption>
+	<tr><th width="150">Your Credits:</th><td> $space[credit]</td></tr>
+	<tr>
+		<th><label for="password">Password</label>:</th>
+		<td><input type="password" name="password" class="t_input" /></td>
+	</tr>
+	<tr>
+		<th>Use Credits:</th>
+		<td><input type="text" id="amount" name="amount" value="0" class="t_input" onkeyup="calcredit();" /></td>
+	</tr>
+	<tr>
+		<th>Exchange:</th>
+		<td>
+			<input type="text" id="desamount" value="0" class="t_input" disabled />&nbsp;&nbsp;
+			<select name="tocredits" id="tocredits" onChange="calcredit();">
+			<!--{loop $_CACHE['creditsettings'] $id $ecredits}-->
+				<!--{if $ecredits[ratio]}-->
+					<option value="$id" unit="$ecredits[unit]" title="$ecredits[title]" ratio="$ecredits[ratio]">$ecredits[title]</option>
+				<!--{/if}-->
+			<!--{/loop}-->
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>Exchange Rate:</th>
+		<td><span class="bold">1</span>&nbsp;<span id="orgcreditunit">积分</span><span id="orgcredittitle"></span>&nbsp;兑换&nbsp;<span class="bold" id="descreditamount"></span>&nbsp;<span id="descreditunit"></span><span id="descredittitle"></span></td>
+	</tr>
+	<tr><th>&nbsp;</th><td><input type="submit" name="exchangesubmit" value="Exchange Credits" class="submit"></td></tr>
+	</table>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+	<script type="text/javascript">
+		function calcredit() {
+			tocredit = $('tocredits')[$('tocredits').selectedIndex];
+			$('descreditunit').innerHTML = tocredit.getAttribute('unit');
+			$('descredittitle').innerHTML = tocredit.getAttribute('title');
+			$('descreditamount').innerHTML = Math.round(1/tocredit.getAttribute('ratio') * 100) / 100;
+			$('amount').value = $('amount').value.toInt();
+			if($('amount').value != 0) {
+				$('desamount').value = Math.floor(1/tocredit.getAttribute('ratio') * $('amount').value);
+			} else {
+				$('desamount').value = $('amount').value;
+			}
+		}
+		String.prototype.toInt = function() {
+			var s = parseInt(this);
+			return isNaN(s) ? 0 : s;
+		}
+		calcredit();
+	</script>
+
+<!--{elseif $_GET['op'] == 'rule'}-->
+
+	<!--{if $list}-->
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<caption>
+			<h2>Important Award Rules</h2>
+			<p>Participate below activities to get the points, but for some activity there is limited number of rewards, first come and first get</p>
+		</caption>
+		<tr class="title">
+			<td>Action Name</td>
+			<td align="center">Range</td>
+			<td align="center">Maximum Prize</td>
+			<td align="center" width="100">Each module point</td>
+		</tr>
+		<!--{loop $list $key $value}-->
+		<tr<!--{if $key%2==0}--> class="line"<!--{/if}-->>
+			<td>$value[rulename]</td>
+			<td align="center">$_TPL[cycletype][$value[cycletype]]</td>
+			<td align="center"><!--{if $value[rewardnum]}-->$value[rewardnum]<!--{else}-->Unlimited Times<!--{/if}--></td>
+			<td align="center">$value[credit]</td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	<!--{/if}-->
+	
+	<!--{if $list2}-->
+	<br>
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<caption>
+			<h2>Losing/Subtraction Credits</h2>
+			<p>Any of below action will lead you to reduce your credit, delete your any published content for what you have get the credit, Avoid to loose your credit/score</p>
+		</caption>
+		<tr class="title">
+			<th>Action Name</th>
+			<th align="center">Reduce from One Module</th>
+		</tr>
+		<!--{loop $list2 $key $value}-->
+		<tr<!--{if $key%2==0}--> class="line"<!--{/if}-->>
+			<td>$value[rulename]</td>
+			<td align="center" width="100">$value[credit]</td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	<!--{/if}-->
+	
+<!--{elseif $_GET['op'] == 'usergroup'}-->
+
+	<table cellspacing="0" cellpadding="0" class="listtable">
+	<caption>
+		<h2>Value of User Group and Credit</h2>
+		<p>A higher user group(your level) will allow more access and rights</p>
+	</caption>
+	<tr class="title">
+		<th width="150">User Group Name</th>
+		<td>Credit range</td>
+	</tr>
+	<!--{loop $groups $value}-->
+	<tr>
+		<th><span<!--{eval g_color($value[gid]);}-->>{$value[grouptitle]}</span><!--{eval g_icon($value[gid]);}--></th>
+		<td>$value[explower] ~ $value[exphigher]</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+	
+	<table cellspacing="0" cellpadding="0" class="listtable">
+	<caption>
+		<h2>VIP User Group</h2>
+		<p>VIP Special User Group</p>
+	</caption>
+	<tr class="title">
+		<th width="150">User group name</th>
+		<td>Experience ranges</td>
+	</tr>
+	<!--{loop $s_groups $value}-->
+	<tr>
+		<th><span<!--{eval g_color($value[gid]);}-->>{$value[grouptitle]}</span><!--{eval g_icon($value[gid]);}--></th>
+		<td>-</td>
+	</tr>
+	<!--{/loop}-->
+	</table>
+
+<!--{/if}-->
+
+</div>
+
+<!--{template footer}-->

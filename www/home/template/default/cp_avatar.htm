@@ -1,0 +1,36 @@
+<!--{template header}-->
+<!--{template cp_header}-->
+
+<script type="text/javascript">
+	function updateavatar() {
+		window.location.reload();
+	}
+</script>
+<form method="post" action="cp.php?ac=avatar&ref" class="c_form">
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>Cập nhật Avatar</h2>
+			<p>Hệ thống sẽ tạo cho bạn Avatar mặc định. Bạn hãy tải lên Avatar mới cho mình.</p>
+		</caption>
+		<tr>
+			<td>
+				<!--{avatar($space[uid],big)}-->
+			</td>
+		</tr>
+	</table>
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<caption>
+			<h2>Set Avatar</h2>
+			<p>Xin vui lòng lựa chọn một hình ảnh để tải lên.</p>
+		</caption>
+		<tr>
+			<td>$uc_avatarflash</td>
+		</tr>
+		<tr>
+			<td>Avatar sau khi được lưu, bạn có thể cần phải làm mới trang này (F5) để xem những hình ảnh mới.</td>
+		</tr>
+	</table>
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+</form>
+<!--{template footer}-->

@@ -1,0 +1,39 @@
+<!--{tpl admin/inc_header}-->
+
+<!--{if $itemtype_list}-->
+<table class="list">
+	<tr>
+		<th>ID</th>
+		<th>Tên</th>
+		<th>Bộ</th>
+		<th>Thời hạn</th>
+		<th>Xu</th>
+		<th>Vàng</th>
+		<th>Giá VIP</th>
+		<th>Exp</th>
+		<th>Cấp độ</th>
+		<th></th>
+	</tr>
+	<!--{foreach $itemtype_list as $itemtype}-->
+	<tr>
+		<td>{:$itemtype['itemId']}</td>
+		<td>{:$itemtype['itemName']}</td>
+		<td>{:$itemtype['itemDesc']}</td>
+		<td>{:$itemtype['itemValidTime']/(3600*24)} ngày</td>
+		<td>{:$itemtype['price']}</td>
+		<td>{:$itemtype['FBPrice']}</td>
+		<td>{:$itemtype['YFBPrice']}</td>
+		<td>{:$itemtype['exp']}</td>
+		<td>{:$itemtype['level']}</td>
+		<td>
+			<a href="admin.php?mod=itemtype_edit&id={:$itemtype['itemId']}">Sửa</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<div id="pages" class="multiPage"></div>
+<!--{else}-->
+<div class="no_hpinfo">Chưa có</div>
+<!--{/if}-->
+
+<!--{tpl admin/inc_footer}-->

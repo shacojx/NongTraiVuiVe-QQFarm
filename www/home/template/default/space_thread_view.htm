@@ -1,0 +1,226 @@
+<!--{eval $_TPL['titles'] = array($thread['subject'], $mtag['tagname'], $mtag['title'], 'Discussion');}-->
+<!--{template header}-->
+
+<h2 class="title">
+	<!--{if $eventid}-->
+	<img src="image/app/event.gif">Event - <a href="space.php?do=event&id=$eventid">$event[title]</a>
+	<!--{else}-->
+	<img src="image/app/mtag.gif"><a href="space.php?do=mtag&id=$mtag[fieldid]">$mtag[title]</a> -
+	<a href="space.php?do=mtag&tagid=$mtag[tagid]">$mtag[tagname]</a>
+	<!--{/if}-->
+</h2>
+
+<div class="tabs_header">
+
+	<ul class="tabs">
+		<!--{if $eventid}-->
+		<li><a href="space.php?do=event&id=$eventid&view=thread"><span>Back to Forum</span></a></li>
+		<!--{else}-->
+		<li><a href="space.php?do=mtag&tagid=$thread[tagid]&view=list"><span>Back to Forum</span></a></li>
+		<!--{/if}-->
+		<!--{if $eventid}-->
+			<!--{if $event[grade] > 0 && $userevent[status]>=2}-->
+		<li class="null"><a href="cp.php?ac=thread&tagid=$mtag[tagid]&eventid=$eventid">Create Discussion</a></li>
+			<!--{/if}-->
+		<!--{elseif empty($mtag['ismember']) && $mtag['joinperm'] < 2}-->
+		<li class="null"><a href="cp.php?ac=mtag&op=join&tagid=$mtag[tagid]" id="mtag_join_$mtag[tagid]" onclick="ajaxmenu(event, this.id)">Join Group</a></li>
+		<!--{elseif $mtag['allowpost']}-->
+		<li class="null"><a href="cp.php?ac=thread&tagid=$mtag[tagid]">Create Discussion</a></li>
+		<!--{/if}-->
+	</ul>
+	<!--{if $_SGLOBAL[refer]}-->
+	<div class="r_option">
+		<a  href="$_SGLOBAL[refer]">&laquo; Prev Page</a>
+	</div>
+	<!--{/if}-->
+</div>
+
+<div id="div_post">
+
+	<div class="board">
+		<!--{if $thread[content]}-->
+		<div id="post_$thread[content][pid]_li">
+
+			<ul class="line_list">
+				<li>
+				<table width="100%">
+				<tr>
+					<td width="70" valign="top">
+						<div class="avatar48">
+						<a href="space.php?uid=$thread[uid]"><!--{avatar($thread[uid],small)}--></a>
+						</div>
+					</td>
+					<td>
+						<div class="title">
+							<a href="cp.php?ac=share&type=thread&id=$thread[tid]" id="a_share" onclick="ajaxmenu(event, this.id, 1)" class="a_share">Share</a>
+							<div class="r_option">
+								<a href="cp.php?ac=common&op=report&idtype=tid&id=$thread[tid]" id="a_report" onclick="ajaxmenu(event, this.id, 1)">Abuse</a><span class="pipe">|</span>
+							</div>
+
+							<!--{eval $magicegg = ""}-->
+							<!--{eval if($thread[magicegg]) for($i=0; $i<$thread[magicegg]; $i++) $magicegg .= '<img src="image/magic/egg/'.mt_rand(1,6).'.gif" />';}-->
+							<h1 <!--{if $thread[magiccolor]}--> class="magiccolor$thread[magiccolor]"<!--{/if}--> >$magicegg $thread[subject]</h1>
+							<!--{if $thread[hot]}--><span class="hot"><em>Popular</em>$thread[hot]</span><!--{/if}-->
+							<a href="space.php?uid=$thread[uid]">{$_SN[$thread[uid]]}</a>
+							<span class="gray"><!--{date('d-m-Y H:i',$thread[dateline],1)}--></span>
+
+
+							<!--{if $topic}-->
+							<p style="padding:5px 0;">
+								<img src="image/app/topic.gif" align="absmiddle">
+								<strong>Interested</strong>£º<a href="space.php?do=topic&topicid=$topic[topicid]">$topic[subject]</a></p>
+							<!--{/if}-->
+
+							<!--{if !$eventid && $thread[eventid] && $event}-->
+							<p style="padding:5px 0;"><strong>from Event</strong>£º<a href="space.php?do=event&id=$event[eventid]&view=thread">$event[title]</a></p>
+							<!--{/if}-->
+						</div>
+
+						<div class="detail" id="detail_0">
+							<!--{if $_SGLOBAL['ad']['rightside']}-->
+							<div style="float: right; padding:5px;"><!--{ad/rightside}--></div>
+							<!--{/if}-->
+							$thread[content][message]
+							<!--{if $thread[content][pic]}--><div><a href="$thread[content][pic]" target="_blank"><img src="$thread[content][pic]" alt="" class="resizeimg" /></a></div><!--{/if}-->
+
+						</div>
+
+					</td>
+				</tr>
+			</table>
+			
+			<div id="click_div">
+				<!--{template space_click}-->
+			</div>
+
+			<table width="100%">			
+				<tr>
+					<td align="right">
+						<!--{if $thread[uid]==$_SGLOBAL[supe_uid]}-->
+							<!--{if $_SGLOBAL[magic][icon]}-->
+							<img src="image/magic/icon.small.gif" class="magicicon">
+							<a href="magic.php?mid=icon&idtype=tid&id=$thread[tid]" id="a_magic_icon" onclick="ajaxmenu(event,this.id,1)">{$_SGLOBAL[magic][icon]}</a>							
+							<span class="pipe">|</span>
+							<!--{/if}-->
+							<!--{if $_SGLOBAL[magic][icon]}-->
+							<img src="image/magic/color.small.gif" class="magicicon">
+								<!--{if $thread[magiccolor]}-->
+							<a href="cp.php?ac=magic&op=cancelcolor&idtype=tid&id=$thread[tid]" id="a_magic_color" onclick="ajaxmenu(event,this.id)">Cancel {$_SGLOBAL[magic][color]}</a>
+								<!--{else}-->
+							<a href="magic.php?mid=color&idtype=tid&id=$thread[tid]" id="a_magic_color" onclick="ajaxmenu(event,this.id,1)">{$_SGLOBAL[magic][color]}</a>
+								<!--{/if}-->
+							<span class="pipe">|</span>
+							<!--{/if}-->
+						<!--{/if}-->
+						<!--{if $mtag[grade]>=8 || $thread[uid]==$_SGLOBAL[supe_uid] || ($eventid && $userevent[status]>=3)}-->
+						<a href="cp.php?ac=thread&op=edit&pid=$thread[content][pid]&tagid=$thread[tagid]<!--{if $eventid}-->&eventid=$eventid<!--{/if}-->">Edit</a>
+						<a href="cp.php?ac=thread&op=delete&pid=$thread[content][pid]&tagid=$thread[tagid]<!--{if $eventid}-->&eventid=$eventid<!--{/if}-->" id="p_$thread[content][pid]_delete" onclick="ajaxmenu(event, this.id)">Remove</a>
+						<!--{/if}-->
+						<!--{if $thread[uid]==$_SGLOBAL[supe_uid] || checkperm('managethread')}-->
+						<a href="cp.php?ac=topic&op=join&id=$thread[tid]&idtype=tid" id="a_topicjoin_$thread[tid]" onclick="ajaxmenu(event, this.id)">Join the Fun</a><span class="pipe">|</span>
+						<!--{/if}-->
+						<!--{if checkperm('managethread')}-->
+						<a href="cp.php?ac=thread&tid=$thread[tid]&op=edithot" id="a_hot_$thread[tid]" onclick="ajaxmenu(event, this.id)">Popular</a><span class="pipe">|</span>
+						<!--{/if}-->
+						<!--{if (!$eventid && $mtag[allowpost]) || ($eventid && $userevent[status]>=2)}--><a href="#postform">Reply</a>&nbsp;<!--{/if}-->
+						<!--{if $mtag[grade]>=8 && !$eventid}-->
+							<!--{if $thread[displayorder]}-->
+							<a href="cp.php?ac=thread&op=top&tagid=$thread[tagid]&tid=$thread[tid]&cancel" id="t_$thread[tid]_top" onclick="ajaxmenu(event, this.id, 0, 2000)">Cancel Featuring</a>&nbsp;
+							<!--{else}-->
+							<a href="cp.php?ac=thread&op=top&tagid=$thread[tagid]&tid=$thread[tid]" id="t_$thread[tid]_top" onclick="ajaxmenu(event, this.id, 0, 2000)">Top</a>&nbsp;
+							<!--{/if}-->
+							<!--{if $thread[digest]}-->
+							<a href="cp.php?ac=thread&op=digest&tagid=$thread[tagid]&tid=$thread[tid]&cancel" id="t_$thread[tid]_digest" onclick="ajaxmenu(event, this.id, 0, 2000)">Cancel Featured</a>
+							<!--{else}-->
+							<a href="cp.php?ac=thread&op=digest&tagid=$thread[tagid]&tid=$thread[tid]" id="t_$thread[tid]_digest" onclick="ajaxmenu(event, this.id, 0, 2000)">Feature</a>
+							<!--{/if}-->
+						<!--{/if}-->
+					</td>
+				</tr>
+				</table>
+				</li>
+			</ul>
+
+		</div>
+
+		<!--{/if}-->
+		<div class="page">$multi</div>
+		<div id="post_ul">
+
+			<!--{if $pid}-->
+			<div class="notice">
+				Showing only your replied topics£¬<a href="space.php?uid=$thread[uid]&do=thread&id=$thread[tid]<!--{if $eventid}-->&eventid=$eventid<!--{/if}-->">View All</a>
+			</div>
+			<!--{/if}-->
+
+			<!--{loop $list $value}-->
+			<!--{template space_post_li}-->
+			<!--{/loop}-->
+		</div>
+
+		<div class="page">$multi</div>
+
+		<!--{if (!$eventid && $mtag[allowpost]) || ($eventid && $userevent[status]>1)}-->
+
+		<div class="quickpost" id="postform">
+			<form method="post" action="cp.php?ac=thread<!--{if $eventid}-->&eventid=$eventid<!--{/if}-->" class="quickpost" id="quickpostform_{$thread[tid]}" name="quickpostform_{$thread[tid]}">
+				<table>
+					<tr>
+						<td>
+							<a href="###" id="quickpost" onclick="showFace(this.id, 'message');return false;"><img src="image/facelist.gif" align="absmiddle" /></a>
+							<!--{if $_SGLOBAL['magic']['doodle']}-->
+							<a id="a_magic_doodle" href="magic.php?mid=doodle&showid=comment_doodle&target=message" onclick="ajaxmenu(event, this.id, 1)"><img src="image/magic/doodle.small.gif" class="magicicon" />Graffiti Zone</a>
+							<!--{/if}-->
+							<br />
+							<textarea id="message" name="message" onkeydown="ctrlEnter(event, 'postsubmit_btn');" col="50" rows="6" style="width: 430px; height: 6em;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>Insert picture</td>
+					</tr>
+					<tbody id="quickpostimg">
+						<tr>
+							<td>
+								<input type="text" name="pics[]" onfocus="if(this.value == 'http://')this.value='';" onblur="if(this.value=='')this.value='http://'" value="http://" class="t_input" size="55" style="width: 350px" />&nbsp;
+								<a href="javascript:;" onclick="insertWebImg(this.previousSibling.previousSibling)">Insert</a> &nbsp;
+								<a href="javascript:;" onclick="delRow(this, 'quickpostimg')">Remove</a>
+							</td>
+						</tr>
+					</tbody>
+					<tr>
+						<td><a href="javascript:;" onclick="copyRow('quickpostimg')">+more picture</a> <span class="gray">only support those URL which end with .jpg¡¢.gif¡¢.png</span></td>
+					</tr>
+					<tr>
+						<td>
+							<input type="hidden" name="tid" value="$thread[tid]" />
+							<input type="hidden" name="postsubmit" value="true" />
+							<input type="button" id="postsubmit_btn" name="postsubmit_btn" value="Reply" class="submit" onclick="ajaxpost('quickpostform_{$thread[tid]}', 'post_add')" />
+							<div id="__quickpostform_{$thread[tid]}"></div>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			</form>
+		</div>
+		<!--{else}-->
+		<div class="c_form">
+		<!--{if $eventid}-->
+			Only Event participants can reply Event Disussion,
+		<!--{elseif $mtag[grade]==-1}-->
+			You are not authorized to reply this disscuss 
+		<!--{else}-->
+			You are not a member of the group, can not reply discussion.
+			<!--{if $mtag[grade]==-9}-->
+			<a href="cp.php?ac=mtag&op=join&tagid=$mtag[tagid]" id="_tag_join_$mtag[tagid]" onclick="ajaxmenu(event, this.id)">Join Now</a>¡£
+			<!--{/if}-->
+		<!--{/if}-->
+		</div>
+		<!--{/if}-->
+	</div>
+</div>
+
+<script type="text/javascript">
+	resizeImg('div_post','600');
+</script>
+
+<!--{template footer}-->

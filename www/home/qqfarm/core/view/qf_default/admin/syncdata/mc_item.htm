@@ -1,0 +1,77 @@
+<!--{tpl admin/inc_header}-->
+
+<style>
+.cspan{cursor:hand;color:#0000FF}
+</style>
+
+<div class="list">
+<table>
+<form id="item" name="itemr" onsubmit="return checkForm.submits({:$sid});" method="post">
+<th colspan="2">自动获取的农场装扮内容如下</th>
+<tr>
+<td>选项</td>
+<td>内容</td>
+</tr>
+<tr>
+<td>装扮名称:</td>
+<td>
+<input name="item" value="装扮背景" onClick="this.value=''"> 
+</td>
+</tr>
+<tr>
+<td>出售价格(金币):</td>
+<td>
+<input name="itemp" value="12000" onClick="this.value=''"> 
+</td>
+</tr>
+<tr>
+<td>有效期:</td>
+<td>
+<input name="itemd" value="180" onClick="this.value=''"> 
+</td>
+</tr>
+<tr>
+<td>获得经验值:</td>
+<td>
+<input name="iteme" value="100" onClick="this.value=''"> 
+</td>
+</tr>
+<tr>
+<td>资源获取:</td>
+<td>
+<!--{foreach $it as $k=>$item}-->
+<span onClick="submititem('mc_item','{:$item}','{:str_ireplace($rep_mcit,'',$item)}')" title="获取" class="cspan">{:str_ireplace($rep_mcit,'',$item)}</span><br>
+<!--{/foreach}-->
+</td>
+</tr>
+<tr>
+<td></td>
+<td><input name="only" type="checkbox" value="1" checked>不下载文件,只同步参数  <input type="submit" value="点击获取" />&nbsp;&nbsp;<span id="stat"></span></td>
+</tr>
+</form>
+<tr>
+<td colspan="2">
+<pre>
+<b>填写装扮注意事项:</b>
+1:所有的选项均为默认值,你需要根据官方或自拟来设置,也可以后期修改
+2:如获取的ID号不全则说明远程并没有请求的装扮<a href="http://mc.qzone.qq.com/cgi-bin/cgi_get_items" target="_blank"><b>点击这里</b></a>重新查找
+3:如打不开上面链接,请登录官方账号
+4:如有缺失的装扮,你可以不用全部下载,点击装扮文件可实现单一下载
+</pre>
+</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript">
+var checkForm={
+	submits: function(inputId){
+		request('admin.php?mod=syncdata&sync=mc_item&see=1&sid='+inputId, 'stat', $.getForm('#item', 1));
+		return false;
+	}
+}
+	function submititem(type,updown,path) {
+		request('admin.php?mod=syncdata&sync='+type+'&updown='+updown+'&path='+path,'stat');
+		return false;
+	}
+</script>
+<!--{tpl admin/inc_footer}-->

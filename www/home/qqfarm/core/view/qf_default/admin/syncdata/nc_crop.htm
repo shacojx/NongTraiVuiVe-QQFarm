@@ -1,0 +1,219 @@
+<!--{tpl admin/inc_header}-->
+
+<style>
+.cspan{cursor:hand;color:#0000FF}
+</style>
+
+<table class="list">
+<form id="crop" name="crop" onsubmit="return checkForm.submits({:$value['sid']});" method="post">
+<th colspan="3">自动获取的作物内容如下(**必填项-直接从农场客户端查询)</th>
+<tr>
+<td style="width:18%">名称:</td>
+<td width="50%"><input name="cname" value="{:$value['cname']}" class="input_sma" onBlur="checkForm.cname()"> **<span id="uid0"></span></td>
+<td rowspan="9" valign="top">
+<h5>注意事项:</h5>
+1:在提交过程中由于需要远程自动下载文件,不要关闭页面稍等片刻<br>
+2:<span style="color:red">表单所填数据</span>是<span style="color:red">本地</span>的数据,如与远程不同可以更改<br>
+3:<span style="color:red">没有数据</span>,请根据远程商店数据添加,商店没有说明官方没出数据,自行添加,日后更改<br>
+4:缺失物种文件的,点击单一文件下载<br>
+5:纠正以往的数据,则不需要下载物种文件,可以提高更新速度<br>
+6:提交之后商店没有原因请查找,<span style="color:red">缓存/SWF缓存/历史记录/是否被隐藏</span><br>
+</td>
+</tr>
+</tr>
+<tr>
+<td>红土地作物:</td>
+<td>{:$isred}</td>
+</tr>
+<tr>
+<td>种子价格:</td>
+<td><input name="price" value="{:$cropstype[$sid]['price']}" class="input_sma" onBlur="checkForm.checkprice()">金币 **<span id="uid1"></span></td>
+</tr>
+<tr>
+<td>作物类型:</td>
+<td><input name="maturingTime" value="{:$cropstype[$sid]['maturingTime']}" class="input_sma" onBlur="checkForm.maturing()">季 *<span id="uid2"></span></td>
+</tr>
+<tr>
+<td>预计产量:</td>
+<td><input name="output" value="{:$cropstype[$sid]['output']}" class="input_sma"onBlur="checkForm.outp()">**<span id="uid3"></span></td>
+</tr>
+<tr>
+<td>果实售价:</td>
+<td><input name="sale" value="{:$cropstype[$sid]['sale']}" class="input_sma"onBlur="checkForm.sal()">**<span id="uid4"></span></td>
+</tr>
+<tr>
+<td>预计收入:</td>
+<td><input name="expect" value="{:$cropstype[$sid]['expect']}" class="input_sma"onBlur="checkForm.expec()">**<span id="uid5"></span></td>
+</tr>
+<tr>
+<td>季收获经验:</td>
+<td><input name="cropExp" value="{:$cropstype[$sid]['cropExp']}" class="input_sma"onBlur="checkForm.cropE()">**<span id="uid6"></span></td>
+</tr>
+<tr>
+<td>种植等级:</td>
+<td><input name="cLevel" value="{:$cropstype[$sid]['cLevel']}" class="input_sma"onBlur="checkForm.cLeve()">**<span id="uid7"></span></td>
+</tr>
+<tr>
+<td>小贴士:</td>
+<td colspan="2">{:$value['tip']}</td>
+</tr>
+<tr>
+<td>生长周期参数:</td>
+<td colspan="2">{:$value['insect']}</td>
+</tr>
+<tr>
+<td>每周期生长时间:</td>
+<td colspan="2">{:$value['cropGrow']}</td>
+</tr>
+<tr>
+<td>生长周期:</td>
+<td colspan="2">{:$value['nextText']}</td>
+</tr>
+<tr>
+<td>显示特征:</td>
+<td colspan="2">{:$value['gossip']}</td>
+</tr>
+<tr>
+<td>需要下载的作物文件:</td>
+<td colspan="2">
+<!--{foreach $value['file'] as $filetype}-->
+<!--{if remote_file_exists($filetype)}-->
+<span onClick="submits('nc_crop','{:$filetype}','{:preg_replace($replace_ncword,'',$filetype)}')" title="获取单一文件" class="cspan">
+{:preg_replace($replace_ncword,'',$filetype)}
+</span><br>
+<!--{/if}-->
+<!--{/foreach}-->
+</td>
+</tr>
+<tr>
+<td></td>
+<td colspan="2"><input name="only" type="checkbox" value="1" checked>不下载文件,只同步参数  <input type="submit" value="点击获取" />&nbsp;&nbsp;<span id="stat"></span></td>
+</tr>
+</form>
+</table>
+<script type="text/javascript">
+var checkForm={
+	cname : function (){
+		this.ccname = true;
+		var price = document.crop.cname.value;
+		if(price == ""){
+			message = "输入作物名称";
+			$('#uid0').innerHTML = message;
+			$('#uid0').style.color='red';
+			this.ccname = false;
+		}
+	},
+	checkprice : function (){
+		this.price = true;
+		var price = document.crop.price.value;
+		if(price == ""){
+			message = "输入种子价格";
+			$('#uid1').innerHTML = message;
+			$('#uid1').style.color='red';
+			this.price = false;
+		}
+	},
+	maturing : function (){
+		this.maturingT = true;
+		var maturingTime = document.crop.maturingTime.value;
+		if(maturingTime == ""){
+			message = "输入作物类型";
+			$('#uid2').innerHTML = message;
+			$('#uid2').style.color='red';
+			this.maturingT = false;
+		}
+	},
+	outp : function (){
+		this.outpT = true;
+		var output = document.crop.output.value;
+		if(output == ""){
+			message = "输入预计产量";
+			$('#uid3').innerHTML = message;
+			$('#uid3').style.color='red';
+			this.outpT = false;
+		}
+	},
+	sal : function (){
+		this.salT = true;
+		var sale = document.crop.sale.value;
+		if(sale == ""){
+			message = "输入果实售价";
+			$('#uid4').innerHTML = message;
+			$('#uid4').style.color='red';
+			this.outpT = false;
+		}
+	},
+	expec : function (){
+		this.expectT = true;
+		var expect = document.crop.expect.value;
+		if(expect == ""){
+			message = "输入预计收入";
+			$('#uid5').innerHTML = message;
+			$('#uid5').style.color='red';
+			this.expectT = false;
+		}
+	},
+	cropE : function (){
+		this.cropET = true;
+		var cropExp = document.crop.cropExp.value;
+		if(cropExp == ""){
+			message = "季收获经验";
+			$('#uid6').innerHTML = message;
+			$('#uid6').style.color='red';
+			this.cropET = false;
+		}
+	},
+	cLeve : function (){
+		this.cLeveT = true;
+		var cLevel = document.crop.cLevel.value;
+		if(cLevel == ""){
+			message = "种植等级";
+			$('#uid7').innerHTML = message;
+			$('#uid7').style.color='red';
+			this.cLeveT = false;
+		}
+	},
+	submits: function(inputId){
+		this.cname();
+		if(!this.ccname){
+			return false;
+		}
+		this.checkprice();
+		if(!this.price){
+			return false;
+		}
+		this.maturing();
+		if(!this.maturingT){
+			return false;
+		}
+		this.outp();
+		if(!this.outpT){
+			return false;
+		}
+		this.sal();
+		if(!this.salT){
+			return false;
+		}
+		this.expec();
+		if(!this.expectT){
+			return false;
+		}
+		this.cropE();
+		if(!this.cropET){
+			return false;
+		}
+		this.cLeve();
+		if(!this.cLeveT){
+			return false;
+		}
+		request('admin.php?mod=syncdata&sync=nc_crop&see=1&sid='+inputId, 'stat', $.getForm('#crop', 1));
+		return false;
+	}
+}
+	function submits(type,updown,path) {
+		request('admin.php?mod=syncdata&sync='+type+'&updown='+updown+'&path='+path,'stat');
+		return false;
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

@@ -1,0 +1,60 @@
+<!--{tpl inc_header}-->
+
+<div id="main">
+	<strong>Bạn sẽ nói gì? (12 từ)</strong>
+	<ul>
+		<li>
+			<p>Khi người khác giúp bạn tưới cây</p>
+			<input id="water_b" type="text" value="{:$Tips[water_b]}" size="50"  maxlength="12" />
+			<input type="button" onclick="setUpdate('water_b');" value="Lưu lại" />
+			<input type="button" onclick="setUpdate('water_b',1);" value="Mặc định" />
+			<span id="state_water_b"></span>
+		</li>
+		<li>
+			<p>Khi người khác giúp bạn nhổ cỏ</p>
+			<input id="weed_b" type="text" value="{:$Tips[weed_b]}" size="50"  maxlength="12" />
+			<input type="button" onclick="setUpdate('weed_b');" value="Lưu lại" />
+			<input type="button" onclick="setUpdate('weed_b',1);" value="Mặc định" />
+			<span id="state_weed_b"></span>
+		</li>
+		<li>
+			<p>Khi người khác giúp bạn bắt sâu</p>
+			<input id="pest_b" type="text" value="{:$Tips[pest_b]}" size="50"  maxlength="12" />
+			<input type="button" onclick="setUpdate('pest_b');" value="Lưu lại" />
+			<input type="button" onclick="setUpdate('pest_b',1);" value="Mặc định" />
+			<span id="state_pest_b"></span>
+		</li>
+		<li>
+			<p>Nếu người khác trồng cỏ hại cây nhà bạn</p>
+			<input id="weed_a" type="text" value="{:$Tips[weed_a]}" size="50"  maxlength="12" />
+			<input type="button" onclick="setUpdate('weed_a');" value="Lưu lại" />
+			<input type="button" onclick="setUpdate('weed_a',1);" value="Mặc định" />
+			<span id="state_weed_a"></span>
+		</li>
+		<li>
+			<p>Nếu người khác thả sâu hại cây nhà bạn</p>
+			<input id="pest_a" type="text" value="{:$Tips[pest_a]}" size="50"  maxlength="12" />
+			<input type="button" onclick="setUpdate('pest_a');" value="Lưu lại" />
+			<input type="button" onclick="setUpdate('pest_a',1);" value="Mặc định" />
+			<span id="state_pest_a"></span>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+function setUpdate(type, reset) {
+	value = reset ? '' : $("#"+type).value;
+	request(
+		'tools.php?mod=setting&do=save', 'state_'+type,
+		'type='+type+'&value='+value,
+		function(data) {
+			if(data[0] == '1' && data[3]) {
+				//alert(data);
+				$("#"+type).value = data[3];
+			}
+		}
+	);
+}
+</script>
+
+<!--{tpl inc_footer}-->

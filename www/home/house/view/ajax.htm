@@ -1,0 +1,206 @@
+<!--Game ngôi nhà hạnh phúc được phát triển bởi Kết Nối trẻ group -->
+<!--Vui lòng giữ bản quyền Việt hóa của Kết Nối trẻ group -->
+<!--Cám ơn bạn đã sử dụng sản phẩm của Kết Nối trẻ group -->
+<!--{if $op == 'changeName'}-->
+	<p>
+		<form action="house.php?ac=ajax&op=changeName&id={$id}" method="POST"  id="ajaxForm" name="ajaxForm"  class="ajaxForm">
+			<label for="ajaxForm_name">Tên nhà ở</label><input onkeydown="return Form.disabledCtrl(event)" id="ajaxForm_name" type="text" value="{$temp['name']}" class="input" name="name" />
+		</form>
+	</p>
+	<script type="text/javascript">
+	base.setOk(true, 'Xác định', function(){
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'getSave'}-->
+	<p>
+		<form action="house.php?ac=ajax&op={$op}" method="POST"  id="ajaxForm" name="ajaxForm"  class="ajaxForm">
+			<p>Xin vui lòng lựa chọn bạn bè bạn cần trợ giúp (sử dụng Ctrl để chọn nhiều bạn bè)</p>
+			<label>Chọn bạn bè</label><select id='friend_select' MULTIPLE size=10 style="width:240px;"><!--{loop $users $val}--><option value="{$val['uid']}">{$val['name']}</option><!--{/loop}--></select>
+			<input type="hidden" name="friend" value=""/> 
+		</form>
+	</p>
+	<script type="text/javascript">
+	base.setOk(true, 'Xác định', function(){
+		document.forms['ajaxForm'].friend.value = getSelectValues($('friend_select')).join(',');
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'credit'}-->
+	<p>
+		<form action="house.php?ac=ajax&op={$op}" method="POST"  id="ajaxForm" name="ajaxForm"  class="ajaxForm">
+		<p>Hiện nay có <font color="#FF000">$_SGLOBAL['member']['credit']</font> Điểm</p>
+        <!--{if $house_config['credit_money'] > 0 && $house_config['money_credit'] > 0}-->
+		<p>Sửa nội quy：<b>1</b>Điểm == <font color="#008000">{$house_config['credit_money']}</font>Tiền xu vàng，<font color="#008000">{$house_config['money_credit']}</font>Tiền xu vàng == <b>1</b>Điểm</p>
+		<p><label>Hình thức trao đổi：</label> <input type="radio" checked value=0 name="type" onclick="$('credit_notice').innerHTML='Điểm (đầu vào<b>1</b>Nhiều)';" />Điểm vàng <input type="radio" value=1 name="type" onclick="$('credit_notice').innerHTML='Tiền xu vàng (đầu vào<font color=#008000>{$house_config['money_credit']}</font>Nhiều)';" />Tiền xu vàng cho điểm</p>
+		<p><label>Trao đổi khối lượng：</label><input type="text" value='' name="num"><span id='credit_notice'>Điểm (đầu vào<b>1</b>Nhiều）</span></p><!--{elseif $house_config['credit_money'] > 0}-->
+        <p>Đổi nội quy：<b>1</b>Điểm == <font color="#008000">{$house_config['credit_money']}</font>Tiền xu vàng</p>
+		<p><label>Hình thức trao đổi：</label> <input type="radio" checked value=0 name="type" onclick="$('credit_notice').innerHTML='Điểm (đầu vào<b>1</b>Nhiều)';" />Điểm vàng </p>
+		<p><label>khối lượng trao đổi：</label><input type="text" value='' name="num"><span id='credit_notice'>Điểm (đầu vào<b>1</b>Nhiều）</span></p><!--{else}-->
+        <p>Đổi nội quy：<font color="#008000">{$house_config['money_credit']}</font>Tiền xu vàng == <b>1</b>Điểm</p>
+		<p><label>Hình thức trao đổi：</label> <input type="radio" checked value=1 name="type" onclick="$('credit_notice').innerHTML='Tiền xu vàng (đầu vào<font color=#008000>{$house_config['money_credit']}</font>Nhiều)';" />Tiền xu vàng cho điểm </p>
+		<p><label>khối lượng trao đổi：</label><input type="text" value='' name="num"><span id='credit_notice'>Điểm (đầu vào<font color=#008000>{$house_config['money_credit']}</font>Nhiều)</span></p><!--{/if}-->
+		<p>Mẹo: Chọn các điểm vàng, số tiền của đầu vào<font color="#FF000">积分</font>。
+        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chọn tiền xu cho điểm, sau đó trao đổi số lượng đầu vào<font color="#008000">Vàng</font>。</p>
+		</form>
+	</p>
+	<script type="text/javascript">
+	base.setOk(true, 'Xác định', function(){
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'invite'}-->
+	<p>
+		<form action="house.php?ac=ajax&op={$op}" method="POST"  id="ajaxForm" name="ajaxForm"  class="ajaxForm">
+			<p>bạn bè Chọn của bạn để mời (sử dụng Ctrl để chọn nhiều bạn bè）</p>
+			<label>Chọn bạn bè</label><select id='friend_select' MULTIPLE size=10 style="width:240px;"><!--{loop $users $val}--><option value="{$val['uid']}">{$_SN[$val['uid']]}</option><!--{/loop}--></select>
+			<input type="hidden" name="friend" value=""/> 
+		</form>
+	</p>
+	<script type="text/javascript">
+	base.setOk(true, 'Xác định', function(){
+		document.forms['ajaxForm'].friend.value = getSelectValues($('friend_select')).join(',');
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'changePrice'}-->
+	<p>
+		<form action="house.php?ac=ajax&op={$op}&id={$id}" method="POST"  id="ajaxForm" name="ajaxForm"  class="ajaxForm">
+			<p>Giá thuê thực tế là chủ nhà đặt tiền thuê tài sản + phí</p>
+			<label for="ajaxForm_name">Tiền thuê nhà ở</label><input onkeydown="return Form.disabledCtrl(event)" id="ajaxForm_name" type="text" value="{$temp['price']}" class="input" name="price" style="width:100px;"/> GP / ngày
+		</form>
+	</p>
+	<script type="text/javascript">
+	base.setOk(true, 'Xác định', function(){
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'get_goods'}-->
+	<p>
+		<form action="house.php?ac=ajax&op={$op}&id={$id}" method="POST"  id="ajaxForm" name="ajaxForm"  class="ajaxForm">
+			<p>Các nhà cho thuê {$money} tiền xu, bạn có chắc chắn muốn thu tiền thuê？</p>
+		</form>
+	</p>
+	<script type="text/javascript">
+	base.setOk(true, 'Xác định tiền thuê', function(){
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'get_back'}-->
+	<p>
+		<form action="house.php?ac=ajax&op={$op}&id={$id}" method="POST"  id="ajaxForm" name="ajaxForm"  class="ajaxForm">
+			<p><!--{if $money}-->Thu hồi nhà ở, bạn có thể nhận được tiền thuê nhà {$money} Tiền xu vàng<!--{else}-->bạn cư trú thời gian quá ngắn, không phải trả bất kỳ thuê<!--{/if}-->，Bạn có chắc bạn muốn khôi phục nhà ở？</p>
+		</form>
+	</p>
+	<script type="text/javascript">
+	base.setOk(true, 'Nhà ở thu hồi', function(){
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'renting'}-->
+	<!--{if !empty($data)}-->
+		<form action="house.php?ac=ajax&op=renting" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+			<fieldset>
+				<legend>Mời bạn bè cùng chung sống</legend>
+				<p><b>Bạn có thể gửi một lời mời để mời bạn bè của bạn để chung sống</b></p>
+				<p><label for="friend">Chọn bạn bè</label><select name="friend_0" id="friend"><!--{loop $data $val}--><option value="{$val['uid']}">{$val['name']}</option><!--{/loop}--></select></p>
+				<p><label>　</label><input type="button" value="Lời mời" class="submit" onclick="$('form_type').value=0;Form.submitDo('ajaxForm');" /></p>
+			</fieldset>
+			<fieldset>
+				<legend>Sống cùng bạn</legend>
+				<p><b>Làm thế nào để mời mọi người đến không chung sống？</b></p>
+				<p><b>Trước khi dùng đến vũ lực, không được mời đến, có thể cướp! (Chi phí{$house_config['focus']}Vàng) </b></p>
+				<p><label for="friend">Chọn bạn bè</label><select name="friend_1" id="friend"><!--{loop $data $val}--><option value="{$val['uid']}">{$val['name']}</option><!--{/loop}--></select></p>
+				<p><label>　</label><input type="button" value="người láu cá" class="submit"  onclick="$('form_type').value=1;Form.submitDo('ajaxForm');" /><input type="hidden" value="0" name="form_type" id="form_type"  /></p>
+			</fieldset>
+		</form>
+	<!--{else}-->
+		<p>Bạn không có bạn bè khác giới, không thể mời bạn bè đến chung sống<script type="text/javascript">setTimeout(function(){base.bgChangeColor('dialog-advanced', 'down', base.closeDoDiv);}, 2000);</script></p>
+	<!--{/if}-->
+<!--{elseif $op == 'friend_renting'}-->
+	<!--{if !empty($data)}-->
+		<form action="house.php?ac=ajax&op={$op}&id={$id}" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+			<p><b>Bạn có thể gửi một lời mời để mời bạn bè để thuê nhà cho thuê</b></p>
+			<p><label for="friend">Chọn bạn bè</label><select name="friend" id="friend"><!--{loop $data $val}--><option value="{$val['uid']}">{$val['name']}</option><!--{/loop}--></select></p>
+			<p><label>　</label><input type="button" value="Lời mời" class="submit" onclick="Form.submitDo('ajaxForm');" /></p>
+		</form>
+	<!--{else}-->
+		<p>Bạn không có bạn bè, không thể mời những người bạn sống trong một cách để có được tiền thuê nhà<script type="text/javascript">setTimeout(function(){base.bgChangeColor('dialog-advanced', 'down', base.closeDoDiv);}, 2000);</script></p>
+	<!--{/if}-->
+<!--{elseif $op == 'push_out'}-->
+		<form action="house.php?ac=ajax&op={$op}" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+			<p><b>Việc chung sống của bạn đuổi ra khỏi, bạn cần phải trả{$house_config['push']}Tiền xu vàng</b><input type="hidden" value="update" name="myFormAc" /></p>
+			<p style="width:60px;float:left"><span class="pheadpic"><a target='_blank' href="space.php?uid={$status['live_with_uid']}" style="background-image: url(<!--{avatar($status['live_with_uid'],small)}-->);"></a></span></p>
+			<p>Khi nói đi, một đêm vài trăm ngày ân sủng! Bạn thực sự được nhân tâm như vậy？</p>
+			<div style="clear:both"></div>
+		</form>
+		<script type="text/javascript">
+		base.setOk(true, 'Tôi chắc chắn', function(){
+			Form.submitDo('ajaxForm');
+		});
+		</script>
+<!--{elseif $op == 'find'}-->
+	<form action="house.php?ac=ajax&op={$op}&touid={$touid}" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+		<div id='find_friend'>
+			<ul>
+				<li class="left"><span class="pheadpic"><a target='_blank' href="space.php?uid={$touid}" style="background-image: url(<!--{avatar($touid,small)}--></a></span></li>
+				<li>
+					<p><label>bạn mời sống cùng</label><input type="button" value="Lời mời" class="submit" onclick="$('find_type').value=0;Form.submitDo('ajaxForm');" /></p>
+					<p><label>Các bạn mang nó trên</label><input type="button" value="người láu cá" class="submit" onclick="$('find_type').value=1;Form.submitDo('ajaxForm');" /></p>
+				</li>
+		</div>
+		<div style="clear:both"></div>
+		<input type="hidden" value="update" name="myFormAc" />
+		<input type="hidden" value="0" name="type" id="find_type" />
+	</form>
+<!--{elseif $op == 'sell'}-->
+	<form action="house.php?ac=ajax&op={$op}&id={$id}" method="POST"  id="ajaxForm" name="ajaxForm" class="ajaxForm">
+		<p><b>Bạn đã được đặt trong nhà nên bán nó?</b></p>
+		<p>Biên lai: Nhà ở giá trị của 80% - 80% * Nhà ở Thuế giá trị gia tăng</p>
+		<p><label>Thu nhập của bạn</label>{$my_get}</p>
+		<input type="hidden" value="update" name="myFormAc" />
+	</form>
+	<script type="text/javascript">
+	base.setOk(true, 'Tôi chắc chắn', function(){
+		Form.submitDo('ajaxForm');
+	});
+	</script>
+<!--{elseif $op == 'love_history'}-->
+	<!--{if !empty($data)}-->
+		<!--{loop $data $val}-->
+			<li class="info">
+				<a href="space.php?uid={$val['uid_f']}" target="_blank">{$GLOBALS['_SN'][$val['uid_f']]} <img src="house/view/img/home.gif" /></a> {$val['w_l']} <a href="space.php?uid={$val['uid_t']}" target="_blank">{$GLOBALS['_SN'][$val['uid_t']]} <img src="house/view/img/home.gif" /></a> {$val['w_r']}  。 {$val['dateline']}
+			</li>
+		<!--{/loop}-->
+	<!--{else}-->
+		<li class="no_gift">Không có sự kiện chung sống</li>
+	<!--{/if}-->
+<!--{elseif $op == 'miyu_get'}-->
+	<!--{if !empty($data)}-->
+		<!--{loop $data $val}-->
+			<li class="info">
+				<a href="space.php?uid={$val['uid']}" target="_blank">{$GLOBALS['_SN'][$val['uid']]} <img src="house/view/img/home.gif" /></a> Nói：{$val['message']}  。 {$val['dateline']}
+			</li>
+		<!--{/loop}-->
+	<!--{else}-->
+		<li class="no_gift">Không có ngôn ngữ</li>
+	<!--{/if}-->
+<!--{else}-->
+	<!--{if !empty($data)}-->
+		<!--{if $type == 1}-->
+			<!--{loop $data $val}-->
+				<li>
+					<div class="img"><img width=70 height=70 src="house/view/gift/{$val['gid']}.jpg" /></div><div class="desc">{$val['name']} Có <font color=red>{$val['num']}</font> {$val['msg']}</div>
+				</li>
+			<!--{/loop}-->
+		<!--{else}-->
+			<!--{loop $data $val}-->
+				<li class="info">
+					<a href="space.php?uid={$val['uid']}" target="_blank">{$GLOBALS['_SN'][$val['uid']]} <img src="house/view/img/home.gif" /></a>  Đã đưa ra một {$val['msg']} <font color=red>{$val['name']}</font> Để <a href="space.php?uid={$val['uid_2']}" target="_blank">{$GLOBALS['_SN'][$val['uid_2']]} <img src="house/view/img/home.gif" /></a> Chi tiêu {$val['price']} Vàng, tăng{$val['thick']}Điểm của sự thân mật. {$val['dateline']}
+				</li>
+			<!--{/loop}-->
+		<!--{/if}-->
+	<!--{else}-->
+		<li class="no_gift">{$me}Chưa nhận một món quà</li>
+	<!--{/if}-->
+<!--{/if}-->

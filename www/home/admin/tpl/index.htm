@@ -1,0 +1,122 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+	<div class="maininner">
+<!--{if $menus[0][config]}-->
+		<div class="bdrcontent">
+			<div class="title"><h3>Chào mừng đến với Admincp Ucenter home 2.0</h3></div>
+			<p>Đây là nơi để bạn quản lý mạng xã hội ucenter home 2.0 được việt hóa bởi GoHooH.CoM. Bạn có thể quản lý thành viên, các ứng dụng, tùy chỉnh templates....</p>
+<p>Thông tin bản Việt hóa UCenter home 2.0</p>
+
+
+ <iframe src="http://www.gohooh.com/nhatui/lang.htm" width="100%" height="30" frameborder="0" scrolling="no"></iframe>
+
+		</div>
+		<br />
+		
+		<div class="bdrcontent">
+			<div class="title">
+				<h3>Thông tin</h3>
+				<p>Các phiên bản mới của bản phát hành chính thức của các miếng vá và nâng cấp với sự phát triển quan trọng, sẽ được hiển thị ở đây.</p>
+			</div>
+			<div id="customerinfor" style="line-height:1.5em;"></div>
+			<br />
+			<div class="title">
+				<h3>Dịch vụ Hỗ trợ kỹ thuật</h3>
+				<p>Nếu bạn có vấn đề trong sử dụng, bạn có thể truy cập vào liên kết sau cần giúp đỡ</p>
+			</div>
+			<ul class="listcol list2col">
+				<li><a href=http://www.gohooh.com/forum/index.php?gid=172 target="_blank">Forum hỗ trợ</a></li>
+				<li><a href=http://www.google.com.vn/search?hl=vi&source=hp&q=gohooh.com&meta=&aq=0&oq=goh target="_blank">Tìm hiểu về GoHooH.CoM</a></li>
+			</ul>
+		</div>
+		<br />
+		
+		<div class="bdrcontent">
+			<div class="title">
+				<h3>Thống kê sites</h3>
+				<p>Thông qua các thống kê, bạn có thể biết được sự phát triển trang của bạn</p>
+				<p>Bạn có thể xem <a href="do.php?ac=stat" target="_blank">Các xu hướng và Thống kê</a>，những thay đổi trong trang web hàng ngày.</p>
+			</div>
+			<ul class="listcol list2col">
+				<li>Số không gian mở: $statistics[spacenum] (<a href="do.php?ac=stat&type=login" target="_blank">Xu hướng</a>)</li>
+				<li>Tổng Số Tin tức: $statistics[feednum]</li>
+				<li>Tổng số blog: $statistics[blognum] (<a href="do.php?ac=stat&type=blog" target="_blank">Xu hướng</a>)</li>
+				<li>Tổng số Album: $statistics[albumnum] (<a href="do.php?ac=stat&type=pic" target="_blank">Xu hướng</a>)</li>
+				<li>Tổng số chia sẻ: $statistics[sharenum] (<a href="do.php?ac=stat&type=share" target="_blank">Xu hướng</a>)</li>
+				<li>Tổng số chủ đề: $statistics[threadnum] (<a href="do.php?ac=stat&type=thread" target="_blank">Xu hướng</a>)</li>
+				<li>Tổng số bình luận: $statistics[commentnum]</li>
+				<li>Số ứng dụng: $statistics[myappnum]</li>
+			</ul>
+		</div>
+		<br />
+		
+		<div class="bdrcontent">
+			<div class="title"><h3>Thủ tục cơ sở dữ liệu / phiên bản</h3></div>
+			<ul>
+				<li>OS: $os</li>
+				<li>Phiên bản CSDL: $statistics[mysql]</li>
+				<li>Giấy phép Upload: $fileupload</li>
+				<li>Dung lượng CSDL: $dbsize</li>
+				<li>File đính kèm: $attachsize</li>
+				<li>Phiên bản hiện tại: UCenter Home $statistics[version] ( $statistics[release] )</li>
+				<li>Phiên bản UCenter Khách hàng: {UC_CLIENT_VERSION} Release {UC_CLIENT_RELEASE}</li>
+			</ul>
+		</div>
+		<br />
+		
+		<div class="bdrcontent">
+
+			<div class="title">
+				<h3>Nhóm phát triển</h3>
+			</div>
+			<table>
+                                <tr><td width="80">Copyright</td><td><a  href="http://www.comsenz.com/" target="_blank">Comsenz (Beijing) Technology Co., Ltd. (Comsenz Inc.)</a></td></tr>
+
+				<tr><td width="80">Việt hóa</td><td><a  href="http://www.google.com.vn/search?hl=vi&source=hp&q=gohooh.com&meta=&aq=0&oq=goh" target="_blank">Discuz! Việt - GoHooH.CoM</a></td></tr>
+				<tr><td>Chief planner</td><td><a  href="http://www.discuz.net/space.php?uid=1" target="_blank">Kevin 'Crossday' Day</a>, <a  href="http://www.discuz.net/space.php?uid=174393" target="_blank">Guode 'Sup' Li</a></td></tr>
+				<tr><td>Team</td><td><a  href="http://www.discuz.net/space.php?uid=322293" target="_blank">Qingpeng 'Andy' Zheng</a>, <a  href="http://www.discuz.net/space.php?uid=248739" target="_blank">Jing 'Qiezi' Zou</a>, <a  href="http://www.discuz.net/space.php?uid=672953" target="_blank">Fei 'Fengshu' Zhao</a>, <a  href="http://www.discuz.net/space.php?uid=465273" target="_blank">Lijun 'Maple-x' Zhang</a>, <a  href="http://www.discuz.net/space.php?uid=679269" target="_blank">Lei 'Shitou' Zhao</a>, <a  href="http://www.discuz.net/space.php?uid=906359" target="_blank">Peng 'Dingusxp' Xu</a></td></tr>
+				<tr><td>Graphic Design</td><td><a  href="http://www.discuz.net/space.php?uid=294092" target="_blank">Fangming 'Lushnis' Li</a>, <a  href="http://www.discuz.net/space.php?uid=174393" target="_blank">Yulong 'Yulong' Li</a>, <a  href="http://www.discuz.net/space.php?uid=41050" target="_blank">Rujian 'Small Ancient' Mo</a></td></tr>
+				<tr><td>Website</td><td><a href=http://www.comsenz.com target="_blank">http://www.comsenz.com</a></td></tr>
+				<tr><td>Product Website</td><td><a href=http://u.discuz.net target="_blank">http://u.discuz.net</a></td></tr>
+                                <tr><td>English admin tpl translated</td><td><a href=http://www.buryad-arad.ru target="_blank">http://www.buryad-arad.ru</a></td></tr>
+			</table>
+		</div>
+<!--{else}-->
+		<div class="bdrcontent">
+			<div class="title"><h3>Chào mừng đến với Quản lý Ucenter home 2.0/h3></div>
+			<p>Hoạt động thông qua các nền tảng quản lý, bạn có thể xuất bản các thông tin Quản lý。</p>
+			
+			<br />
+			<div class="title"><h3>Quản lý menu</h3></div>
+			<ul class="listcol list2col">
+				<!--{if $menus[1]['space']}--><li><a href="admincp.php?ac=space" style="font-weight:bold;">Người dùng</a><p>Sửa điểm của người dùng, các nhóm người sử dụng, quản lý thông tin không gian, xóa người sử dụng</p></li><!--{/if}-->
+				<li><a href="admincp.php?ac=feed" style="font-weight:bold;">Matter</a><p>Right "What I was doing" Batch delete</p></li>
+				<li><a href="admincp.php?ac=blog" style="font-weight:bold;">Blog</a><p>Xóa, sửa cùng lúc nhiều blog</p></li>
+				<li><a href="admincp.php?ac=album" style="font-weight:bold;">Album</a><p>Xóa, sửa cùng lúc nhiều album</p></li>
+				<li><a href="admincp.php?ac=pic" style="font-weight:bold;">Picture</a><p>Xóa, sửa cùng lúc nhiều pictures</p></li>
+				<li><a href="admincp.php?ac=comment" style="font-weight:bold;">Bình luận</a><p>Chỉnh sửa các bình luận</p></li>
+				<li><a href="admincp.php?ac=thread" style="font-weight:bold;">Chủ đề</a><p>Đăng các chủ đề, sửa, xóa hoặc đưa chủ đề lên đầu</p></li>
+				<li><a href="admincp.php?ac=post" style="font-weight:bold;">Trả lời</a><p>Chỉnh sửa, xóa các trả lời</p></li>
+				<li><a href="admincp.php?ac=poll" style="font-weight:bold;">Bình chọn</a><p>Chỉnh sửa, xóa các bình chọn</p></li>
+				<!--{if $menus[1]['tag']}--><li><a href="admincp.php?ac=tag" style="font-weight:bold;">Tags</a><p>Quản lý các tag, sửa, xóa hoặc nhập các tag</p></li><!--{/if}-->
+				<!--{if $menus[1]['mtag']}--><li><a href="admincp.php?ac=mtag" style="font-weight:bold;">Nhóm</a><p>Quản lý các nhóm, sửa, xóa hoặc nhập các nhóm</p></li><!--{/if}-->
+				<!--{if $menus[1]['event']}--><li><a href="admincp.php?ac=event" style="font-weight:bold;">Kích hoạt</a><p>Kích hoạt, xem, xóa các yêu cầu</p></li><!--{/if}-->
+				<!--{if $menus[1]['css']}--><li><a href="admincp.php?ac=css" style="font-weight:bold;">Template Style</a><p>Tùy chỉnh templates cho mạng xã hội</p></li><!--{/if}-->
+			</ul>
+		</div><br />
+<!--{/if}-->
+	</div>
+	<br>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{if $statistics['update']}-->
+<script language="javascript" src="http://u.discuz.net/customer/update.php?get=$statistics[update]"></script>
+<!--{/if}-->
+<!--{eval my_checkupdate();}-->
+
+<!--{template admin/tpl/footer}-->

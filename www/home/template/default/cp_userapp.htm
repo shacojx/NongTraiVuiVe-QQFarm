@@ -1,0 +1,182 @@
+<!--{eval $_TPL['titles'] = array('Manage my applications');}-->
+<!--{template header}-->
+
+<!--{if $_GET['op'] == 'menu'}-->
+
+<h2 class="title"><img src="image/app/setting.gif">Application Setting</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li class="active"><a href="cp.php?ac=userapp&op=menu"><span>My Application</span></a></li>
+		<li class="null"><a href="cp.php?ac=userapp&my_suffix=%2Fapp%2Flist">Add New Application</a></li>
+	</ul>
+</div>
+
+<div id="content">
+<style type="text/css">
+.DragBox {
+	 height:20px;padding: 7px; z-index:9999; border-bottom:1px dotted #CDCDCD; width:500px;padding-left:30px;background:url(image/drag.gif) no-repeat 7px 8px;
+}
+.l_option{float:left;}
+
+.OverDragBox {
+	height:20px;padding: 7px;  cursor: move;border-bottom:1px dotted #CDCDCD;width:500px;padding-left:30px;background:#efefef url(image/drag.gif) no-repeat 7px 8px;
+}
+
+.DragDragBox {
+	height:20px;padding: 7px; cursor:move; opacity: 0.5;filter: alpha(opacity=50); border:1px dashed #BDD6FB;width:500px; color:#666; padding-left:30px;background:#efefef url(image/drag.gif) no-repeat 7px 8px;
+}
+
+</style>
+<!--{if $my_default_userapp}-->
+<div class="DragBox mt15" style="padding-left:30px;padding-bottom:0px;background:none;">
+	<div class="l_option" style="width:350px;">Default Apps</div>
+	<div class="l_option" style="width:100px;">&nbsp;</div>
+	<div class="l_option" style="width:50px;">&nbsp;</div>
+</div>
+<div>
+	<!--{loop $my_default_userapp $value}-->
+	<div class="DragBox mt15" style="padding-left:30px;padding-bottom:0px;background:none;">
+		<div class="l_option" style="width:350px;"><img src="http://appicon.manyou.com/icons/$value[appid]"> <a href="userapp.php?id=$value[appid]">$value[appname]</a></div>
+		<div class="l_option" style="width:100px;"><a href="cp.php?ac=userapp&amp;my_suffix=%2Fuserapp%2FmodifyPrivacy%3FappId%3D$value[appid]">Setting</a></div>
+		<div class="l_option" style="width:50px;">
+			<a href="cp.php?ac=userapp&op=deleteapp&appid=$value[appid]" id="del_default_app_$value[appid]" onclick="ajaxmenu(event, this.id)">Remove</a>
+		</div>
+	</div>
+	<!--{/loop}-->
+</div>
+<br />
+<!--{/if}-->
+
+<!--{if $my_userapp}-->
+
+	<script language="javascript" type="text/javascript" src="source/script_drag.js"></script>
+	
+	
+	<div class="DragBox mt15" style="padding-left:30px;padding-bottom:0px;background:none;">
+		<div class="l_option" style="width:350px;">My Apps</div>
+		<div class="l_option" style="width:100px;">&nbsp;</div>
+		<div class="l_option" style="width:50px;">&nbsp;</div>
+	</div>
+	
+	<form id="userappform" name="userappform" method="post" action="cp.php?ac=userapp&op=menu">
+		<fieldset id="Drags0" style="border:none;">
+			<div id="DragContainer0">
+				<!--{loop $my_userapp $key $value}-->
+					<div class="DragBox" overclass="OverDragBox"  dragclass="DragDragBox" id="$key" style="padding-bottom:0;">
+						<div class="l_option" style="width:350px;">
+							<img src="http://appicon.manyou.com/icons/$value[appid]"> <a href="userapp.php?id=$value[appid]">$value[appname]</a>(<a href="cp.php?ac=userapp&my_suffix=%2Fuserapp%2Fabout%3FappId%3D$value[appid]" target="_blank">About</a>)
+							<input type="hidden" name="order[]" value="$value[appid]">
+						</div>
+						<div class="l_option" style="width:100px;">
+							<a href="cp.php?ac=userapp&amp;my_suffix=%2Fuserapp%2FmodifyPrivacy%3FappId%3D$value[appid]">Setting</a>
+						</div>
+						<div class="l_option" style="width:50px;">
+							<a href="cp.php?ac=userapp&op=deleteapp&appid=$value[appid]" id="del_app_$value[appid]" onclick="ajaxmenu(event, this.id)">Remove</a>
+						</div>
+					</div>
+				<!--{/loop}-->
+			</div>
+		</fieldset>
+		<script type="text/javascript">init_drag2();</script>
+
+		
+	<center>
+	<br>
+	Display Apps on my page, on left menu
+	<select name="menunum">
+		<option value="5"$menunum[5]>5</option>
+		<option value="10"$menunum[10]>10</option>
+		<option value="15"$menunum[15]>15</option>
+		<option value="20"$menunum[20]>20</option>
+		<option value="25"$menunum[25]>25</option>
+		<option value="30"$menunum[30]>30</option>
+		<option value="999"$menunum[999]>All</option>
+	</select> &nbsp;
+	<input type="submit" name="ordersubmit" value="Submit" class="submit" /></center>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+<!--{else}-->
+	<div class="c_form">No apps to customized menu, please <a href="cp.php?ac=userapp&my_suffix=%2Fapp%2Flist">add application</a></div>
+<!--{/if}-->
+</div>
+
+<div id="sidebar">
+	<div class="c_mgs"><div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<strong>Help</strong>£º
+		<br>1.You can drag freely <img src="image/drag.gif" /> to refresh display order;
+		<br>2.Arrange application more above to more front in menu;
+		<br>3.You can manage added application by setting app permission or delete specified app;
+		<br>4.Please manage your profile,blog,album in your CP setting;
+		<br>5.Default application can be only set or delete, but still display in left menu after deletion.
+	</div></div></div></div></div>
+</div>
+
+<!--{elseif $_GET['op'] == 'deleteapp'}-->
+
+<h1>Delete Application</h1>
+<a href="javascript:hideMenu();" class="float_del" title="Close">Close</a>
+<div class="popupmenu_inner" id="$_GET[appId]">
+	<form id="reportform" name="reportform" method="post" action="cp.php?ac=userapp&my_suffix=%2Fuserapp%2Funinstall%3FappId%3D$_GET[appid]">
+		<p>These application will deleted, it will not display on page/profile,home,apps management, if you need it in future, you should add it again.<br>Do you want to proceed?</p>
+		<p class="btn_line">
+			<input type="hidden" name="refer" value="$_SGLOBAL[refer]" />
+			<input type="submit" name="delappsubmit" value="Yes" class="submit" />
+		</p>
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	</form>
+</div>
+<!--{else}-->
+
+<script language="JavaScript" src="source/script_cookie.js"></script>
+<script type="text/javascript" src="http://static.manyou.com/scripts/my_iframe.js"></script>
+<script language="javascript">
+var prefixURL = "$my_prefix";
+var suffixURL = "$my_suffix";
+var queryString = '';
+var url = "{$url}";
+var oldHash = null;
+var timer = null;
+var server = new MyXD.Server("ifm0");
+server.registHandler('iframeHasLoaded');
+server.registHandler('setTitle');
+server.start();
+
+function iframeHasLoaded(ifm_id) {
+        MyXD.Util.showIframe(ifm_id);
+        //document.getElementById(ifm_id).style.display = '';
+        document.getElementById('loading').style.display = 'none';
+}
+
+function  htmlspecialchars_decode(string) {
+	string = string.toString();
+	string = string.replace(/&amp;/g, '&');
+	string = string.replace(/&lt;/g, '<');
+	string = string.replace(/&gt;/g, '>');
+	string = string.replace(/&quot;/g, '"');
+	string = string.replace(/&#039;/g, "'");
+	return string;
+
+}
+
+function setTitle(x) {
+	<!--{eval $my_site_name=htmlspecialchars($_SCONFIG['sitename'], ENT_QUOTES);}-->
+	var my_site_name = htmlspecialchars_decode('{$my_site_name}');
+
+	x = htmlspecialchars_decode(x);
+	document.title = x + ' - <!--{if $space}--><!--{eval echo saddslashes($_SN[$space[uid]])}--> - <!--{/if}-->' + my_site_name + ' - Powered by UCenter Home';
+}
+
+</script>
+<iframe id="ifm0" frameborder="0" width="810" scrolling="no" height="810" style="position:absolute; top:-5000px; left:-5000px;" src="{$url}"></iframe>
+
+
+<div id="mx2note" style="display:none; padding:150px 0 150px 0; margin:1px; text-align:center; background-color:#FFFFBF;  font-size:12px; line-height:14px; color:#DB0000; letter-spacing:1px;">
+	This browser is not supported please use, IE, Firefox, Chrome.
+</div>
+<div id="loading" style="display:block; padding:100px 0 100px 0;text-align:center;color:#999999;font-size:12px;">
+	<img src="image/my/loading.gif" alt="loading..." style="position:relative;top:11px;"/>   Loading...
+</div>
+
+<!--{/if}-->
+
+<!--{template footer}-->

@@ -1,0 +1,231 @@
+<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+	
+	<form method="post" action="admincp.php?ac=privacy">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent">
+	
+	<div class="title">
+		<h3>System openness</h3>
+		<p>According to their needs, determine the contents of system openness.</p>
+	</div>
+	
+	<table class="formtable">
+		<tr>
+			<th style="width:12em;">Open to visitors browsing</th>
+			<td>
+				<input type="radio" name="config[networkpublic]" value="1"<!--{if $configs[networkpublic] == 1}--> checked<!--{/if}-->>Yes
+				<input type="radio" name="config[networkpublic]" value="0"<!--{if $configs[networkpublic] == 0}--> checked<!--{/if}-->>No
+				<br>Users do not need to log on can also be browsed casually look at the privacy of personal space is not set, while the information inside the station search engine can also be included.</td>
+		</tr>
+	</table>
+	<br>
+	
+	<div class="title">
+		<h3>Default privacy settings for new users</h3>
+		<p>New user will use the station's default privacy settings. Users can modify their privacy settings, the following settings only take effect to other users access to personal home page</p>
+	</div>
+
+	<table class="formtable">
+		<tr>
+			<th style="width:12em;">Home</th>
+			<td><select name="privacy[view][index]">
+				<option value="0"$sels[view][index][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][index][1]>Only friends can see that</option>
+				<option value="2"$sels[view][index][2]>Itself can be seen only</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Friends List</th>
+			<td><select name="privacy[view][friend]">
+				<option value="0"$sels[view][friend][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][friend][1]>Only friends can see that</option>
+				<option value="2"$sels[view][friend][2]>Itself can be seen only</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Message</th>
+			<td><select name="privacy[view][wall]">
+				<option value="0"$sels[view][wall][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][wall][1]>Only friends can see that</option>
+				<option value="2"$sels[view][wall][2]>Itself can be seen only</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Personal News</th>
+			<td><select name="privacy[view][feed]">
+				<option value="0"$sels[view][feed][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][feed][1]>Only friends can see that</option>
+				</select></td>
+		</tr>
+		<tr>
+			<th>Groups</th>
+			<td><select name="privacy[view][mtag]">
+				<option value="0"$sels[view][mtag][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][mtag][1]>Only friends can see that</option>
+				<option value="2"$sels[view][mtag][2]>Itself can be seen only</option>
+				</select>
+				
+			</td>
+		</tr>
+		<tr>
+			<th>Activities</th>
+			<td><select name="privacy[view][event]">
+				<option value="0"$sels[view][event][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][event][1]>Only friends can see that</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Record</th>
+			<td><select name="privacy[view][doing]">
+				<option value="0"$sels[view][doing][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][doing][1]>Only friends can see that</option>
+				</select><br/>
+				The list of records in the entire station record information may appear. 
+			</td>
+		</tr>
+		<tr>
+			<th>Blog</th>
+			<td><select name="privacy[view][blog]">
+				<option value="0"$sels[view][blog][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][blog][1]>Only friends can see that</option>
+				</select><br/>
+				Browse related rights need to be set separately Each log in full force.
+			</td>
+		</tr>
+		<tr>
+			<th>Album</th>
+			<td><select name="privacy[view][album]">
+				<option value="0"$sels[view][album][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][album][1]>Only friends can see that</option>
+				</select><br/>
+				Browse related rights need to be set separately for each album in full force.
+		</tr>
+		<tr>
+			<th>Share</th>
+			<td><select name="privacy[view][share]">
+				<option value="0"$sels[view][share][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][share][1]>Only friends can see that</option>
+				</select><br/>
+				In the whole station to share the list may appear to share information. 
+			</td>
+		</tr>
+		<tr>
+			<th>Vote</th>
+			<td><select name="privacy[view][poll]">
+				<option value="0"$sels[view][poll][0]>Users can see the whole station</option>
+				<option value="1"$sels[view][poll][1]>Only friends can see that</option>
+				</select><br/>
+				The voting station in the whole list of voting information may appear. 
+			</td>
+		</tr>
+	</table>
+
+	<br>
+
+	<div class="title">
+		<h3>The default setting Dynamic Release</h3>
+		<p>Setting the system default will be posted to the personal dynamics which moves inside. Users can modify these default settings.</p>
+	</div>
+	<table class="formtable">
+		<tr>
+			<th style="width:12em;">&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][doing]" value="1"$sels[feed][doing]>Record</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][blog]" value="1"$sels[feed][blog]>Write a Blog</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][upload]" value="1"$sels[feed][upload]>Upload pictures</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][share]" value="1"$sels[feed][share]>Add Share</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][poll]" value="1"$sels[feed][poll]>Vote launched</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][joinpoll]" value="1"$sels[feed][joinpoll]>Vote</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][thread]" value="1"$sels[feed][thread]>Initiate topic</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][post]" value="1"$sels[feed][post]>Reply to the topic</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][mtag]" value="1"$sels[feed][mtag]>Join Group</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][event]" value="1"$sels[feed][event]>Organizational activities</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][join]" value="1"$sels[feed][join]>To participate in activities</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][friend]" value="1"$sels[feed][friend]>Add Friends</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][comment]" value="1"$sels[feed][comment]>Comment / message</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][show]" value="1"$sels[feed][show]>Bid ranking</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][credit]" value="1"$sels[feed][credit]>Points Consumer</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][spaceopen]" value="1"$sels[feed][spaceopen]>The new space opened</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][invite]" value="1"$sels[feed][invite]>Invite your friends</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][task]" value="1"$sels[feed][task]>Task</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][profile]" value="1"$sels[feed][profile]>Update Personal Information</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><input type="checkbox" name="privacy[feed][click]" value="1"$sels[feed][click]>On the log / images / topic position</td>
+		</tr>
+	</table>
+	
+	</div>
+	
+	<div class="footactions">
+		<input type="submit" name="thevaluesubmit" value="Submit" class="submit">
+	</div>
+	
+	</form>
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

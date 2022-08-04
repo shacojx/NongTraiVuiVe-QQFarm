@@ -1,0 +1,270 @@
+<!--{eval $_TPL['titles'] = array('ºÃÓÑ');}-->
+<!--{template header}-->
+
+<!--{if !empty($_SGLOBAL[inajax])}-->
+	<div id="space_friend">
+		<h3 class="feed_header">
+			<a href="cp.php?ac=friend&op=search" class="r_option" target="_blank">Find Friends</a>
+			Friends($count)
+		</h3><br>
+
+		<!--{if $list}-->
+		<div id="friend_ul">
+			<ul class="line_list">
+			<!--{loop $list $key $value}-->
+				<li>
+				<table width="100%">
+					<tr>
+					<td width="70">
+						<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+					</td>
+					<td>
+					<div class="thumbTitle"><p<!--{if $ols[$value[uid]]}--> class="online_icon_p"<!--{/if}-->><a href="space.php?uid=$value[uid]"<!--{eval g_color($value[groupid]);}-->>{$_SN[$value[uid]]}</a> <!--{eval g_icon($value[groupid]);}--></p></div>
+
+					<!--{if $value[note]}--><div>$value[note]</div><!--{/if}-->
+
+					<!--{if $ols[$value[uid]]}--><div class="gray"><!--{date('H:i',$ols[$value[uid]],1)}--></div><!--{/if}-->
+					<div class="setti">
+
+					<!--{if !$value['isfriend']}-->
+					<a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_$key" onclick="ajaxmenu(event, this.id, 1)">Add as Friend</a>
+					<!--{/if}-->
+					</div>
+					</td></tr></table>
+				</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+		<div class="page">$multi</div>
+
+		<!--{else}-->
+		<div class="c_form">
+			Oops! List is empty, Why not use search function find some and add them?
+		</div>
+		<!--{/if}-->
+	</div><br />
+
+<!--{else}-->
+
+<!--{if $space[self]}-->
+<div class="searchbar floatright">
+<!--{if $_GET[view]=='me'}-->
+<form method="get" action="space.php">
+	<input type="hidden" name="do" value="friend">
+	<input name="searchkey" value="" size="15" class="t_input" type="text">
+	<input name="searchsubmit" value="Find friends" class="submit" type="submit">
+	<input type="hidden" name="searchmode" value="1" />
+</form>
+<!--{else}-->
+<form method="get" action="cp.php">
+	<input type="hidden" name="ac" value="friend" />
+	<input type="hidden" name="op" value="search" />
+	<input name="searchkey" value="" size="15" class="t_input" type="text">
+	<input name="searchsubmit" value="Find people" class="submit" type="submit">
+	<input type="hidden" name="searchmode" value="1" />
+</form>
+<!--{/if}-->
+</div>
+<h2 class="title"><img src="image/icon/friend.gif" />Friends</h2>
+<div class="tabs_header">
+	<ul class="tabs">
+		<li$actives[me]><a href="space.php?uid=$space[uid]&do=friend"><span>Friends List</span></a></li>
+		<li><a href="cp.php?ac=friend&op=search"><span>Find Friends</span></a></li>
+		<li><a href="cp.php?ac=friend&op=find"><span>Peoples May you know</span></a></li>
+		<!--{if empty($_SCONFIG['closeinvite'])}-->
+		<li><a href="cp.php?ac=invite"><span>Invite Friends</span></a></li>
+		<!--{/if}-->
+		<li><a href="cp.php?ac=friend&op=request"><span>Friends Request</span></a></li>
+		<li><a href="space.php?do=top"><span>Top List</span></a></li>
+	</ul>
+</div>
+<div id="content" style="width: 640px;">
+
+	<div class="c_mgs"><div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<!--{if $_GET['view']=='blacklist'}-->
+			People whome you don't want friend anymore, add them in blacklist, you and they will not able to view each other update and communicate such feed,blog,image,discussion, comments etc. 
+		<!--{elseif $_GET['view']=='me'}-->
+
+			No Total $space[friendnum] Friends¡£
+
+
+			<!--{if $maxfriendnum}-->
+			(Max $maxfriendnum friends can add)
+			<p>
+				<!--{if $_SGLOBAL[magic][friendnum]}-->
+				<img src="image/magic/friendnum.small.gif" class="magicicon" />
+				<a id="a_magic_friendnum" href="magic.php?mid=friendnum" onclick="ajaxmenu(event, this.id, 1)"> Click here if you wanna expand your limit</a>
+				(You can buy props ¡°{$_SGLOBAL[magic][friendnum]}¡± to expand limit, so can add more friends)
+				<!--{/if}-->
+			</p>
+			<!--{/if}-->
+
+			<p style="padding-top:10px;">
+			Sorted Friends list as per their ranking<br>
+			Friend Ranking system is based on interaction between you and your friends action, system automatic add the points, Who have greater value they're more frequent using the site.
+			</p>
+		<!--{elseif $_GET['view']=='online'}-->
+			<!--{if $_GET['type'] == 'friend'}-->
+			These friends are currently online,poke them,let them know you are online too
+			<!--{elseif $_GET['type']=='near'}-->
+			We found, these peoples are in your city, You may know them
+			<!--{else}-->
+			View all right now online users!
+			<!--{/if}-->
+		<!--{elseif $_GET['view']=='visitor'}-->
+			These peoples have visited you, you can visit them in return, earn credits
+		<!--{elseif $_GET['view']=='trace'}-->
+			Users you have recently visited!
+		<!--{/if}-->
+	</div></div></div></div></div>
+
+	<!--{if $_GET['view']=='blacklist'}-->
+	<div class="h_status">
+		<h2>Add a new blacklist of users</h2>
+		<form method="post" name="blackform" action="cp.php?ac=friend&op=blacklist&start=$_GET[start]">
+			Username: <input type="text" name="username" value="" size="15" class="t_input">
+			<input type="submit" name="blacklistsubmit_btn" id="moodsubmit_btn" value="Add" class="submit">
+			<input type="hidden" name="blacklistsubmit" value="true" />
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		</form>
+	</div>
+	<!--{/if}-->
+
+	<!--{if $list}-->
+	<div class="thumb_list" id="friend_ul">
+		<ul>
+		<!--{loop $list $key $value}-->
+			<li id="friend_{$value[uid]}_li">
+				<!--{if $value[username] == ''}-->
+				<div class="avatar48"><img src="image/magic/hidden.gif" alt="Anonymous" /></div>
+				<div class="thumbTitle"><p>Hide</p></div>
+				<!--{else}-->
+				<div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div>
+				<div class="thumbTitle">
+				<p<!--{if $ols[$value[uid]]}--> class="online_icon_p"<!--{/if}-->>
+					<a href="space.php?uid=$value[uid]"<!--{eval g_color($value[groupid]);}-->>{$_SN[$value[uid]]}</a> 
+					<!--{eval g_icon($value[groupid]);}-->
+					<!--{if $value['videostatus']}-->
+					<img src="image/videophoto.gif" align="absmiddle">
+					<!--{/if}-->
+				</p></div>
+				<!--{if $value[note]}--><div>$value[note]</div><!--{/if}-->
+				<!--{/if}-->
+
+				<!--{if $_GET['view']=='blacklist'}-->
+					<div class="gray"><a href="cp.php?ac=friend&op=blacklist&subop=delete&uid=$value[uid]&start=$_GET[start]">Remove Ban</a></div>
+				<!--{elseif $_GET['view']=='visitor' || $_GET['view'] == 'trace'}-->
+					<div class="gray"><!--{date('nÔÂjºÅ',$value[dateline],1)}--></div>
+				<!--{elseif $_GET['view']=='online'}-->
+					<div class="gray"><!--{date('H:i',$ols[$value[uid]],1)}--></div>
+				<!--{else}-->
+					<!--{if $ols[$value[uid]]}--><div class="gray"><!--{date('H:i',$ols[$value[uid]],1)}--></div><!--{/if}-->
+					<div class="gray">
+					<!--{if $value['num']}--><a href="cp.php?ac=friend&op=changenum&uid=$value[uid]" id="friendnum_$value[uid]" onclick="ajaxmenu(event, this.id)">Popular(<span id="spannum_$value[uid]">$value[num]</span>)</a><span class="pipe">|</span><!--{/if}-->
+					<!--{if !$value['isfriend']}-->
+					<a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_$key" onclick="ajaxmenu(event, this.id, 1)">Add as Friend</a>
+					<!--{else}-->
+					<a href="cp.php?ac=friend&op=changegroup&uid=$value[uid]" id="friend_group_$value[uid]" onclick="ajaxmenu(event, this.id)">Group</a><span class="pipe">|</span>
+					<a href="cp.php?ac=friend&op=ignore&uid=$value[uid]" id="a_ignore_$key" onclick="ajaxmenu(event, this.id)">Remove</a>
+					<!--{/if}-->
+					</div>
+				<!--{/if}-->
+			</li>
+		<!--{/loop}-->
+		</ul>
+	</div>
+	<div class="page">$multi</div>
+
+	<!--{else}-->
+	<div class="c_form">
+		No user found. List is empty!
+	</div>
+	<!--{/if}-->
+
+</div>
+
+<div id="sidebar" style="width: 150px;">
+	<!--{if $_SCONFIG['my_status']}-->
+	<!-Share MANYOU APPS to Friends-->
+	<script type="text/javascript">
+		function my_sync_tip(msg, close_time) {;
+			var my_tip = document.getElementById("my_tip");
+			if (!my_tip) {
+				my_tip = document.createElement("div");
+				document.getElementsByTagName("body")[0].appendChild(my_tip);
+				my_tip.id = "my_tip";
+			}
+			my_tip.style.display = 'block';
+			my_tip.innerHTML = '<div class="popupmenu_centerbox" style="position: absolute; top: 200px; right: 500px; padding: 20px; width: 300px; height: 15px; z-index:9999;">' + msg + '</div>';
+			if (close_time) {
+				setTimeout("document.getElementById('my_tip').style.display = 'none';", close_time);
+			}
+		}
+		function my_sync_friend() {
+			my_sync_tip('These Friends information are synchronized ...', 0);
+			var my_scri = document.createElement("script");
+			document.getElementsByTagName("head")[0].appendChild(my_scri);
+			my_scri.charset = "UTF-8";
+			my_scri.src = "http://uchome.manyou.com/user/syncFriends?sId=$_SCONFIG[my_siteid]&uUchId=$space[uid]&ts=$_SGLOBAL[timestamp]&key=<!--{eval echo md5($_SCONFIG[my_siteid] . $_SCONFIG[my_sitekey] . $space[uid] . $_SGLOBAL[timestamp]);}-->";
+		}
+	</script>
+
+	<div class="c_mgs"><div class="ye_r_t"><div class="ye_l_t"><div class="ye_r_b"><div class="ye_l_b">
+		<p>In the apps platform can not find your friends? Please click this button we will help you!</p>
+		<p style="text-align: center;padding: 20px 0 0;"> <a href="#" onclick="my_sync_friend(); return false;" title="Begin retrieve the list of friends, who are also on MANYOU Apps Platform"><img alt="Refresh" src="image/syncfriend.gif"/></a> </p>
+	</div></div></div></div></div>
+	<!-- Finally these are friend list -->
+	<!--{/if}-->
+
+	<div class="cat">
+		<h3>
+			Friends Menu
+		</h3>
+		<ul>
+			<li{$a_actives[me]}><a href="space.php?uid=$space[uid]&do=friend">All Friends</a></li>
+			<li{$a_actives[onlinefriend]}><a href="space.php?uid=$space[uid]&do=friend&view=online&type=friend">Currently online</a></li>
+			<li{$a_actives[onlinenear]}><a href="space.php?uid=$space[uid]&do=friend&view=online&type=near">Peoples near to me</a></li>
+			<li{$a_actives[visitor]}><a href="space.php?uid=$space[uid]&do=friend&view=visitor">Visitors</a></li>
+			<li{$a_actives[trace]}><a href="space.php?uid=$space[uid]&do=friend&view=trace">My Visits</a></li>
+			<li{$a_actives[blacklist]}><a href="space.php?uid=$space[uid]&do=friend&view=blacklist">Black List</a></li>
+		</ul>
+	</div>
+
+	<!--{if $groups}-->
+	<div class="cat">
+		<h3>
+			<span class="r_option"><a href="cp.php?ac=friend&op=group">Sorting Friend</a></span>
+			Categories Friends
+		</h3>
+		<ul class="post_list line_list">
+			<li><a href="space.php?do=friend&group=-1">All Friends</a></li>
+			<!--{loop $groups $key $value}-->
+			<li{$groupselect[$key]}>
+				<a href="cp.php?ac=friend&op=groupignore&group=$key" id="c_ignore_$key" onclick="ajaxmenu(event, this.id)" title="Ignore Feeds" class="c_delete">Ignore</a>
+				<!--{if $key}-->
+				<a href="cp.php?ac=friend&op=groupname&group=$key" id="c_edit_$key" onclick="ajaxmenu(event, this.id, 1)" title="Edit Category" class="c_edit">Edit</a>
+				<!--{/if}-->
+				<!--{if isset($space['privacy']['filter_gid'][$key])}--><span class="gray">[Ignore]</span><!--{/if}--> <a href="space.php?do=friend&group=$key"><span id="friend_groupname_$key">$value</span></a>
+			</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{/if}-->
+
+</div>
+
+
+<!--{else}-->
+<!--{eval
+	$_TPL['spacetitle'] = "Friends";
+	$_TPL['spacemenus'][] = "<a href=\"space.php?uid=$space[uid]&do=friend&view=me\">Friends list</a>";
+}-->
+	<!--{template space_menu}-->
+	<div class="h_status">Total $space[friendnum] friends</div>
+	<!--{template space_list}-->
+
+<!--{/if}-->
+
+<!--{/if}-->
+
+<!--{template footer}-->

@@ -1,0 +1,47 @@
+<!--{tpl admin/inc_header}-->
+
+<form id="myform" onsubmit="return submits();">
+	<table class="edit">
+		<tr>
+			<td width="80px">Tên</td>
+			<td><input type="text" name="name" value="{:$toolstype_list['name']}"/></td>
+		</tr>
+		<tr>
+			<td width="80px">Xu</td>
+			<td><input type="text" name="price" value="{:$toolstype_list['price']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Vàng</td>
+			<td><input type="text" name="qdprice" value="{:$toolstype_list['qdprice']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Giá VIP</td>
+			<td><input type="text" name="yqdprice" value="{:$toolstype_list['yqdprice']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Thời gian</td>
+			<td><input type="text" name="effect" value="{:$toolstype_list['effect']}" /></td>
+		</tr>
+		<tr>
+			<td width="80px">Mô tả</td>
+			<td><textarea rows='5' cols='16'  name="description" >{:$toolstype_list['description']}</textarea></td>
+		</tr>
+		<tr>
+			<td width="80px">Bật</td>
+			<td>
+					<input type='radio'  name="saleOut" value="false" {:$toolstype_list['saleOut'] ? "" : "checked='checked'"}/>Mở 
+					<input type='radio'  name="saleOut" value="true" {:$toolstype_list['saleOut']  ? "checked='checked'" : ""}/>Đóng 
+			</td>
+		</tr>
+	</table>
+	<input type="submit" value="Xác nhận" /><span id="state"></span>
+</form>
+
+<script type="text/javascript">
+	function submits(inputId) {
+		request('admin.php?mod=mctoolstype_edit&submit=1&id={:$id}', 'state', $.getForm('#myform', 1));
+		return false;
+	}
+</script>
+
+<!--{tpl admin/inc_footer}-->

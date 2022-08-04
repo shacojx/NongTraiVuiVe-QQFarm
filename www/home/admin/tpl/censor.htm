@@ -1,0 +1,43 @@
+﻿<!--{template admin/tpl/header}-->
+
+<div class="mainarea">
+<div class="maininner">
+
+	<form method="post" action="admincp.php?ac=censor">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent">
+
+	<table cellspacing="0" cellpadding="0" class="formtable">
+	<tr><td>
+	<textarea name="censor" style="width:98%;" rows="12">$censor</textarea>
+	</td></tr>
+	<tr><td>
+	Add a format:<br />
+	A group of words per line filter<br />
+	Bad words and replace the use of “=” to split between the terms<br />
+	For prohibits the publication of the text contains a word, rather than replace the filter, please replace the contents of the corresponding set $ banflag can be<br />
+	Replace the contents of the pre-qualifier (x) can be used to limit between two adjacent characters in the text can be ignored, x is the number of characters ignore<br />
+	If "a{1}s{2}s"(Without the quotation marks) Can filter "ass" Can also be filtered "axsxs" And "axsxxs" More<br />
+	For example:<br />
+	toobad=** (Role: the text will be replaced toobad **)<br />
+	badword=good (Role: The badword text replaced by good)<br />
+	sexword=$banflag (Role: prohibits the publication of the text contains words sexword)<br />
+	</td></tr>
+	</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="submit" name="censorsubmit" value="Submit" class="submit">
+	</div>
+		
+	</form>
+
+</div>
+</div>
+
+<div class="side">
+	<!--{template admin/tpl/side}-->
+</div>
+
+<!--{template admin/tpl/footer}-->

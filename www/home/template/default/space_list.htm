@@ -1,0 +1,37 @@
+	<div class="space_list">
+	<!--{if $list}-->
+	<!--{loop $list $key $value}-->
+	<table cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<td width="65"><div class="avatar48"><a href="space.php?uid=$value[uid]"><!--{avatar($value[uid],small)}--></a></div></td>
+		<td>
+			<h2>
+				<!--{if $ols[$value[uid]]}--><img src="image/online_icon.gif" align="absmiddle"> <!--{/if}-->
+				<a href="space.php?uid=$value[uid]" title="{$_SN[$value[uid]]}"<!--{eval g_color($value[groupid]);}-->>{$_SN[$value[uid]]}</a>
+				<!--{if $value['username'] && $_SN[$value[uid]]!=$value['username']}--><span class="gray">($value[username])</span><!--{/if}-->
+				<!--{eval g_icon($value[groupid]);}-->
+				<!--{if $value['videostatus']}-->
+				<img src="image/videophoto.gif" align="absmiddle">
+				<!--{/if}-->
+			</h2>
+			<!--{if $value[sex]==2}--><p>Lộng lẫy</p><!--{elseif $value[sex]==1}--><p>Nam</p><!--{/if}--></p>
+			<p>
+				<!--{if $_GET['view']=='show'}--> Đấu giá <!--{/if}-->Tiền: $value[credit] / <!--{if $value[experience]}-->Cấp: $value[experience] / <!--{/if}-->Xem: $value[viewnum] / Bạn: $value[friendnum]</p>
+			<!--{if $value[note]}-->$value[note]<!--{/if}-->
+		</td>
+		<td width="100">
+			<ul class="line_list">
+				<li><a href="space.php?uid=$value[uid]">Trang chủ</a></li>
+				<li><a href="cp.php?ac=poke&op=send&uid=$value[uid]" id="a_poke_$key" onclick="ajaxmenu(event, this.id, 1)" title="Gửi tin nhắn trêu đùa thành viên này">Chọc giận</a></li>
+				<!--{if isset($value['isfriend']) && !$value['isfriend']}--><li><a href="cp.php?ac=friend&op=add&uid=$value[uid]" id="a_friend_$key" onclick="ajaxmenu(event, this.id, 1)" title="Thêm bạn bè">Kết bạn</a></li><!--{/if}-->	
+			</ul>
+		</td>
+	</tr>
+	</table>
+	<!--{/loop}-->
+	<div class="page">$multi</div>
+	<!--{else}-->
+	<div class="c_form">Không có thành viên tham gia</div>
+	<!--{/if}-->
+	</div>
+

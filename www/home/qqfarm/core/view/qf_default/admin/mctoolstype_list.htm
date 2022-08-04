@@ -1,0 +1,36 @@
+<!--{tpl admin/inc_header}-->
+
+<!--{if $mctoolstype_list}-->
+<table class="list">
+	<tr>
+		<th>Tên</th>
+		<th>Xu</th>
+		<th>Vàng</th>
+		<th>Giá VIP</th>
+		<th>Thời gian</th>
+		<th>Mô tả</th>
+		<th>Bật</th>
+		<th></th>
+	</tr>
+	<!--{foreach $mctoolstype_list as $key=>$toolstype}-->
+	<tr>
+		<td>{:$toolstype['name']}</td>
+		<td>{:$toolstype['price']}</td>
+		<td>{:$toolstype['qdprice']}</td>
+		<td>{:$toolstype['yqdprice']}</td>
+		<td>{:$toolstype['effect']/3600} giờ</td>
+		<td>{:$toolstype['description']}</td>
+		<td>{:$toolstype['saleOut'] ? "Đóng" : "Mở"}</td>
+		<td>
+			<a href="admin.php?mod=mctoolstype_edit&id={:$key}">Sửa</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<div id="pages" class="multiPage"></div>
+<!--{else}-->
+<div class="no_hpinfo">Chưa có</div>
+<!--{/if}-->
+
+
+<!--{tpl admin/inc_footer}-->
